@@ -80,6 +80,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="auth\auth_error.h" />
     <ClInclude Include="auth\http_parse.h" />
     <ClInclude Include="auth\sockbase.h" />
     <ClInclude Include="auth\auth_client.h" />

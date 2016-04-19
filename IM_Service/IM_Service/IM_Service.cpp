@@ -5,17 +5,11 @@
 #include "login.h"
 #include "chat_manager.h"
 
-void OnProgress(int percent)
-{
-	int a = 10;
-}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-
-	CChatManager* manager = CChatManager::GetInstance();
-
-	CLogin* login = manager->GetLogin();
+	IBaseMsgs* baseMsg = NULL;
+	CChatManager* manager = CChatManager::GetInstance(baseMsg);
 
 	bool isAutoLogin = false;
 	string loginName = "9692111";
@@ -24,7 +18,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	string error;
 
-	login->StartLogin(loginName, password, isAutoLogin, isKeepPwd, OnProgress);
+	manager->StartLogin(loginName, password, isAutoLogin, isKeepPwd);
 	system("pause");
 	return 0;
 }

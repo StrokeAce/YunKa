@@ -123,6 +123,9 @@
     <ClInclude Include="common\commsrv.h">
       <Filter>头文件\common</Filter>
     </ClInclude>
+    <ClInclude Include="auth\auth_error.h">
+      <Filter>头文件\auth</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
