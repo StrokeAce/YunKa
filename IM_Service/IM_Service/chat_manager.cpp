@@ -158,14 +158,14 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 
 	switch (Head.head.cmd)
 	{
-	case CMD_SRV_CONF_LOGON:
+	case CMD_SRV_CONF_LOGON: // 登录确认
 		nError = RecvSrvConfLogon(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
 		if (nError != 0)
 		{
 			goto FAIL;
 		}
 		break;
-	case CMD_SRV_REP_USERINFO:
+	case CMD_SRV_REP_USERINFO: // 用户信息包
 		nError = RecvSrvRepUserinfo(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
 
 		// 保存登录信息
@@ -174,10 +174,8 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 			goto FAIL;
 		}
 		break;
-	case CMD_SRV_DENY_LOGON:
+	case CMD_SRV_DENY_LOGON: // 拒绝登录
 		nError = RecvSrvDenyLogon(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen, nErrType);
-
-		m_Socket.Close();
 
 		if (nError != 0)
 		{
@@ -188,6 +186,81 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 			nError = COMM_DENYLOGIN_SEG + nErrType;
 			goto FAIL;
 		}
+		break;
+	case CMD_SRV_CONF_LOGOFF:   // 登出确认包
+		nError = RecvSrvConfLogOff(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_SRV_STATUS_FRDONLINE: // 好友上线
+		nError = RecvSrvStatusFrdOnline(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_SRV_STATUS_FRDOFFLINE: // 好友下线
+		nError = RecvSrvStatusFrdOffline(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_SRV_STATUS_USER_FORM: // 好友更改在线状态
+		nError = RecvSrvStatusUserForm(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_SHARELIST: // 收到好友对象列表
+		nError = RecvFloatShareList(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_COM_SEND_MSG:
+		nError = RecvComSendMsg(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_CREATECHAT: // 接入会话
+		nError = RecvFloatCreateChat(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_CHATMSG: // 会话消息
+		nError = RecvFloatChatMsg(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_CHATMSG_ACK: // 发送消息应答
+		nError = RecvFloatChatMsgAck(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_ACCEPTCHAT: // 接受会话
+		nError = RecvFloatAcceptChat(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_TRANSQUEST: // 等待应答  会话转移请求
+		nError = RecvFloatTransQuest(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_TRANSFAILED:   // 等待应答  会话转移失败
+		nError = RecvFloatTransFailed(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_INVITE_REQUEST:// 等待应答  邀请请求
+		nError = RecvInviteRequest(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_INVITE_RESULT:// 等待应答  邀请结果
+		nError = RecvInviteResult(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_KEFU_RELEASE: // 坐席主动释放会话
+		nError = RecvFloatKefuRelease(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_CMDERROR: // 等待应答  命令失败
+		nError = RecvFloatCMDError(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_CLOSECHAT: // 会话关闭
+		nError = RecvFloatCloseChat(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_LISTCHAT: //会话列表
+		nError = RecvFloatListChat(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_FLOAT_CHATINFO: // 会话详细信息
+		nError = RecvFloatChatInfo(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_EVENT_ANNOUNCEMENT: // 收到消息通告
+		nError = RecvEventAnnouncement(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_SRV_UPDATE_SUCC: //更新信息成功
+		nError = RecvSrvUpdateSucc(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_SRV_UPDATE_FAIL: // 更新信息失败
+		nError = RecvSrvUpdateFail(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_SRV_SERVER_COPY: // 用户在异地登陆
+		nError = RecvSrvDonw(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_SRV_REP_TRANSFERCLIENT: // 440 转移临时用户成功失败
+		nError = RecvRepTransferClient(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		break;
+	case CMD_SRV_TRANSFERCLIENT: // 接收转移会话的用户处理
+		nError = RecvTransferClient(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
 		break;
 	default:
 		break;
@@ -264,6 +337,8 @@ RETURN:
 
 int CChatManager::RecvSrvDenyLogon(PACK_HEADER packhead, char *pRecvBuff, int len, int &errtype)
 {
+	m_Socket.Close();
+
 	SRV_DENY_LOGON RecvInfo(packhead.ver);
 	int nError = 0;
 
@@ -549,6 +624,131 @@ bool CChatManager::LoadUserConfig()
 	//this->m_sysConfig->LoadUserData(sFile, CLIENTVERSION);
 
 	return false;
+}
+
+int CChatManager::RecvSrvConfLogOff(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvSrvStatusFrdOnline(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvSrvStatusFrdOffline(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvSrvStatusUserForm(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatShareList(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatCreateChat(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatChatMsgAck(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatAcceptChat(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatTransQuest(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatTransFailed(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvInviteRequest(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvInviteResult(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatKefuRelease(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatCMDError(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatCloseChat(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatListChat(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvFloatChatInfo(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvEventAnnouncement(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvSrvUpdateSucc(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvSrvUpdateFail(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvSrvDonw(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvRepTransferClient(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
+}
+
+int CChatManager::RecvTransferClient(PACK_HEADER packhead, char *pRecvBuff, int len)
+{
+	return 0;
 }
 
 

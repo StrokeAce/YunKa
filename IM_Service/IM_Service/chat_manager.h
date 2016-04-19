@@ -84,6 +84,58 @@ private:
 
 	int RecvSrvDenyLogon(PACK_HEADER packhead, char *pRecvBuff, int len, int &errtype);
 
+	int RecvSrvConfLogOff(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvSrvStatusFrdOnline(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvSrvStatusFrdOffline(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvSrvStatusUserForm(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatShareList(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatCreateChat(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatChatMsgAck(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatAcceptChat(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatTransQuest(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatTransFailed(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvInviteRequest(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvInviteResult(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatKefuRelease(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatCMDError(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatCloseChat(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatListChat(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvFloatChatInfo(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvEventAnnouncement(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvSrvUpdateSucc(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	int RecvSrvUpdateFail(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	//用户在异地登陆
+	int RecvSrvDonw(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	//转移临时用户成功失败
+	int RecvRepTransferClient(PACK_HEADER packhead, char *pRecvBuff, int len);
+
+	//接收转移会话的用户处理
+	int RecvTransferClient(PACK_HEADER packhead, char *pRecvBuff, int len);
 
 	/***************     消息包处理函数      *****************/
 
