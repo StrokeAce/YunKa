@@ -179,7 +179,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <BaseAddress>0x11000000</BaseAddress>
-      <ImportLibrary>../../lib/DuiLib_d.lib</ImportLibrary>
+      <ImportLibrary>../../lib/DuiLib.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <OutputFile>../../bin/DuiLib.dll</OutputFile>
     </Link>

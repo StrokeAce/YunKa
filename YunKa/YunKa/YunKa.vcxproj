@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>../thirdlib/duilib;$(IncludePath)</IncludePath>
-    <LibraryPath>../thirdlib/duilib/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>../lib;$(LibraryPath)</LibraryPath>
     <OutDir>../bin</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
