@@ -1,4 +1,6 @@
 #pragma once
+
+#include "../auth/sockbase.h"
 #include "../chat_common/lock.h"
 #include "../chat_common/zlib_stream.h"
 #include "../chat_common/comstruct.h"

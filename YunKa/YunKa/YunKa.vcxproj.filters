@@ -204,6 +204,24 @@
     <ClInclude Include="auth\auth_client.h">
       <Filter>头文件\auth</Filter>
     </ClInclude>
+    <ClInclude Include="chat_manager\chat_manager.h">
+      <Filter>头文件\chat_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_manager\chat_objects.h">
+      <Filter>头文件\chat_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_manager\login.h">
+      <Filter>头文件\chat_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_manager\msgs.h">
+      <Filter>头文件\chat_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_manager\socket.h">
+      <Filter>头文件\chat_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_manager\sys_config.h">
+      <Filter>头文件\chat_manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -301,6 +319,24 @@
     </ClCompile>
     <ClCompile Include="auth\auth_client.cpp">
       <Filter>源文件\auth</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\chat_manager.cpp">
+      <Filter>源文件\chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\chat_objects.cpp">
+      <Filter>源文件\chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\login.cpp">
+      <Filter>源文件\chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\msgs.cpp">
+      <Filter>源文件\chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\socket.cpp">
+      <Filter>源文件\chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\sys_config.cpp">
+      <Filter>源文件\chat_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

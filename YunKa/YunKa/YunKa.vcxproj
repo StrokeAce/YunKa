@@ -110,6 +110,12 @@
     <ClInclude Include="chat_common\pack.h" />
     <ClInclude Include="chat_common\tstring.h" />
     <ClInclude Include="chat_common\zlib_stream.h" />
+    <ClInclude Include="chat_manager\chat_manager.h" />
+    <ClInclude Include="chat_manager\chat_objects.h" />
+    <ClInclude Include="chat_manager\login.h" />
+    <ClInclude Include="chat_manager\msgs.h" />
+    <ClInclude Include="chat_manager\socket.h" />
+    <ClInclude Include="chat_manager\sys_config.h" />
     <ClInclude Include="log\dirfileop.h" />
     <ClInclude Include="log\winlog.h" />
     <ClInclude Include="md5\md5.h" />
@@ -149,6 +155,12 @@
     <ClCompile Include="chat_common\error_info.cpp" />
     <ClCompile Include="chat_common\pack.cpp" />
     <ClCompile Include="chat_common\tstring.cpp" />
+    <ClCompile Include="chat_manager\chat_manager.cpp" />
+    <ClCompile Include="chat_manager\chat_objects.cpp" />
+    <ClCompile Include="chat_manager\login.cpp" />
+    <ClCompile Include="chat_manager\msgs.cpp" />
+    <ClCompile Include="chat_manager\socket.cpp" />
+    <ClCompile Include="chat_manager\sys_config.cpp" />
     <ClCompile Include="log\winlog.cpp" />
     <ClCompile Include="md5\md5.cpp" />
     <ClCompile Include="stdafx.cpp">

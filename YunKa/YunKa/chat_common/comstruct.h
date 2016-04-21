@@ -4,6 +4,7 @@
 #ifndef _CCOMMSTRUCT_EMS
 #define _CCOMMSTRUCT_EMS
 
+#include "../auth/sockbase.h"
 #include "../stdafx.h"
 #include "comdef.h"
 #include <map>
