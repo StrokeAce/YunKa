@@ -51,7 +51,7 @@
 
 
 <!-- 中间显示 聊天内容 -->
-<VerticalLayout width="450"   bkcolor="#FFF8F8F8" >
+<VerticalLayout width="380"   bkcolor="#FFF8F8F8" >
 	<Include source="center.xml" />
 </VerticalLayout>
 
