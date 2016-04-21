@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<manager>
+
+<!-- 管理栏 -->
+
+<VerticalLayout  bkcolor="#FFF8F8F8"    >
+
+<HorizontalLayout > 
+	<VerticalLayout bkcolor="#FFF8F8F8"   width="40"  />
+
+         <VerticalLayout  bkcolor="#FFF8F8F8"   width="900" >
+
+<HorizontalLayout  height="10" />
+
+<HorizontalLayout  >
+<Include  source="managerbutton.xml" />
+
+</HorizontalLayout  >
+
+</VerticalLayout>
+
+	<VerticalLayout />
+</HorizontalLayout>
+				
+</VerticalLayout>
+
+</manager>

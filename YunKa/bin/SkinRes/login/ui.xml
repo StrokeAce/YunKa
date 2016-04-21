@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Window size="800,572" caption="0,0,0,36" roundcorner="4,4" >
+	<VerticalLayout inset="4,0,4,4" bkimage="file='winbk.bmp' corner='4,48,4,4' mask='#FFFF00FF'" >
+		<HorizontalLayout height="32" inset="2,2,0,0">
+			<Label text="上麦工具" width="80" />
+			<Control />
+			<Button name="closebtn" width="42" maxheight="18" tooltip="点击这里直接退出游戏" normalimage="file='frame_btn_close_normal.bmp' mask='#FFFF00FF'" hotimage="file='frame_btn_close_hot.bmp' mask='#FFFF00FF'" pushedimage="file='frame_btn_close_down.bmp' mask='#FFFF00FF'"/>
+		</HorizontalLayout>
+		<VerticalLayout>
+		<HorizontalLayout height="100" inset="2,2,0,0">
+			<Combo name="VideoListcCombo" float="true" pos="20, 50, 200, 72" tooltip="视频设备" normalimage="file='Combo_nor.bmp' corner='2,2,24,2'" hotimage="file='Combo_over.bmp' corner='2,2,24,2'" pushedimage="file='Combo_over.bmp' corner='2,2,24,2'" textpadding="1,1,1,1" />
+			<Combo name="AudioListcCombo" float="true" pos="220, 50, 450, 72" tooltip="音频设备" normalimage="file='Combo_nor.bmp' corner='2,2,24,2'" hotimage="file='Combo_over.bmp' corner='2,2,24,2'" pushedimage="file='Combo_over.bmp' corner='2,2,24,2'" textpadding="1,1,1,1"  />
+				
+		</HorizontalLayout>	
+		
+		<HorizontalLayout height="240" inset="0,0,0,0">
+			<VerticalLayout width="320" bkimage="file='videobg.bmp'">
+			<WndMediaDisplay name="wndMedia" visible="false"/>	
+			</VerticalLayout>
+
+			<VerticalLayout>
+			<Button name="startCap" text="预览" float="true" pos="10, 20, 85, 45" tooltip="预览" normalimage="button_nor.bmp" hotimage="button_over.bmp" pushedimage="button_down.bmp" />			
+			<Button name="stopCap" text="停止预览" float="true" pos="10, 60, 85, 85" tooltip="停止预览" normalimage="button_nor.bmp" hotimage="button_over.bmp" pushedimage="button_down.bmp" />						
+			</VerticalLayout>
+
+		</HorizontalLayout>
+
+			<HorizontalLayout>
+			<Button name="upMicBtn" text="上麦" float="true" pos="60, 20, 135, 45" tooltip="点击上麦" normalimage="button_nor.bmp" hotimage="button_over.bmp" pushedimage="button_down.bmp" />
+			<Button name="downMicBtn" text="下麦" float="true" pos="200,20,275,45" tooltip="点击下麦" normalimage="button_nor.bmp" hotimage="button_over.bmp" pushedimage="button_down.bmp" />
+			</HorizontalLayout>
+
+		</VerticalLayout>
+    </VerticalLayout>
+
+  
+</Window>

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\ui_common">
+      <UniqueIdentifier>{ca5fa430-1fa7-4ff0-afa7-d93197535430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui">
+      <UniqueIdentifier>{bf929720-22e7-44bb-83c5-4c6041bf9d06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ui">
+      <UniqueIdentifier>{0378ccb3-19e4-487b-9221-2ec56cb0a51a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui_common">
+      <UniqueIdentifier>{6cf7c4b3-7526-47c7-a8d0-5357ce87734e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="YunKa.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\observer_impl_base.hpp">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\login_wnd.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\main_frame.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ui_crack.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ui_menu.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_common\global_setting_define.h">
+      <Filter>头文件\ui_common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_common\small_menu.h">
+      <Filter>头文件\ui_common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="YunKa.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\login_wnd.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\main_frame.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ui_crack.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ui_menu.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\small_menu.cpp">
+      <Filter>源文件\ui_common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="YunKa.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="YunKa.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

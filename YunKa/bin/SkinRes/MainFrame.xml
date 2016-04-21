@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window size="1024,700" caption="0,0,0,36" roundcorner="4,4" >
+
+<Default name="VScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,90,16,106' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,90,34,106' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,90,52,106' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,90,70,106' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,108,16,124' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,108,34,124' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,108,52,124' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,108,70,124' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,126,16,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,126,34,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,126,52,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,126,70,142' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,144,16,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,144,34,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,144,52,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,144,70,160' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,162,16,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,162,34,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,162,52,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,162,70,178' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+	<Default name="HScrollBar" value="button1normalimage=&quot;file='scrollbar.bmp' source='0,0,16,16' mask='#FFFF00FF'&quot; button1hotimage=&quot;file='scrollbar.bmp' source='18,0,34,16' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='scrollbar.bmp' source='36,0,52,16' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='scrollbar.bmp' source='54,0,70,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='scrollbar.bmp' source='0,18,16,34' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='scrollbar.bmp' source='18,18,34,34' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='scrollbar.bmp' source='36,18,52,34' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='scrollbar.bmp' source='54,18,70,34' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='scrollbar.bmp' source='0,36,16,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='scrollbar.bmp' source='18,36,34,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;file='scrollbar.bmp' source='36,36,52,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='scrollbar.bmp' source='54,36,70,52' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='scrollbar.bmp' source='0,54,16,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='scrollbar.bmp' source='18,54,34,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='scrollbar.bmp' source='36,54,52,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='scrollbar.bmp' source='54,54,70,70' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='scrollbar.bmp' source='0,72,16,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='scrollbar.bmp' source='18,72,34,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='scrollbar.bmp' source='36,72,52,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='scrollbar.bmp' source='54,72,70,88' corner='2,2,2,2' mask='#FFFF00FF'&quot; " />
+
+	<Default name="Button" value="normalimage=&quot;file='button_nor.bmp' fade='200'&quot; hotimage=&quot;file='button_over.bmp' fade='200'&quot; pushedimage=&quot;file='button_down.bmp' fade='200'&quot; " />	
+
+
+<!-- 字体定义 -->
+  <Font name="方正舒体" size="38" bold="true" />
+  <Font name="宋体" size="12" />
+  <Font name="宋体" size="18" bold="true" />
+  <Font name="宋体" size="20" bold="true" />
+  <Font name="宋体" size="20" bold="true" />
+  <Font name="方正舒体" size="50" bold="true" />
+<Container>
+
+
+<!--VerticalLayout inset="3,0,3,3"  bkimage="file='bg.png' corner='4,48,4,4' mask='#FFFF00FF'"  bordercolor="#FF56AAFF" bordersize="2" borderround="5,5" -->
+<!--VerticalLayout inset="3,0,3,3"  bkimage="file='bg.png' corner='4,48,4,4' mask='#FFFF00FF'"  bordercolor="#FFCCCCCC" bordersize="2" borderround="5,5" -->
+
+<VerticalLayout inset="3,0,3,3"  bkimage="file='bg.png' corner='4,48,4,4' mask='#FFFF00FF'" >
+
+<!-- 窗口栏 -->
+<HorizontalLayout height="40" inset="2,2,0,0"> 
+	<Include source="top.xml" />		
+</HorizontalLayout>
+
+<!-- 分割栏 -->
+<HorizontalLayout height="10" bkcolor="#FFEBF5FF" /> 
+
+<!-- 管理按钮显示 -->
+<HorizontalLayout height="80" > 
+	<Include source="manager.xml" />		
+</HorizontalLayout>
+
+<!-- 显示一栏 状态 -->
+<HorizontalLayout height="20"  bkcolor="#FFEBF5FF" /> 
+		
+<HorizontalLayout>
+
+
+
+<!-- 左侧显示 数列表 -->
+<VerticalLayout width="300"   bkcolor="#FFF8F8F8" >
+	<Include source="left.xml" />
+</VerticalLayout>
+
+<VerticalLayout width="2" bkcolor="#FF45FE22" />
+
+
+<!-- 中间显示 聊天内容 -->
+<VerticalLayout width="450"   bkcolor="#FFF8F8F8" >
+	<Include source="center.xml" />
+</VerticalLayout>
+
+<VerticalLayout width="2" bkcolor="#FF45FE22" />
+
+
+<!-- 右侧显示其它 -->
+<VerticalLayout    bkcolor="#FFF8F8F8"    >
+	<Include source="right.xml" />
+</VerticalLayout>
+
+
+
+</HorizontalLayout>
+
+<!-- 底层状态栏 -->
+<!-- HorizontalLayout height="20"  bkcolor="#FFD2D6DD"-->
+
+<HorizontalLayout height="20"  bkcolor="#FFEBF5FF">
+<Include source="bottom.xml" />
+</HorizontalLayout>
+
+</VerticalLayout>
+
+</Container>
+</Window>
