@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "small_menu.h"
 #include <WinUser.h>
 #include <io.h>

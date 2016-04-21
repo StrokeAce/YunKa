@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "../stdafx.h"
 #include "Utils.h"
 
 CHAR * UnicodeToUtf8(const WCHAR * lpszStr)

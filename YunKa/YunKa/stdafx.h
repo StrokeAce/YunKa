@@ -8,32 +8,33 @@
 #include "targetver.h"
 #include "Resource.h"
 #define WIN32_LEAN_AND_MEAN             //  从 Windows 头文件中排除极少使用的信息
-// Windows 头文件: 
-#include <windows.h>
 
 // C 运行时头文件
+
+#include <windows.h>
+#include <stdio.h>
+#include <tchar.h>
+#include <string>
+#include <assert.h>
 #include <stdlib.h>
+#include <time.h>
 #include <malloc.h>
 #include <memory.h>
-#include <tchar.h>
+
+
+using namespace std;
 
 #include <objbase.h>
+
 #include "./ui_common/global_setting_define.h"
-
-
 #include "UIlib.h"
 
 using namespace DuiLib;
-
-
 
 #define lengthof(x) (sizeof(x)/sizeof(*x))
 #define MAX max
 #define MIN min
 #define CLAMP(x,a,b) (MIN(b,MAX(a,x)))
-
-
-
 
 #ifdef _DEBUG
 #   ifdef _UNICODE

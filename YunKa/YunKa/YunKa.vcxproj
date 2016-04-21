@@ -50,7 +50,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -85,9 +85,38 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="auth\auth_client.h" />
+    <ClInclude Include="auth\auth_error.h" />
+    <ClInclude Include="auth\http_parse.h" />
+    <ClInclude Include="auth\sockbase.h" />
+    <ClInclude Include="chat_common\comdef.h" />
+    <ClInclude Include="chat_common\comfunc.h" />
+    <ClInclude Include="chat_common\commclt.h" />
+    <ClInclude Include="chat_common\commcom.h" />
+    <ClInclude Include="chat_common\commfloat.h" />
+    <ClInclude Include="chat_common\commform.h" />
+    <ClInclude Include="chat_common\commsg.h" />
+    <ClInclude Include="chat_common\commsrv.h" />
+    <ClInclude Include="chat_common\commtran.h" />
+    <ClInclude Include="chat_common\comobject.h" />
+    <ClInclude Include="chat_common\comstruct.h" />
+    <ClInclude Include="chat_common\convert.h" />
+    <ClInclude Include="chat_common\dbconnect.h" />
+    <ClInclude Include="chat_common\emlib.h" />
+    <ClInclude Include="chat_common\encrypt.h" />
+    <ClInclude Include="chat_common\error_info.h" />
+    <ClInclude Include="chat_common\lock.h" />
+    <ClInclude Include="chat_common\mutex.h" />
+    <ClInclude Include="chat_common\pack.h" />
+    <ClInclude Include="chat_common\tstring.h" />
+    <ClInclude Include="chat_common\zlib_stream.h" />
+    <ClInclude Include="log\dirfileop.h" />
+    <ClInclude Include="log\winlog.h" />
+    <ClInclude Include="md5\md5.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="timer\timer.h" />
     <ClInclude Include="ui\button_ex_ui.h" />
     <ClInclude Include="ui\login_event.h" />
     <ClInclude Include="ui\login_wnd.h" />
@@ -105,10 +134,28 @@
     <ClInclude Include="YunKa.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="auth\auth_client.cpp" />
+    <ClCompile Include="auth\http_parse.cpp" />
+    <ClCompile Include="auth\sockbase.cpp" />
+    <ClCompile Include="chat_common\comfunc.cpp" />
+    <ClCompile Include="chat_common\commclt.cpp" />
+    <ClCompile Include="chat_common\commcom.cpp" />
+    <ClCompile Include="chat_common\commfloat.cpp" />
+    <ClCompile Include="chat_common\commform.cpp" />
+    <ClCompile Include="chat_common\commsrv.cpp" />
+    <ClCompile Include="chat_common\comobject.cpp" />
+    <ClCompile Include="chat_common\convert.cpp" />
+    <ClCompile Include="chat_common\encrypt.cpp" />
+    <ClCompile Include="chat_common\error_info.cpp" />
+    <ClCompile Include="chat_common\pack.cpp" />
+    <ClCompile Include="chat_common\tstring.cpp" />
+    <ClCompile Include="log\winlog.cpp" />
+    <ClCompile Include="md5\md5.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="timer\timer.cpp" />
     <ClCompile Include="ui\button_ex_ui.cpp" />
     <ClCompile Include="ui\login_event.cpp" />
     <ClCompile Include="ui\login_wnd.cpp" />

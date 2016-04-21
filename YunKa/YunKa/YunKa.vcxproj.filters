@@ -25,6 +25,39 @@
     <Filter Include="源文件\ui_common">
       <UniqueIdentifier>{6cf7c4b3-7526-47c7-a8d0-5357ce87734e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\chat_common">
+      <UniqueIdentifier>{3f2de605-e641-47e2-a8d5-02eb652e7247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\chat_common">
+      <UniqueIdentifier>{4a37212d-8c1a-4745-a0f6-9aa1b34092b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\http_load">
+      <UniqueIdentifier>{f061fdb6-b055-4a8b-a383-8dd3858bca66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\auth">
+      <UniqueIdentifier>{7592c42d-ced0-400c-a42e-ba9db551424a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\log">
+      <UniqueIdentifier>{dda67318-a6ce-48ff-aeae-d0154485195b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\md5">
+      <UniqueIdentifier>{cc4ed088-d396-4ba7-b224-6d72c7ead6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\timer">
+      <UniqueIdentifier>{6b1019f6-74a5-4cf7-934c-0d33d206072f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\http_load">
+      <UniqueIdentifier>{c381ecb2-ef0a-4de3-a754-bd127752e654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\auth">
+      <UniqueIdentifier>{1510eaab-2994-4349-b22d-973ae2d0f711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\chat_manager">
+      <UniqueIdentifier>{a4781f7f-2d3c-468a-a8ca-318026192f22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\chat_manager">
+      <UniqueIdentifier>{6d6ef8d2-1ab0-4a21-8c25-91c8dc737b8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -84,6 +117,93 @@
     <ClInclude Include="ui_common\utils.h">
       <Filter>头文件\ui_common</Filter>
     </ClInclude>
+    <ClInclude Include="chat_common\comdef.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\comfunc.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\commclt.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\commcom.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\commfloat.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\commform.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\commsg.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\commsrv.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\commtran.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\comobject.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\convert.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\encrypt.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\error_info.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\lock.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\mutex.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\pack.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\tstring.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\zlib_stream.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\emlib.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\dbconnect.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_common\comstruct.h">
+      <Filter>头文件\chat_common</Filter>
+    </ClInclude>
+    <ClInclude Include="timer\timer.h">
+      <Filter>头文件\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="auth\sockbase.h">
+      <Filter>头文件\auth</Filter>
+    </ClInclude>
+    <ClInclude Include="auth\http_parse.h">
+      <Filter>头文件\auth</Filter>
+    </ClInclude>
+    <ClInclude Include="auth\auth_error.h">
+      <Filter>头文件\auth</Filter>
+    </ClInclude>
+    <ClInclude Include="md5\md5.h">
+      <Filter>头文件\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="log\dirfileop.h">
+      <Filter>头文件\log</Filter>
+    </ClInclude>
+    <ClInclude Include="log\winlog.h">
+      <Filter>头文件\log</Filter>
+    </ClInclude>
+    <ClInclude Include="auth\auth_client.h">
+      <Filter>头文件\auth</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -127,6 +247,60 @@
     </ClCompile>
     <ClCompile Include="ui_common\utils.cpp">
       <Filter>源文件\ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\tstring.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\pack.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\error_info.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\encrypt.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\convert.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comobject.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\commsrv.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\commform.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\commfloat.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\commcom.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\commclt.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comfunc.cpp">
+      <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="timer\timer.cpp">
+      <Filter>头文件\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="auth\sockbase.cpp">
+      <Filter>源文件\auth</Filter>
+    </ClCompile>
+    <ClCompile Include="auth\http_parse.cpp">
+      <Filter>源文件\auth</Filter>
+    </ClCompile>
+    <ClCompile Include="md5\md5.cpp">
+      <Filter>头文件\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="log\winlog.cpp">
+      <Filter>头文件\log</Filter>
+    </ClCompile>
+    <ClCompile Include="auth\auth_client.cpp">
+      <Filter>源文件\auth</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

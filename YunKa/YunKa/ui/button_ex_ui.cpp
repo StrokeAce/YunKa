@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "../stdafx.h"
 #include "button_ex_ui.h"
 
 namespace DuiLib {

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "main_frame.h"
 #include "login_wnd.h"
 #include "global_setting_define.h"

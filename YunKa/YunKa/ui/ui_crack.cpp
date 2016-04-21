@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "../stdafx.h"
 #include "ui_crack.h"
 
 namespace DuiLib {
