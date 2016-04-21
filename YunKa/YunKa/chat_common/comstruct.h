@@ -4,7 +4,7 @@
 #ifndef _CCOMMSTRUCT_EMS
 #define _CCOMMSTRUCT_EMS
 
-#include "../auth/sockbase.h"
+#include "sockbase.h"
 #include "../stdafx.h"
 #include "comdef.h"
 #include <map>
@@ -379,83 +379,7 @@ struct USER_INFO
 
 	unsigned short	langtype;				//个人信息的语言版本				2(668)
 	unsigned short	bak;					//									2(670)		
-/*
-	//基本信息
-	char			nickname[MAX_USERNAME_LEN];		//网络名称					20
-	char			username[MAX_USERNAME_LEN];		//真实名字					20(40)
-	unsigned short	sex;							//性别						2(42)
 
-	unsigned int 	birthday;						//出身年月					4(46)
-	char 			memo[MAX_USERMEMO_LEN];			//简介						100(146)	
-  
-	//企业版需用编号公司、部门获取名称
-	unsigned int	companyid;						//公司编号					4(150)
-	unsigned int	departmentid;					//部门编号					4(154)
-	
-	unsigned short	country;						//国家名称					2(156)
-	unsigned short	province;						//省份名称					2(158)
-	char			city[MAX_CITY_LEN];				//城市名称					30(188)
-	char			zipcode[MAX_ZIPCODE_LEN];		//邮编号码					10(198)
-	  
-	char	 		mobile[MAX_PHONE_LEN];			//手机						20(218)
-	char			phone[MAX_PHONE_LEN];			//电话						20(238)
-	char			fax[MAX_PHONE_LEN];				//传真号码					20(258)
-		
-	char			address[MAX_ADDRESS_LEN];	    //地址						60(318)			
-	char			homepage[MAX_URL_LEN];			//主页						256(574)
-	char			email[MAX_URL_LEN];				//电子邮件					256(830)
-	char 			email_bak[MAX_URL_LEN];			//电子邮件(以前有，现未用)  256(未用)
-		  
-	//互联网需用直接获取职务和公司名称
-	char 			dutyname[MAX_DUTY_LEN];			//职务名称		            30(860)
-	char 			company[MAX_COMPANY_LEN];		//公司名称					40(900)
-			
-//	权限标志： 0xFFFF
-//		位    含义     
-//		0     用户加入是否需要验证：	0 不需要； 1 需要
-//		1-2    发短信权限				0 不可发； 1 可发注册用户；2 可任意发送
-//		3-4    是否有群发的权利：	    0 没有； 1 有
-//		5	   是否有发起5人以上组	    0 没有； 1 有
-//		6	   是否有创建公告栏         0 不可； 1 可以
-//		7	   禁止其他人加我为联系人	0 不禁止；1禁止 
-//		8     是否可服务器中转发送文件 0 不可； 1 可以
-//		9     是否可服务器中转发送视频 0 不可； 1 可以
-//		10     是否可以和临时客户通讯   0 不可； 1 可以通讯
-			  
-//		12 - 15  用户信息公开             0 公开; 1 对联系人公开; 2 保密
-//		16     是否允许隐藏形象 		0 不允许； 1允许
-//		17     是否隐藏形象 			0 不隐藏； 1隐藏
-//		18 - 19  未用	
-//		20	   是否允许隐身登陆			0 不允许； 1允许
-//		21	   是否允许隐藏信息			0 不允许； 1允许
-//		22	   是否审核其通讯纪录		0 不审核； 1审核	
-//		23     是否可以创建会议  		0 不可； 1可	
-//		25     是否禁止修改密码  		0 不禁止； 1禁止	
-//		26     是否禁止修改个人信息     0 不禁止； 1禁止
-	unsigned int	commflag;						//常用权限(用位表示)		4(904)
-	
-	//常用类别和状态(用位表示)	4(908)
-//标志  0xFFFF
-//		位    含义
-//		0     是否享受电子名片的服务：	0 不享受； 1 享受
-//		1     是否可以搜索到：     	0 不可找到； 1 可找到
-//		0 - 11  保留
-//		12 - 15  表情(16)：0 表情； 1： 开心；2： 郁闷；3： 愤怒；4： 痛苦
-//		16 - 23  所属的组(256), 0表示为客户端保存的组(>256程序处理)
-//		24 - 31  图像编号(256)  
-	unsigned int	extflag;
-
-  //在线状态标示
-//	0 - 3   用户接入类型(16) (djz 081213 将0-1 改为0-3)		0： 直接接入 1： 局域网接入； 2：代理接入
-//	4 - 5  用户类别：										0： 是注册用户； 1 注册客户;  2：临时用户
-//	8 - 12  用户状态(16)										0 用户定义状态；1：离线；2：在线；3：出去一下：
-//	4：请不要打扰
-//	16      是否视频关闭/打开		0 没有：   1 打开
-	
-	unsigned short	langtype;				//个人信息的语言版本			2(914)
-	unsigned short	externid;					//2 外联公司编号
-	unsigned short	bak;
-*/
 	unsigned int	onlineflag;				//备用字段						4(912)
 };
 
@@ -591,16 +515,6 @@ struct WEBUSER_INFO
 
 struct WEBUSER_UPINFO
 {
-	//<SYSTEM><COMMAND>UP</COMMAND><IECOPYRIGHT>MSIE 7.0</IECOPYRIGHT><SYSTEMINFO>Windows 2003</SYSTEMINFO>
-	//<LANGUAGE>zh-cn,zh;q=0.5(中文)</LANGUAGE><VISIONCOLOR>32</VISIONCOLOR>
-	//<VISIONSIZE>1024*768</VISIONSIZE><ADMINID>8008115</ADMINID>
-	//<VISIT>http://www.tq.cn/?minimess_cn</VISIT><SOURCE>甘肃省金昌市</SOURCE><
-	//SCRIPTFLAG>14641046576931075</SCRIPTFLAG><IP>125.74.161.222</IP><PORT>1230</PORT>
-	//<CLIENTID>82632633301763783</CLIENTID>
-	//<LASTVISIT>http://www.baoyuan28.com/index.asp?id=128</LASTVISIT>
-	//<WEBTITLE> TQ洽谈通</WEBTITLE><NICKNAME>张三</NICKNAME><CTIMES>3</CTIMES><TTIMES>1</TTIMES>
-	//<LASTVTIME>2010-8-9,12:44:55</LASTVTIME><LASTTTIME>2010-8-9,13:44:55</LASTTTIME>
-	//<LASTTUIN>8071236</LASTTUIN><ISAUTOINVIT>1</ISAUTOINVIT></SYSTEM>
 	char iecopyright[50];
 	char systeminfo[50];
 	char language[50];
@@ -919,29 +833,6 @@ struct LISTCHATINFO
 	
 };
 
-/*
-struct RECVCHATINFO
-{
-	unsigned int uFromAmdind; //会话来源管理员号码
-	unsigned short sFromSort; //会话来源漂浮框id
-	
-	char			chatid[MAX_CHATID_LEN+1];
-	
-	unsigned int tStartTime;		  //会话开始时间
-	unsigned int uWebUin;	  //web来宾的号码
-	unsigned int uKefuUin;	  //客服的号码,0:等待应答状态，>0:正在和客服通信
-	
-	unsigned int uadminuin;	 //管理员号码
-	unsigned short sSort;	 //漂浮框id
-	char	strClientId[MAX_VISITORID_LEN+1];//访客唯一标示
-	char	webnickname[MAX_USERNAME_LEN+1];//访客名称
-	
-	// 会话转移状态
-	unsigned int Transfertoadminuin;	 //会话接受方管理员号码
-	unsigned int TransfertoKefu;	     //会话接受方漂浮框id
-	
-};
-*/
 
 //历史记录过滤条件
 typedef struct VISITORTALK_FILTER

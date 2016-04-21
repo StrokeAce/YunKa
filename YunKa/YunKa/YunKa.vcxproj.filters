@@ -58,6 +58,12 @@
     <Filter Include="源文件\chat_manager">
       <UniqueIdentifier>{6d6ef8d2-1ab0-4a21-8c25-91c8dc737b8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\utils">
+      <UniqueIdentifier>{119a860b-367f-4de5-b7c9-6857602d26ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\utils">
+      <UniqueIdentifier>{37731276-cdab-417d-868e-00f14c66f208}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -147,36 +153,6 @@
     <ClInclude Include="chat_common\comobject.h">
       <Filter>头文件\chat_common</Filter>
     </ClInclude>
-    <ClInclude Include="chat_common\convert.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\encrypt.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\error_info.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\lock.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\mutex.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\pack.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\tstring.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\zlib_stream.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\emlib.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_common\dbconnect.h">
-      <Filter>头文件\chat_common</Filter>
-    </ClInclude>
     <ClInclude Include="chat_common\comstruct.h">
       <Filter>头文件\chat_common</Filter>
     </ClInclude>
@@ -222,6 +198,36 @@
     <ClInclude Include="chat_manager\sys_config.h">
       <Filter>头文件\chat_manager</Filter>
     </ClInclude>
+    <ClInclude Include="utils\convert.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\dbconnect.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\emlib.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\encrypt.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\error_info.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\lock.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\mutex.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\pack.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\tstring.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\zlib_stream.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -265,21 +271,6 @@
     </ClCompile>
     <ClCompile Include="ui_common\utils.cpp">
       <Filter>源文件\ui_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\tstring.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\pack.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\error_info.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\encrypt.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\convert.cpp">
-      <Filter>源文件\chat_common</Filter>
     </ClCompile>
     <ClCompile Include="chat_common\comobject.cpp">
       <Filter>源文件\chat_common</Filter>
@@ -337,6 +328,21 @@
     </ClCompile>
     <ClCompile Include="chat_manager\sys_config.cpp">
       <Filter>源文件\chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\convert.cpp">
+      <Filter>源文件\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\encrypt.cpp">
+      <Filter>源文件\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\error_info.cpp">
+      <Filter>源文件\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\pack.cpp">
+      <Filter>源文件\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\tstring.cpp">
+      <Filter>源文件\utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

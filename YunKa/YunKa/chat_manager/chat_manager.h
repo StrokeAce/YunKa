@@ -6,7 +6,7 @@
 #include "login.h"
 #include "../chat_common/comobject.h"
 #include "../chat_common/comstruct.h"
-#include "../timer/timer.h"
+#include "timer.h"
 
 class IBaseMsgs
 {

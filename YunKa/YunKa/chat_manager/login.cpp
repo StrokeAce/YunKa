@@ -1,9 +1,9 @@
 #include "../stdafx.h"
 #include "login.h"
-#include "../auth/http_parse.h"
+#include "http_parse.h"
 #include "./chat_manager.h"
 #include "../chat_common/commclt.h"
-#include "../auth/auth_error.h"
+#include "auth_error.h"
 
 CLogin::CLogin()
 {	

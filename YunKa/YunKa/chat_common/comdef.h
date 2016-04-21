@@ -711,67 +711,6 @@
 #define PACK_WARNING_STRINGTOOLONG	101	//字符串超长
 
 
-/**
----------------服务器版本说明----------------------
-djz 090429 3062->3063
-3064 :用户消息包添加strid
-3065 :支持login_lite登陆方式
-3066 :用户信息添加分级信息，使用以前用户信息中email_bak字段存放 2010年6月28日
-3067 : 调整服务器支持的包大小到8K
-3068 : 添加公司部门列表包 CMD_COMPANY_DEPARETMENT_LIST
-3069 : 添加公司成员列表包（kefulist），更改CMD_COMPANY_DEPARETMENT_LIST包格式
-3070 : 删除好友时支持“将我从他的列表删除”,CPU_UserOnlineList,CPU_UserOnline包添加connecttype和mpid，支持获取、删除陌生人 2012年3月29日
-3071 : 用户消息包末尾，添加头像版本信息4字节headerimgver
-3072 : 服务器支持多终端登陆并行登陆 支持客户协议版本到MULTI_TERMINAL_ONLINE=4221
-3073 : 登录包、上线包、用户信息报添加rand，thirdid，消息报添加rand，thirdid，chatid。
-3074 : 更改用户在线状态信息，和流量通信的消息报头serverid改为serverver，MSGSTATIS_LOGIN中的connectype改为onlineflag，MSGSTATIS_UPDATE_STATUS中statustype改为onlineflag
-**/
-
-
-/*---------------客户端版本-------
->=4200;//客户端支持服务器分组的版本号
->=4210;//客户端支持终端类型设置的版本号
->=4212;//客户端支持UTF8编码，通信消息不使用rtf，采用文本+字体的方式
->=4214:用户消息包添加strid ，需服务器版本>=3064
->=4215:支持login_lite登陆方式，需服务器版本>=3065
->=4216;//客户支持 8K 大包
->=4218;//客户支持gp上的同事列表
->=4219;// 删除好友时支持“将我从他的列表删除”，ping添加connecttype,获取陌生人列表，支持精灵消息转发
->=4220;//支持精灵消息转发
->=4221 //多终端同时上线,ping包添加终端类型，在线状态
->=4222//httui会阻塞客户端http请求最长60秒，或有消息到来
-
->=4223----------
-	客户端支持由webui 发给坐席的[系统消息] 定义不同的普通消息类型，添加
-	MSG_CLIENT_WELCOME_MSG	= 117,	//网页客人上线了给客户端的欢迎语提示消息,你的网站来客人了
-	MSG_CLIENT_COLLECT_MSG	= 118,	//js发给客服的访客收集页面收集到的提示消息
-	MSG_CLIENT_EXIT_MSG	= 109,	    //访客离开时，给坐席的提示消息息，该客人离开了
-	MSG_CLIENT_APPRAISE_MSG	= 110,	//访客对客户的评价提示消息
-	MSG_CLIENT_CHANGE_ADDRESS_MSG	= 111,	//访客对客户的评价提示消息
-	MSG_CLIENT_SENDFILE_FAILED_MSG	= 112,	//访客发送文件失败提示消息
-	MSG_CLIENT_SENDFILE_SUCCESS_MSG	= 113,	//访客发送文件成功提示消息
-	MSG_CLIENT_TRANSFER_IN_MSG	= 114,	//访客会话转入提示消息
-	MSG_CLIENT_TRANSFER_OUT_MSG	= 115,	//访客会话转出提示消息
-	MSG_CLIENT_ALREADYEXIT_MSG	= 116,	//该客人已离开,您的消息将无法准确送达,请选择另外的通知方式
-
->=6000
-	因为以前的老的客户端使用过5000的版本，防止和老的客户端版本冲突，现版本直接跳到6000
-	>=6000 对应服务器版本3073 2014年9月11日
-	CMD_SRV_INFORM_FRD_ONLINE	0x006E      svrver>=3073时	添加 rand thirdid
-	CMD_SRV_REP_CLT_INFO		0x0118		svrver>=3073时	添加 rand thirdid
-	CMD_SRV_REP_TRANSFERCLIENT  0x01B8		svrver>=3073时	添加 rand thirdid chatid
-	CMD_CLT_TRANSFERCLIENT		0x047E						添加 rand thirdid chatid
-	CMD_SRV_TRANSFERCLIENT		0x01C2      svrver>=3073时	添加 rand thirdid chatid
-	CMD_CLT_LOGON				0x03E8						添加 rand thirdid
-	CMD_COM_SEND_MSG            0x0F00						添加 rand thirdid chatid
-	CMD_FLOAT_CHATMSG           0x0232		                添加 rand thirdid
-	CMD_FLOAT_CREATECHAT        0x0230						添加thirdid
-	CMD_FLOAT_CHATINFO          0x023D     svrver>=3073     添加 rand thirdid        
-
->=6001  //ONLINEFLAGUNION 中用户状态支持手动自动识别
->=6010  //客户端支持微信消息类型json
-*/
-
 //2015年10月4日 4216->6001
 #define VERSION						6010 
 #define VISITOR_VERSION				3006 

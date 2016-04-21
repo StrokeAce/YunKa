@@ -1,6 +1,6 @@
-#ifndef HttpUnitH
-#define HttpUnitH
-#include "switchsock.h"
+#ifndef _HTTP_UNIT_H_
+#define _HTTP_UNIT_H_
+#include "switch_sock.h"
 
 using namespace std;
 
@@ -20,7 +20,7 @@ void UseSwitchInHttpDownload(bool bUse = true);
 int HttpDownloadFile(string url,
 				 string &body,
 				 string &urlfile,
-				 CString postfile,
+				 string postfile,
 				 HWND hWnd,
 				 const string& AdditionHead = "",
 				 const char* pszProxyip = NULL,
@@ -34,13 +34,13 @@ int HttpDownload(string url,
 				 const char* pszProxyip = NULL,
 				 unsigned short proxyport =0);
 
-CString GetModuleFileDir();
+string GetModuleFileDir();
 
 // httpÏÂÔØÎÄ¼þ
 DWORD HttpDownloadFile(int nIndex,
-					LPCTSTR lpszUrl,
-					LPCTSTR lpszLocalName,
-					LPCTSTR lpszHeader = NULL,
+					char* lpszUrl,
+					char* lpszLocalName,
+					char* lpszHeader = NULL,
 					IHttpFileEvent* pEvent = NULL);
 //---------------------------------------------------------------------------
 #endif

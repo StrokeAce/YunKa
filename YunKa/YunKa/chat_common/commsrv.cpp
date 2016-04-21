@@ -1,11 +1,11 @@
 #include "../stdafx.h"
-#include "./comdef.h"
-#include "./comfunc.h"
-#include "./tstring.h"
-#include "./commtran.h"
-#include "./pack.h"
-#include "./commcom.h"
-#include "./commsrv.h"
+#include "comdef.h"
+#include "comfunc.h"
+#include "tstring.h"
+#include "commtran.h"
+#include "pack.h"
+#include "commcom.h"
+#include "commsrv.h"
 
 //#define CMD_SRV_ERROR_CLTSEND			0x0000	//  0  客户端端传送一个错误的命令
 SRV_ERROR_CLTSEND::SRV_ERROR_CLTSEND(unsigned short ver)

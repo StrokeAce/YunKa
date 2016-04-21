@@ -55,7 +55,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./ui;./ui_common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./ui;./ui_common;./auth;./log;./md5;./timer;./chat_manager;./utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -100,16 +100,6 @@
     <ClInclude Include="chat_common\commtran.h" />
     <ClInclude Include="chat_common\comobject.h" />
     <ClInclude Include="chat_common\comstruct.h" />
-    <ClInclude Include="chat_common\convert.h" />
-    <ClInclude Include="chat_common\dbconnect.h" />
-    <ClInclude Include="chat_common\emlib.h" />
-    <ClInclude Include="chat_common\encrypt.h" />
-    <ClInclude Include="chat_common\error_info.h" />
-    <ClInclude Include="chat_common\lock.h" />
-    <ClInclude Include="chat_common\mutex.h" />
-    <ClInclude Include="chat_common\pack.h" />
-    <ClInclude Include="chat_common\tstring.h" />
-    <ClInclude Include="chat_common\zlib_stream.h" />
     <ClInclude Include="chat_manager\chat_manager.h" />
     <ClInclude Include="chat_manager\chat_objects.h" />
     <ClInclude Include="chat_manager\login.h" />
@@ -137,6 +127,16 @@
     <ClInclude Include="ui_common\path.h" />
     <ClInclude Include="ui_common\small_menu.h" />
     <ClInclude Include="ui_common\utils.h" />
+    <ClInclude Include="utils\convert.h" />
+    <ClInclude Include="utils\dbconnect.h" />
+    <ClInclude Include="utils\emlib.h" />
+    <ClInclude Include="utils\encrypt.h" />
+    <ClInclude Include="utils\error_info.h" />
+    <ClInclude Include="utils\lock.h" />
+    <ClInclude Include="utils\mutex.h" />
+    <ClInclude Include="utils\pack.h" />
+    <ClInclude Include="utils\tstring.h" />
+    <ClInclude Include="utils\zlib_stream.h" />
     <ClInclude Include="YunKa.h" />
   </ItemGroup>
   <ItemGroup>
@@ -150,11 +150,6 @@
     <ClCompile Include="chat_common\commform.cpp" />
     <ClCompile Include="chat_common\commsrv.cpp" />
     <ClCompile Include="chat_common\comobject.cpp" />
-    <ClCompile Include="chat_common\convert.cpp" />
-    <ClCompile Include="chat_common\encrypt.cpp" />
-    <ClCompile Include="chat_common\error_info.cpp" />
-    <ClCompile Include="chat_common\pack.cpp" />
-    <ClCompile Include="chat_common\tstring.cpp" />
     <ClCompile Include="chat_manager\chat_manager.cpp" />
     <ClCompile Include="chat_manager\chat_objects.cpp" />
     <ClCompile Include="chat_manager\login.cpp" />
@@ -180,6 +175,11 @@
     <ClCompile Include="ui_common\path.cpp" />
     <ClCompile Include="ui_common\small_menu.cpp" />
     <ClCompile Include="ui_common\utils.cpp" />
+    <ClCompile Include="utils\convert.cpp" />
+    <ClCompile Include="utils\encrypt.cpp" />
+    <ClCompile Include="utils\error_info.cpp" />
+    <ClCompile Include="utils\pack.cpp" />
+    <ClCompile Include="utils\tstring.cpp" />
     <ClCompile Include="YunKa.cpp" />
   </ItemGroup>
   <ItemGroup>

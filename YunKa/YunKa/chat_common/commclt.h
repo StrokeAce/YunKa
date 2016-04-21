@@ -4,7 +4,7 @@
 #if !defined _COMMCLT_EM
 #define _COMMCLT_EM
 
-//#define CMD_CLT_LOGON						0x03E8  // 1000 用户登录
+
 //用户登录
 //max size : 196
 class CLT_LOGON : public CPackInfo

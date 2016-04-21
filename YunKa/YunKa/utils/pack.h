@@ -6,7 +6,7 @@
 #define _PACK_EM34563456
 
 #include "error_info.h"
-#include "comstruct.h"
+#include "../chat_common/comstruct.h"
 #include <tchar.h>
 
 class CPack : public CErrorInfo

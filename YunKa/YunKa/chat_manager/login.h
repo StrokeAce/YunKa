@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./socket.h"
-#include "../auth/auth_client.h"
+#include "auth_client.h"
 #include "../chat_common/comobject.h"
 #include "../chat_common/comfunc.h"
 #include "../chat_common/commcom.h"

@@ -169,49 +169,6 @@
 #define WM_EMMIS_DROPDOWN				(WM_USER + 741)
 #define	WM_EMMIS_OUTOFWND				(WM_USER + 742)
 
-/*
-#define	WM_VOLUME_MUTE					(WM_USER + 742)
-#define	WM_VOLUME_SIZE					(WM_USER + 743)
-
-#define WM_RECORD_RESULT				(WM_USER + 750)
-#define WM_RECORD_START					(WM_USER + 751)
-#define WM_RECORD_BLOCK					(WM_USER + 752)
-#define WM_RECORD_STOP					(WM_USER + 753)
-
-#define WM_RECORD_VIDEO					(WM_USER + 755)
-#define WM_RECORD_AUDIO					(WM_USER + 756)
-
-//change face定义的消息
-#define	WM_CHANGE_FACE					(WM_USER + 800)
-
-//tips对话框清除
-#define	WM_DELETE_TIPS					(WM_USER + 810)
-
-#define WM_MSG_TALKFUNC					(WM_USER + 820)
-#define WM_MSG_EDITLINK					(WM_USER + 830)
-
-#define WM_PTPCONNECT_SUCCESS			(WM_USER + 850)
-
-#define WM_VIDEO_ATTR					(WM_USER + 860)
-
-#define WM_FULLWNDTITLE_BTN				(WM_USER + 870)
-
-#define WM_WND_HIDE						(WM_USER + 880)
-#define WM_WND_SHOW						(WM_USER + 881)
-
-//会议消息
-#define WM_MEETING_DOWN					(WM_USER + 890)
-//用户消息
-#define WM_USER_DOWN					(WM_USER + 900)
-
-#define WM_EXSTATIC_DOWN				(WM_USER + 910)
-
-#define WM_SENDRECVVIDEO_FAIL			(WM_USER + 930)
-*/
-//#define WM_CLOSE_USER					(WM_USER + 950)
-
-//向服务器发送连接包的回复
-//#define WM_CONNECT_SERVER				(WM_USER + 960)
 
 //xp编辑框处理消息
 #define WM_XPEDIT						(WM_USER + 970)

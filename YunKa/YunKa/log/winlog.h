@@ -39,7 +39,7 @@
 #ifndef __WRITELOG_H_
 #define __WRITELOG_H_
 
-#include "../chat_common/mutex.h"
+#include "mutex.h"
 
 #include <string>
 #include <fstream>

@@ -4,10 +4,9 @@
 #if !defined _COMMSRV_EM
 #define _COMMSRV_EM
 #include "commcom.h"
-//#include "afxtempl.h"
-#include "../include/comdef.h"
+#include "comdef.h"
 
-//#define CMD_SRV_ERROR_CLTSEND			0x0000	//  0  客户端端传送一个错误的命令
+
 class SRV_ERROR_CLTSEND:public CPackInfo
 {
 public:

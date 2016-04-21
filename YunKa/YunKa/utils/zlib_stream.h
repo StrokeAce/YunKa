@@ -2,7 +2,7 @@
 
 #include <zconf.h>
 #include <zlib.h>
-#include "../log/winlog.h"
+#include "winlog.h"
 
 using namespace std;
 

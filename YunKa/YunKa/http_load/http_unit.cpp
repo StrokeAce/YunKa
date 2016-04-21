@@ -1,11 +1,7 @@
 //---------------------------------------------------------------------------
 
-#include "../StdAfx.h"
-#include "HttpUnit.h"
+#include "http_unit.h"
 #include "convert.h"
-#include <afxinet.h>
-#include <afxtempl.h>
-//#include "../Robot_dd/socketcommfun.h"
 
 #pragma hdrstop
 
@@ -81,10 +77,6 @@ SOCKET ConnectToServer(const char* cDomain,unsigned short port,
 		recv(s,buf,2000,0);
 		if (strstr(buf,"established")==NULL)
 		{
-//			CString msg;
-//			msg.Format(_T("socketcommfun_1"),
-//				convertstring(proxyip).c_str(),proxyport,convertstring(cDomain).c_str(),port,convertstring(buf).c_str());
-//			AfxMessageBox(msg);
 			return s;
 		}
 		
@@ -123,7 +115,7 @@ SOCKET ConnectToServer(const char* cDomain,unsigned short port,
 int HttpDownloadFile(string url,
 				 string &body,
 				 string &urlfile,
-				 CString postfile,
+				 string postfile,
 				 HWND hWnd,
 				 const string& AdditionHead,
 				 const char* pszProxyip,
@@ -152,7 +144,7 @@ int HttpDownloadFile(string url,
 	
     
 	SOCKET sServer=INVALID_SOCKET;
-	CString strError;
+	string strError;
 
 	if (pszProxyip == NULL || strlen(pszProxyip) == 0)
 	{
@@ -178,19 +170,18 @@ int HttpDownloadFile(string url,
 			//cerr<<"无法连接服务器"<<endl;
 			closesocket(sServer);
 			sServer=INVALID_SOCKET;
-			strError.Format(_T("host = %s, port = %d"),
+			strError.Format("host = %s, port = %d",
 				convertstring(host).c_str(), port);
 		}
 	}else
 	{
 		sServer=ConnectToServer(host.c_str(), port, pszProxyip, proxyport);
-		strError.Format(_T("host = %s, port = %d, proxyip = %s, proxyport = %d"),
+		strError.Format("host = %s, port = %d, proxyip = %s, proxyport = %d",
 			convertstring(host).c_str(), port, convertstring(pszProxyip).c_str(), proxyport);
 
 	}
 	if (sServer==INVALID_SOCKET)
 	{
-		//MessageBox(progDlg->GetSafeHwnd(), strError, _T("Error"), MB_OK);
 		return 404;
 	}
 	
@@ -232,7 +223,6 @@ int HttpDownloadFile(string url,
 	
 	send(sServer, cmd.c_str(),cmd.length(), 0);
 	if( hWnd != NULL);
-//		::PostMessage(hWnd, WM_TRANSFERFILE_PROGRESS, dwRead, FindFileData.nFileSizeLow);
 
 	while(dwRead < FindFileData.nFileSizeLow)
 	{
@@ -262,7 +252,6 @@ int HttpDownloadFile(string url,
 		if(nCurDel > nDelToSend || dwRead == nCurRead)
 		{
 			if( hWnd != NULL);
-//				::PostMessage(hWnd, WM_TRANSFERFILE_PROGRESS, dwRead, FindFileData.nFileSizeLow);
 			nCurDel = 0;
 		}
 				
@@ -323,7 +312,6 @@ int HttpDownloadFile(string url,
 			pEnd = strchr(pNewURL,'\r');
 			if(pEnd) 
 				*pEnd='\0';
-			//  LastModify = pNewURL;
 		}
 		
 		int headlen=headend-buf;
@@ -384,7 +372,7 @@ int HttpDownload(string url,
 	
     
 	SOCKET sServer=INVALID_SOCKET;
-	CString strError;
+	string strError;
 
 	if (pszProxyip == NULL || strlen(pszProxyip) == 0)
 	{
@@ -513,11 +501,11 @@ int HttpDownload(string url,
     return nHttpCode;
 }
 
-CString GetModuleFileDir()
+string GetModuleFileDir()
 {
 	DWORD	dwLength, dwSize;
 	TCHAR	szFileName [MAX_PATH];
-	CString	strFileName;
+	string	strFileName;
 	int		nPos;
 	
 	dwSize = sizeof (szFileName) / sizeof (szFileName [0]);
@@ -532,7 +520,7 @@ CString GetModuleFileDir()
 	return strFileName.Left( nPos );
 }
 
-void GetHostInfo(const CString& strHostInfo, CString& strHost, UINT& nPort)
+void GetHostInfo(const string& strHostInfo, string& strHost, UINT& nPort)
 {
 	int pos = strHostInfo.Find(_T(":"));
 
@@ -542,26 +530,26 @@ void GetHostInfo(const CString& strHostInfo, CString& strHost, UINT& nPort)
 	if (pos != -1)
 	{
 		strHost = strHostInfo.Left(pos);
-		CString strPort = strHostInfo.Right(strHostInfo.GetLength() - pos - 1);
+		string strPort = strHostInfo.Right(strHostInfo.GetLength() - pos - 1);
 		nPort = (UINT)_ttoi(strPort);
 	}
 }
 
-void GetRequestInfoFromUrl(const CString& strUrl,
-	CString& strHost,
+void GetRequestInfoFromUrl(const string& strUrl,
+	string& strHost,
 	UINT& nPort,
-	CString& strRequest)
+	string& strRequest)
 {
 	int pos, pos1;
 
-	CString strHttp = _T("http://");
-	CString strSp = _T("/");
+	string strHttp = _T("http://");
+	string strSp = _T("/");
 
 	pos = strUrl.Find(strHttp);
 	int httplen = strHttp.GetLength();
 	if (pos != -1)
 	{
-		CString strHostInfo;
+		string strHostInfo;
 		pos1 = strUrl.Find(strSp, pos + httplen);
 		if (pos1 != -1)
 		{
@@ -575,16 +563,16 @@ void GetRequestInfoFromUrl(const CString& strUrl,
 
 #define HTTP_RECV_DATA_BUF 10240
 DWORD HttpDownloadFile(int nIndex,
-	LPCTSTR lpszUrl,
-	LPCTSTR lpszLocalName,
-	LPCTSTR lpszHeader,
+	char* lpszUrl,
+	char* lpszLocalName,
+	char* lpszHeader,
 	IHttpFileEvent* pEvent)
 {
 	DWORD dwRet = 0;
 
-	CString strUrl = lpszUrl;
-	CString strHost;
-	CString strRequest;
+	string strUrl = lpszUrl;
+	string strHost;
+	string strRequest;
 	UINT nPort;
 
 	GetRequestInfoFromUrl(strUrl, strHost, nPort, strRequest);
@@ -598,10 +586,10 @@ DWORD HttpDownloadFile(int nIndex,
 		nPort,
 		NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
 
-	static LPCTSTR accept[2] = { _T("*/*"), NULL };
+	static char* accept[2] = { _T("*/*"), NULL };
 	HINTERNET hRequest = HttpOpenRequest(hConn, _T("GET"),
 		strRequest, NULL, NULL,
-		(LPCTSTR*)accept,
+		(char**)accept,
 		INTERNET_FLAG_RELOAD,
 		0);
 

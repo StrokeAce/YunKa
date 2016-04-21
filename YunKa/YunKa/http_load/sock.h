@@ -8,26 +8,12 @@
 
 #ifndef SockUnitH
 #define SockUnitH
-//---------------------------------------------------------------------------
-#ifdef WIN32
-#include <afxsock.h>
-#else
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/select.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <netdb.h>
 
-#define SOCKET int
-#endif
+#include "../auth/sockbase.h"
+
 
 #pragma warning (disable: 4786)
 
-#include "../Include/tstring.h"
 #include <vector>
 #include <map>
 using namespace std;
@@ -49,8 +35,7 @@ public:
 
 	bool Create(bool bUDP=false);
 
-	//virtual bool Connect(const tstring& host,unsigned short port);
-	virtual bool Connect(const string& host,unsigned short port);  //gaoxiaohu
+	virtual bool Connect(const string& host,unsigned short port);
 
 	virtual bool isConnected();
 	virtual bool isUDP();
@@ -58,19 +43,13 @@ public:
 	virtual bool Accept(BaseSock& client);
 	virtual void Close();
 
-	//virtual long Send(const TCHAR* buf,long buflen);
-	virtual long Send(const char* buf,long buflen); //gaoxiaohu
-	//virtual long Recv(TCHAR* buf,long buflen);
-	virtual long Recv(char* buf,long buflen);//gaoxiaohu
-	//virtual long SendTo(const TCHAR* buf,int len,const struct sockaddr_in* toaddr,int tolen);
-	virtual long SendTo(const char* buf,int len,const struct sockaddr_in* toaddr,int tolen);//gaoxiaohu
-	//virtual long RecvFrom(TCHAR* buf,int len,struct sockaddr_in* fromaddr,int* fromlen);
-	virtual long RecvFrom(char* buf,int len,struct sockaddr_in* fromaddr,int* fromlen);//gaoxiaohu
+	virtual long Send(const char* buf,long buflen);
+	virtual long Recv(char* buf,long buflen);
+	virtual long SendTo(const char* buf,int len,const struct sockaddr_in* toaddr,int tolen);
+	virtual long RecvFrom(char* buf,int len,struct sockaddr_in* fromaddr,int* fromlen);
 
-	//virtual bool GetPeerName(tstring& strIP,unsigned short &nPort);
-	virtual bool GetPeerName(string& strIP,unsigned short &nPort);   //gaoxiaohu
-	//virtual bool GetLocalName(tstring& strIP,unsigned short &nPort);
-	virtual bool GetLocalName(string& strIP,unsigned short &nPort);//gaoxiaohu
+	virtual bool GetPeerName(string& strIP,unsigned short &nPort);
+	virtual bool GetLocalName(string& strIP,unsigned short &nPort);
 	virtual bool GetPeerName(struct sockaddr_in* fromaddr,int* fromlen);
 	virtual bool GetLocalName(struct sockaddr_in* fromaddr,int* fromlen);
 
@@ -79,7 +58,6 @@ private:
 	bool m_bUDP;
 	bool m_bConnected;
 
-	//tstring m_strHost;
 	string m_strHost;
 	unsigned short m_nPort;
 
@@ -87,6 +65,5 @@ private:
 	friend class SwitchSock;
 };
 
-extern	tstring IntToStr(unsigned long iValue);
 
 #endif

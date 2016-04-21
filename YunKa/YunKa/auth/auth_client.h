@@ -1,7 +1,7 @@
 #ifndef TQAUTHCLIENT_H_
 #define TQAUTHCLIENT_H_
 
-#include "../auth/sockbase.h"
+#include "sockbase.h"
 
 #define  MAXDOMAINLEN 100
 
