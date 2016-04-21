@@ -4,15 +4,23 @@
 
 #define  _DEBUG_DATA_
 
+//全局字符串定义 
+
+#define    DEFINE_SMALL_ICON_PATH                                               _T("E:\\Moliyun\\bin\\SkinRes\\small.ico")
+
+
+
+
+
 //消息定义
 #define WM_INIT_ROOM_USER_LIST_MSG                                                WM_USER+100
 #define WM_GET_MYSELF_INFO_MSG                                                    WM_USER+101
 #define WM_UPDATE_SELECT_USER_MSG                                                 WM_USER+102
 
-/*login define****************************************************************************************************************************************************************/ 
+/*login define****************************************************************************************************************************************************************/
 #define  DEBUG_USERNAME_TEXT                                                         _T("ceshi110")         
 #define  DEBUG_PASSWORD_TEXT                                                         _T("123123")
-#define  DEBUG_HOST_ADDRESS                                                          "http://api.51weibo.com"
+#define  DEBUG_HOST_ADDRESS                                                          ""
 #define  _GLOBAL_LOGIN_UI_CONFIG_FILE                                                _T("login\\login.xml")
 
 

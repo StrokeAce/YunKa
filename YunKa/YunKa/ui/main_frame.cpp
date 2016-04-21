@@ -19,7 +19,7 @@ DUI_END_MESSAGE_MAP()
 
 CMainFrame::CMainFrame()
 {
-
+	m_frameEvent = new CMainFrameEvent(m_PaintManager);
 }
 
 CMainFrame::~CMainFrame()
@@ -108,7 +108,9 @@ LRESULT CMainFrame::ResponseDefaultKeyEvent(WPARAM wParam)
 
 LRESULT CMainFrame::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
+	bHandled = FALSE;
 
+	m_frameEvent->HandleCustomMessage(uMsg, wParam, lParam);
 
 	return 0;
 }
@@ -117,8 +119,8 @@ LRESULT CMainFrame::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam,
 LRESULT CMainFrame::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	bHandled = FALSE;
-	int x = GET_X_LPARAM(lParam);
-	int y = GET_Y_LPARAM(lParam);
+	//int x = GET_X_LPARAM(lParam);
+	//int y = GET_Y_LPARAM(lParam);
 
 	return 0;
 }
@@ -135,12 +137,12 @@ LPCTSTR CMainFrame::GetResourceID() const
 }
 
 
-void CMainFrame::InitWindow()
-{}
-
 
 void CMainFrame::Notify(TNotifyUI& msg)
 {
+
+	m_frameEvent->Notify(msg);
+
 	return WindowImplBase::Notify(msg);
 }
 
@@ -196,12 +198,19 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 }
 
+void CMainFrame::InitWindow()
+{
+	m_frameEvent->InitWindow(this->GetHWND());
+}
+
 void CMainFrame::OnClick(TNotifyUI& msg)
 {
+
+#if 1
+	//m_frameEvent->Notify(msg);
 	if (msg.pSender->GetName() == DEF_CLOSE_WND_BUTTON)
 	{
 		Close();
-
 	}
 	else  if (msg.pSender->GetName() == DEF_MIN_WND_BUTTON)
 	{
@@ -212,18 +221,18 @@ void CMainFrame::OnClick(TNotifyUI& msg)
 	}
 	else  if (msg.pSender->GetName() == DEF_RESTORE_WND_BUTTON)
 	{
-		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); 
+		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0);
 
 	}
 	else  if (msg.pSender->GetName() == DEF_MAX_WND_BUTTON)
 	{
-		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); 
+		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 
 	}
 
 	else  if (msg.pSender->GetName() == L"acceptbutton")
 	{
-	
+
 		///CLoginWnd* pLoginFrame = new CLoginWnd();
 		//pLoginFrame->Create(NULL, _T(""), UI_WNDSTYLE_DIALOG, 0, 0, 0, 0, 0, NULL);
 		//pLoginFrame->CenterWindow();
@@ -234,10 +243,10 @@ void CMainFrame::OnClick(TNotifyUI& msg)
 		//CMenuWnd* pMenu = new CMenuWnd(m_hWnd);
 		//CPoint point = msg.ptMouse;
 
-		CMenuWnd* pMenu = new CMenuWnd(m_hWnd);
-		CPoint point = msg.ptMouse;
-		ClientToScreen(m_hWnd, &point);
-		pMenu->Init(NULL, _T(""), _T("xml"), point);
+		//CMenuWnd* pMenu = new CMenuWnd(m_hWnd);
+		//CPoint point = msg.ptMouse;
+		//ClientToScreen(m_hWnd, &point);
+		//pMenu->Init(NULL, _T(""), _T("xml"), point);
 
 
 
@@ -245,23 +254,9 @@ void CMainFrame::OnClick(TNotifyUI& msg)
 		//pMenu->CenterWindow();
 		//pMenu->ShowModal();
 
-#if 0
-		point.x = 0;
-		point.y = 0;
-		ClientToScreen(m_hWnd, &point);
-
-
-		WCHAR xmlStr[64] = L"SkinRes\\menutest.xml";
-		//STRINGorID xml(_ttoi(GetSkinFile().GetData()));
-		//pRoot = builder.Create(xml, _T("xml"), this, &m_PaintManager);
-
-		STRINGorID xml(xmlStr);
-		pMenu->Init(NULL, xml, _T("xml"), point);
-#endif
-
 	}
 
-
+#endif
 
 #if 0
 	//gMainGate->UserManager()->NotifyMsg(msg);
@@ -274,17 +269,19 @@ void CMainFrame::OnClick(TNotifyUI& msg)
 	//else if( msg.pSender == m_pMinBtn ) 
 	//{ 
 	//	SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); 
-		//this->ShowWindow(FALSE);
+	//this->ShowWindow(FALSE);
 
-		SetProcessWorkingSetSize(::GetCurrentProcess(),-1,-1);
+	SetProcessWorkingSetSize(::GetCurrentProcess(), -1, -1);
 
-		return; 
+	return;
+}
+	else if (msg.pSender == m_pMaxBtn) {
+		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); return;
 	}
-	else if( msg.pSender == m_pMaxBtn ) { 
-		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); return; }
-	else if( msg.pSender == m_pRestoreBtn ) { 
-		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return; }
-	else if(msg.pSender->GetName() == _T("btnAbout")) 
+	else if (msg.pSender == m_pRestoreBtn) {
+		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return;
+	}
+	else if (msg.pSender->GetName() == _T("btnAbout"))
 	{
 		//ShowAboutWnd();
 		return;
@@ -332,7 +329,7 @@ void CMainFrame::OnSelectChanged(TNotifyUI &msg)
 		//if (pCtrl == NULL) return;
 
 		//static_cast<CTabLayoutUI*>(pCtrl)->SelectItem(1);
-//
+		//
 		//ShowMainVideoWnd(true);
 	}
 

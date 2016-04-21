@@ -4,7 +4,7 @@
 #pragma once
 
 #include "small_menu.h"
-
+#include "login_event.h"
 
 
 
@@ -22,11 +22,9 @@ public:
 		delete this;
 	};
 
-	void Init();
-	void LoginStart();
+
 
 	void Notify(TNotifyUI& msg);
-
 	LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 	LRESULT OnNcActivate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
@@ -37,11 +35,11 @@ public:
 	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 	LRESULT OnMenuHandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-	
+
 
 public:
 	CPaintManagerUI m_pm;
-	CSmallMenu m_hLoginMenu;
+	CLoginEvent *m_loginEv;
 
 
 };

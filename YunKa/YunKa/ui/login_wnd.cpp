@@ -4,8 +4,10 @@
 
 
 
-CLoginWnd::CLoginWnd() 
-{ 
+
+CLoginWnd::CLoginWnd()
+{
+	m_loginEv = new CLoginEvent(m_pm);
 }
 
 
@@ -14,102 +16,22 @@ CLoginWnd::~CLoginWnd()
 }
 
 
-void CLoginWnd::Init() {
-	/*
-	CComboUI* pAccountCombo = static_cast<CComboUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_COMBO));
-	CEditUI* pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_EDIT));
-	if (pAccountCombo && pAccountEdit) pAccountEdit->SetText(pAccountCombo->GetText());
-	pAccountEdit->SetFocus();
-	*/
 
-
-	m_hLoginMenu.Init();
-	m_hLoginMenu.CreateSmallIcon(this->GetHWND(), _T("E:\\Moliyun\\bin\\SkinRes\\small.ico"));
-
-#if 0
-	string path = GetCurrentPath()+"\\Res\\login\\1.ico";
-	WCHAR pathIcon[256];
-	_tcscpy(pathIcon, ANSIToUnicode(path.c_str()));
-	m_hLoginMenu.Init();
-	m_hLoginMenu.CreateSmallIcon(this->GetHWND(), pathIcon);
-
-
-	CComboUI* pAccountCombo = static_cast<CComboUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_COMBO));
-	CEditUI* pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_EDIT));
-	if (pAccountCombo && pAccountEdit)
-		pAccountEdit->SetText(DEBUG_USERNAME_TEXT);
-
-	CEditUI* pWordEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_PASSWORD_TEXT_EDIT));
-	if (pWordEdit)
-		pWordEdit->SetText(DEBUG_PASSWORD_TEXT);
-	//pAccountEdit->SetFocus();
-
-#endif
-
-
-	/*
-	CDuiString strIcon(_T("res\\2.ico"));
-
-
-	HICON hIconSmall = (HICON)::LoadImage(GetModuleHandle(NULL),
-		strIcon.GetData(),
-		IMAGE_ICON,
-		48,//::GetSystemMetrics(SM_CXSMICON),
-		48,//::GetSystemMetrics(SM_CYSMICON),
-		LR_LOADFROMFILE);
-
-	::SetIcon(hIconSmall,false);
-	*/
-
-
-}
-
-void CLoginWnd::LoginStart()
-{
-#if 0
-	CEditUI* pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_EDIT));
-	if (pAccountEdit)
-	{
-		CDuiString userName = pAccountEdit->GetText();
-		strcpy(_GlobalSetting.m_loginRequest.user_name , UnicodeToANSI(userName.GetData()));
-	}
-	CEditUI* pWordEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_PASSWORD_TEXT_EDIT));
-	if (pWordEdit)
-	{
-		CDuiString passWord = pWordEdit->GetText();
-		strcpy(_GlobalSetting.m_loginRequest.password , UnicodeToANSI(passWord.GetData()));
-	}
-	_GlobalSetting.m_interference->Login(_GlobalSetting.m_loginRequest, _GlobalSetting.m_loginResponse);
-
-	if (_GlobalSetting.m_loginResponse.code == 1 ) //登录成功
-	{
-		m_hLoginMenu.DeleteSmallIcon();
-		Close();
-	}
-	else
-	{
-
-		//失败
-	}
-
-#endif
-
-
-	m_hLoginMenu.DeleteSmallIcon();
-
-	Close();
-	
-}
 
 
 void CLoginWnd::Notify(TNotifyUI& msg)
 {
+	m_loginEv->Notify(msg);
 
+	if (m_loginEv->Start(msg) == 0)
+		Close();
+
+#if 0
 	if (msg.sType == DUI_MSGTYPE_CLICK)
 	{
 		if (msg.pSender->GetName() == DEF_CLOSE_WND_BUTTON || msg.pSender->GetName() == DEF_CANCEL_WND_BUTTON)
 		{
-			//m_hLoginMenu.DeleteSmallIcon();
+			m_hLoginMenu.DeleteSmallIcon();
 			PostQuitMessage(0);
 			return;
 		}
@@ -118,17 +40,18 @@ void CLoginWnd::Notify(TNotifyUI& msg)
 			LoginStart();
 			return;
 		}
-	
+
 	}
-	else if (msg.sType == DUI_MSGTYPE_ITEMSELECT) 
+	else if (msg.sType == DUI_MSGTYPE_ITEMSELECT)
 	{
-		if (msg.pSender->GetName() == DEF_ACCOUNT_ID_COMBO) 
+		if (msg.pSender->GetName() == DEF_ACCOUNT_ID_COMBO)
 		{
 			CEditUI* pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_EDIT));
 			if (pAccountEdit) pAccountEdit->SetText(msg.pSender->GetText());
 		}
 	}
 
+#endif
 }
 
 LRESULT CLoginWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -140,14 +63,20 @@ LRESULT CLoginWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHand
 	m_pm.Init(m_hWnd);
 	m_pm.AddPreMessageFilter(this);
 	CDialogBuilder builder;
-	
+
 	CControlUI* pRoot = builder.Create(_GLOBAL_LOGIN_UI_CONFIG_FILE, (UINT)0, 0, &m_pm);
 	ASSERT(pRoot && "Failed to parse XML");
 	m_pm.AttachDialog(pRoot);
 	m_pm.AddNotifier(this);
 	//SetIcon(101);
 
-	Init();
+
+	m_loginEv->Init(this->GetHWND());
+
+
+
+
+
 	return 0;
 }
 
@@ -214,7 +143,7 @@ LRESULT CLoginWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_NCPAINT:       lRes = OnNcPaint(uMsg, wParam, lParam, bHandled); break;
 	case WM_NCHITTEST:     lRes = OnNcHitTest(uMsg, wParam, lParam, bHandled); break;
 	case WM_SIZE:          lRes = OnSize(uMsg, wParam, lParam, bHandled); break;
-	case WM_MY_MESSAGE_NOTIFYICON:    lRes = m_hLoginMenu.HandleCustomMessage(uMsg, wParam, lParam); break;
+	case WM_MY_MESSAGE_NOTIFYICON:    lRes = m_loginEv->HandleCustomMessage(uMsg, wParam, lParam); break;
 	default:
 		bHandled = FALSE;
 	}
@@ -247,21 +176,21 @@ LRESULT CLoginWnd::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool&
 #endif
 
 
-		m_hLoginMenu.HandleCustomMessage(uMsg, wParam, lParam);
+	//m_hLoginMenu.HandleCustomMessage(uMsg, wParam, lParam);
 
 #if 0
-//	m_hLoginMenu.HandleCustomMessage(uMsg, wParam, lParam);
+	//	m_hLoginMenu.HandleCustomMessage(uMsg, wParam, lParam);
 
 	if (uMsg == WM_COMMAND)
 	{
 		switch (LOWORD(wParam))
 		{
-	//	case IDM_MENU_QUIT: //退出
+			//	case IDM_MENU_QUIT: //退出
 
-			
+
 			break;
 
-	//	case IDM_MENU_RELOGIN: //重新登录
+			//	case IDM_MENU_RELOGIN: //重新登录
 
 			break;
 

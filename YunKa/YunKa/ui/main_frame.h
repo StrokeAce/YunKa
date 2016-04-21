@@ -3,6 +3,8 @@
 
 #pragma once
 #include <map>
+#include "main_frame_event.h"
+
 
 // 将HWND显示到CControlUI上面
 class CWndUI : public CControlUI
@@ -90,7 +92,6 @@ public:
 	DUI_DECLARE_MESSAGE_MAP()
 
 		virtual void OnClick(TNotifyUI& msg);
-
 	virtual void OnSelectChanged(TNotifyUI &msg);
 	virtual void OnItemClick(TNotifyUI &msg);
 	void OnItemRbClick(TNotifyUI &msg);
@@ -99,13 +100,16 @@ public:
 	virtual void OnMouseEnter(TNotifyUI& msg);
 	virtual void OnItemSelect(TNotifyUI &msg);
 
+
+
 protected:
 
 	void Notify(TNotifyUI& msg);
 	void OnPrepare(TNotifyUI& msg);
 	void OnExit(TNotifyUI& msg);
 
-
+private:
+	CMainFrameEvent *m_frameEvent;
 
 };
 

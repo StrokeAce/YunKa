@@ -63,6 +63,27 @@
     <ClInclude Include="ui_common\small_menu.h">
       <Filter>头文件\ui_common</Filter>
     </ClInclude>
+    <ClInclude Include="ui\button_ex_ui.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\login_event.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\main_frame_event.h">
+      <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_common\common_utility.h">
+      <Filter>头文件\ui_common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_common\global_setting.h">
+      <Filter>头文件\ui_common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_common\path.h">
+      <Filter>头文件\ui_common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_common\utils.h">
+      <Filter>头文件\ui_common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -84,6 +105,27 @@
       <Filter>源文件\ui</Filter>
     </ClCompile>
     <ClCompile Include="ui_common\small_menu.cpp">
+      <Filter>源文件\ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\button_ex_ui.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\login_event.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\main_frame_event.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\common_utility.cpp">
+      <Filter>源文件\ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\global_setting.cpp">
+      <Filter>源文件\ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\path.cpp">
+      <Filter>源文件\ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\utils.cpp">
       <Filter>源文件\ui_common</Filter>
     </ClCompile>
   </ItemGroup>

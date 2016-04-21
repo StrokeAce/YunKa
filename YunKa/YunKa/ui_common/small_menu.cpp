@@ -6,7 +6,6 @@
 
 
 
-
 CSmallMenu::CSmallMenu()
 {
 
@@ -29,12 +28,12 @@ void CSmallMenu::Init()
 }
 
 
-void CSmallMenu::CreateSmallIcon(HWND hWnd,WCHAR *path)
+void CSmallMenu::CreateSmallIcon(HWND hWnd, WCHAR *path)
 {
 
 	m_hMenuWnd = hWnd;
 	HICON hIconSmall = (HICON)::LoadImage(GetModuleHandle(NULL),
-		path,//_T("E:\\WeiBo_3\\client\\micprj\\WeiBoTest\\Debug\\ShinRes_9158\\huaren.ico"),
+		path,
 		IMAGE_ICON,
 		48,//::GetSystemMetrics(SM_CXSMICON),
 		48,//::GetSystemMetrics(SM_CYSMICON),
@@ -63,7 +62,7 @@ void CSmallMenu::DeleteSmallIcon()
 
 
 
-void CSmallMenu::CreateMyAppMenu( POINT point)
+void CSmallMenu::CreateMyAppMenu(POINT point)
 {
 
 	//TrackPopupMenu(hMenu, TPM_LEFTALIGN, point.x, point.y - 5, 0, m_hMenuWnd, NULL);
@@ -101,8 +100,8 @@ LRESULT CSmallMenu::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		else if (uMouseMsg == WM_LBUTTONDBLCLK)
 		{
 			printf("显示主窗口");
-			//SendMessage(m_hMenuWnd, WM_ACTIVATE, SC_RESTORE, 0);
-			//ShowWindow(m_hMenuWnd, SW_SHOW);
+			SendMessage(m_hMenuWnd, WM_ACTIVATE, SC_RESTORE, 0);
+			ShowWindow(m_hMenuWnd, SW_SHOW);
 			return 0L;
 		}
 		//右键弹起时，显示菜单
@@ -125,7 +124,7 @@ LRESULT CSmallMenu::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDM_MENU_RELOGIN:
-			
+
 			break;
 
 		default:

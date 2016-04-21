@@ -53,7 +53,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>./ui;./ui_common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -88,13 +88,20 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="ui\button_ex_ui.h" />
+    <ClInclude Include="ui\login_event.h" />
     <ClInclude Include="ui\login_wnd.h" />
     <ClInclude Include="ui\main_frame.h" />
+    <ClInclude Include="ui\main_frame_event.h" />
     <ClInclude Include="ui\observer_impl_base.hpp" />
     <ClInclude Include="ui\ui_crack.h" />
     <ClInclude Include="ui\ui_menu.h" />
+    <ClInclude Include="ui_common\common_utility.h" />
+    <ClInclude Include="ui_common\global_setting.h" />
     <ClInclude Include="ui_common\global_setting_define.h" />
+    <ClInclude Include="ui_common\path.h" />
     <ClInclude Include="ui_common\small_menu.h" />
+    <ClInclude Include="ui_common\utils.h" />
     <ClInclude Include="YunKa.h" />
   </ItemGroup>
   <ItemGroup>
@@ -102,11 +109,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ui\button_ex_ui.cpp" />
+    <ClCompile Include="ui\login_event.cpp" />
     <ClCompile Include="ui\login_wnd.cpp" />
     <ClCompile Include="ui\main_frame.cpp" />
+    <ClCompile Include="ui\main_frame_event.cpp" />
     <ClCompile Include="ui\ui_crack.cpp" />
     <ClCompile Include="ui\ui_menu.cpp" />
+    <ClCompile Include="ui_common\common_utility.cpp" />
+    <ClCompile Include="ui_common\global_setting.cpp" />
+    <ClCompile Include="ui_common\path.cpp" />
     <ClCompile Include="ui_common\small_menu.cpp" />
+    <ClCompile Include="ui_common\utils.cpp" />
     <ClCompile Include="YunKa.cpp" />
   </ItemGroup>
   <ItemGroup>
