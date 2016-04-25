@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YunKa", "YunKa\YunKa.vcxproj", "{7FF54136-337D-4745-804F-B1D5AB465995}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MlyClient", "..\UI\MlyClient\MlyClient\MlyClient.vcxproj", "{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DuiLib", "thirdlib\duilib\DuiLib.vcxproj", "{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "emocss", "..\..\..\TQPro\src\emocss.vcxproj", "{FED7EB02-5069-40EE-ABE8-D9A9E4531AB0}"
@@ -30,16 +28,6 @@ Global
 		{7FF54136-337D-4745-804F-B1D5AB465995}.UnicodeDebug|Win32.Build.0 = Debug|Win32
 		{7FF54136-337D-4745-804F-B1D5AB465995}.UnicodeRelease|Win32.ActiveCfg = Release|Win32
 		{7FF54136-337D-4745-804F-B1D5AB465995}.UnicodeRelease|Win32.Build.0 = Release|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.Debug|Win32.Build.0 = Debug|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.Release|Win32.ActiveCfg = Release|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.Release|Win32.Build.0 = Release|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.Template|Win32.ActiveCfg = Release|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.Template|Win32.Build.0 = Release|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.UnicodeDebug|Win32.ActiveCfg = Debug|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.UnicodeDebug|Win32.Build.0 = Debug|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.UnicodeRelease|Win32.ActiveCfg = Release|Win32
-		{F5A1BDEA-2872-46E7-97DA-DE325B7C945D}.UnicodeRelease|Win32.Build.0 = Release|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|Win32.Build.0 = Debug|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Release|Win32.ActiveCfg = Release|Win32

@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../thirdlib/duilib;$(IncludePath)</IncludePath>
-    <LibraryPath>../lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>../thirdlib/duilib;../thirdlib/zlib/include;$(IncludePath)</IncludePath>
+    <LibraryPath>../lib;../thirdlib/zlib/lib;$(LibraryPath)</LibraryPath>
     <OutDir>../bin</OutDir>
     <IntDir>../Build/Debug/</IntDir>
   </PropertyGroup>
