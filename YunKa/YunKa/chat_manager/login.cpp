@@ -34,6 +34,8 @@ void CLogin::StartLogin(string loginName, string password, bool isAutoLogin, boo
 		return;
 	}
 
+	m_manager->m_baseMsgs->LoginProgress(20);
+
 	if (!IsNumber(loginName))
 	{
 		m_nLoginBy = LOGIN_BYSTRING;
@@ -213,8 +215,11 @@ bool CLogin::LoginToRealServer(string strServer, int nPort, unsigned int uin)
 	if ((nError = ConnectToServer(strServer, nPort)) != 0)
 		return false;
 
+	m_manager->m_baseMsgs->LoginProgress(40);
+
 	if ((nError = SendLoginInfo(uin)) != 0)
 		return false;
+	m_manager->m_baseMsgs->LoginProgress(60);
 	return true;
 }
 

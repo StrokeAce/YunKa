@@ -177,6 +177,7 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 		{
 			goto FAIL;
 		}
+		m_baseMsgs->LoginProgress(80);
 		break;
 	case CMD_SRV_REP_USERINFO: // 用户信息包
 		nError = RecvSrvRepUserinfo(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
@@ -186,6 +187,7 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 		{
 			goto FAIL;
 		}
+		m_baseMsgs->LoginProgress(100);
 		break;
 	case CMD_SRV_DENY_LOGON: // 拒绝登录
 		nError = RecvSrvDenyLogon(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen, nErrType);
@@ -344,7 +346,7 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 
 	CTimer* time = new CTimer();
 	m_mapTimers.insert(map<string, CTimer*>::value_type("userInfo", time));
-	time->Start(3000, CChatManager::TimerProc, this);
+	time->Start(1000, CChatManager::TimerProc, this);
 
 	nError = 0;
 RETURN:
