@@ -36,15 +36,19 @@
 //login wnd control
 #define     DEF_CANCEL_WND_BUTTON													_T("cancelBtn")
 #define     DEF_LOGIN_WND_BUTTON													_T("loginBtn")
-#define     DEF_ACCOUNT_ID_COMBO													_T("accountcombo")
-#define     DEF_ACCOUNT_ID_EDIT														_T("accountedit")
-#define     DEF_PASSWORD_TEXT_EDIT													_T("pwdedit")
+#define     DEF_ACCOUNT_ID_COMBO													_T("accountCombo")
+#define     DEF_ACCOUNT_ID_EDIT														_T("accountEdit")
+#define     DEF_PASSWORD_TEXT_EDIT													_T("pwdEdit")
 
-#define     DEF_CLOSE_WND_BUTTON													_T("closebtn")
+#define     DEF_CLOSE_WND_BUTTON													_T("closeBtn")
 #define     DEF_CLOSE_WND_BUTTON_2													_T("closebtn2")
-#define     DEF_MIN_WND_BUTTON														_T("minbtn")
-#define     DEF_RESTORE_WND_BUTTON													_T("restorebtn")
-#define     DEF_MAX_WND_BUTTON														_T("maxbtn")
+#define     DEF_MIN_WND_BUTTON														_T("minBtn")
+#define     DEF_RESTORE_WND_BUTTON													_T("restoreBtn")
+#define     DEF_MAX_WND_BUTTON														_T("maxBtn")
+
+
+
+
 
 
 

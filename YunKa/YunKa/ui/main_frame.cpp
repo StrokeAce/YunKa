@@ -19,7 +19,7 @@ DUI_END_MESSAGE_MAP()
 
 CMainFrame::CMainFrame()
 {
-	m_frameEvent = new CMainFrameEvent(m_PaintManager);
+	m_frameEvent = new CMainFrameEvent(m_PaintManager,m_hWnd);
 }
 
 CMainFrame::~CMainFrame()
@@ -40,7 +40,7 @@ CControlUI* CMainFrame::CreateControl(LPCTSTR pstrClass)
 void CMainFrame::OnFinalMessage(HWND hWnd)
 {
 	WindowImplBase::OnFinalMessage(hWnd);
-	delete this;
+	//delete this;
 }
 
 
@@ -105,6 +105,11 @@ LRESULT CMainFrame::ResponseDefaultKeyEvent(WPARAM wParam)
 	return FALSE;
 }
 
+LRESULT CMainFrame::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+
+	return __super::HandleMessage(uMsg, wParam, lParam);
+}
 
 LRESULT CMainFrame::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
@@ -137,18 +142,20 @@ LPCTSTR CMainFrame::GetResourceID() const
 }
 
 
-
-void CMainFrame::Notify(TNotifyUI& msg)
-{
-
-	m_frameEvent->Notify(msg);
-
-	return WindowImplBase::Notify(msg);
-}
-
 #if 0
 void CMainFrame::Notify(TNotifyUI& msg)
 {
+
+	
+
+	return WindowImplBase::Notify(msg);
+}
+#endif
+
+void CMainFrame::Notify(TNotifyUI& msg)
+{
+	m_frameEvent->Notify(msg);
+
 	if (_tcsicmp(msg.sType, _T("windowinit")) == 0)
 	{
 		OnPrepare(msg);
@@ -179,7 +186,7 @@ void CMainFrame::Notify(TNotifyUI& msg)
 	}
 
 }
-#endif
+
 
 
 void CMainFrame::OnTimer(TNotifyUI& msg)
@@ -197,17 +204,59 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 
 }
+#include "IImageOle.h"
 
 void CMainFrame::InitWindow()
 {
-	m_frameEvent->InitWindow(this->GetHWND());
+	m_frameEvent->InitWindow(m_hWnd);
+
+
+	CRichEditUI* m_pSendEdit;
+	m_pSendEdit = static_cast<CRichEditUI*>(m_PaintManager.FindControl(_T("richSend")));
+
+
+
+	IRichEditOleCallback2* pRichEditOleCallback2 = NULL;
+
+	/*
+	HRESULT hr = ::CoCreateInstance(CLSID_ImageOle, NULL, CLSCTX_INPROC_SERVER,
+		__uuidof(IRichEditOleCallback2), (void**)&pRichEditOleCallback2);
+	if (SUCCEEDED(hr))
+	{
+		pRichEditOleCallback2->SetNotifyHwnd(m_hWnd);
+		ITextServices * pTextServices = m_pRecvEdit->GetTextServices();
+		pRichEditOleCallback2->SetTextServices(pTextServices);
+		pTextServices->Release();
+		m_pRecvEdit->SetOleCallback(pRichEditOleCallback2);
+		pRichEditOleCallback2->Release();
+	}
+
+	*/
+
+	pRichEditOleCallback2 = NULL;
+	HRESULT hr = ::CoCreateInstance(CLSID_ImageOle, NULL, CLSCTX_INPROC_SERVER,
+		__uuidof(IRichEditOleCallback2), (void**)&pRichEditOleCallback2);
+	if (SUCCEEDED(hr))
+	{
+		pRichEditOleCallback2->SetNotifyHwnd(m_hWnd);
+		ITextServices * pTextServices = m_pSendEdit->GetTextServices();
+		pRichEditOleCallback2->SetTextServices(pTextServices);
+		pTextServices->Release();
+		m_pSendEdit->SetOleCallback(pRichEditOleCallback2);
+		pRichEditOleCallback2->Release();
+	}
+
+	IDropTarget *pdt = m_pSendEdit->GetTxDropTarget();
+	hr = ::RegisterDragDrop(m_hWnd, pdt);
+	pdt->Release();
+
 }
 
 void CMainFrame::OnClick(TNotifyUI& msg)
 {
 
 #if 1
-	//m_frameEvent->Notify(msg);
+	m_frameEvent->OnClick(msg,m_hWnd);
 	if (msg.pSender->GetName() == DEF_CLOSE_WND_BUTTON)
 	{
 		Close();

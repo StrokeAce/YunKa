@@ -122,6 +122,12 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="timer\timer.h" />
     <ClInclude Include="ui\button_ex_ui.h" />
+    <ClInclude Include="ui\face_ctrl.h" />
+    <ClInclude Include="ui\face_list.h" />
+    <ClInclude Include="ui\face_sel_dlg.h" />
+    <ClInclude Include="ui\file_dialog_ex.h" />
+    <ClInclude Include="ui\gif_image.h" />
+    <ClInclude Include="ui\IImageOle.h" />
     <ClInclude Include="ui\login_event.h" />
     <ClInclude Include="ui\login_wnd.h" />
     <ClInclude Include="ui\main_frame.h" />
@@ -129,6 +135,7 @@
     <ClInclude Include="ui\observer_impl_base.hpp" />
     <ClInclude Include="ui\ui_crack.h" />
     <ClInclude Include="ui\ui_menu.h" />
+    <ClInclude Include="ui\xml_document.h" />
     <ClInclude Include="ui_common\common_utility.h" />
     <ClInclude Include="ui_common\global_setting.h" />
     <ClInclude Include="ui_common\global_setting_define.h" />
@@ -172,12 +179,18 @@
     </ClCompile>
     <ClCompile Include="timer\timer.cpp" />
     <ClCompile Include="ui\button_ex_ui.cpp" />
+    <ClCompile Include="ui\face_ctrl.cpp" />
+    <ClCompile Include="ui\face_list.cpp" />
+    <ClCompile Include="ui\face_sel_dlg.cpp" />
+    <ClCompile Include="ui\file_dialog_ex.cpp" />
+    <ClCompile Include="ui\gif_image.cpp" />
     <ClCompile Include="ui\login_event.cpp" />
     <ClCompile Include="ui\login_wnd.cpp" />
     <ClCompile Include="ui\main_frame.cpp" />
     <ClCompile Include="ui\main_frame_event.cpp" />
     <ClCompile Include="ui\ui_crack.cpp" />
     <ClCompile Include="ui\ui_menu.cpp" />
+    <ClCompile Include="ui\xml_document.cpp" />
     <ClCompile Include="ui_common\common_utility.cpp" />
     <ClCompile Include="ui_common\global_setting.cpp" />
     <ClCompile Include="ui_common\path.cpp" />
