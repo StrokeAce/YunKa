@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../thirdlib/duilib;../thirdlib/zlib/include;$(IncludePath)</IncludePath>
-    <LibraryPath>../lib;../thirdlib/zlib/lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>../thirdlib/duilib;../thirdlib/zlib/include;../thirdlib/libcef;$(IncludePath)</IncludePath>
+    <LibraryPath>../lib;../thirdlib/zlib/lib;../thirdlib/libcef/debug;$(LibraryPath)</LibraryPath>
     <OutDir>../bin</OutDir>
     <IntDir>../Build/Debug/</IntDir>
   </PropertyGroup>
@@ -66,7 +66,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>duilib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>duilib.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;libcef.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,6 +109,7 @@
     <ClInclude Include="chat_common\comobject.h" />
     <ClInclude Include="chat_common\comstruct.h" />
     <ClInclude Include="chat_common\wx_obj.h" />
+    <ClInclude Include="chat_manager\chat_history_msg.h" />
     <ClInclude Include="chat_manager\chat_manager.h" />
     <ClInclude Include="chat_manager\chat_objects.h" />
     <ClInclude Include="chat_manager\login.h" />

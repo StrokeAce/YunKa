@@ -2,7 +2,7 @@
 #include "tstring.h"
 
 #include "pack.h"
-#include "../chat_common/commtran.h"
+#include "../chat_common/comtran.h"
 #include "encrypt.h"
 
 CPack::CPack()

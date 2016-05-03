@@ -1,6 +1,6 @@
 #include "socket.h"
 #include "../chat_common/commsg.h"
-#include "../chat_common/commcom.h"
+#include "../chat_common/comcom.h"
 #include "encrypt.h"
 #include "../chat_common/comfunc.h"
 #include <process.h>

@@ -4,7 +4,7 @@
 #include "comfunc.h"
 #include "pack.h"
 #include "comcom.h"
-#include "commclt.h"
+#include "comclt.h"
 #include "tstring.h"
 
 //ÓÃ»§µÇÂ¼

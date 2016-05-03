@@ -2,7 +2,7 @@
 #include "login.h"
 #include "http_parse.h"
 #include "./chat_manager.h"
-#include "../chat_common/commclt.h"
+#include "../chat_common/comclt.h"
 #include "auth_error.h"
 
 CLogin::CLogin()

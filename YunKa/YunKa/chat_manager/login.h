@@ -4,7 +4,7 @@
 #include "auth_client.h"
 #include "../chat_common/comobject.h"
 #include "../chat_common/comfunc.h"
-#include "../chat_common/commcom.h"
+#include "../chat_common/comcom.h"
 
 class CChatManager;
 
