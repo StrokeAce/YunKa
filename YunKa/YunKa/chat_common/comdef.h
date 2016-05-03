@@ -680,6 +680,7 @@
 
 
 #define SYS_ERROR_MEMORY			100000
+#define SYS_ERROR_SEND_BEFORE_LOGIN	100001 // 发送了登录后才能发送的消息类型
 
 #define COMM_ERROR_SEG				400000
 #define COMM_DENYLOGIN_SEG			410000
@@ -945,19 +946,8 @@ typedef enum{
 
 //对象类型，目前可有三种对象
 #define OBJECT_UNKNOWN		0
-#define OBJECT_GROUP		1
-#define OBJECT_USER			2
-#define OBJECT_WEBUSER		3
-#define OBJECT_KEYWORDGROP	4
-#define OBJECT_MAIL			5
-#define OBJECT_MSG			6
-#define OBJECT_COMMODITY	7
-#define OBJECT_MEMO			8
-#define OBJECT_ADDRESS		9
-#define OBJECT_RECENT		11
-#define OBJECT_MEETING		12
-#define OBJECT_SHAREHD		13
-#define OBJECT_ANNOUNCEMENT	14
+#define OBJECT_USER			1
+#define OBJECT_WEBUSER		2 // web用户或者是微信用户
 
 //声音文件的类型
 #define SOUND_USERONLINE		0
@@ -1137,20 +1127,19 @@ typedef std::list<void *>	PtrList;
 #define REQUEST_TYPE_POST 2	/**< post方式 */ 
 
 /** 消息发送类型 */
-#define MSG_TYPE_SEND 1			/**< 自己发送的消息 */ 
-#define MSG_TYPE_RECV 2			/**< 对方发来的消息 */ 
-#define MSG_TYPE_SYS 3			/**< 系统提示消息 */ 
-#define MSG_TYPE_RECV_OTHER 4	/**< 协助对象发来的消息 */ 
+#define MSG_TYPE_NORMAL		1		/**< 普通消息 */ 
+#define MSG_TYPE_PREV		2		/**< 预知消息 */ 
+#define MSG_TYPE_SYS		3		/**< 系统提示消息 */
 
 /** 消息数据类型 */
 #define MSG_DATA_TYPE_TEXT 1		/**< 文字 */ 
-#define MSG_DATA_TYPE_IMAGE 2	/**< 图片 */ 
-#define MSG_DATA_TYPE_VOICE 3	/**< 语音 */ 
-#define MSG_DATA_TYPE_VIDEO 4	/**< 视频 */ 
+#define MSG_DATA_TYPE_IMAGE 2		/**< 图片 */ 
+#define MSG_DATA_TYPE_VOICE 3		/**< 语音 */ 
+#define MSG_DATA_TYPE_VIDEO 4		/**< 视频 */ 
 #define MSG_DATA_TYPE_LOCATION 5	/**< 位置 */ 
 #define MSG_DATA_TYPE_LINK 6		/**< 链接 */ 
-#define MSG_DATA_TYPE_EVENT 7	/**< 事件 */
-#define MSG_DATA_TYPE_FILE 8	/**< 文件 */
+#define MSG_DATA_TYPE_EVENT 7		/**< 事件 */
+#define MSG_DATA_TYPE_FILE 8		/**< 文件 */
 
 /** web页面标示符 */
 #define Handler_WebUrl "WebUrl"	// 历史记录等页面
@@ -1175,14 +1164,23 @@ typedef std::list<void *>	PtrList;
 #define Request_Url_AccessToken "AccessToken" // 获取微信公众号token
 
 /** 聊天用户的类型区分 */
-#define  User_Type_Client 1 // 坐席用户
-#define  User_Type_Wx 2	// 微信用户
-#define  User_Type_Web 3 // 网页用户
-#define  User_Type_WxGroup 4 // 微信群用户
+#define  MSG_FROM_CLIENT	1		// 坐席用户
+#define  MSG_FROM_USER		2		// 微信或web用户
+#define  MSG_FROM_ASSIST	3		// 协助对象
 
 // 录音操作的返回码
 #define CODE_AUDIO_SUCCESS 0 // 成功
 #define CODE_AUDIO_NO_DEVICE 1 // 没有录音设备
 #define CODE_AUDIO_FAIL 2 // 失败
+
+// 定时器名字
+#define TIMER_NAME_NORMAL "TIMER_NORMAL"
+#define TIMER_NAME_LOGIN "TIMER_LOGIN"
+
+
+
+#define FACE_PREFIX "<IMG src=\""
+#define FACE_ALT ".gif\" alt=\""
+#define FACE_SUFFIX "\" />"
 
 #endif

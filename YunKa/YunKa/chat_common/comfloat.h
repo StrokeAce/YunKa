@@ -11,9 +11,10 @@
 #if !defined _COMMFLOAT_EM
 #define _COMMFLOAT_EM
 
-#include "commcom.h"
+#include "comcom.h"
 #include "comdef.h"
 #include "comstruct.h"
+#include "wx_obj.h"
 #include <map>
 #include <vector>
 
@@ -162,19 +163,19 @@ public:
 	bool unpack();  //read
 
 public:
-	unsigned int uAdminId;	//管理员号码
-	unsigned int   webuin;  //访客uin
-	unsigned short nMsgType;//消息类型  2普通消息，3消息预知,4 客服正在输入
-	unsigned short nMsgDataType;//消息数据类型  1 文字，2 图片，3 语音，4 视频
-	unsigned int   tMsgTime;//消息发送时间
-	char chatid[MAX_CHATID_LEN+1];     //工单id，唯一区别一次会话
-	char			nickname[MAX_USERNAME_LEN+1];		// 手机号码, 发短消息使用，用户接受信息时用于姓名
-	char			strmsg[MAX_MSG_RECVLEN+1];		// 消息内容
-	char            strfontinfo[MAX_MSGFONT_LEN+1]; //字体信息 HTML,JSON=WX,CHSET=%u,H=%u,EF=%u,CR=%u,FN=%s
+	unsigned int		uAdminId;						//管理员号码
+	unsigned int		webuin;							//访客uin
+	unsigned short		nMsgType;						//消息类型  2普通消息，3消息预知,4 客服正在输入
+	unsigned short		nMsgDataType;					//消息数据类型  1 文字，2 图片，3 语音，4 视频
+	unsigned int		tMsgTime;						//消息发送时间
+	char				chatid[MAX_CHATID_LEN+1];		//工单id，唯一区别一次会话
+	char				nickname[MAX_USERNAME_LEN+1];	// 手机号码, 发短消息使用，用户接受信息时用于姓名
+	char				strmsg[MAX_MSG_RECVLEN+1];		// 消息内容
+	char				strfontinfo[MAX_MSGFONT_LEN+1]; //字体信息 HTML,JSON=WX,CHSET=%u,H=%u,EF=%u,CR=%u,FN=%s
 
 	//客户端版本大于6000
-	char	strRand[MAX_WEBCLIENID_LEN+1];  	//访客唯一标示 服务器版本>=3073支持
-	char	strThirdid[MAX_THIRDID_LEN+1];	//第三方id 服务器版本>=3073支持
+	char				strRand[MAX_WEBCLIENID_LEN+1];  //访客唯一标示 服务器版本>=3073支持
+	char				strThirdid[MAX_THIRDID_LEN+1];	//第三方id 服务器版本>=3073支持
 
 	WxObj* wxMsg;
 };

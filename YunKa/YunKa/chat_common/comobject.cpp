@@ -310,6 +310,27 @@ void CSysConfigFile::AddServerAddress(string strServer, bool bMoveToTop)
 	m_listServerAddress.push_back(strServer);
 }
 
+bool CSysConfigFile::IsWebuserSidForbid(string sid)
+{
+	if (sid.empty())
+		return false;
+
+	bool brtn = false;
+	
+	list<string>::iterator iter = m_listForbidWebUserSid.begin();
+
+	for (iter; iter != m_listForbidWebUserSid.end(); iter++)
+	{
+		if ((*iter) == sid)
+		{
+			brtn = true;
+			break;
+		}
+	}
+
+	return brtn;
+}
+
 CUserObject::CUserObject()
 {
 	
@@ -326,6 +347,45 @@ bool CUserObject::Load(unsigned short ver)
 }
 
 bool CUserObject::Save(unsigned short ver)
+{
+	return false;
+}
+
+bool CWebUserObject::Load(unsigned short ver)
+{
+	return false;
+}
+
+bool CWebUserObject::Save(unsigned short ver)
+{
+	return false;
+}
+
+void CWebUserObject::AddCommonTalkId(unsigned long uid)
+{
+	if (uid == NULL)
+		return;
+
+	if (IsExistCommonTalkId(uid))
+		return;
+
+	m_listCommonTalkId.push_back(uid);
+}
+
+bool CWebUserObject::IsExistCommonTalkId(unsigned long uid)
+{
+	list<unsigned long>::iterator iter = m_listCommonTalkId.begin();
+	for (iter; iter != m_listCommonTalkId.end(); iter++)
+	{
+		if ((*iter) == uid)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CWebUserObject::IsOnline()
 {
 	return false;
 }

@@ -2,6 +2,7 @@
 #define _COMMFUNCTION_EMC
 
 #include "comstruct.h"
+#include "wx_obj.h"
 
 unsigned long StringToDWORD(string str);
 
@@ -30,5 +31,20 @@ unsigned short SendOnePack(SOCKET socket, char *data, TCP_PACK_HEADER tcppackhea
 unsigned short SendOnePack(SOCKET socket, char *data, int len, int &nError, unsigned short cmd,
 	unsigned long senduid, unsigned long recvuid, unsigned long sendsock, unsigned long recvsock,
 	unsigned short seq);
+
+void ConvertMsg(char *msg, int buflen);
+
+void ConvertWidecharToChar(const WCHAR *pFrom, int len, char *pTo, int buflen, bool butf8);
+
+/*
+解析成功创建微信消息对象，
+用户用完需要delete该对象
+*/
+WxObj* ParseWxJsonMsg(const char* msg);
+
+//获取时间, 格式：MM-DD HH:MM:SS
+char *GetTimeStringMDAndHMS(unsigned long ntime, char *buff, char ymd = '-', char hms = ':');
+
+char *GetContentBetweenString(const char *str, const char *sstart, const char * send, char *content);
 
 #endif

@@ -4,7 +4,7 @@
 #include "comdef.h"
 #include "comstruct.h"
 #include "pack.h"
-#include "commtran.h"
+#include "comtran.h"
 
 //通讯包的头HEADER
 class COM_HEAD_PACK

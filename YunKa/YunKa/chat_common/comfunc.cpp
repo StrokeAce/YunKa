@@ -1,6 +1,7 @@
 #include "../stdafx.h"
 #include "comfunc.h"
 #include "comdef.h"
+#include "../utils/tstring.h"
 //#include <Psapi.h>
 
 //#pragma   comment(lib,"psapi.lib")
@@ -276,4 +277,177 @@ unsigned short SendOnePack(SOCKET socket, char *data, int len, int &nError, unsi
 
 
 	return SendOnePack(socket, data, tcppackhead, nError);
+}
+
+void ConvertMsg(char *msg, int buflen)
+{
+	wstring s = convertstring((const char *)msg);
+	ConvertWidecharToChar(s.c_str(), -1, msg, buflen, false);
+}
+
+
+void ConvertWidecharToChar(const WCHAR *pFrom, int len, char *pTo, int buflen, bool butf8)
+{
+	if (pFrom == NULL || pTo == NULL)
+		return;
+
+	if (len == 0)
+	{
+		strcpy(pTo, "");
+		return;
+	}
+
+	if (butf8)
+	{
+		len = ::WideCharToMultiByte(CP_UTF8, 0, pFrom, len, pTo, buflen, NULL, NULL);
+	}
+	else
+	{
+		len = ::WideCharToMultiByte(CP_ACP, 0, pFrom, len, pTo, buflen, NULL, NULL);
+	}
+
+	if (len > 0)
+		pTo[len] = '\0';
+	else
+	{
+		DWORD dd = GetLastError();
+	}
+
+	return;
+}
+
+WxObj* ParseWxJsonMsg(const char* msg)
+{
+	Json::Value jv;
+	if (!ParseJson(msg, jv))
+	{
+		return NULL;
+	}
+
+	string MsgType = GetStrFromJson(jv, "msgtype");
+	if (MsgType.empty())
+	{
+		return NULL;
+	}
+
+	WxObj  *pwxobj = NULL;
+	if ("text" == MsgType)
+	{
+		pwxobj = new WxMsgText(MsgType);
+	}
+	else if ("image" == MsgType)
+	{
+		pwxobj = new WxMsgImage(MsgType);
+	}
+	else if ("voice" == MsgType)
+	{
+		pwxobj = new WxMsgVoice(MsgType);
+	}
+	else if ("video" == MsgType || "shortvideo" == MsgType)
+	{
+		pwxobj = new WxMsgVideo(MsgType);
+	}
+	else if ("location" == MsgType)
+	{
+		pwxobj = new WxMsgLocation(MsgType);
+	}
+	else if ("link" == MsgType)
+	{
+		pwxobj = new WxMsgLink(MsgType);
+	}
+	else if ("news" == MsgType)
+	{
+		pwxobj = new WxMsgNews(MsgType);
+	}
+	else if ("event" == MsgType)
+	{
+		string szEvent = GetStrFromJson(jv, "event");
+
+		if ("subscribe" == szEvent || "unsubscribe" == szEvent || "SCAN" == szEvent)
+		{
+			pwxobj = new WxEventSubscribe(MsgType);
+		}
+		else if ("CLICK" == szEvent || "VIEW" == szEvent)
+		{
+			pwxobj = new WxEventMenu(MsgType);
+		}
+		else if ("LOCATION" == szEvent)
+		{
+			pwxobj = new WxEventLocation(MsgType);
+
+		}
+		else if ("MASSSENDJOBFINISH" == szEvent)
+		{
+			pwxobj = new WxEventMasssendjobfinish(MsgType);
+		}
+	}
+	else if ("userinfo" == MsgType)
+	{
+		pwxobj = new WxUserInfo();
+	}
+	else if ("wxactoken" == MsgType)
+	{
+		pwxobj = new WxAccessTokenInfo();
+	}
+
+	if (pwxobj != NULL)
+	{
+		pwxobj->ParseFromJson(jv);
+	}
+
+	return pwxobj;
+}
+
+char * GetTimeStringMDAndHMS(unsigned long ntime, char *buff, char ymd /*= '-'*/, char hms /*= ':'*/)
+{
+	if (buff == NULL)
+		return NULL;
+
+	time_t tt;
+	if (ntime == 0)
+		tt = time(NULL);
+	else
+		tt = (time_t)(ntime);
+
+	struct tm * ttm = localtime(&tt);
+	if (ttm != NULL)
+	{
+		sprintf(buff, "%d%c%d %d%c%d%c%d", ttm->tm_mon + 1, ymd, ttm->tm_mday, ttm->tm_hour, hms, ttm->tm_min, hms, ttm->tm_sec);
+	}
+	else
+	{
+		sprintf(buff, "");
+	}
+
+	return buff;
+}
+
+char *GetContentBetweenString(const char *str, const char *sstart, const char * send, char *content)
+{
+	if (str == NULL || sstart == NULL || send == NULL || content == NULL)
+		return NULL;
+
+	strcpy(content, "");
+	char *p1, *p2;
+
+	p1 = (char*)strstr(str, sstart);
+	if (p1 == NULL)
+		return NULL;
+
+	p2 = strstr(p1, send);
+	if (p2 == NULL)
+		strcpy(content, p1);
+	else
+	{
+		int len0 = strlen(sstart);
+		int len = p2 - p1 - len0;
+
+		if (len > 0)
+		{
+			memcpy(content, p1 + len0, len);
+			content[len] = '\0';
+		}
+	}
+
+	return content;
 }

@@ -2,11 +2,18 @@
 #define _COMOBJECT_EMC
 
 #include "comdef.h"
-#include "tstring.h"
+#include "string.h"
 #include "comstruct.h"
+#include "wx_obj.h"
 
 #include <list>     
 using namespace std;
+
+class IBaseReceive
+{
+public:
+	virtual void OnReceive(void* pHead, void* pData) = 0;
+};
 
 //初始设置
 class CSysConfigFile
@@ -32,8 +39,8 @@ public:
 
 public:
 	//通过登录号获得登录字符串
-	tstring GetStringFromUID(unsigned long uid);
-	unsigned long GetUIDFromString(int type, tstring strID);
+	string GestringFromUID(unsigned long uid);
+	unsigned long GetUIDFromString(int type, string strID);
 
 	//查看该用户在列表中的位置
 	int GetLoginInfoIndex(int type, unsigned long uid, string strID);
@@ -160,17 +167,19 @@ public:
 	string m_strKeywordsFind;
 };
 
-class CBaseObject
+class IBaseObject
 {
 public:
-	CBaseObject(){};
-	~CBaseObject(){};
+	IBaseObject(){};
+	~IBaseObject(){};
 
 	virtual bool Load(unsigned short ver)=0;
 	virtual bool Save(unsigned short ver)=0;
+
+	int m_nEMObType;
 };
 
-class CUserObject : public CBaseObject
+class CUserObject : public IBaseObject
 {
 public:
 	CUserObject();
@@ -223,10 +232,85 @@ public:
 	bool m_bInnerTalk;				//是否内部对话
 };
 
-class IBaseReceive
+class CWebUserObject : public IBaseObject
 {
 public:
-	virtual void OnReceive(void* pHead, void* pData) = 0;
+	CWebUserObject();
+	~CWebUserObject();
+
+	//个人信息
+	bool Load(unsigned short ver);
+	bool Save(unsigned short ver);
+
+	void AddCommonTalkId(unsigned long uid);
+
+	bool IsExistCommonTalkId(unsigned long uid);
+
+	bool IsOnline();
+
+public:
+	unsigned char	m_bNewComm;					//新协议
+	unsigned short  m_sNewSeq;					//新协议,当前接受的消息id
+	int				m_nIndex;					//用于标示用户个数的数字
+	WEBUSER_INFO	info;
+	WEBONLINE_INFO	onlineinfo;
+	unsigned long	webuserid;
+	unsigned long	floatadminuid;				//漂浮框管理员号码
+	int				nlangtype;					//字符集
+	unsigned long	floatfromadminuid;			//会话来源网站管理员
+	unsigned short	floatfromsort;				//会话来信漂浮框id
+	char			chatid[MAX_CHATID_LEN + 1];	//工单id，唯一区别一次会话
+	unsigned short	gpid;
+
+	//以下信息用于用户第一次上线是使用
+	unsigned long 	talkuid;					//对话的用户 第一次对话用户
+	unsigned long 	transferuid;				//要转接的用户
+	unsigned long 	inviteuid;					//邀请的用户。默认为SYS_WEBUSER
+	unsigned long 	frominviteuid;				//主动邀请的用户。
+
+	unsigned char	cTalkedSatus;				//0没有通过话，HASTALKED 1  通过话,INTALKING	2 正在通话中
+	//CMapStringToOb m_ListUrlAndScriptFlagOb;	// 判断web用户是否在线
+	list<unsigned long> m_listCommonTalkId;		// 共同对话的其他客服用户列表
+	unsigned char	m_bNotResponseUser;			//1 自己不是应答客服，0自己是应答客服
+	char prevurl[MAX_URL_LEN];
+	char prevurlhost[MAX_URL_LEN];
+	char prevurlvar[MAX_URL_LEN];
+	unsigned char	refuseinvite;				//用户拒绝过邀请， 但不包括自动邀请
+	int	m_nWaitTimer;							//邀请， 消息发送等待时的定时处理
+	int m_resptimeoutmsgtimer;					//访客未应答自动回复时间
+	int m_resptimeoutclosetimer;				//访客长时间未回复，开始自动关闭对话
+	int m_waitresptimeouttimer;					//客服未应答自动回复时间
+	//以下用于自动邀请
+	unsigned long m_onlinetime;					//上线的时间
+	time_t m_leaveTime;							// 用于排序 [12/14/2010 SC]
+	string m_strInfoHtml;
+	string m_strTail;
+	string m_strInfo;
+	string m_strPreSendMsg;
+	list<ONE_MSG_INFO> m_strMsgs;
+	bool m_bConnected;							//该用户已经和你建立连接，可以通讯了
+	bool m_bIsGetInfo;							// 是否已获取到信息
+public:
+	string m_strHistory;						//总的历史纪录的显示
+	string m_strTotal;
+	string m_strListMsg;
+	string m_strListInfo;
+	string m_strListTail;
+	int	nTimer;									//定时器
+	int nVisitFrom;								//访客来源
+	int nVisitNum;
+	int nTalkNum;
+	int nLastVisitTime;
+	unsigned long bak;
+	int m_nFlag;								//程序处理时使用变量
+	bool m_bIsShow;								//是否显示
+	bool m_bIsFrWX;								//是否来自微信
+	string m_sWxAppid;							//会话来源的微信appid
+	bool GetNormalChatHisMsgSuccess;			//控制历史消息
+	time_t tGetNormalChatHismsgTime;
+
+	WxUserInfo* m_pWxUserInfo;
 };
+
 
 #endif

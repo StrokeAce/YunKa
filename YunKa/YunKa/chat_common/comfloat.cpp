@@ -1,6 +1,6 @@
 #include "../stdafx.h"
-#include "commfloat.h"
-#include "commtran.h"
+#include "comfloat.h"
+#include "comtran.h"
 
 COM_FLOAT_CREATECHAT::COM_FLOAT_CREATECHAT(unsigned short ver,unsigned short sGpid)
 :COM_FLOAT_CHATPACK(CMD_FLOAT_CREATECHAT,ver,sGpid)
@@ -233,7 +233,7 @@ COM_FLOAT_CHATMSG::COM_FLOAT_CHATMSG(unsigned short ver,unsigned short sGpid)
 
 	strRand[0]=0;
 	strThirdid[0]=0;
-	wxMsg = NULL;
+	//wxMsg = NULL;
 }
 bool COM_FLOAT_CHATMSG::pack()
 {

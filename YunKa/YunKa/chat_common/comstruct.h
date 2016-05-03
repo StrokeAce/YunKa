@@ -492,25 +492,19 @@ struct WEBUSER_INFO
 	{
 		memset(this,0,sizeof(WEBUSER_INFO));
 	}
-	unsigned int	uid;				//这个编号没有意义了，为固定的SYS_WEBUSER = 9999
-	unsigned int	compid;				//公司编号
+	unsigned int	uid;							//这个编号没有意义了，为固定的SYS_WEBUSER = 9999
+	unsigned int	compid;							//公司编号
 	unsigned int	siteid;
-	char			sid[MAX_WEBCLIENID_LEN+1];	//这个为访客唯一标示
-	char			thirdid[MAX_THIRDID_LEN+1]; //第三方id
-	char	name[MAX_USERNAME_LEN+1];
-	char   nameflag;	//记录名字是否被修改 1 已修改
-
-//	char	scriptflag[MAX_SCRIPTFLAG_LEN];
-//	char	
-	
-	unsigned char	status;		// 0 TALKSTATUS_NO, 1 STATUS_OFFLINE 离线， 2 STATUS_ONLINE 在线， 9 TALKSTATUS_TALK 对话中
+	char			sid[MAX_WEBCLIENID_LEN+1];		//这个为访客唯一标示
+	char			thirdid[MAX_THIRDID_LEN+1];		//第三方id
+	char			name[MAX_USERNAME_LEN+1];
+	char			nameflag;						//记录名字是否被修改 1 已修改
+	unsigned char	status;							// 0 TALKSTATUS_NO, 1 STATUS_OFFLINE 离线， 2 在线， 9 对话中
 	char			sip[MAX_IPNUM_LEN+1];
-//	char			fromip[MAX_IPSTRING_LEN];
-	char			ipfromname[MAX_USERNAME_LEN+1];			//ip来源
-
-	char	url[MAX_URL_LEN+1];		//来源的url
-	char	title[MAX_URL_LEN+1];		//来源的url
-	char	chatfrom[MAX_CHATID_LEN + 1];
+	char			ipfromname[MAX_USERNAME_LEN+1];	//ip来源
+	char			url[MAX_URL_LEN+1];				//来源的url
+	char			title[MAX_URL_LEN+1];
+	char			chatfrom[MAX_CHATID_LEN + 1];
 };
 
 struct WEBUSER_UPINFO
@@ -997,5 +991,126 @@ struct RESEND_MSG_PARAMS
 	string fileId;			// 媒体文件在文件服务器的id
 	string filePath;		// 文件在本地存储路径
 };
+
+typedef struct {
+	const string raw, enc;
+} wx_face_t;
+
+static const string wx_face_null = string();
+
+static const wx_face_t wx_faces[] = {
+	{ "/::)", wx_face_null },	//微笑
+	{ "/::~", wx_face_null },	//撇嘴
+	{ "/::B", wx_face_null },	//色，美女
+	{ "/::|", wx_face_null },	//发呆
+	{ "/:8-)", wx_face_null },	//墨镜
+	{ "/::<", "/::&lt;" },		//流泪
+	{ "/::$", wx_face_null },	//害羞
+	{ "/::X", wx_face_null },	//闭嘴，哑
+	{ "/::Z", wx_face_null },	//睡觉
+	{ "/::'(", wx_face_null },	//哭
+	{ "/::-|", wx_face_null },	//尴尬，囧
+	{ "/::@", wx_face_null },	//愤怒
+	{ "/::P", wx_face_null },	//调皮
+	{ "/::D", wx_face_null },	//呲牙笑
+	{ "/::O", wx_face_null },	//惊讶
+
+	{ "/::(", wx_face_null },	//难过
+	{ "/::+", wx_face_null },	//酷
+	{ "/:--b", wx_face_null },	//冷汗
+	{ "/::Q", wx_face_null },	//抓狂
+	{ "/::T", wx_face_null },	//吐
+	{ "/:,@P", wx_face_null },	//偷笑
+	{ "/:,@-D", wx_face_null },	//愉快
+	{ "/::d", wx_face_null },	//白眼
+	{ "/:,@o", wx_face_null },	//骄傲
+	{ "/::g", wx_face_null },	//饿
+	{ "/:|-)", wx_face_null },	//困
+	{ "/::!", wx_face_null },	//惊恐
+	{ "/::L", wx_face_null },	//流汗
+	{ "/::>", "/::&gt;" },		//憨笑
+	{ "/::,@", wx_face_null },	//悠闲
+
+	{ "/:,@f", wx_face_null },	//奋斗
+	{ "/::-S", wx_face_null },	//咒骂
+	{ "/:?", wx_face_null },	//疑问
+	{ "/:,@x", wx_face_null },	//嘘，秘密
+	{ "/:,@@", wx_face_null },	//晕
+	{ "/::8", wx_face_null },	//疯了
+	{ "/:,@!", wx_face_null },	//衰
+	{ "/:!!!", wx_face_null },	//骷髅
+	{ "/:xx", wx_face_null },	//敲打
+	{ "/:bye", wx_face_null },	//再见
+	{ "/:wipe", wx_face_null },	//擦汗
+	{ "/:dig", wx_face_null },	//抠鼻
+	{ "/:handclap", wx_face_null },//鼓掌
+	{ "/:&-(", wx_face_null },	//糗大了
+	{ "/:B-)", wx_face_null },	//坏笑
+
+	{ "/:<@", "/:&lt;@" },		//左哼哼
+	{ "/:@>", "/:@&gt;" },		//右哼哼
+	{ "/::-O", wx_face_null },	//哈欠
+	{ "/:>-|", "/:&gt;-|" },	//鄙视
+	{ "/:P-(", wx_face_null },	//委屈
+	{ "/::'|", wx_face_null },	//快哭了
+	{ "/:X-)", wx_face_null },	//阴险
+	{ "/::*", wx_face_null },	//亲
+	{ "/:@x", wx_face_null },	//吓
+	{ "/:8*", wx_face_null },	//可怜
+	{ "/:pd", wx_face_null },	//菜刀
+	{ "/:<W>", "/:&lt;W&gt;" },	//西瓜
+	{ "/:beer", wx_face_null },	//啤酒
+	{ "/:basketb", wx_face_null },//篮球
+	{ "/:oo", wx_face_null },	//乒乓
+
+	{ "/:coffee", wx_face_null },//咖啡
+	{ "/:eat", wx_face_null },	//米饭
+	{ "/:pig", wx_face_null },	//猪头
+	{ "/:rose", wx_face_null },	//鲜花
+	{ "/:fade", wx_face_null },	//凋谢
+	{ "/:showlove", wx_face_null },//唇
+	{ "/:heart", wx_face_null },//爱心
+	{ "/:break", wx_face_null },//心碎
+	{ "/:cake", wx_face_null },	//蛋糕
+	{ "/:li", wx_face_null },	//闪电
+	{ "/:bome", wx_face_null },	//炸弹
+	{ "/:kn", wx_face_null },	//刀
+	{ "/:footb", wx_face_null },//足球
+	{ "/:ladybug", wx_face_null },//瓢虫
+	{ "/:shit", wx_face_null },	//便便
+
+	{ "/:moon", wx_face_null },	//月亮
+	{ "/:sun", wx_face_null },	//太阳
+	{ "/:gift", wx_face_null },	//礼物
+	{ "/:hug", wx_face_null },	//拥抱
+	{ "/:strong", wx_face_null },//赞
+	{ "/:weak", wx_face_null },	//弱
+	{ "/:share", wx_face_null },//握手
+	{ "/:v", wx_face_null },	//胜利
+	{ "/:@)", wx_face_null },	//抱拳
+	{ "/:jj", wx_face_null },	//勾引
+	{ "/:@@", wx_face_null },	//拳头
+	{ "/:bad", wx_face_null },	//差劲
+	{ "/:lvu", wx_face_null },	//爱你
+	{ "/:no", wx_face_null },	//NO
+	{ "/:ok", wx_face_null },	//OK
+
+	{ "/:love", wx_face_null },	//爱情
+	{ "/:<L>", "/:&lt;L&gt;" },	//飞吻
+	{ "/:jump", wx_face_null },	//跳
+	{ "/:shake", wx_face_null },//发抖
+	{ "/:<O>", "/:&lt;O&gt;" },	//怄火
+	{ "/:circle", wx_face_null },//转圈
+	{ "/:kotow", wx_face_null },//磕头
+	{ "/:turn", wx_face_null },	//回头
+	{ "/:skip", wx_face_null },	//跳绳
+	{ "/:&>", "/:&&gt;" },	//太极
+	{ "/:#-0", wx_face_null },	//激动
+	{ "/:hiphot", wx_face_null },//舞
+	{ "/:kiss", wx_face_null },	//献吻
+	{ "/:<&", "/:&lt;&" },	//瑜伽
+	{ "/:oY", wx_face_null },	//投降
+};
+
 
 #endif
