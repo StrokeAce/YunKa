@@ -1,8 +1,7 @@
 #ifndef  _TSTRING_H_
 #define  _TSTRING_H_
 
-namespace std
-{
+
 #ifdef _UNICODE	
 #define tstring wstring	
 #define tstringstream wstringstream
@@ -13,10 +12,7 @@ namespace std
 #define _taccess _access
 
 #endif
-	
 
-}
-
-
+wstring  convertstring(const string& s);
 
 #endif

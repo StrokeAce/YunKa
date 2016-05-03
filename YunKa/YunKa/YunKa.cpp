@@ -7,12 +7,74 @@
 #include "main_frame.h"
 #include "path.h"
 #include "utils.h"
-
+#include "chat_manager.h"
 
 
 Gdiplus::GdiplusStartupInput g_gdiplusStartupInput;
 ULONG_PTR g_gdiplusToken;
 
+
+class CRecv : public IBaseMsgs
+{
+public:
+	CRecv(){}
+
+	~CRecv(){}
+
+	virtual void LoginProgress(int percent)
+	{
+		if (percent == 100)
+		{
+			m_manager->SendTo_GetShareList();
+		}
+		else{}
+	}
+
+	// 收到一个坐席用户的信息,用来初始化坐席列表
+	virtual void RecvOneUserInfo(CUserObject* obj){}
+
+	// 收到一个新建的会话消息
+	virtual void RecvCreateChat(CWebUserObject* obj){}
+
+	// 收到一个会话消息
+	virtual void RecvChatInfo(CWebUserObject* obj){}
+
+	// 收到更新用户的在线状态
+	virtual void RecvUserStatus(CUserObject* obj){}
+
+	virtual string GetLastError(){ return ""; }
+
+	// 收到一条消息
+	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,
+		string msgContent, string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt){}
+
+	// 坐席上线消息
+	virtual void RecvOnline(CUserObject* obj){}
+
+	// 坐席下线消息
+	virtual void RecvOffline(CUserObject* obj){}
+
+	// 会话关闭
+	virtual void RecvCloseChat(){}
+
+	void start()
+	{
+		m_manager = CChatManager::GetInstance(this);
+
+		bool isAutoLogin = false;
+		string loginName = "9692111";
+		string password = "123";
+		bool isKeepPwd = false;
+
+		string error;
+
+		m_manager->StartLogin(loginName, password, isAutoLogin, isKeepPwd);
+		
+	}
+
+private:
+	CChatManager* m_manager;
+};
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -40,6 +102,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	HRESULT Hr = ::CoInitialize(NULL);
 	if (FAILED(Hr)) return 0;
+
+
+
+	CRecv* baseMsg = new CRecv();
+	baseMsg->start();
+
 
 #if 1
 	CLoginWnd* pLoginFrame = new CLoginWnd();
@@ -75,6 +143,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		//登录失败
 	}
 
+	
 
 	CPaintManagerUI::MessageLoop();
 

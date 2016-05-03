@@ -17,6 +17,10 @@ void CLogin::StartLogin(string loginName, string password, bool isAutoLogin, boo
 {
 	if (!CheckLoginInfo(loginName, password, isAutoLogin, isKeepPwd))
 	{
+		if (m_manager->m_baseMsgs)
+		{
+			m_manager->m_baseMsgs->LoginProgress(-1);
+		}
 		return;
 	}
 
@@ -31,10 +35,17 @@ void CLogin::StartLogin(string loginName, string password, bool isAutoLogin, boo
 	if (GetTqAuthToken(uin, loginName.c_str(), password.c_str()) != 1)
 	{
 		m_manager->m_lastError = "认证失败";
+		if (m_manager->m_baseMsgs)
+		{
+			m_manager->m_baseMsgs->LoginProgress(-1);
+		}
 		return;
 	}
 
-	m_manager->m_baseMsgs->LoginProgress(20);
+	if (m_manager->m_baseMsgs)
+	{
+		m_manager->m_baseMsgs->LoginProgress(20);
+	}
 
 	if (!IsNumber(loginName))
 	{
@@ -48,12 +59,20 @@ void CLogin::StartLogin(string loginName, string password, bool isAutoLogin, boo
 	if (CheckLoginFlag(uin, loginName))
 	{
 		m_manager->m_lastError = "该帐号在本地已经登录";
+		if (m_manager->m_baseMsgs)
+		{
+			m_manager->m_baseMsgs->LoginProgress(-1);
+		}
 		return;
 	}
 
 	// 登录
 	if (!LoginToRealServer(m_manager->m_server, m_manager->m_port, uin))
 	{
+		if (m_manager->m_baseMsgs)
+		{
+			m_manager->m_baseMsgs->LoginProgress(-1);
+		}
 	}
 }
 
@@ -84,7 +103,7 @@ int CLogin::GetTqAuthToken(unsigned int &uin, const char *szStrid, const char *s
 	char myip[100];
 
 	if (this->m_pTqAuthClient == NULL)
-		m_pTqAuthClient = new CTqAuthClient(m_manager->m_InitConfig.sAuthAddr, m_manager->m_InitConfig.nAuthPort, VERSION);
+		m_pTqAuthClient = new CTqAuthClient(m_manager->m_initConfig.sAuthAddr, m_manager->m_initConfig.nAuthPort, VERSION);
 	else if (strlen(m_szAuthtoken) > 0)
 	{
 		m_pTqAuthClient->Logout(m_szAuthtoken, recvbuf, nlen, butf8);
@@ -122,7 +141,7 @@ int CLogin::GetTqAuthToken(unsigned int &uin, const char *szStrid, const char *s
 
 	if (p.GetPostBodyParams(recvbuf, "adminid", t))
 	{
-		m_authadminid = atol(t.c_str());
+		m_authAdminid = atol(t.c_str());
 	}
 
 	if (p.GetPostBodyParams(recvbuf, "uin", t))
@@ -215,11 +234,17 @@ bool CLogin::LoginToRealServer(string strServer, int nPort, unsigned int uin)
 	if ((nError = ConnectToServer(strServer, nPort)) != 0)
 		return false;
 
-	m_manager->m_baseMsgs->LoginProgress(40);
+	if (m_manager->m_baseMsgs)
+	{
+		m_manager->m_baseMsgs->LoginProgress(40);
+	}
 
 	if ((nError = SendLoginInfo(uin)) != 0)
 		return false;
-	m_manager->m_baseMsgs->LoginProgress(60);
+	if (m_manager->m_baseMsgs)
+	{
+		m_manager->m_baseMsgs->LoginProgress(60);
+	}
 	return true;
 }
 
@@ -227,11 +252,11 @@ int CLogin::ConnectToServer(string sip, unsigned short port)
 {
 	int nError = 0;
 
-	m_manager->m_Socket.Close();
+	m_manager->m_socket.Close();
 
 	for (int i = 0; i < 2; i++)
 	{
-		if (m_manager->m_Socket.Connect(sip.c_str(), port))
+		if (m_manager->m_socket.Connect(sip.c_str(), port))
 		{
 			return nError;
 		}
@@ -264,7 +289,7 @@ int CLogin::SendLoginInfo(unsigned int uin)
 
 	SendInfo.type_loginsort = 10;
 
-	m_manager->m_UserInfo.UserInfo.uid = uin;
+	m_manager->m_userInfo.UserInfo.uid = uin;
 	nError = m_manager->SendPackTo(&SendInfo);
 	if (nError != 0)
 	{

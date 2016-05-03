@@ -35,6 +35,6 @@ public:
 	CChatManager* m_manager;
 	CTqAuthClient *m_pTqAuthClient;
 	char m_szAuthtoken[MAX_256_LEN + 1];//改成公共的
-	unsigned long m_authadminid;
+	unsigned long m_authAdminid;
 	int m_nLoginBy;					//当前的登陆类型
 };
