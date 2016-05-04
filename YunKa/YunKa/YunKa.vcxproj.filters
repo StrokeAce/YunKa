@@ -70,6 +70,12 @@
     <Filter Include="源文件\json">
       <UniqueIdentifier>{897fb8a2-09cd-40a9-aaf5-911c84f331ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\cef_browser">
+      <UniqueIdentifier>{2499800e-9351-433a-bf38-04e7545f2080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\cef_browser">
+      <UniqueIdentifier>{8637e31d-959d-4e0c-a64e-ddc4c6c40540}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -297,6 +303,60 @@
     <ClInclude Include="chat_common\commsg.h">
       <Filter>头文件\chat_common</Filter>
     </ClInclude>
+    <ClInclude Include="cef_browser\binding_test.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\bytes_write_handler.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\cefclient.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\cefclient_osr_dragdrop_win.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\cefclient_osr_widget_win.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\client_app.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\client_handler.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\client_renderer.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\client_switches.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\dialog_test.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\dragdrop_events.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\osrenderer.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\performance.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\performance_setup.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\resource_util.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\scheme_test.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\string_util.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
+    <ClInclude Include="cef_browser\window_test.h">
+      <Filter>头文件\cef_browser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -454,6 +514,66 @@
     </ClCompile>
     <ClCompile Include="chat_common\comsrv.cpp">
       <Filter>源文件\chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\binding_test.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\bytes_write_handler.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\cefclient.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\cefclient_osr_dragdrop_win.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\cefclient_osr_widget_win.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\client_app.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\client_app_delegates.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\client_handler.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\client_handler_win.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\client_renderer.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\client_switches.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\dialog_test.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\osrenderer.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\performance.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\performance_func.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\resource_util_win.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\scheme_test.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\string_util.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\window_test.cpp">
+      <Filter>源文件\cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="cef_browser\window_test_win.cpp">
+      <Filter>源文件\cef_browser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

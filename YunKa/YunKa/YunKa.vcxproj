@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../thirdlib/duilib;../thirdlib/zlib/include;../thirdlib/libcef;$(IncludePath)</IncludePath>
+    <IncludePath>../thirdlib/duilib;../thirdlib/zlib/include;../thirdlib/libcef;.\;$(IncludePath)</IncludePath>
     <LibraryPath>../lib;../thirdlib/zlib/lib;../thirdlib/libcef/debug;$(LibraryPath)</LibraryPath>
     <OutDir>../bin</OutDir>
     <IntDir>../Build/Debug/</IntDir>
@@ -66,7 +66,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>duilib.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;libcef.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>duilib.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;libcef.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -97,6 +97,24 @@
     <ClInclude Include="auth\auth_error.h" />
     <ClInclude Include="auth\http_parse.h" />
     <ClInclude Include="auth\sockbase.h" />
+    <ClInclude Include="cef_browser\binding_test.h" />
+    <ClInclude Include="cef_browser\bytes_write_handler.h" />
+    <ClInclude Include="cef_browser\cefclient.h" />
+    <ClInclude Include="cef_browser\cefclient_osr_dragdrop_win.h" />
+    <ClInclude Include="cef_browser\cefclient_osr_widget_win.h" />
+    <ClInclude Include="cef_browser\client_app.h" />
+    <ClInclude Include="cef_browser\client_handler.h" />
+    <ClInclude Include="cef_browser\client_renderer.h" />
+    <ClInclude Include="cef_browser\client_switches.h" />
+    <ClInclude Include="cef_browser\dialog_test.h" />
+    <ClInclude Include="cef_browser\dragdrop_events.h" />
+    <ClInclude Include="cef_browser\osrenderer.h" />
+    <ClInclude Include="cef_browser\performance.h" />
+    <ClInclude Include="cef_browser\performance_setup.h" />
+    <ClInclude Include="cef_browser\resource_util.h" />
+    <ClInclude Include="cef_browser\scheme_test.h" />
+    <ClInclude Include="cef_browser\string_util.h" />
+    <ClInclude Include="cef_browser\window_test.h" />
     <ClInclude Include="chat_common\comdef.h" />
     <ClInclude Include="chat_common\comfunc.h" />
     <ClInclude Include="chat_common\comclt.h" />
@@ -172,6 +190,26 @@
     <ClCompile Include="auth\auth_client.cpp" />
     <ClCompile Include="auth\http_parse.cpp" />
     <ClCompile Include="auth\sockbase.cpp" />
+    <ClCompile Include="cef_browser\binding_test.cpp" />
+    <ClCompile Include="cef_browser\bytes_write_handler.cpp" />
+    <ClCompile Include="cef_browser\cefclient.cpp" />
+    <ClCompile Include="cef_browser\cefclient_osr_dragdrop_win.cpp" />
+    <ClCompile Include="cef_browser\cefclient_osr_widget_win.cpp" />
+    <ClCompile Include="cef_browser\client_app.cpp" />
+    <ClCompile Include="cef_browser\client_app_delegates.cpp" />
+    <ClCompile Include="cef_browser\client_handler.cpp" />
+    <ClCompile Include="cef_browser\client_handler_win.cpp" />
+    <ClCompile Include="cef_browser\client_renderer.cpp" />
+    <ClCompile Include="cef_browser\client_switches.cpp" />
+    <ClCompile Include="cef_browser\dialog_test.cpp" />
+    <ClCompile Include="cef_browser\osrenderer.cpp" />
+    <ClCompile Include="cef_browser\performance.cpp" />
+    <ClCompile Include="cef_browser\performance_func.cpp" />
+    <ClCompile Include="cef_browser\resource_util_win.cpp" />
+    <ClCompile Include="cef_browser\scheme_test.cpp" />
+    <ClCompile Include="cef_browser\string_util.cpp" />
+    <ClCompile Include="cef_browser\window_test.cpp" />
+    <ClCompile Include="cef_browser\window_test_win.cpp" />
     <ClCompile Include="chat_common\comfunc.cpp" />
     <ClCompile Include="chat_common\comclt.cpp" />
     <ClCompile Include="chat_common\comcom.cpp" />
