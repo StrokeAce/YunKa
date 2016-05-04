@@ -2,7 +2,7 @@
 
 #include "face_ctrl.h"
 
-#define		FACE_CTRL_SEL		WM_USER + 1
+#define		WM_FACE_CTRL_SEL		WM_USER + 2000
 
 class CFaceSelDlg : public WindowImplBase
 {

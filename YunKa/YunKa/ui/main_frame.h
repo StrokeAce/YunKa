@@ -4,6 +4,8 @@
 #pragma once
 #include <map>
 #include "main_frame_event.h"
+#include "IImageOle.h"
+
 
 
 // 将HWND显示到CControlUI上面
@@ -25,7 +27,7 @@ public:
 		::ShowWindow(m_hWnd, bVisible);
 	}
 
-	virtual void SetPos(RECT rc)
+	void SetPos(RECT rc)
 	{
 		__super::SetPos(rc);
 		::SetWindowPos(m_hWnd, NULL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOZORDER | SWP_NOACTIVATE);
@@ -82,15 +84,16 @@ public:
 	virtual LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-	virtual LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-	virtual LPCTSTR GetResourceID() const;
+	//virtual LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
-	virtual LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+
+
+
+	LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	DWORD GetBkColor();
 	void SetBkColor(DWORD dwBackColor);
 
-	DUI_DECLARE_MESSAGE_MAP()
 
 		virtual void OnClick(TNotifyUI& msg);
 	virtual void OnSelectChanged(TNotifyUI &msg);
@@ -111,6 +114,9 @@ protected:
 
 private:
 	CMainFrameEvent *m_frameEvent;
+
+	CRichEditUI* m_pSendEdit;
+	IRichEditOleCallback2* pRichEditOleCallback2;
 
 };
 

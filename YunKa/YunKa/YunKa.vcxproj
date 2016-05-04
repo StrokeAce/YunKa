@@ -60,7 +60,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./ui;./ui_common;./auth;./log;./md5;./timer;./chat_manager;./utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./dui_ex;./ui;./ui_common;./auth;./log;./md5;./timer;./chat_manager;./utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>../Build/$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
@@ -135,6 +135,15 @@
     <ClInclude Include="chat_manager\msgs.h" />
     <ClInclude Include="chat_manager\socket.h" />
     <ClInclude Include="chat_manager\sys_config.h" />
+    <ClInclude Include="dui_ex\button_ex_ui.h" />
+    <ClInclude Include="dui_ex\control_ex.h" />
+    <ClInclude Include="dui_ex\IImageOle.h" />
+    <ClInclude Include="dui_ex\list_ex.h" />
+    <ClInclude Include="dui_ex\ole_helper.h" />
+    <ClInclude Include="dui_ex\public.h" />
+    <ClInclude Include="dui_ex\rich_edit_help.h" />
+    <ClInclude Include="dui_ex\ui_crack.h" />
+    <ClInclude Include="dui_ex\ui_richedit2.h" />
     <ClInclude Include="json\autolink.h" />
     <ClInclude Include="json\cJSON.h" />
     <ClInclude Include="json\config.h" />
@@ -226,6 +235,13 @@
     <ClCompile Include="chat_manager\msgs.cpp" />
     <ClCompile Include="chat_manager\socket.cpp" />
     <ClCompile Include="chat_manager\sys_config.cpp" />
+    <ClCompile Include="dui_ex\button_ex_ui.cpp" />
+    <ClCompile Include="dui_ex\list_ex.cpp" />
+    <ClCompile Include="dui_ex\ole_helper.cpp" />
+    <ClCompile Include="dui_ex\public.cpp" />
+    <ClCompile Include="dui_ex\rich_edit_help.cpp" />
+    <ClCompile Include="dui_ex\ui_crack.cpp" />
+    <ClCompile Include="dui_ex\ui_richedit2.cpp" />
     <ClCompile Include="json\cJSON.c" />
     <ClCompile Include="json\jsonext.cpp" />
     <ClCompile Include="json\json_reader.cpp" />
@@ -276,6 +292,9 @@
     <None Include="json\json_internalarray.inl" />
     <None Include="json\json_internalmap.inl" />
     <None Include="json\json_valueiterator.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="dui_ex\ImageOleCtrl.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

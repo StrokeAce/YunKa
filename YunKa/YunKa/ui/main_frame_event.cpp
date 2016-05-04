@@ -2,7 +2,7 @@
 #include "main_frame_event.h"
 
 
-CMainFrameEvent::CMainFrameEvent(CPaintManagerUI &pm,HWND &hwnd) : m_mainFramePaintManager(pm), m_hMainHwnd(hwnd)
+CMainFrameEvent::CMainFrameEvent() 
 {
 	//³õÊ¼»¯
 
@@ -13,11 +13,21 @@ CMainFrameEvent::CMainFrameEvent(CPaintManagerUI &pm,HWND &hwnd) : m_mainFramePa
 }
 
 
+
+
 CMainFrameEvent::~CMainFrameEvent()
 {
 
 }
 
+
+void CMainFrameEvent::SetPaintManager(CPaintManagerUI *val)
+{
+	m_PaintManager = val;
+	m_hPaintMainWnd = m_PaintManager->GetPaintWindow();
+
+	
+}
 
 void CMainFrameEvent::Notify(TNotifyUI& msg)
 {
@@ -53,9 +63,9 @@ void CMainFrameEvent::OnTimer(TNotifyUI& msg)
 void CMainFrameEvent::OnPrepare(TNotifyUI& msg)
 {
 
-	m_pFontBtn = static_cast<CButtonUI*>(m_mainFramePaintManager.FindControl(_T("btnFont")));
-	m_pFaceBtn = static_cast<CButtonUI*>(m_mainFramePaintManager.FindControl(_T("btnFace")));
-	m_pScreenBtn = static_cast<CButtonUI*>(m_mainFramePaintManager.FindControl(_T("screenshotsbtn")));
+	m_pFontBtn = static_cast<CButtonUI*>(m_PaintManager->FindControl(_T("btnFont")));
+	m_pFaceBtn = static_cast<CButtonUI*>(m_PaintManager->FindControl(_T("btnFace")));
+	m_pScreenBtn = static_cast<CButtonUI*>(m_PaintManager->FindControl(_T("screenshotsbtn")));
 
 
 

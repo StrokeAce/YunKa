@@ -4,22 +4,15 @@
 #include "global_setting_define.h"
 #include "ui_menu.h"
 
-
-DUI_BEGIN_MESSAGE_MAP(CMainFrame, WindowImplBase)
-DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK, OnClick)
-DUI_ON_MSGTYPE(DUI_MSGTYPE_SELECTCHANGED, OnSelectChanged)
-DUI_ON_MSGTYPE(DUI_MSGTYPE_ITEMCLICK, OnItemClick)
-DUI_ON_MSGTYPE(DUI_MSGTYPE_ITEMRCLICK, OnItemRbClick)
-DUI_ON_MSGTYPE(DUI_MSGTYPE_ITEMSELECT, OnItemSelect)
-DUI_ON_MSGTYPE(DUI_MSGTYPE_HEADERCLICK, OnHeaderClick)
-//DUI_ON_MSGTYPE(DUI_MSGTYPE_MOUSELEAVE, OnMouseEnter)			
-//DUI_ON_MSGTYPE(DUI_MSGTYPE_MENU, OnMenu)
-DUI_END_MESSAGE_MAP()
+#include "ole_helper.h"
+#include "ui_richedit2.h"
 
 
 CMainFrame::CMainFrame()
 {
-	m_frameEvent = new CMainFrameEvent(m_PaintManager,m_hWnd);
+	m_frameEvent = new CMainFrameEvent();
+
+	m_frameEvent->SetPaintManager(&m_PaintManager);
 }
 
 CMainFrame::~CMainFrame()
@@ -34,13 +27,19 @@ LPCTSTR CMainFrame::GetWindowClassName() const
 
 CControlUI* CMainFrame::CreateControl(LPCTSTR pstrClass)
 {
+
+
+	//if (_tcscmp(pstrClass, _T("RichEdit2")) == 0)
+	//	return new DuiLib2::CRichEditUI2;
+
 	return NULL;
 }
 
 void CMainFrame::OnFinalMessage(HWND hWnd)
 {
+
 	WindowImplBase::OnFinalMessage(hWnd);
-	//delete this;
+
 }
 
 
@@ -54,11 +53,18 @@ CDuiString CMainFrame::GetSkinFolder()
 	return  _T("SkinRes\\");
 }
 
+
+/*
 LRESULT CMainFrame::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	bHandled = FALSE;
+
+	//::RevokeDragDrop(m_hWnd);
+	//m_faceList.Reset();
+
 	return 0;
 }
+*/
 
 LRESULT CMainFrame::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
@@ -107,6 +113,46 @@ LRESULT CMainFrame::ResponseDefaultKeyEvent(WPARAM wParam)
 
 LRESULT CMainFrame::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	if (uMsg == WM_MOUSEMOVE)
+		OnMouseMove(uMsg, wParam, lParam);
+
+	if (uMsg == WM_RBUTTONDOWN)
+	{
+//		LRESULT lRes = __super::HandleMessage(uMsg, wParam, lParam);
+//		OnRButtonDown(uMsg, wParam, lParam);
+	//	return lRes;
+	}
+
+//	if (uMsg == WM_LBUTTONDBLCLK)
+//		OnLButtonDblClk(uMsg, wParam, lParam);
+
+//	if ((m_pSendEdit != NULL) && m_pSendEdit->IsFocused()
+//		&& (uMsg == WM_KEYDOWN) && (wParam == 'V') && (lParam & VK_CONTROL))	// 发送消息框的Ctrl+V消息
+//	{
+//		m_pSendEdit->PasteSpecial(CF_TEXT);
+//		return TRUE;
+//	}
+
+//	if (uMsg == WM_NOTIFY && EN_PASTE == ((LPNMHDR)lParam)->code)
+//	{
+	//	ITextServices * pTextServices = m_pSendEdit->GetTextServices();
+	//	if ((UINT)pTextServices == ((LPNMHDR)lParam)->idFrom)
+	//	{
+	//		AddMsgToSendEdit(((NMRICHEDITOLECALLBACK *)lParam)->lpszText);
+//		}
+//		if (pTextServices != NULL)
+//			pTextServices->Release();
+	//}
+
+	//if (uMsg == WM_MENU)
+	//{
+	//	CControlUI * pControl = (CControlUI *)lParam;
+	//	if (pControl != NULL)
+	//		this->paint_manager_.SendNotify(pControl, _T("menu_msg"), wParam, lParam);
+	//}
+
+	//if (uMsg == FACE_CTRL_SEL)
+		//return OnFaceCtrlSel(uMsg, wParam, lParam);
 
 	return __super::HandleMessage(uMsg, wParam, lParam);
 }
@@ -121,11 +167,11 @@ LRESULT CMainFrame::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam,
 }
 
 
-LRESULT CMainFrame::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+LRESULT CMainFrame::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	bHandled = FALSE;
-	//int x = GET_X_LPARAM(lParam);
-	//int y = GET_Y_LPARAM(lParam);
+	//bHandled = FALSE;
+	int x = GET_X_LPARAM(lParam);
+	int y = GET_Y_LPARAM(lParam);
 
 	return 0;
 }
@@ -136,17 +182,13 @@ UILIB_RESOURCETYPE CMainFrame::GetResourceType() const
 	return UILIB_FILE;
 }
 
-LPCTSTR CMainFrame::GetResourceID() const
-{
-	return MAKEINTRESOURCE(101);
-}
 
 
 #if 0
 void CMainFrame::Notify(TNotifyUI& msg)
 {
 
-	
+	m_frameEvent->Notify(msg);
 
 	return WindowImplBase::Notify(msg);
 }
@@ -166,6 +208,7 @@ void CMainFrame::Notify(TNotifyUI& msg)
 
 	else if (_tcsicmp(msg.sType, _T("click")) == 0)
 	{
+		OnClick(msg);
 	}
 
 	else if (_tcsicmp(msg.sType, _T("timer")) == 0)
@@ -196,12 +239,21 @@ void CMainFrame::OnTimer(TNotifyUI& msg)
 void CMainFrame::OnExit(TNotifyUI& msg)
 {
 	Close();
+
+	PostQuitMessage(0);
 }
 
 
 void CMainFrame::OnPrepare(TNotifyUI& msg)
 {
 
+
+
+	m_pSendEdit = static_cast<CRichEditUI*>(m_PaintManager.FindControl(_T("input_richedit")));
+
+
+
+	//IRichEditOleCallback2* pRichEditOleCallback2 = NULL;
 
 }
 #include "IImageOle.h"
@@ -211,12 +263,6 @@ void CMainFrame::InitWindow()
 	m_frameEvent->InitWindow(m_hWnd);
 
 
-	CRichEditUI* m_pSendEdit;
-	m_pSendEdit = static_cast<CRichEditUI*>(m_PaintManager.FindControl(_T("richSend")));
-
-
-
-	IRichEditOleCallback2* pRichEditOleCallback2 = NULL;
 
 	/*
 	HRESULT hr = ::CoCreateInstance(CLSID_ImageOle, NULL, CLSCTX_INPROC_SERVER,
@@ -232,6 +278,10 @@ void CMainFrame::InitWindow()
 	}
 
 	*/
+
+
+	/*
+	IRichEditOleCallback2* pRichEditOleCallback2 = NULL;
 
 	pRichEditOleCallback2 = NULL;
 	HRESULT hr = ::CoCreateInstance(CLSID_ImageOle, NULL, CLSCTX_INPROC_SERVER,
@@ -250,6 +300,7 @@ void CMainFrame::InitWindow()
 	hr = ::RegisterDragDrop(m_hWnd, pdt);
 	pdt->Release();
 
+	*/
 }
 
 void CMainFrame::OnClick(TNotifyUI& msg)
@@ -259,7 +310,7 @@ void CMainFrame::OnClick(TNotifyUI& msg)
 	m_frameEvent->OnClick(msg,m_hWnd);
 	if (msg.pSender->GetName() == DEF_CLOSE_WND_BUTTON)
 	{
-		Close();
+		OnExit(msg);
 	}
 	else  if (msg.pSender->GetName() == DEF_MIN_WND_BUTTON)
 	{

@@ -7,7 +7,7 @@
 class CMainFrameEvent 
 {
 public:
-	CMainFrameEvent(CPaintManagerUI &pm,HWND &hwnd);
+	CMainFrameEvent();
 	~CMainFrameEvent();
 
 	LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -26,19 +26,26 @@ public:
 	void OnBtnFace(TNotifyUI& msg, HWND hwnd);
 	void OnBtnScreen(TNotifyUI& msg);
 
+
+	void SetPaintManager(CPaintManagerUI *val);
+
 protected:
 
 	CSmallMenu m_frameSmallMenu;
+	HWND m_hMainHwnd;
 
-	CPaintManagerUI &m_mainFramePaintManager;
 
-	HWND   &m_hMainHwnd;
-
+	HWND m_hPaintMainWnd;
+	CPaintManagerUI *m_PaintManager;
 
 private:
 	CButtonUI * m_pFontBtn, *m_pFaceBtn, *m_pScreenBtn;
 	CFaceSelDlg m_faceSelDlg;
 	CFaceList  m_faceList;
+
+
+
+
 
 
 };

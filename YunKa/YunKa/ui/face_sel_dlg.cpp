@@ -81,7 +81,7 @@ LRESULT CFaceSelDlg::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	else if (uMsg == WM_CLOSE)
 	{
-		::PostMessage(::GetParent(m_hWnd), FACE_CTRL_SEL, NULL, NULL);
+		::PostMessage(::GetParent(m_hWnd), WM_FACE_CTRL_SEL, NULL, NULL);
 		::DestroyWindow(m_hWnd);
 		return 0;
 	}

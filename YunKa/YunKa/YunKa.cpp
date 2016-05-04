@@ -104,9 +104,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (FAILED(Hr)) return 0;
 
 
-
-	CRecv* baseMsg = new CRecv();
-	baseMsg->start();
+	//CRecv* baseMsg = new CRecv();
+	//baseMsg->start();
 
 
 #if 1

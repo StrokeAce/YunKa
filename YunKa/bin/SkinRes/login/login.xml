@@ -6,7 +6,14 @@
 			<Control />
 			<Button name="closeBtn" width="42" maxheight="18" tooltip="点击这里直接退出登录" normalimage="file='login\\frame_btn_close_normal.bmp' mask='#FFFF00FF'" hotimage="file='login\\frame_btn_close_hot.bmp' mask='#FFFF00FF'" pushedimage="file='login\\frame_btn_close_down.bmp' mask='#FFFF00FF'"/>
 		</HorizontalLayout>
-		<Control height="100" bkcolor="#FFFF0000" />
+		<!--Control height="100" bkcolor="#FFFF0000" /-->
+
+
+<HorizontalLayout height="100" inset="2,2,2,0" bkcolor="#FFFF0000">
+
+
+</HorizontalLayout>
+
 		<Progress height="30" bkcolor="#FFF8B343" />
 		<Container bkcolor="#FF98F8AA" >
 			<Label text="账号：" float="true" pos="60, 20, 110, 42" />
@@ -20,6 +27,7 @@
 			<!-- Button text="{u}{l}找回密码{/l}{/u}" showhtml="true" float="true" pos="230, 55, 300, 75" tooltip="如果你忘记了密码，请点击找回密码"/ -->
 			<Button name="cancelBtn" text="取消" float="true" pos="40, 110, 120, 135" tooltip="Use English Language" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
 			<Button name="loginBtn" text="登录" float="true" pos="308, 110, 388, 135" tooltip="点击这里登录" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
+
 		</Container>
     </VerticalLayout>
 </Window>

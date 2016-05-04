@@ -76,6 +76,12 @@
     <Filter Include="源文件\cef_browser">
       <UniqueIdentifier>{8637e31d-959d-4e0c-a64e-ddc4c6c40540}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\dui_ex">
+      <UniqueIdentifier>{f856f96f-186e-4a6c-a500-78bcd2fb8d60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\dui_ex">
+      <UniqueIdentifier>{acfca530-ec00-4d91-ad84-9824bba4d5e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -357,6 +363,33 @@
     <ClInclude Include="cef_browser\window_test.h">
       <Filter>头文件\cef_browser</Filter>
     </ClInclude>
+    <ClInclude Include="dui_ex\button_ex_ui.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="dui_ex\control_ex.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="dui_ex\IImageOle.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="dui_ex\list_ex.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="dui_ex\ole_helper.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="dui_ex\rich_edit_help.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="dui_ex\ui_crack.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="dui_ex\ui_richedit2.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="dui_ex\public.h">
+      <Filter>头文件\dui_ex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -575,6 +608,27 @@
     <ClCompile Include="cef_browser\window_test_win.cpp">
       <Filter>源文件\cef_browser</Filter>
     </ClCompile>
+    <ClCompile Include="dui_ex\button_ex_ui.cpp">
+      <Filter>源文件\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\list_ex.cpp">
+      <Filter>源文件\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\ole_helper.cpp">
+      <Filter>源文件\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\rich_edit_help.cpp">
+      <Filter>源文件\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\ui_crack.cpp">
+      <Filter>源文件\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\ui_richedit2.cpp">
+      <Filter>源文件\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\public.cpp">
+      <Filter>源文件\dui_ex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="YunKa.rc">
@@ -600,5 +654,10 @@
     <None Include="json\json_valueiterator.inl">
       <Filter>头文件\json</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="dui_ex\ImageOleCtrl.lib">
+      <Filter>头文件\dui_ex</Filter>
+    </Library>
   </ItemGroup>
 </Project>

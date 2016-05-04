@@ -426,8 +426,9 @@ namespace DuiLib {
 		else if (uMsg == WM_CLOSE) {
 			if (m_pOwner != NULL)
 			{
+				RECT rect = m_pOwner->GetPos();
 				m_pOwner->SetManager(m_pOwner->GetManager(), m_pOwner->GetParent(), false);
-				m_pOwner->SetPos(m_pOwner->GetPos());
+				m_pOwner->SetPos(rect);
 				m_pOwner->SetFocus();
 			}
 		}
