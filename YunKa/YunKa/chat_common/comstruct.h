@@ -1112,5 +1112,4 @@ static const wx_face_t wx_faces[] = {
 	{ "/:oY", wx_face_null },	//Í¶½µ
 };
 
-
 #endif

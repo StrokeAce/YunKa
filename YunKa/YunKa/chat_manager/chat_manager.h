@@ -10,6 +10,7 @@
 #include "timer.h"
 
 typedef map<string/*thirdId*/, string/*公众号token*/> WxTokens; // 公众号的thirdid和token一一对应
+typedef map<unsigned long, CUserObject*> MapUsers; // 保存坐席用户
 
 class IBaseMsgs
 {
@@ -197,8 +198,16 @@ private:
 	//接收转移会话的用户处理
 	int RecvTransferClient(PACK_HEADER packhead, char *pRecvBuff, int len);
 
+	void RecvComSendNormalChatidHisMsg(unsigned long senduid, unsigned long recvuid, COM_SEND_MSG& RecvInfo);
 
-	/***************     消息包处理函数      *****************/
+	int RecvComTransRequest(unsigned long senduid, COM_SEND_MSG& RecvInfo);
+
+	int RecvComTransAnswer(unsigned long senduid, COM_SEND_MSG& RecvInfo);
+
+	void RecvComSendWorkBillMsg(unsigned long senduid, unsigned long recvuid, char *msg, char* mobile);
+
+
+	/***************     坐席和访客信息管理函数      *****************/
 
 	int UnPack(CPackInfo *pPackInfo, char *buff, int len);
 
@@ -227,6 +236,9 @@ private:
 
 	void CloseAllSocket();
 
+
+	/***************     类内使用的发送到服务端的消息      *****************/
+
 	int SendPingToVisitorServer();
 
 	int SendBuffToVisitorServer(char *sbuff, int len);
@@ -241,6 +253,8 @@ private:
 	//发送结束通话包到访客接待服务器
 	int SendWebuserTalkEnd(CWebUserObject *pWebUser);
 
+
+
 	// 文字消息中的表情字符转换
 	void TransforFaceMsg(string& str);
 
@@ -251,15 +265,9 @@ private:
 
 	void SaveEarlyMsg(MSG_INFO *pMsgInfo);
 
-	void RecvComSendWorkBillMsg(unsigned long senduid, unsigned long recvuid, char *msg, char* mobile);
-
 	void SolveWebUserEarlyMsg(CWebUserObject *pWebUser);
 
-	void RecvComSendNormalChatidHisMsg(unsigned long senduid, unsigned long recvuid, COM_SEND_MSG& RecvInfo);
-
-	int RecvComTransRequest(unsigned long senduid, COM_SEND_MSG& RecvInfo);
-
-	int RecvComTransAnswer(unsigned long senduid, COM_SEND_MSG& RecvInfo);
+	void SaveUserConfig();
 
 public:
 	int						m_nOnLineStatus;		// 用户是否在线
@@ -268,7 +276,7 @@ public:
 private:
 	CLogin*					m_login;				// 登录处理类
 	CChatObjects*			m_chatObjects;			// 消息处理类	
-	IBaseMsgs*				m_baseMsgs;				// 服务端消息接收接口
+	IBaseMsgs*				m_baseMsgs;				// 消息接收接口
 	CSysConfigFile*			m_sysConfig;			// 用户设置文件类
 	INIT_CONF				m_initConfig;			// 软件配置文件类
 	CMySocket				m_socket;				// 消息连接
@@ -284,24 +292,20 @@ private:
 	CUserObject				m_userInfo;				// 登录用户的信息	
 	unsigned short			m_usSrvRand;			// 服务器的随机数
 	unsigned short			m_usCltRand;			// 本次运行的随机数
-
-	map<unsigned long, CUserObject*> m_mapUsers;	// 坐席用户的信息集合	
-	CUserObject m_CommUserInfo;						//公用用户
-	int m_myInfoIsGet;								//是否我的信息已经获取到了
-	
+	MapUsers				m_mapUsers;				// 协助对象的存储集合	
+	CUserObject				m_CommUserInfo;			// 公用用户
+	int						m_myInfoIsGet;			// 是否我的信息已经获取到了	
 	CTimerManager*			m_timers;				// 定时器管理类
-	int						m_nMyInfoIsGet;			//是否我的信息已经获取到了
-	int						m_nSendPing;
-	int						m_nSendPingFail;
-	int						m_nSendAuthToken;
-	int						m_nLoginToVisitor;
-	time_t					m_tResentVisitPackTime;
-	unsigned long			m_nNextInviteWebuserUid;//邀请的访客信息
-	unsigned long			m_nNextInviteUid;		//主动邀请的用户
-
-	WxTokens				m_mapTokens;
+	int						m_nMyInfoIsGet;			// 是否我的信息已经获取到了
+	int						m_nSendPing;			// 心跳包发送的次数
+	int						m_nSendPingFail;		// 心跳包发送失败次数 
+	int						m_nLoginToVisitor;		// 
+	time_t					m_tResentVisitPackTime;	// 
+	unsigned long			m_nNextInviteWebuserUid;// 邀请的访客信息
+	unsigned long			m_nNextInviteUid;		// 主动邀请的用户
+	WxTokens				m_mapTokens;			// 公众号token存储集合
 	MMutex					m_idLock;				// 生成消息id的锁
-	int						m_msgId;
+	int						m_msgId;				// 消息id，自增
 	list<MSG_INFO*>			m_listEarlyMsg;			// 保存还未初始化访客对象之前收到的消息
 };
 

@@ -23,9 +23,10 @@ public:
 	~CSysConfigFile();
 
 	void ResetValue();
-	bool LoadUserData(char *sFilename, unsigned short ver);
-	bool LoadData(char *sFilename, unsigned short ver);
-	bool SaveData(char *sFilename, unsigned short ver);
+	bool LoadData(char *sFilename);
+	bool SaveData(char *sFilename);
+	bool ReadFile(ifstream& fout);
+	bool WriteFile(ofstream& fin);
 	void SetWndInitPos(bool bAlways);
 	void DeleteAll();
 	void DeleteAllLoginInfo();
@@ -60,111 +61,73 @@ public:
 	string CSysConfigFile::CombineFilterString();
 	void CSysConfigFile::ParseFilterString(string strString);
 
-	int nStartFlag, nEndFlag;
+	void Write(ofstream& fin, bool bVal);
+	void Write(ofstream& fin, int iVal);
+	void Write(ofstream& fin, unsigned long lVal);
+	void Write(ofstream& fin, unsigned int Val);
+	void Write(ofstream& fin, const char* sVal);
+	void Write(ofstream& fin, byte byVal);
 
-	bool bIsFirstRun;
-	bool bFindSrv;
+	void Read(ifstream& fout, bool& bVal);
+	void Read(ifstream& fout, int& iVal);
+	void Read(ifstream& fout, unsigned long& lVal);
+	void Read(ifstream& fout, unsigned int& Val);
+	void Read(ifstream& fout, string& sVal);
+	void Read(ifstream& fout, byte& byVal);
+	void Read(ifstream& fout, char* chVal);
 
-	bool bAutoSearchKeyword;
+	bool				m_bSavePass;				// 是否保存密码
+	bool				m_bAutoLogin;				// 是否自动登陆 
+	int					m_nKeySendType;				// 发送类型，enter或ctrl+enter
+	int					m_nX;						// 客户端起始x坐标
+	int					m_nY;						// 客户端起始y坐标
+	int					m_nWidth;					// 客户端的宽
+	int					m_nHeight;					// 客户端的高
+	int					m_nSendMsgHeight;			// 发送框的高度
+	int					m_nPreSendMsgHeight;		// 预发消息框的高度
+	int					m_nLastLoginBy;				// 最后登陆的类型
+	unsigned long		m_sLastLoginUid;			// 最后登陆的用户uin
+	string				m_sLastLoginStr;			// 最后登陆的用户名
+	string				m_sLastLoginPass;			// 最后登陆的密码
+	string				m_sStrServer;				// 登陆的服务器地址
+	int					m_nServerPort;				// 登陆的服务器端口
+	string				m_sVisitorServer;			// web访客服务器地址
+	int					m_nVisitorServerPort;		// web访客服务器端口
+	string				m_sStrRealServer;			// 真实登陆的服务器地址
+	int					m_nRealServerPort;			// 真实登陆的服务器端口
 
-	bool bSavePass;			//是否保存密码
-	bool bAutoLogin;		//是否自动登录
-	bool bHideLogin;		//是否隐身登录
-	int nKeySendType;		//0 enter; 1 alt+enter
+	list<LOGIN_INFO*>	m_cLoginInfoList;			// 登陆过用户的列表
 
-	int nClientCopyInfo;	//版本信息 
-	int nServerCopyInfo;	//版本信息
+	list<ALERT_INFO*>	m_cAlertInfoList;			// 提示音列表
 
-	unsigned long dwLastUpdateTime;
-	int nCopyCheckType;				//0 not check 1 auto 2 timer
-	int nCopyCheckTimeMWD;				//0 month day 1 week 2 day
-	int nCopyCheckTimeMonth, nCopyCheckTimeWeek, nCopyCheckTimeDay;
+	list<string>		m_cServerAddressList;		// 服务器地址列表
 
-	int nCopyDownType;			//0 后台下载 1 提示下载
+	list<string>		m_cKeyWordSearchList;		// 搜索过的关键字列表
 
-	//初始窗口大小和类型
-	int nWndDock;	//窗口的停靠位置
-	int x, y, w, h;
-	bool bThickMainWnd;
-	int colorIndex;	//tree的颜色
+	list<string>		m_cForbidWebUserList;		// 被屏蔽的访客的编号列表
 
-	int nInfoHeight;
-	int nSendMsgHeight;
-	int nPreSendMsgHeight;
+	FILTER_USERDEFINE	m_cWebUserfilter;			// 过滤条件列表
 
-	//最后登录的类型
-	int lastloginby;
-	unsigned long lastloginuid;
-	char lastloginstr[MAX_SID_LEN];
-	char lastloginpass[MAX_PASSWORD_LEN];
-	int lastloginstatus;
-	char lastloginsstatus[MAX_STATUS_LEN];
-	char lastlogincompid[MAX_STATUS_LEN];
+	int					m_nFilterType;				// 默认访客过滤条件序列，只对等待接待、访问中和已离开有效
+	bool				m_bAutoResp;				// 自动应答开关
+	string				m_sWellcomeMsg;				// 欢迎语
+	int					m_nUserTimeoutTime;			// 客服长时间未应答自动回复时限
+	string				m_sUserTimeoutMsg;			// 回复语
+	int					m_nVisitorTimeoutTime;		// 访客长时间未回应自动回复时限
+	string				m_sVisitorTimeoutMsg;		// 回复语
+	bool				m_bVisotorTimeoutClose;		// 自动关闭会话开关
+	int					m_nVisitorTimeoutCloseTime;	// 访客长时间未回复自动关闭会话时限
+	string				m_sVisitorTimeoutCloseMsg;	// 回复语
+	bool				m_bAutoRespUnnormalStatus;	// 非正常在线自动应答开关
+	string				m_sUnnormalStatusMsg;		// 回复语
 
-	//最后登录的服务器信息
-	int nConnectType;	//连接类型
-	string strServer;
-	int nServerPort;
+	string				m_sInviteWords;				// 邀请语
+	list<string>		m_cInviteWordsList;			// 邀请语列表
 
-	//访客接待
-	string strVisitorServer;
-	int nVisitorServerPort;
-
-	string strRealServer;
-	int nRealServerPort;
-
-	int nProxyType;
-	string strProxyServer;
-	int nProxyPort;
-	int nProxyLocalPort;
-	string strProxyUser, strProxyPass;
-
-	//保存登录过的登录信息
-	list<LOGIN_INFO*> m_listLogin;
-
-	//保存提醒方式
-	list<ALERT_INFO*> m_listAlertInfo;
-
-	//保存登陆过的服务器地址
-	list<string> m_listServerAddress;
-
-	//保存搜索的字
-	list<string> m_listKeyWordSearchString;
-
-	//保存评蔽的访客标示
-	list<string> m_listForbidWebUserSid;
-
-	int	 filtertype;
-
-	FILTER_USERDEFINE infofilter;
-	FILTER_USERDEFINE tailfilter;
-
-	bool	m_bAutoResp;
-	string	m_strWellcomeMsg;
-
-	int		m_nUserTimeoutTime;
-	string	m_strUserTimeoutMsg;
-
-	int		m_nVisitorTimeoutTime;
-	string	m_strVisitorTimeoutMsg;
-
-	bool	m_bVisotorTimeoutClose;
-	int		m_nVisitorTimeoutCloseTime;
-	string	m_strVisitorTimeoutCloseMsg;
-
-	bool	m_bAutoRespUnnormalStatus;
-	string	m_strUnnormalStatusMsg[5];
-
-	string	m_strInviteWords;
-	string	m_strInviteTitle;
-
-	//保存自动邀请语
-	list<string> m_listInviteWords;
-	int		m_nInviteType;
-
-	int m_nKeywordsSort;
-	int m_nKeywordsUser;
-	string m_strKeywordsFind;
+	int					m_nInviteType;				// 邀请类型
+	int					m_nKeywordsSort;			// 辅助应答分类栏序列
+	int					m_nKeywordsUser;			// 辅助应答所属栏序列
+	string				m_sKeywordsFind;			// 辅助应答查找栏关键字
 };
 
 class IBaseObject
