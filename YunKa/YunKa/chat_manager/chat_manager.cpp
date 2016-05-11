@@ -35,6 +35,7 @@ CChatManager::CChatManager(IBaseMsgs* iBaseMsgs)
 	m_sysConfig = new CSysConfigFile();
 	m_timers = new CTimerManager(CChatManager::TimerProc, this);
 	m_msgId = 0;
+	m_nClientIndex = 1;
 
 	LoadINIResource();
 	ReadSystemConfig();
@@ -186,7 +187,7 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 
 	COM_HEAD_PACK Head;
 	Head.head = *((PACK_HEADER*)RecvBuf);
-	g_WriteLog.WriteLog(C_LOG_TRACE, "logondlg recv Cmd:%.4x", Head.head.cmd);
+	g_WriteLog.WriteLog(C_LOG_TRACE, "OnReceive logondlg recv Cmd:%.4x", Head.head.cmd);
 
 	switch (Head.head.cmd)
 	{
@@ -357,7 +358,8 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 {
 	SRV_REP_USERINFO RecvInfo(packhead.ver);
 	int nError = 0;
-	CUserObject *pUser;
+	CUserObject *pUser = NULL;
+	CWebUserObject *pWebUser = NULL;
 
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
@@ -370,6 +372,8 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 	if (!m_isLoginSuccess)
 	{
 		SaveUserConfig();
+
+		m_CommUserInfo.UserInfo.compid = m_userInfo.UserInfo.compid;
 
 		// 收到登录用户的信息包，登录成功
 		if (m_baseMsgs)
@@ -393,22 +397,21 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 			ConvertMsg(RecvInfo.UserInfo.info.nickname, sizeof(RecvInfo.UserInfo.info.nickname) - 1);
 		}
 
-		g_WriteLog.WriteLog(C_LOG_TRACE, "recvsrvrepuserinfo uid=%u,sid=%s,nickname=%s,username=%s,langtype=%u", RecvInfo.uin,
+		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvSrvRepUserinfo uid=%u,sid=%s,nickname=%s,username=%s,langtype=%u", RecvInfo.uin,
 			RecvInfo.UserInfo.info.sid, RecvInfo.UserInfo.info.nickname, RecvInfo.UserInfo.info.username, RecvInfo.UserInfo.info.langtype);
 
 		if (RecvInfo.uin > WEBUSER_UIN)
 		{
-			//pWebUser = GetWebUserObjectByID(RecvInfo.uin);
-			//
-			//if (pWebUser != NULL)
-			//{
-			//	strcpy(pWebUser->info.name, RecvInfo.UserInfo.info.nickname);
-			//	m_pFormUser->InvalidateTreeItem((DWORD)pWebUser, pWebUser->info.name);
-			//	if (strlen(pWebUser->info.name) < 2)
-			//	{
-			//		g_WriteLog.WriteLog(C_LOG_ERROR, "name length is null：RecvSrvRepUserinfo() name length：%d", strlen(pWebUser->info.name));
-			//	}
-			//}
+			pWebUser = GetWebUserObjectByUid(RecvInfo.uin);
+
+			if (pWebUser != NULL)
+			{
+				strcpy(pWebUser->info.name, RecvInfo.UserInfo.info.nickname);
+				if (strlen(pWebUser->info.name) < 2)
+				{
+					g_WriteLog.WriteLog(C_LOG_ERROR, "RecvSrvRepUserinfo() name length：%d", strlen(pWebUser->info.name));
+				}
+			}
 		}
 		else
 		{
@@ -444,11 +447,10 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 			m_baseMsgs->RecvOneUserInfo(pUser);
 
 			// 下载头像
-			//pUser->DownLoadFace();
+			pUser->DownLoadFace();
 		}
 	}
 	
-
 	nError = 0;
 RETURN:
 
@@ -718,7 +720,7 @@ int CChatManager::SendPackTo(CPackInfo *pPackInfo, unsigned long recvuid, unsign
 	memset(&TcpPackHead, '\0', sizeof(TCP_PACK_HEADER));
 	TcpPackHead.len = pPackInfo->m_Pack.GetPackLength();
 
-	g_WriteLog.WriteLog(C_LOG_TRACE, "send pack cmd:%.4X", pPackInfo->m_Head.head.cmd);
+	g_WriteLog.WriteLog(C_LOG_TRACE, "SendOnePack send pack cmd:%.4X", pPackInfo->m_Head.head.cmd);
 
 	nSendLen = m_socket.SendImPack((char *)(pPackInfo->m_Pack.GetPackBuff()), TcpPackHead, nError);
 	if (nSendLen != TcpPackHead.len + nTcpPackHeadLen)
@@ -756,12 +758,11 @@ int CChatManager::RecvSrvStatusFrdOnline(PACK_HEADER packhead, char *pRecvBuff, 
 	SRV_STATUS_FRDONLINE RecvInfo(packhead.ver);
 	int nError = 0;
 	CUserObject *pUser = NULL;
-	CWebUserObject *pWebUser = NULL;
 
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0 || RecvInfo.m_Head.head.random != m_usSrvRand)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvsrvstatusfrdonline unpack failed");
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvSrvStatusFrdOnline unpack failed");
 		return nError;
 	}
 
@@ -773,15 +774,10 @@ int CChatManager::RecvSrvStatusFrdOnline(PACK_HEADER packhead, char *pRecvBuff, 
 	if (RecvInfo.uin > WEBUSER_UIN)
 	{
 		//访客对话开始
-		pWebUser = GetWebUserObjectByUid(RecvInfo.uin);
-		if (pWebUser == NULL)
-		{
-			//GetWebUserID(RecvInfo.uin,NULL);
-		}
+		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvSrvStatusFrdOnline: RecvInfo.uin > WEBUSER_UIN");
 	}
 	else
 	{
-
 		pUser = GetUserObjectByUid(RecvInfo.uin);
 		if (pUser == NULL)
 		{
@@ -790,40 +786,12 @@ int CChatManager::RecvSrvStatusFrdOnline(PACK_HEADER packhead, char *pRecvBuff, 
 
 			pUser->status = STATUS_ONLINE;
 			strcpy(pUser->UserInfo.nickname, RecvInfo.nickname);
-
-			//this->m_pFormUser->AddNewUserToTree(pUser);
 			pUser->m_nFlag = 1;
-
-			//if (m_pUserAndAuthDlg != NULL && m_pUserAndAuthDlg->IsWindowVisible())
-			//{
-			//	m_pUserAndAuthDlg->InitialSetup();
-			//}
-			//
-			//m_pFormUser->ExpandUserItem(pUser);
 		}
 		else
 		{
-			if (pUser->status == STATUS_OFFLINE)
-			{
-				pUser->status = STATUS_ONLINE;
-				strcpy(pUser->UserInfo.nickname, RecvInfo.nickname);
-
-				//m_pFormUser->MoveUserToOnlineItem(pUser, true);
-			}
-			else
-			{
-				if (strcmp(pUser->UserInfo.nickname, RecvInfo.nickname) != 0 || pUser->status != RecvInfo.status)
-				{
-					bool bexpand = (pUser->status != STATUS_ONLINE);
-
-					pUser->status = STATUS_ONLINE;	//RecvInfo.status;
-					strcpy(pUser->UserInfo.nickname, RecvInfo.nickname);
-					//m_pFormUser->InvalidateTreeItem((DWORD)pUser, pUser->GetUserDisplayName());
-
-					//if (bexpand)
-						//m_pFormUser->ExpandUserItem(pUser);
-				}
-			}
+			pUser->status = STATUS_ONLINE;
+			strcpy(pUser->UserInfo.nickname, RecvInfo.nickname);
 		}
 
 		if (pUser->UserInfo.uid == m_userInfo.UserInfo.uid)
@@ -849,7 +817,7 @@ int CChatManager::RecvSrvStatusFrdOffline(PACK_HEADER packhead, char *pRecvBuff,
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0 || RecvInfo.m_Head.head.random != m_usSrvRand)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvsrvstatusfrdoffline unpack failed");
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvSrvStatusFrdOffline unpack failed");
 		return nError;
 	}
 	g_WriteLog.WriteLog(C_LOG_TRACE, "RecvSrvStatusFrdOffline uin:%u,externid:%u, bak:%u",
@@ -860,24 +828,17 @@ int CChatManager::RecvSrvStatusFrdOffline(PACK_HEADER packhead, char *pRecvBuff,
 		pWebUser = GetWebUserObjectByUid(RecvInfo.uin);
 		if (pWebUser != NULL)
 		{
-			pUser = GetUserObjectByUid(pWebUser->talkuid);
-
 			pWebUser->m_bNewComm = false;
 			pWebUser->cTalkedSatus = HASTALKED;
 			pWebUser->transferuid = 0;
 			if (pWebUser->m_bConnected)
 			{
-				//SendWebuserTalkEnd(pWebUser);
+				SendWebuserTalkEnd(pWebUser);
 
 				pWebUser->m_bConnected = true;
 				pWebUser->m_nWaitTimer = -20;
 				pWebUser->onlineinfo.talkstatus = TALKSTATUS_NO;
-
-				//m_pFormMain->RecvWebUserStartTalk(pWebUser, false);
-				//m_pFormUser->MoveWebUserToOnlineItem(pWebUser, pWebUser->IsOnline());
 			}
-			//结束会话，要从用户群列表中删除
-			//DelWebUserInMultiList(pWebUser);
 		}
 	}
 	else
@@ -891,24 +852,17 @@ int CChatManager::RecvSrvStatusFrdOffline(PACK_HEADER packhead, char *pRecvBuff,
 				bexpand = true;
 				pUser->m_bConnected = true;
 				pUser->talkstatus = TALKSTATUS_NO;
-				pUser->status = STATUS_OFFLINE;//RecvInfo.status;
-
-				//m_pFormUser->RemoveUserAllActiveTalkUser(pUser);
-				//m_pFormUser->MoveUserToOnlineItem(pUser, false);
+				pUser->status = STATUS_OFFLINE;
 			}
-
-			//m_pFormUser->InvalidateTreeItem((DWORD)pUser, pUser->GetUserDisplayName());
-			//if (bexpand)
-				//m_pFormUser->ExpandUserItem(pUser);
 
 			if (pUser->UserInfo.uid == m_userInfo.UserInfo.uid)
 			{
-				g_WriteLog.WriteLog(C_LOG_TRACE, "RecvSrvStatusFrdOffline--SetOfflineStatus uid%u", m_userInfo.UserInfo.uid);
+				g_WriteLog.WriteLog(C_LOG_TRACE, "RecvSrvStatusFrdOffline uid:%u", m_userInfo.UserInfo.uid);
 				m_nOnLineStatus = STATUS_OFFLINE;
 				m_nOnLineStatusEx = STATUS_OFFLINE;
 			}
+			m_baseMsgs->RecvOffline(pUser);
 		}
-		m_baseMsgs->RecvOffline(pUser);
 	}
 
 	nError = 0;
@@ -925,7 +879,7 @@ int CChatManager::RecvSrvStatusUserForm(PACK_HEADER packhead, char *pRecvBuff, i
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvsrvstatususerform unpack failed");
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvSrvStatusUserForm unpack failed");
 		return nError;
 	}
 
@@ -933,12 +887,8 @@ int CChatManager::RecvSrvStatusUserForm(PACK_HEADER packhead, char *pRecvBuff, i
 	if (pUser != NULL)
 	{
 		pUser->status = RecvInfo.GetOnlineStatus();
-		//m_pFormUser->InvalidateTreeItem((DWORD)pUser, pUser->GetUserDisplayName());
-
-		//m_pFormUser->ExpandUserItem(pUser);
+		m_baseMsgs->RecvUserStatus(pUser);
 	}
-
-	m_baseMsgs->RecvUserStatus(pUser);
 
 	nError = 0;
 
@@ -961,7 +911,6 @@ int CChatManager::RecvFloatShareList(PACK_HEADER packhead, char *pRecvBuff, int 
 	}
 
 	ONLINEFLAGUNION onlineflag;
-	string szsharelsit, sztemp;
 	for (iter = RecvInfo.sharememlist.begin(); iter != RecvInfo.sharememlist.end(); iter++)
 	{
 		SHAREUSEROBJ ShareUserOb = (SHAREUSEROBJ)(*iter);
@@ -975,8 +924,7 @@ int CChatManager::RecvFloatShareList(PACK_HEADER packhead, char *pRecvBuff, int 
 			//pUser->DownLoadFace();
 		}
 
-		//sztemp.Format("uin=%u:OnlineStatus=%d,", ShareUserOb.uin, onlineflag.stStatus.nOnlineStatus);
-		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatShareList:%s", sztemp);
+		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatShareList:uin=%u:OnlineStatus=%d", ShareUserOb.uin, onlineflag.stStatus.nOnlineStatus);
 		pUser->m_bFriend = true;
 	}
 
@@ -1124,7 +1072,7 @@ int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
 					strcpy(pWebUser->info.name, RecvInfo.msg.strmobile);
 					if (strlen(pWebUser->info.name) < 2)
 					{
-						g_WriteLog.WriteLog(C_LOG_ERROR, "name length is null：RecvComSendMsg1() name length：%d", strlen(pWebUser->info.name));
+						g_WriteLog.WriteLog(C_LOG_ERROR, "RecvComSendMsg1 name length：%d", strlen(pWebUser->info.name));
 					}
 				}
 				else if (!pWebUser->info.nameflag && strcmp(RecvInfo.msg.strmobile, pWebUser->info.name) != 0)
@@ -1137,7 +1085,7 @@ int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
 					{
 						if (strlen(pWebUser->info.name) < 2)
 						{
-							g_WriteLog.WriteLog(C_LOG_ERROR, "name length is null：RecvComSendMsg2() name length：%d", strlen(pWebUser->info.name));
+							g_WriteLog.WriteLog(C_LOG_ERROR, "RecvComSendMsg2 name length：%d", strlen(pWebUser->info.name));
 						}
 					}
 				}
@@ -1232,7 +1180,7 @@ int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
 		{
 			pUser = AddUserObject(RecvInfo.msg.senduin, "", RecvInfo.msg.strmobile, STATUS_ONLINE, -1);
 			// 下载该坐席的头像
-			//pUser->DownLoadFace();
+			pUser->DownLoadFace();
 			if (pUser == NULL)
 			{
 				goto RETURN;
@@ -1278,19 +1226,19 @@ int CChatManager::RecvFloatCreateChat(PACK_HEADER packhead, char *pRecvBuff, int
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatcreatechat unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatCreateChat unpack failed,Cmd:%.4x", packhead.cmd);
 		goto RETURN;
 	}
 	else
 	{
-		g_WriteLog.WriteLog(C_LOG_TRACE, "**RecvFloatCreateChat uAdminId:%u,usort:%hu,uWebuin:%u,chatid:%s,clienttid:%s,webname:%s,uKefu:%u,uFromAdmin:%u,uFromSort:%hu",
+		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatCreateChat uAdminId:%u,usort:%hu,uWebuin:%u,chatid:%s,clienttid:%s,webname:%s,uKefu:%u,uFromAdmin:%u,uFromSort:%hu",
 			RecvInfo.uAdminId, RecvInfo.usort, RecvInfo.uWebuin, RecvInfo.chatid, RecvInfo.clienttid, RecvInfo.webname, RecvInfo.uKefu, RecvInfo.uFromAdmin, RecvInfo.uFromSort);
 	}
 	if (0 == RecvInfo.clienttid[0])
 	{
 		//处理cookie中没有clientid对话类型
 		sprintf(RecvInfo.clienttid, "%lu", RecvInfo.uWebuin);
-		g_WriteLog.WriteLog(C_LOG_TRACE, "recvfloatcreatechat clientid is empty,set as webuin:%u", RecvInfo.uWebuin);
+		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatCreateChat clientid is empty,set as webuin:%u", RecvInfo.uWebuin);
 	}
 	pWebUser = GetWebUserObjectBySid(RecvInfo.clienttid);
 	if (pWebUser == NULL)
@@ -1305,18 +1253,14 @@ int CChatManager::RecvFloatCreateChat(PACK_HEADER packhead, char *pRecvBuff, int
 		strcpy(pWebUser->info.name, RecvInfo.webname);
 	}
 
-	//GetWxUserInfoAndToken(pWebUser);
+	SendGetWxUserInfoAndToken(pWebUser);
 
 	pWebUser->cTalkedSatus = INTALKING;
 	if (RecvInfo.uFromAdmin == 0)
 	{
 		pWebUser->nVisitFrom = WEBUSERICON_DIRECTURL;
 	}
-	else if (RecvInfo.uFromAdmin == m_login->m_authAdminid)
-	{
-
-	}
-	else
+	else if (RecvInfo.uFromAdmin != m_login->m_authAdminid)
 	{
 		pWebUser->nVisitFrom = WEBUSERICON_UNIONURL;
 	}
@@ -1339,56 +1283,42 @@ int CChatManager::RecvFloatCreateChat(PACK_HEADER packhead, char *pRecvBuff, int
 			pWebUser->onlineinfo.talkstatus = TALKSTATUS_REQUEST;
 			pWebUser->m_nWaitTimer = 0;
 
-			string str;
-			//str = "%s 用户申请对话!" + pWebUser->info.name;
-			
+			string msg = pWebUser->info.name;
+			msg += "%s 用户申请对话!";
 
-			// 提示音??
+			m_baseMsgs->RecvOneMsg(pWebUser, MSG_FROM_SYS, GetMsgId(), MSG_TYPE_NORMAL, MSG_DATA_TYPE_TEXT, msg);
 		}
 	}
 	else
 	{
-		//pWebUser->onlineinfo.talkstatus = TALKSTATUS_TALK;
+		pWebUser->onlineinfo.talkstatus = TALKSTATUS_TALK;
+		pUser = GetUserObjectByUid(RecvInfo.uKefu);
 
-		//pUser = GetUserObjectByUid(RecvInfo.uKefu);
+		if (pUser != NULL &&(pUser->UserInfo.uid == m_userInfo.UserInfo.uid || pUser->m_bFriend))
+		{
+			pWebUser->transferuid = 0;
+			if (RecvInfo.uKefu == m_userInfo.UserInfo.uid)
+			{
+				//是自己邀请的访客
+				pWebUser->m_nWaitTimer = 0;
+				pWebUser->m_bConnected = true;
+			}
+			else
+			{
+				//其他人邀请的访客
+				pWebUser->m_nWaitTimer = -20;
+				pWebUser->m_bConnected = HASINSERTRIGHT;
+			}
 
-		//if (pUser != NULL &&
-		//	(pUser->UserInfo.uid == m_userInfo.UserInfo.uid || pUser->m_bFriend)
-		//	)
-		//{
+			pWebUser->talkuid = RecvInfo.uKefu;
 
-		//	pWebUser->transferuid = 0;
+			//读取会话历史消息，并接受新的消息
+			SendStartRecvFloatMsg(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid, pWebUser->m_sNewSeq);
 
-		//	if (RecvInfo.uKefu == m_userInfo.UserInfo.uid)
-		//	{
-		//		//是自己邀请的访客
-		//		pWebUser->m_nWaitTimer = 0;
-		//		pWebUser->m_bConnected = true;
-		//	}
-		//	else
-		//	{
-		//		//其他人邀请的访客
-		//		pWebUser->m_nWaitTimer = -20;
-		//		pWebUser->m_bConnected = HASINSERTRIGHT;
-		//	}
-
-		//	pWebUser->talkuid = RecvInfo.uKefu;
-
-		//	//读取会话历史消息，并接受新的消息
-		//	StartRecvFloatMsg(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid, pWebUser->m_sNewSeq);
-
-		//	//访客邀请
-		//	m_pFormMain->RecvUserAcceptChat(pWebUser, pUser);
-		//	g_WriteLog.WriteLog(C_LOG_TRACE, "Recvfloatcreatechat kefuName：%s,webuserName:%s", pUser->UserInfo.nickname, pWebUser->info.name);
-		//	//访客移到客服的对话列表
-		//	//m_pFormUser->MoveWebUserToUserTalkItem(pWebUser, pUser);
-		//	int nRet = this->m_pFormUser->MoveWebUserToUserTalkItem(pWebUser, pUser);
-		//	if (nRet < 0)
-		//		m_pFormUser->m_TreeListUser.DeleteItemByLParam((LPARAM)pWebUser);
-		//	else if (RecvInfo.uKefu == m_userInfo.UserInfo.uid)
-		//		AddMultiWebUserToList(pWebUser);//把接入的会话移动到会话列表中
-
-		//}
+			char msg[MAX_256_LEN];
+			sprintf(msg, "%s接受了访客%s的会话", pUser->UserInfo.nickname, pWebUser->info.name);
+			m_baseMsgs->RecvOneMsg(pWebUser, MSG_FROM_SYS, GetMsgId(), MSG_TYPE_NORMAL, MSG_DATA_TYPE_TEXT, msg, GetTimeStringMDAndHMS(0));
+		}
 	}
 
 	if (RecvInfo.memlist.find(m_userInfo.UserInfo.uid) != RecvInfo.memlist.end())
@@ -1418,7 +1348,7 @@ int CChatManager::RecvFloatChatInfo(PACK_HEADER packhead, char *pRecvBuff, int l
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatchatinfo unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatChatInfo unpack failed,Cmd:%.4x", packhead.cmd);
 
 		goto RETURN;
 	}
@@ -1437,11 +1367,11 @@ int CChatManager::RecvFloatChatInfo(PACK_HEADER packhead, char *pRecvBuff, int l
 	}
 	else
 	{
-		//ChangeWebUserSid(pWebUser, RecvInfo.strClientId, RecvInfo.strThirdId);
+		ChangeWebUserSid(pWebUser, RecvInfo.strClientId, RecvInfo.strThirdId);
 	}
 
 	// 只要收到会话信息，一律去服务器获取work_bill包
-	//GetWebUserID(pWebUser->webuserid, RecvInfo.chatid, strMsg.GetBuffer(0));
+	SendTo_GetWebUserInfo(pWebUser->webuserid, RecvInfo.chatid, strMsg);
 	if (pWebUser->m_nEMObType != OBJECT_WEBUSER)
 	{
 		pWebUser->m_nEMObType = OBJECT_WEBUSER;
@@ -1464,9 +1394,7 @@ int CChatManager::RecvFloatChatInfo(PACK_HEADER packhead, char *pRecvBuff, int l
 		pWebUser->info.status = STATUS_ONLINE;
 		pWebUser->m_nWaitTimer = 0;
 
-		//m_pFormMain->RecvWebUserInvite(pWebUser, "");
-		//m_pFormUser->MoveWebUserToWaitItem(pWebUser);//等待应答的，移动到等待应答队列
-		//StartRecvFloatMsg(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid, pWebUser->m_sNewSeq);
+		SendStartRecvFloatMsg(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid, pWebUser->m_sNewSeq);
 	}
 	else
 	{
@@ -1480,10 +1408,6 @@ int CChatManager::RecvFloatChatInfo(PACK_HEADER packhead, char *pRecvBuff, int l
 			pWebUser->m_nWaitTimer = 0;
 
 			CUserObject *pInviteUser = GetUserObjectByUid(m_nNextInviteUid);
-
-			//这里必须先在htmleditor中显示，然后再移动位置，因为移动位置可能会导致区域的切换，其他地方同样考虑
-			//this->m_pFormMain->SendInviteToWebUser(pInviteUser, pWebUser, INVITE_HELP, m_userInfo);
-			//m_pFormUser->MoveWebUserToUserInviteItem(pWebUser, m_userInfo);
 
 			m_nNextInviteWebuserUid = 0;
 			m_nNextInviteUid = 0;
@@ -1534,22 +1458,16 @@ int CChatManager::RecvFloatChatInfo(PACK_HEADER packhead, char *pRecvBuff, int l
 					pWebUser->transferuid = 0;
 					pWebUser->talkuid = pUser->UserInfo.uid;//邀请用户的要改变talkid为自己的
 
-					//访客转移
-					//m_pFormMain->RecvUserAcceptChat(pWebUser, pUser);
+					char msg[MAX_256_LEN];
+					sprintf(msg, "%s接受了访客%s的会话", pUser->UserInfo.nickname, pWebUser->info.name);
 
-					//访客移到客服的对话列表
-					//int nRet = m_pFormUser->MoveWebUserToUserTalkItem(pWebUser, pUser);
-					//if (nRet < 0)
-					//m_pFormUser->m_TreeListUser.DeleteItemByLParam((LPARAM)pWebUser);
-					//else if (pUser->UserInfo.uid == m_userInfo.UserInfo.uid)
-					//AddMultiWebUserToList(pWebUser);//把接入的会话移动到会话列表中
-
+					m_baseMsgs->RecvOneMsg(pWebUser, MSG_FROM_SYS, GetMsgId(), MSG_TYPE_NORMAL, MSG_DATA_TYPE_TEXT, msg);
 
 					if (RecvInfo.uKefuUin&&pUser->m_bFriend
 						|| !RecvInfo.uKefuUin&&!pWebUser->m_bNotResponseUser)
 					{
 						//读取会话历史消息，并接受新的消息
-						//StartRecvFloatMsg(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid, pWebUser->m_sNewSeq);
+						SendStartRecvFloatMsg(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid, pWebUser->m_sNewSeq);
 					}
 				}
 			}
@@ -1566,20 +1484,13 @@ int CChatManager::RecvFloatChatInfo(PACK_HEADER packhead, char *pRecvBuff, int l
 					strcpy(pWebUser->chatid, RecvInfo.chatid);
 				pWebUser->floatadminuid = RecvInfo.uAdminId;
 
-				//if (pUser != NULL)
-				//	m_pFormMain->SendInviteToWebUser(pUser, pWebUser, INVITE_TRANSFER, pAcceptUser);
-				//else if (pAcceptUser != NULL)
-				//	m_pFormMain->RecvTransferWebUser(pWebUser, pAcceptUser->UserInfo.nickname);
+				char msg[MAX_256_LEN];
+				if (pUser != NULL)
+					GetChatSysMsg(msg, pUser, pWebUser, INVITE_TRANSFER, pAcceptUser);
+				else if (pAcceptUser != NULL)
+					sprintf(msg, "访客 %s 转移到 %s", pWebUser->info.name, pAcceptUser->UserInfo.nickname);
 
-				//m_pFormUser->DeleteChildItem((DWORD)pUser, TREELPARAM_USER_TALK, (DWORD)pWebUser);
-				//m_pFormUser->MoveWebUserToUserTransferItem(pWebUser, pAcceptUser);
-
-
-				//这里处理是不是需要用户手动接受
-				if (RecvInfo.uTansferingToKefu == this->m_userInfo.UserInfo.uid)
-				{
-
-				}
+				m_baseMsgs->RecvOneMsg(pWebUser, MSG_FROM_SYS, GetMsgId(), MSG_TYPE_NORMAL, MSG_DATA_TYPE_TEXT, msg);
 			}
 		}
 	}
@@ -1620,7 +1531,6 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 	int nError = 0;
 	int msgType = MSG_TYPE_NORMAL;
 	int msgFrom = MSG_FROM_USER;
-	char msgTime[MAX_256_LEN];
 	WxMsgBase* msgContentWx = NULL;
 	CUserObject *pAssistUser = NULL;
 	CWebUserObject *pWebUser = NULL;
@@ -1628,14 +1538,14 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatchatmsg unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatChatMsg unpack failed,Cmd:%.4x", packhead.cmd);
 		goto RETURN;
 	}
 
 	pWebUser = GetWebUserObjectByUid(RecvInfo.webuin);
 	if (pWebUser == NULL)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatchatmsg getwebuserobjectbyid(%u) failed", RecvInfo.webuin);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatChatMsg getwebuserobjectbyid(%u) failed", RecvInfo.webuin);
 		goto RETURN;
 	}
 
@@ -1772,10 +1682,8 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 			// 获取系统当前时间
 		}
 
-		GetTimeStringMDAndHMS(RecvInfo.tMsgTime, msgTime);
-
 		m_baseMsgs->RecvOneMsg((IBaseObject*)pWebUser, msgFrom, GetMsgId(),	msgType, RecvInfo.nMsgDataType, 
-			RecvInfo.strmsg, msgTime, pAssistUser, msgContentWx, "");
+			RecvInfo.strmsg, GetTimeStringMDAndHMS(RecvInfo.tMsgTime), pAssistUser, msgContentWx, "");
 
 
 		// 同步更新关联词
@@ -1812,11 +1720,11 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 		break;
 	case MSG_WORKBILL:
 	case MSG_CLIENT_COME:
-		g_WriteLog.WriteLog(C_LOG_TRACE, "--recvfloatchatmsg MSG_WORKBILL msgtype--");
+		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatChatMsg MSG_WORKBILL msgtype--");
 		//RecvComSendWorkBillMsg(RecvInfo.webuin, -1, RecvInfo.strmsg, RecvInfo.nickname);
 		break;
 	default:
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatchatmsg unkown msgtype:%d", RecvInfo.nMsgType);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatChatMsg unkown msgtype:%d", RecvInfo.nMsgType);
 		break;
 	}
 
@@ -1836,12 +1744,12 @@ int CChatManager::RecvFloatChatMsgAck(PACK_HEADER packhead, char *pRecvBuff, int
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatchatmsgack unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatChatMsgAck unpack failed,Cmd:%.4x", packhead.cmd);
 
 		goto RETURN;
 	}
 
-	g_WriteLog.WriteLog(C_LOG_TRACE, "recvfloatchatmsgack uAdminId:%u,uWebuin:%u,chatid:%s,msgseq:%hu",
+	g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatChatMsgAck uAdminId:%u,uWebuin:%u,chatid:%s,msgseq:%hu",
 		RecvInfo.uAdminId, RecvInfo.webuin, RecvInfo.chatid, RecvInfo.chatseq);
 
 	pWebUser = GetWebUserObjectByUid(RecvInfo.webuin);
@@ -1865,11 +1773,11 @@ int CChatManager::RecvFloatAcceptChat(PACK_HEADER packhead, char *pRecvBuff, int
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatacceptchat unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatAcceptChat unpack failed,Cmd:%.4x", packhead.cmd);
 		goto RETURN;
 	}
 
-	g_WriteLog.WriteLog(C_LOG_TRACE, "recvfloatacceptchat sender:%u,uAdminId:%u,uWebuin:%u,chatid:%s,nickname:%s",
+	g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatAcceptChat sender:%u,uAdminId:%u,uWebuin:%u,chatid:%s,nickname:%s",
 		packhead.uin, RecvInfo.uAdminId, RecvInfo.uWebuin, RecvInfo.chatid, RecvInfo.nickname);
 
 
@@ -1877,7 +1785,7 @@ int CChatManager::RecvFloatAcceptChat(PACK_HEADER packhead, char *pRecvBuff, int
 	pWebUser = GetWebUserObjectByUid(RecvInfo.uWebuin);
 	if (pWebUser == NULL)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatacceptchat GetWebUserObjectByID(%u) failed", RecvInfo.uWebuin);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatAcceptChat GetWebUserObjectByID(%u) failed", RecvInfo.uWebuin);
 		goto RETURN;
 	}
 	if (m_userInfo.UserInfo.uid != packhead.uin)//接受者不是当前坐席
@@ -1891,8 +1799,7 @@ int CChatManager::RecvFloatAcceptChat(PACK_HEADER packhead, char *pRecvBuff, int
 	if (pUser == NULL || (m_userInfo.UserInfo.uid != pUser->UserInfo.uid&&!pUser->m_bFriend))
 	{
 		pWebUser->cTalkedSatus = HASTALKED;
-		//m_pFormUser->m_TreeListUser.DeleteItemByLParam((LPARAM)pWebUser);
-		g_WriteLog.WriteLog(C_LOG_ERROR, "delete user name is :%s, chatid: %s", pWebUser->info.name, pWebUser->chatid);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatAcceptChat delete user name is :%s, chatid: %s", pWebUser->info.name, pWebUser->chatid);
 	}
 	else
 	{
@@ -1906,21 +1813,18 @@ int CChatManager::RecvFloatAcceptChat(PACK_HEADER packhead, char *pRecvBuff, int
 		}
 
 		//其他人邀请的访客
-		//pWebUser->RemoveMutiUser(pWebUser->talkuid);
+		pWebUser->RemoveMutiUser(pWebUser->talkuid);
 		pWebUser->inviteuid = 0;
-		//访客邀请
-		//m_pFormMain->RecvUserAcceptChat(pWebUser, pUser);
 
-		//访客移到接受客服的对话列表
-		//nRet = m_pFormUser->MoveWebUserToUserTalkItem(pWebUser, pUser);
-		//if (nRet < 0)
-		//	m_pFormUser->m_TreeListUser.DeleteItemByLParam((LPARAM)pWebUser);
-		//else if (packhead.uin == m_userInfo.UserInfo.uid)
-		//	AddMultiWebUserToList(pWebUser);//把接入的会话移动到会话列表中
-		////读取会话历史消息，并接受新的消息
-		//StartRecvFloatMsg(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid, pWebUser->m_sNewSeq);
+		char msg[MAX_256_LEN];
+		sprintf(msg, "%s接受了访客%s的会话", pUser->UserInfo.nickname, pWebUser->info.name);
 
+		//读取会话历史消息，并接受新的消息
+		SendStartRecvFloatMsg(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid, pWebUser->m_sNewSeq);
 	}
+
+	m_baseMsgs->RecvAcceptChat(pUser, pWebUser);
+
 	nError = 0;
 RETURN:
 
@@ -1934,11 +1838,10 @@ int CChatManager::RecvFloatTransQuest(PACK_HEADER packhead, char *pRecvBuff, int
 	CUserObject *pInviteUser = NULL;
 	CUserObject *pAcceptUser = NULL;
 	CWebUserObject *pWebUser = NULL;
-	char sztime[256] = { 0 };
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloattransquest unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatTransQuest unpack failed,Cmd:%.4x", packhead.cmd);
 		goto RETURN;
 	}
 
@@ -1986,7 +1889,7 @@ int CChatManager::RecvFloatTransQuest(PACK_HEADER packhead, char *pRecvBuff, int
 	}
 	if (packhead.uin == m_userInfo.UserInfo.uid)//当前坐席是发起转接者
 	{
-		GetTimeStringMDAndHMS(0, sztime);
+		//GetTimeStringMDAndHMS(0, sztime);
 		//CString strTip = "";
 		//已发起转接请求到%s
 		//strTip.Format("已发起转接请求到%s", pAcceptUser->UserInfo.nickname);
@@ -2011,7 +1914,7 @@ int CChatManager::RecvFloatTransFailed(PACK_HEADER packhead, char *pRecvBuff, in
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloattransfailed unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatTransFailed unpack failed,Cmd:%.4x", packhead.cmd);
 		goto RETURN;
 	}
 
@@ -2023,7 +1926,7 @@ int CChatManager::RecvFloatTransFailed(PACK_HEADER packhead, char *pRecvBuff, in
 	pAcceptUser = GetUserObjectByUid(RecvInfo.TransToKefu);
 	if (pWebUser == NULL)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatacceptchat GetWebUserObjectByID(%u) failed", RecvInfo.uWebuin);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatTransFailed GetWebUserObjectByID(%u) failed", RecvInfo.uWebuin);
 		goto RETURN;
 	}
 	pWebUser->onlineinfo.talkstatus = TALKSTATUS_TALK;//TALKSTATUS_REQUEST --> TALKSTATUS_TALK
@@ -2080,11 +1983,11 @@ int CChatManager::RecvInviteRequest(PACK_HEADER packhead, char *pRecvBuff, int l
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvinviterequest unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvInviteRequest unpack failed,Cmd:%.4x", packhead.cmd);
 		goto RETURN;
 	}
 
-	g_WriteLog.WriteLog(C_LOG_TRACE, "接收邀请协助请求 sender:%u,uAdminId:%u,uWebuin:%u,chatid:%s,uInviteUser:%u",
+	g_WriteLog.WriteLog(C_LOG_TRACE, "RecvInviteRequest sender:%u,uAdminId:%u,uWebuin:%u,chatid:%s,uInviteUser:%u",
 		packhead.uin, RecvInfo.uAdminId, RecvInfo.uWebuin, RecvInfo.chatid, RecvInfo.uInviteUser);
 
 
@@ -2101,7 +2004,7 @@ int CChatManager::RecvInviteRequest(PACK_HEADER packhead, char *pRecvBuff, int l
 			SendTo_GetWebUserChatInfo(packhead.random, RecvInfo.uAdminId, RecvInfo.chatid);
 		}
 
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvinviterequest GetWebUserObjectByID(%u) failed", RecvInfo.uWebuin);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvInviteRequest GetWebUserObjectByID(%u) failed", RecvInfo.uWebuin);
 		goto RETURN;
 	}
 	else
@@ -2143,7 +2046,7 @@ int CChatManager::RecvInviteResult(PACK_HEADER packhead, char *pRecvBuff, int le
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvinviteresult unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvInviteResult unpack failed,Cmd:%.4x", packhead.cmd);
 		goto RETURN;
 	}
 
@@ -2153,7 +2056,7 @@ int CChatManager::RecvInviteResult(PACK_HEADER packhead, char *pRecvBuff, int le
 	pWebUser = GetWebUserObjectByUid(RecvInfo.uWebuin);
 	if (pWebUser == NULL)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "GetWebUserObjectByID(%u)==NULL in RecvInviteResult", RecvInfo.uWebuin);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvInviteResult uWebuin:%u", RecvInfo.uWebuin);
 		return nError;
 	}
 	pWebUser->cTalkedSatus = INTALKING;
@@ -2255,7 +2158,7 @@ int CChatManager::RecvFloatCloseChat(PACK_HEADER packhead, char *pRecvBuff, int 
 	nError = UnPack(&RecvInfo, pRecvBuff, len);
 	if (nError != 0)
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatclosechat unpack failed,Cmd:%.4x", packhead.cmd);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatCloseChat unpack failed,Cmd:%.4x", packhead.cmd);
 		return nError;
 	}
 
@@ -2268,41 +2171,41 @@ int CChatManager::RecvFloatCloseChat(PACK_HEADER packhead, char *pRecvBuff, int 
 	{
 		if (pWebUser == NULL)
 		{
-			g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatclosechat GetWebUserObjectByID(%u) failed", RecvInfo.webuin);
+			g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatCloseChat GetUserObjectByUid(%u) failed", RecvInfo.webuin);
 		}
 		else
 		{
-			g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatclosechat chatid(local:%s,pack:%s) not same", pWebUser->chatid, RecvInfo.chatid);
+			g_WriteLog.WriteLog(C_LOG_ERROR, "RecvFloatCloseChat chatid(local:%s,pack:%s) not same", pWebUser->chatid, RecvInfo.chatid);
 		}
 		return nError;
 	}
 
 	if (CHATCLOSE_INVISTEXIT == RecvInfo.usType)
 	{
-		g_WriteLog.WriteLog(C_LOG_TRACE, "recvfloatclosechat 被邀请坐席离线(%u)", packhead.uin);
+		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatCloseChat 被邀请坐席离线(%u)", packhead.uin);
+
 		//被邀请的人退出邀请
-		//pWebUser->RemoveMutiUser(packhead.uin);
+		pWebUser->RemoveMutiUser(packhead.uin);
+
 		//添加提示
-		//if (pUser != NULL)
-		//{
-		//	m_pFormMain->RecvInvestUserExit(pWebUser, packhead.uin, pUser->UserInfo.nickname);
-		//}
-		//else
-		//	m_pFormMain->RecvInvestUserExit(pWebUser, packhead.uin, "");
-
-
-		//pWebUser->RemoveMutiUser(packhead.uin);
-		//if (!pWebUser->IsMutiUser())
+		char msg[MAX_256_LEN];
+		if (pUser != NULL)
 		{
-			//更改图标
-			//m_pFormMain->m_pFormUser->ResetWebUserIcon(pWebUser);
+			sprintf(msg, "%s(%u)退出会话", pUser->UserInfo.nickname, packhead.uin);
 		}
+		else
+		{
+			sprintf(msg, "用户(%u)退出会话", packhead.uin);
+		}
+
+		m_baseMsgs->RecvOneMsg(pWebUser, MSG_FROM_SYS, GetMsgId(), MSG_TYPE_NORMAL, MSG_DATA_TYPE_TEXT, msg, GetTimeStringMDAndHMS(0));
+		pWebUser->RemoveMutiUser(packhead.uin);
 	}
 	else
 	{
 		//结束会话，清空协助坐席
-		//if (pWebUser->IsMutiUser())
-		//	pWebUser->RemoveAllMutiUser();
+		if (pWebUser->IsMutiUser())
+			pWebUser->RemoveAllMutiUser();
 		pWebUser->onlineinfo.bInvited = false;
 		pWebUser->m_bNewComm = false;
 		pWebUser->m_bConnected = true;
@@ -2317,23 +2220,20 @@ int CChatManager::RecvFloatCloseChat(PACK_HEADER packhead, char *pRecvBuff, int 
 		{
 			strMsg = "访客会话已结束";
 		}
-		//m_pFormMain->AddToMsgList(pWebUser, "", "", strMsg);
+		m_baseMsgs->RecvOneMsg(pWebUser, MSG_FROM_SYS, GetMsgId(), MSG_TYPE_NORMAL, MSG_DATA_TYPE_TEXT, strMsg.c_str(), GetTimeStringMDAndHMS(0));
 		if (!pWebUser->IsOnline())//这里是不是该用户彻底离线了
 		{
-			g_WriteLog.WriteLog(C_LOG_TRACE, "recvfloatclosechat 坐席离线(%u)访客离线", packhead.uin);
-
-			//SetVisitorOffline(pWebUser);
+			g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatCloseChat 坐席离线(%u)访客离线", packhead.uin);
 		}
 		else
 		{
-			g_WriteLog.WriteLog(C_LOG_TRACE, "recvfloatclosechat 坐席离线(%u)访客访问中", packhead.uin);
+			g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatCloseChat 坐席离线(%u)访客访问中", packhead.uin);
 			//访客退回到在线列表
 			pWebUser->m_nWaitTimer = -20;
 			pWebUser->onlineinfo.talkstatus = TALKSTATUS_NO;
-			//m_pFormUser->MoveWebUserToOnlineItem(pWebUser, pWebUser->IsOnline());
 		}
-		//结束会话，要从用户群列表中删除
-		//DelWebUserInMultiList(pWebUser);
+
+		m_baseMsgs->RecvCloseChat(pWebUser);
 	}
 
 	nError = 0;
@@ -2472,7 +2372,7 @@ void CChatManager::TimerProc(string timeName, LPVOID pThis)
 			{
 				//如果自己的信息没有获取到，那么需要重复的去获取
 				chat_manager->m_nMyInfoIsGet = 0;
-				chat_manager->SendGetClkInfo(chat_manager->m_userInfo.UserInfo.uid, chat_manager->m_userInfo.UserInfo.sid, CMD_SRV_REP_USERINFO);
+				chat_manager->Send_GetInfo(chat_manager->m_userInfo.UserInfo.uid, chat_manager->m_userInfo.UserInfo.sid, CMD_SRV_REP_USERINFO);
 			}
 		}
 	}
@@ -2539,7 +2439,7 @@ unsigned short CChatManager::GetPackSeq()
 	return g_packSeq;
 }
 
-int CChatManager::SendGetClkInfo(unsigned long id, char *strid, unsigned short cmd, unsigned short cmdtype, unsigned short type)
+int CChatManager::Send_GetInfo(unsigned long id, char *strid, unsigned short cmd, unsigned short cmdtype, unsigned short type)
 {
 	int nError = 0;
 	CLT_GET_INFO SendInfo(VERSION, cmd);
@@ -2677,16 +2577,63 @@ int CChatManager::SendTo_UpdateOnlineStatus(unsigned short status)
 
 CWebUserObject * CChatManager::GetWebUserObjectBySid(char *sid)
 {
+	MapWebUsers::iterator iter = m_mapWebUsers.find(sid);
+	if (iter != m_mapWebUsers.end())
+	{
+		return iter->second;
+	}
 	return NULL;
 }
 
-CWebUserObject * CChatManager::AddWebUserObject(char *sid, char *thirdid, char *name, char *scriptflag, char *url, unsigned char status, unsigned char floatauth)
+CWebUserObject * CChatManager::AddWebUserObject(char *sid, char *thirdid, char *name,
+	char *scriptflag, char *url, unsigned char status, unsigned char floatauth)
 {
-	return NULL;
+	CWebUserObject *pWebUser = GetWebUserObjectBySid(sid);
+
+	if (pWebUser == NULL)
+	{
+		pWebUser = new CWebUserObject();
+
+		pWebUser->m_nFlag = 2;
+		pWebUser->m_nIndex = m_nClientIndex;
+		m_nClientIndex++;
+
+		strcpy(pWebUser->info.sid, sid);
+		//pWebUser->AddScriptFlag(scriptflag, url);
+		strcpy(pWebUser->info.thirdid, thirdid);
+		m_mapWebUsers.insert(MapWebUsers::value_type(sid, pWebUser));
+	}
+	else
+	{
+		pWebUser->m_nFlag = 1;
+
+	}
+
+	pWebUser->RemoveAllMutiUser();
+
+	strcpy(pWebUser->info.name, name);
+	if (strlen(pWebUser->info.ipfromname) <= 0)
+		strcpy(pWebUser->info.ipfromname, name);
+	pWebUser->info.status = status;
+
+	pWebUser->SetForbid(m_sysConfig->IsWebuserSidForbid(sid));
+	if (strlen(pWebUser->info.name) < 2)
+	{
+		g_WriteLog.WriteLog(C_LOG_ERROR, "AddWebUserObject name length：%d", strlen(pWebUser->info.name));
+	}
+	return pWebUser;
 }
 
 CWebUserObject * CChatManager::GetWebUserObjectByUid(unsigned long uid)
 {
+	MapWebUsers::iterator iter = m_mapWebUsers.begin();
+	for (iter; iter != m_mapWebUsers.end(); iter++)
+	{
+		if (iter->second->webuserid == uid)
+		{
+			return iter->second;
+		}
+	}
 	return NULL;
 }
 
@@ -2717,7 +2664,7 @@ int CChatManager::SendTo_GetWebUserInfo(unsigned long webuserid, const char *cha
 	SendInfo.version = VERSION;
 	SendInfo.msg.senduin = m_userInfo.UserInfo.uid;
 	strncpy(SendInfo.msg.strmsg, jv.toStyledString().c_str(), MAX_MSG_RECVLEN);
-	g_WriteLog.WriteLog(C_LOG_TRACE, "GET_WORKBILL: recvuin:%u,senduin:%u，szMsg=%s", SendInfo.msg.recvuin, SendInfo.msg.senduin, szMsg);
+	g_WriteLog.WriteLog(C_LOG_TRACE, "SendTo_GetWebUserInfo recvuin:%u,senduin:%u，szMsg=%s", SendInfo.msg.recvuin, SendInfo.msg.senduin, szMsg);
 
 	nError = SendPackTo(&SendInfo);
 
@@ -2832,13 +2779,13 @@ WxMsgBase* CChatManager::ParseWxMsg(CWebUserObject* pWebUser, COM_FLOAT_CHATMSG&
 		}
 		else
 		{
-			g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatchatmsg() unknow weixin Json:%s", recvInfo.strmsg);
+			g_WriteLog.WriteLog(C_LOG_ERROR, "ParseWxMsg unknow weixin Json:%s", recvInfo.strmsg);
 			delete pwxobj;
 		}
 	}
 	else
 	{
-		g_WriteLog.WriteLog(C_LOG_ERROR, "recvfloatchatmsg() NOT the weixin Json:%s", recvInfo.strmsg);
+		g_WriteLog.WriteLog(C_LOG_ERROR, "ParseWxMsg NOT the weixin Json:%s", recvInfo.strmsg);
 	}
 	return msgBase;
 }
@@ -2968,7 +2915,7 @@ void CChatManager::RecvComSendWorkBillMsg(unsigned long senduid, unsigned long r
 			//打开webui时如果get行没有参数rand，webui将rand设为clientuin
 			if (strlen(sid) > 0 || ((unsigned long)atol(sid)) != senduid)
 			{
-				//ChangeWebUserSid(pWebUser, sid, thirdid);
+				ChangeWebUserSid(pWebUser, sid, thirdid);
 			}
 			//来了访客，肯定是在线的
 			if (pWebUser->info.status == STATUS_OFFLINE)
@@ -3087,7 +3034,7 @@ void CChatManager::SolveWebUserEarlyMsg(CWebUserObject *pWebUser)
 				//	strcpy(pWebUser->info.ipfromname, pWebUser->info.name);
 				if (strlen(pWebUser->info.name) < 2)
 				{
-					g_WriteLog.WriteLog(C_LOG_ERROR, "name length is null：SolveWebUserEarlyMsg() name length：%d", strlen(pWebUser->info.name));
+					g_WriteLog.WriteLog(C_LOG_ERROR, "SolveWebUserEarlyMsg name length：%d", strlen(pWebUser->info.name));
 				}
 			}
 		}
@@ -3256,4 +3203,178 @@ void CChatManager::SaveUserConfig()
 
 	sprintf(sFile, "%s\\config.dat", strFile.c_str());
 	m_sysConfig->SaveData(sFile);
+}
+
+CWebUserObject * CChatManager::ChangeWebUserSid(CWebUserObject *pWebUser, char *sid, char *thirdid)
+{
+	if (pWebUser == NULL || sid == NULL)
+		return NULL;
+
+	if (strlen(pWebUser->info.sid) <= 0)
+	{
+		strcpy(pWebUser->info.sid, sid);
+		strcpy(pWebUser->info.thirdid, thirdid);
+
+		char buff[256];
+		sprintf(buff, "clientid%d", pWebUser->webuserid);
+
+		MapWebUsers::iterator iter = m_mapWebUsers.find(buff);
+		if (iter != m_mapWebUsers.end())
+		{
+			m_mapWebUsers.erase(iter);
+			m_mapWebUsers.insert(MapWebUsers::value_type(sid, pWebUser));
+		}
+	}
+	else
+	{
+		if (strcmp(pWebUser->info.sid, sid) != 0)
+		{
+			MapWebUsers::iterator iter = m_mapWebUsers.find(pWebUser->info.sid);
+			if (iter != m_mapWebUsers.end())
+			{
+				m_mapWebUsers.erase(iter);
+			}
+			sprintf(pWebUser->info.sid, sid);
+			m_mapWebUsers.insert(MapWebUsers::value_type(sid, pWebUser));
+
+			pWebUser->SetForbid(m_sysConfig->IsWebuserSidForbid(sid));
+		}
+	}
+
+	return pWebUser;
+}
+
+int CChatManager::SendStartRecvFloatMsg(unsigned short gpid, unsigned long adminid, char *chatid, unsigned short sLastMsgid)
+{
+	int nError = 0;
+	COM_FLOAT_STARTORSTOPRECV StartInfo(VERSION, gpid);
+
+	StartInfo.uAdminId = adminid;
+	StartInfo.sAcitonType = 0;
+	strcpy(StartInfo.chatid, chatid);
+	StartInfo.sLastMsgid = sLastMsgid;
+
+
+	nError = SendPackTo(&StartInfo);
+	g_WriteLog.WriteLog(C_LOG_TRACE, "SendStartRecvFloatMsg chatid:%s,gpid:%u,sLastMsgid:%u", chatid, gpid, sLastMsgid);
+	return nError;
+}
+
+void CChatManager::SendGetWxUserInfoAndToken(CWebUserObject* pWebUser)
+{
+	if (pWebUser == NULL || !pWebUser->m_bIsFrWX)
+		return;
+
+	if (pWebUser->m_pWxUserInfo == NULL)
+	{
+		SendGetWxUserInfo(pWebUser->webuserid, pWebUser->chatid);
+	}
+
+	WxTokens::iterator iter = m_mapTokens.find(pWebUser->info.thirdid);
+	if (iter == m_mapTokens.end())
+	{
+		SendGetWxToken(pWebUser->webuserid, pWebUser->chatid);
+	}
+}
+
+int CChatManager::SendGetWxUserInfo(unsigned long webuserid, const char *chatid)
+{
+	int nError = 0;
+	COM_SEND_MSG SendInfo(VERSION);
+
+	SendInfo.msg.msgtype = MSG_KEFU_GET_WX_USERINFO;
+	SendInfo.msg.recvuin = webuserid;
+	SendInfo.msg.sendtime = GetCurrentLongTime();
+	strncpy(SendInfo.strChatid, chatid, MAX_CHATID_LEN);
+	SendInfo.msg.bak = 0;
+	SendInfo.msg.seq = GetPackSeq();
+	SendInfo.version = VERSION;
+	SendInfo.msg.senduin = m_userInfo.UserInfo.uid;
+
+	g_WriteLog.WriteLog(C_LOG_TRACE, "SendGetWxUserInfo: recvuin:%u,senduin:%u", SendInfo.msg.recvuin, SendInfo.msg.senduin);
+	nError = SendPackTo(&SendInfo);
+	return nError;
+}
+
+int CChatManager::SendGetWxToken(unsigned long webuserid, const char *chatid)
+{
+	int nError = 0;
+	COM_SEND_MSG SendInfo(VERSION);
+
+	SendInfo.msg.msgtype = MSG_KEFU_GET_WX_ACCESSTOKEN;
+	SendInfo.msg.recvuin = webuserid;
+	SendInfo.msg.sendtime = GetCurrentLongTime();
+	strncpy(SendInfo.strChatid, chatid, MAX_CHATID_LEN);
+	SendInfo.msg.bak = 0;
+	SendInfo.msg.seq = GetPackSeq();
+	SendInfo.version = VERSION;
+	SendInfo.msg.senduin = m_userInfo.UserInfo.uid;
+
+	g_WriteLog.WriteLog(C_LOG_TRACE, "SendGetWxToken: recvuin:%u,senduin:%u", SendInfo.msg.recvuin, SendInfo.msg.senduin);
+	nError = SendPackTo(&SendInfo);
+	return nError;
+}
+
+void CChatManager::GetChatSysMsg(char* msg, CUserObject *pInviteUser, CWebUserObject *pWebUser, int type, CUserObject *pAcceptUser)
+{
+	if (pWebUser == NULL)
+		return;
+
+	switch (type)
+	{
+	case APPLY_ASK:
+		if (pInviteUser == NULL)
+			return;
+		sprintf(msg, "%s发起了一个快速邀请", pInviteUser->UserInfo.nickname);
+		break;
+	case APPLY_OPEN:
+		if (pInviteUser == NULL)
+			return;
+		sprintf(msg, "%s请求直接对话", pInviteUser->UserInfo.nickname);
+		break;
+	case MYGETNOTE:
+		if (pInviteUser == NULL)
+			return;
+		sprintf(msg, "%s请求留言", pInviteUser->UserInfo.nickname);
+		break;
+	case INVITE_TRANSFER:
+		if (pAcceptUser == NULL)
+			return;
+
+		if (pInviteUser == NULL)
+			sprintf(msg, "%s转接到用户 %s", pWebUser->info.name, pAcceptUser->UserInfo.nickname);
+		else
+			sprintf(msg, "%s转接用户 %s 到 %s", pInviteUser->UserInfo.nickname, pWebUser->info.name, pAcceptUser->UserInfo.nickname);
+		break;
+	case INVITE_HELP:
+		if (pAcceptUser == NULL)
+			return;
+
+		if (pInviteUser == NULL)
+			sprintf(msg, "%s被邀请接待 %s", pAcceptUser->UserInfo.nickname, pWebUser->info.name);
+		else
+			sprintf(msg, "%s邀请用户 %s 接待 %s", pInviteUser->UserInfo.nickname, pAcceptUser->UserInfo.nickname, pWebUser->info.name);
+		break;
+	case INVITE_HELP_REFUSE:
+		if (pAcceptUser == NULL)
+			return;
+
+		if (pInviteUser == NULL)
+			sprintf(msg, "%s拒绝邀请接待 %s", pAcceptUser->UserInfo.nickname, pWebUser->info.name);
+		else
+			sprintf(msg, "%s拒绝用户 %s 的邀请 接待 %s", pAcceptUser->UserInfo.nickname, pInviteUser->UserInfo.nickname, pWebUser->info.name);
+		break;
+	case INVITE_HELP_ACCEPT:
+		if (pAcceptUser == NULL)
+			return;
+
+		if (pInviteUser == NULL)
+			sprintf(msg, "%s同意邀请接待 %s", pAcceptUser->UserInfo.nickname, pWebUser->info.name);
+		else
+			sprintf(msg, "%s同意用户 %s 的邀请 接待 %s", pAcceptUser->UserInfo.nickname, pInviteUser->UserInfo.nickname, pWebUser->info.name);
+		break;
+	default:
+		sprintf(msg, "邀请协助出现异常");
+		break;
+	}
 }

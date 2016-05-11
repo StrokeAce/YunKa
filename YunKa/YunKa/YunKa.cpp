@@ -31,31 +31,52 @@ public:
 	}
 
 	// 收到一个坐席用户的信息,用来初始化坐席列表
-	virtual void RecvOneUserInfo(CUserObject* obj){}
+	virtual void RecvOneUserInfo(CUserObject* obj)
+	{
+		int a = 10;
+	}
 
 	// 收到一个新建的会话消息
-	virtual void RecvCreateChat(CWebUserObject* obj){}
+	virtual void RecvCreateChat(CWebUserObject* obj)
+	{
+		int a = 10;
+	}
 
 	// 收到一个会话消息
-	virtual void RecvChatInfo(CWebUserObject* obj){}
+	virtual void RecvChatInfo(CWebUserObject* obj)
+	{
+		int a = 10;
+	}
 
 	// 收到更新用户的在线状态
-	virtual void RecvUserStatus(CUserObject* obj){}
+	virtual void RecvUserStatus(CUserObject* obj)
+	{
+		int a = 10;
+	}
 
 	virtual string GetLastError(){ return ""; }
 
 	// 收到一条消息
 	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,
-		string msgContent, string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt){}
+		string msgContent, string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt)
+	{
+		int a = 10;
+	}
 
 	// 坐席上线消息
 	virtual void RecvOnline(CUserObject* obj){}
 
 	// 坐席下线消息
-	virtual void RecvOffline(CUserObject* obj){}
+	virtual void RecvOffline(CUserObject* obj)
+	{
+		int a = 10;
+	}
 
 	// 会话关闭
-	virtual void RecvCloseChat(){}
+	virtual void RecvCloseChat()
+	{
+		int a = 10;
+	}
 
 	void start()
 	{

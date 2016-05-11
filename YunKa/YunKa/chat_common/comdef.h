@@ -1128,8 +1128,7 @@ typedef std::list<void *>	PtrList;
 
 /** 消息发送类型 */
 #define MSG_TYPE_NORMAL		1		/**< 普通消息 */ 
-#define MSG_TYPE_PREV		2		/**< 预知消息 */ 
-#define MSG_TYPE_SYS		3		/**< 系统提示消息 */
+#define MSG_TYPE_PREV		2		/**< 预知消息 */
 
 /** 消息数据类型 */
 #define MSG_DATA_TYPE_TEXT 1		/**< 文字 */ 
@@ -1167,6 +1166,7 @@ typedef std::list<void *>	PtrList;
 #define  MSG_FROM_CLIENT	1		// 坐席用户
 #define  MSG_FROM_USER		2		// 微信或web用户
 #define  MSG_FROM_ASSIST	3		// 协助对象
+#define  MSG_FROM_SYS		4		// 系统提示消息
 
 // 录音操作的返回码
 #define CODE_AUDIO_SUCCESS 0 // 成功

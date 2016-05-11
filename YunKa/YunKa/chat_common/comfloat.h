@@ -333,9 +333,9 @@ public:
 //!获取的可以分享消息的对象列表,请求列表只需要发送包含该命令字的包头
 struct SHAREUSEROBJ
 {
-	unsigned int uin;
-	unsigned char		 cRight;//0:只能接受命令包，RECVCONTENT：接受会话内容,INSERTCONTEN：接受会话内容、插话，INSERTCONTEN接受会话内容、插话、管理
-	unsigned int onlineflag;
+	unsigned int	uin;
+	unsigned char	cRight;//0:只能接受命令包，RECVCONTENT：接受会话内容,INSERTCONTEN：接受会话内容、插话，INSERTCONTEN接受会话内容、插话、管理
+	unsigned int	onlineflag;
 };
 
 //CMD_FLOAT_SHARELIST   获取可分享消息对象列表（友好对象列表）,sGpid应设置为0xFFFEF。gp上有返回会话列表，没有返回的会话列表数为0

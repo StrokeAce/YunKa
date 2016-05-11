@@ -398,11 +398,10 @@ WxObj* ParseWxJsonMsg(const char* msg)
 	return pwxobj;
 }
 
-char * GetTimeStringMDAndHMS(unsigned long ntime, char *buff, char ymd /*= '-'*/, char hms /*= ':'*/)
+string GetTimeStringMDAndHMS(unsigned long ntime)
 {
-	if (buff == NULL)
-		return NULL;
-
+	string stime = "";
+	char ctime[MAX_256_LEN];
 	time_t tt;
 	if (ntime == 0)
 		tt = time(NULL);
@@ -412,14 +411,11 @@ char * GetTimeStringMDAndHMS(unsigned long ntime, char *buff, char ymd /*= '-'*/
 	struct tm * ttm = localtime(&tt);
 	if (ttm != NULL)
 	{
-		sprintf(buff, "%d%c%d %d%c%d%c%d", ttm->tm_mon + 1, ymd, ttm->tm_mday, ttm->tm_hour, hms, ttm->tm_min, hms, ttm->tm_sec);
-	}
-	else
-	{
-		sprintf(buff, "");
+		sprintf(ctime, "%d-%d %d:%d:%d", ttm->tm_mon + 1, ttm->tm_mday, ttm->tm_hour, ttm->tm_min, ttm->tm_sec);
+		stime = ctime;
 	}
 
-	return buff;
+	return stime;
 }
 
 char *GetContentBetweenString(const char *str, const char *sstart, const char * send, char *content)
@@ -450,4 +446,51 @@ char *GetContentBetweenString(const char *str, const char *sstart, const char * 
 	}
 
 	return content;
+}
+
+bool GetByte(unsigned int value, int index)
+{
+	unsigned int  rtn = value >> index;  //右移
+	rtn &= 0x0001;
+
+	if (rtn == 0)
+		return false;
+	else
+		return true;
+}
+
+unsigned int SetByte(unsigned int &source, int index, unsigned char ucvalue)
+{
+	//先将要设置的位取出并移到指定的位置上
+	unsigned long value = (unsigned long)ucvalue;
+	value &= 0x0001;
+	value = value << index;   //左移
+
+	int rtn0, rtn1;
+	rtn1 = 0x0001;
+	rtn1 = rtn1 << index;   //左移
+	rtn0 = ~rtn1;
+
+	//首先将设置值的指定的位置为设为0
+	source &= rtn0;
+
+	//设置指定位
+	source |= value;
+
+	return source;
+}
+
+string FullPath(string extPath)
+{
+	string strFullPath = GetCurrentPath();
+	int pos;
+	//if ((pos = extPath.("\\")) != string::npos)
+		//extPath = extPath.substr(1, extPath.size());
+
+	return extPath;
+}
+
+unsigned long GetCurrentLongTime()
+{
+	return 0;
 }

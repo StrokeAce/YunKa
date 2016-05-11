@@ -11,6 +11,7 @@
 
 typedef map<string/*thirdId*/, string/*公众号token*/> WxTokens; // 公众号的thirdid和token一一对应
 typedef map<unsigned long, CUserObject*> MapUsers; // 保存坐席用户
+typedef map<char*, CWebUserObject*> MapWebUsers; // 保存访客
 
 class IBaseMsgs
 {
@@ -30,36 +31,46 @@ public:
 	// 收到更新用户的在线状态
 	virtual void RecvUserStatus(CUserObject* pUser) = 0;
 
-	// 获取上一次错误信息
-	virtual string GetLastError() = 0;
-
-	/*************************************************
-	Description: 收到一条消息
-	
-	@param:	pObj 聊天的对象，其他坐席、web访客、微信访客
-	@param: msgFrom 消息的发送者类型，其他坐席、访客(微信或web)、协助对象(另一个坐席)
-	@param: msgId 消息的唯一id
-	@param: msgType 消息类型，预知消息(主要针对web访客)、普通消息
-	@param: msgDataType 消息的数据类型，文字(包括表情)、语音、图片、坐标、视频等
-	@param: msgContent 消息的具体内容
-	@param: msgTime 收到消息的时间
-	@param: pAssistUser	协助对象，当消息为协助对象发来时，需要该参数
-	@param: msgContentWx 微信消息，当非文字的微信消息时，需要该参数
-	@param: msgExt 预留的参数
-
-	Return: 空
-	*************************************************/
-	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,
-		string msgContent, string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt) = 0;
-
 	// 坐席上线消息
 	virtual void RecvOnline(CUserObject* pUser) = 0;
 
 	// 坐席下线消息
 	virtual void RecvOffline(CUserObject* pUser) = 0;
 
-	// 会话关闭
-	virtual void RecvCloseChat() = 0;
+	//************************************
+	// Method:    RecvAcceptChat
+	// Qualifier: 坐席接受会话的通知消息
+	// Parameter: pUser 接受会话的坐席对象
+	// Parameter: pWebUser 被接受的访客对象
+	//************************************
+	virtual void RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser) = 0;
+
+	//************************************
+	// Method:    RecvCloseChat
+	// Qualifier: 会话关闭通知消息
+	// Parameter: pWebUser 会话关闭相关的访客
+	//************************************
+	virtual void RecvCloseChat(CWebUserObject* pWebUser) = 0;
+
+	// 获取上一次错误信息
+	virtual string GetLastError() = 0;
+
+	//************************************
+	// Method:    RecvOneMsg
+	// Qualifier: 收到一条消息
+	// Parameter: pObj 聊天的对象，其他坐席、web访客、微信访客
+	// Parameter: msgFrom 消息的发送者类型，其他坐席、访客(微信或web)、协助对象(另一个坐席)
+	// Parameter: msgId 消息的唯一id
+	// Parameter: msgType 消息类型，预知消息(主要针对web访客)、普通消息
+	// Parameter: msgDataType 消息的数据类型，文字(包括表情)、语音、图片、坐标、视频等
+	// Parameter: msgContent 消息的具体内容
+	// Parameter: msgTime 收到消息的时间
+	// Parameter: pAssistUser 协助对象，当消息为协助对象发来时，需要该参数
+	// Parameter: msgContentWx 微信消息，当非文字的微信消息时，需要该参数
+	// Parameter: msgExt 预留的参数
+	//************************************
+	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,	string msgContent, 
+		string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "") = 0;
 };
 
 class CChatManager : public IBaseReceive
@@ -101,9 +112,10 @@ public:
 	// 发送获取所有用户的信息
 	int SendTo_GetAllUserInfo();
 
-	// 发送获取某个用户的消息
+	// 发送获取某个坐席的消息
 	int SendTo_GetUserInfo(unsigned long uid);
 
+	// 发送获取某个访客的信息
 	int SendTo_GetWebUserInfo(unsigned long webuserid, const char *chatid, char *szMsg = "", unsigned int chatkefuid = 0);
 
 	//获取会话消息信息
@@ -224,9 +236,7 @@ private:
 	CWebUserObject *AddWebUserObject(char *sid, char *thirdid, char *name, char *scriptflag, char *url,
 		unsigned char status, unsigned char floatauth);
 
-	unsigned short GetPackSeq();
-
-	int SendGetClkInfo(unsigned long   id, char *strid, unsigned short cmd, unsigned short cmdtype = 0, unsigned short type = 0);
+	unsigned short GetPackSeq();	
 
 	void TimerSolveAck();
 
@@ -238,6 +248,8 @@ private:
 
 
 	/***************     类内使用的发送到服务端的消息      *****************/
+
+	int Send_GetInfo(unsigned long id, char *strid, unsigned short cmd, unsigned short cmdtype = 0, unsigned short type = 0);
 
 	int SendPingToVisitorServer();
 
@@ -253,7 +265,17 @@ private:
 	//发送结束通话包到访客接待服务器
 	int SendWebuserTalkEnd(CWebUserObject *pWebUser);
 
+	//开始接受会话消息
+	int SendStartRecvFloatMsg(unsigned short gpid, unsigned long adminid, char *chatid, unsigned short sLastMsgid);
 
+	// 获取userinfo和token
+	void SendGetWxUserInfoAndToken(CWebUserObject* pWebUser);
+
+	// 获取微信用户信息
+	int SendGetWxUserInfo(unsigned long webuserid, const char *chatid);
+
+	// 获取微信公众号token
+	int SendGetWxToken(unsigned long webuserid, const char *chatid);
 
 	// 文字消息中的表情字符转换
 	void TransforFaceMsg(string& str);
@@ -268,6 +290,10 @@ private:
 	void SolveWebUserEarlyMsg(CWebUserObject *pWebUser);
 
 	void SaveUserConfig();
+
+	CWebUserObject *ChangeWebUserSid(CWebUserObject *pWebUser, char *sid, char *thirdid);
+
+	void GetChatSysMsg(char* msg, CUserObject *pInviteUser, CWebUserObject *pWebUser, int type, CUserObject *pAcceptUser = NULL);
 
 public:
 	int						m_nOnLineStatus;		// 用户是否在线
@@ -292,7 +318,8 @@ private:
 	CUserObject				m_userInfo;				// 登录用户的信息	
 	unsigned short			m_usSrvRand;			// 服务器的随机数
 	unsigned short			m_usCltRand;			// 本次运行的随机数
-	MapUsers				m_mapUsers;				// 协助对象的存储集合	
+	MapUsers				m_mapUsers;				// 协助对象的存储集合
+	MapWebUsers				m_mapWebUsers;			// 访客的存储集合
 	CUserObject				m_CommUserInfo;			// 公用用户
 	int						m_myInfoIsGet;			// 是否我的信息已经获取到了	
 	CTimerManager*			m_timers;				// 定时器管理类
@@ -307,5 +334,6 @@ private:
 	MMutex					m_idLock;				// 生成消息id的锁
 	int						m_msgId;				// 消息id，自增
 	list<MSG_INFO*>			m_listEarlyMsg;			// 保存还未初始化访客对象之前收到的消息
+	int						m_nClientIndex;
 };
 

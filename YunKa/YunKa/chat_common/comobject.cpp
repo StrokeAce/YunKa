@@ -1,13 +1,14 @@
 #include "comobject.h"
 #include  <io.h>
 #include <fstream>
+#include <process.h>
 #include "comfunc.h"
+
 
 CSysConfigFile::CSysConfigFile()
 {
 	ResetValue();
 }
-
 
 CSysConfigFile::~CSysConfigFile()
 {
@@ -682,6 +683,121 @@ bool CUserObject::Save(unsigned short ver)
 	return false;
 }
 
+// 头像下载线程
+static UINT WINAPI DownLoadFaceThread(void * para)
+{
+	//CString strFaceLinkPath = ((CEmocssApp *)AfxGetApp())->m_InitConfig.webpage_DownloadHeadImage;
+	//CString strPath, strPNG;
+	//strPath = FullPath(_T("Images\\headimages"));
+	//strPNG.Format(_T("%s\\%lu.png"), strPath, ((CUserObject*)para)->UserInfo.uid);
+
+	//static TCHAR* szExt[] = { _T("jpg"), _T("gif"), _T("png"), _T("jpeg"), NULL };
+
+	//CString strFaceLink, strStorePath;
+	//DWORD dwRetVal = 0;
+
+	//for (int i = 0; szExt[i] != NULL; i++)
+	//{
+	//	strFaceLink.Format(_T("%s/logo_%lu.%s"), strFaceLinkPath, ((CUserObject*)para)->UserInfo.uid, szExt[i]);
+	//	strStorePath.Format(_T("%s\\%lu.%s"), strPath, ((CUserObject*)para)->UserInfo.uid, szExt[i]);
+	//	dwRetVal = HttpDownloadFile(((CUserObject*)para)->UserInfo.uid, strFaceLink, strStorePath);
+	//	if (dwRetVal == 0)
+	//	{
+	//		if (i != 2)
+	//		{
+	//			// 将图片换成png格式
+	//			CImage imgHead;
+	//			imgHead.Load(strStorePath);
+	//			imgHead.Save(strPNG, Gdiplus::ImageFormatPNG);
+	//			DeleteFile(strStorePath);
+	//		}
+	//		return true;
+	//	}
+	//}
+
+	return false;
+}
+
+void CUserObject::DownLoadFace()
+{
+	char filePath[MAX_PATH];
+	sprintf(filePath, "%s\\%lu.png", FullPath("Images\\headimages").c_str(), UserInfo.uid);
+	if (_access(filePath, 0) == 0)
+		return;
+	HANDLE hDownLoadThread = (HANDLE)_beginthreadex(NULL, 0, DownLoadFaceThread, this, CREATE_SUSPENDED, NULL);
+	if (hDownLoadThread)
+	{
+		SetThreadPriority(hDownLoadThread, THREAD_PRIORITY_LOWEST);
+		ResumeThread(hDownLoadThread);
+	}
+}
+
+CWebUserObject::CWebUserObject()
+{
+	m_nEMObType = OBJECT_WEBUSER;
+	memset(&exinfo, '\0', sizeof(WEBUSEREX_INFO));
+	memset(&info, '\0', sizeof(WEBUSER_INFO));
+	memset(&onlineinfo, '\0', sizeof(WEBONLINE_INFO));
+	info.uid = SYS_WEBUSER;
+
+	m_bNewComm = false;
+	m_sNewSeq = 0;
+
+	webuserid = 0;
+	talkuid = 0;
+	strcpy(prevurl, "");
+	strcpy(prevurlhost, "");
+	strcpy(prevurlvar, "");
+
+	m_nWaitTimer = -20;
+	m_resptimeoutmsgtimer = -20;
+	m_resptimeoutclosetimer = -20;
+	m_waitresptimeouttimer = -20;
+
+	nTimer = 0;
+	nVisitNum = 0;
+	nTalkNum = 0;
+	nLastVisitTime = 0;
+
+	m_nFlag = 0;
+
+	m_bConnected = false;
+	m_bIsGetInfo = false;
+
+	m_onlinetime = 0;
+	m_bIsShow = false;
+
+	talkuid = 0;
+	transferuid = 0;
+	inviteuid = SYS_WEBUSER;
+	m_bNotResponseUser = 0;
+
+	floatadminuid = 0;
+
+	floatfromadminuid = 0;
+	floatfromsort = 0;
+
+	strcpy(chatid, "");
+	gpid = 0;
+
+	nVisitNum = 0;
+	nTalkNum = 0;
+
+	refuseinvite = 0;
+	nVisitFrom = WEBUSERICON_DIRECTURL;
+	m_bIsFrWX = FALSE;
+	cTalkedSatus = 0;
+	m_pWxUserInfo = NULL;
+
+	GetNormalChatHisMsgSuccess = false;
+	tGetNormalChatHismsgTime = 0;
+}
+
+CWebUserObject::~CWebUserObject()
+{
+	
+}
+
 bool CWebUserObject::Load(unsigned short ver)
 {
 	return false;
@@ -719,4 +835,60 @@ bool CWebUserObject::IsExistCommonTalkId(unsigned long uid)
 bool CWebUserObject::IsOnline()
 {
 	return false;
+}
+
+int CWebUserObject::IsForbid()
+{
+	return ::GetByte(exinfo.comauth, WEBUSERAUTH_FORBID);
+}
+
+void CWebUserObject::SetForbid(bool bForbid)
+{
+	exinfo.comauth = ::SetByte(exinfo.comauth, WEBUSERAUTH_FORBID, bForbid);
+}
+
+bool CWebUserObject::IsIDIsMutiUser(unsigned long uid)
+{
+	list<unsigned long>::iterator iter = m_listCommonTalkId.begin();
+
+	for (iter; iter != m_listCommonTalkId.end(); iter++)
+	{
+		if (*iter == uid)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void CWebUserObject::AddMutiUser(unsigned long uid)
+{
+	if (!IsIDIsMutiUser(uid))
+	{
+		m_listCommonTalkId.push_back(uid);
+	}
+}
+
+void CWebUserObject::RemoveMutiUser(unsigned long uid)
+{
+	list<unsigned long>::iterator iter = m_listCommonTalkId.begin();
+
+	for (iter; iter != m_listCommonTalkId.end(); iter++)
+	{
+		if (*iter == uid)
+		{
+			m_listCommonTalkId.erase(iter);
+			return;
+		}
+	}
+}
+
+bool CWebUserObject::IsMutiUser()
+{
+	return m_listCommonTalkId.size() > 1;
+}
+
+void CWebUserObject::RemoveAllMutiUser()
+{
+	m_listCommonTalkId.clear();
 }

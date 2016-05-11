@@ -43,8 +43,16 @@ void ConvertWidecharToChar(const WCHAR *pFrom, int len, char *pTo, int buflen, b
 WxObj* ParseWxJsonMsg(const char* msg);
 
 //获取时间, 格式：MM-DD HH:MM:SS
-char *GetTimeStringMDAndHMS(unsigned long ntime, char *buff, char ymd = '-', char hms = ':');
+string GetTimeStringMDAndHMS(unsigned long ntime);
 
 char *GetContentBetweenString(const char *str, const char *sstart, const char * send, char *content);
+
+bool GetByte(unsigned int value, int index);
+unsigned int SetByte(unsigned int &source, int index, unsigned char ucvalue);
+
+string FullPath(string extPath);
+
+//获得当前的系统时间
+unsigned long GetCurrentLongTime();
 
 #endif
