@@ -207,7 +207,7 @@ private:
 	int RecvSrvUpdateFail(PACK_HEADER packhead, char *pRecvBuff, int len);
 
 	//用户在异地登陆
-	int RecvSrvDonw(PACK_HEADER packhead, char *pRecvBuff, int len);
+	int RecvSrvDown(PACK_HEADER packhead, char *pRecvBuff, int len);
 
 	//转移临时用户成功失败
 	int RecvRepTransferClient(PACK_HEADER packhead, char *pRecvBuff, int len);

@@ -1178,9 +1178,10 @@ typedef std::list<void *>	PtrList;
 #define TIMER_NAME_LOGIN "TIMER_LOGIN"
 
 
-
 #define FACE_PREFIX "<IMG src=\""
 #define FACE_ALT ".gif\" alt=\""
 #define FACE_SUFFIX "\" />"
+
+#define SRVNORMAL_IPERROR       3
 
 #endif

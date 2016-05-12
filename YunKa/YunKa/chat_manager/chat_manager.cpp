@@ -54,14 +54,6 @@ CChatManager::~CChatManager()
 	{
 		delete m_login;
 	}
-	if (m_handlerLogin)
-	{
-		delete m_handlerLogin;
-	}
-	if (m_handlerMsgs)
-	{
-		delete m_handlerMsgs;
-	}
 }
 
 CSysConfig* CChatManager::GetSysConfig()
@@ -292,7 +284,7 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 		nError = RecvSrvUpdateFail(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
 		break;
 	case CMD_SRV_SERVER_COPY: // 用户在异地登陆
-		nError = RecvSrvDonw(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
+		nError = RecvSrvDown(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
 		break;
 	case CMD_SRV_REP_TRANSFERCLIENT: // 440 转移临时用户成功失败
 		nError = RecvRepTransferClient(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
@@ -2284,11 +2276,49 @@ int CChatManager::RecvSrvUpdateSucc(PACK_HEADER packhead, char *pRecvBuff, int l
 
 int CChatManager::RecvSrvUpdateFail(PACK_HEADER packhead, char *pRecvBuff, int len)
 {
-	return 0;
+	SRV_UPDATE_FAIL RecvInfo(packhead.ver);
+	int nError = 0;
+
+	nError = UnPack(&RecvInfo, pRecvBuff, len);
+	if (nError != 0)
+	{
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvSrvUpdateFail unpack failed,Cmd:%.4x", packhead.cmd);
+		return nError;
+	}
+
+	return nError;
 }
 
-int CChatManager::RecvSrvDonw(PACK_HEADER packhead, char *pRecvBuff, int len)
+int CChatManager::RecvSrvDown(PACK_HEADER packhead, char *pRecvBuff, int len)
 {
+	int nError = 0;
+	SRV_SERVER_COPY RecvInfo(packhead.ver);
+
+	nError = UnPack(&RecvInfo, pRecvBuff, len);
+	if (nError != 0)
+	{
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvSrvDown unpack failed,Cmd:%.4x", packhead.cmd);
+		return nError;
+	}
+	g_WriteLog.WriteLog(C_LOG_TRACE, "RecvSrvDown uin:%u, type:%u, seq", RecvInfo.uin, RecvInfo.type, RecvInfo.seq);
+	if (RecvInfo.uin == m_userInfo.UserInfo.uid)
+	{
+		if (m_nOnLineStatus == STATUS_OFFLINE) 
+			return 0;
+
+		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvSrvDown uid%u", m_userInfo.UserInfo.uid);
+		m_handlerMsgs->RecvOffline(&m_userInfo);
+		if (RecvInfo.type >= SRVNORMAL_IPERROR)
+		{
+			string str = "该用户已在其他地方进行登陆";
+		}
+		else
+		{
+			//重新登录
+			//OnStatusOnline();
+		}
+	}
+
 	return 0;
 }
 
