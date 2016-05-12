@@ -172,7 +172,6 @@
     <ClInclude Include="ui\login_event.h" />
     <ClInclude Include="ui\login_wnd.h" />
     <ClInclude Include="ui\main_frame.h" />
-    <ClInclude Include="ui\main_frame_event.h" />
     <ClInclude Include="ui\message_handler.h" />
     <ClInclude Include="ui\observer_impl_base.hpp" />
     <ClInclude Include="ui\ui_crack.h" />
@@ -265,7 +264,6 @@
     <ClCompile Include="ui\login_event.cpp" />
     <ClCompile Include="ui\login_wnd.cpp" />
     <ClCompile Include="ui\main_frame.cpp" />
-    <ClCompile Include="ui\main_frame_event.cpp" />
     <ClCompile Include="ui\ui_crack.cpp" />
     <ClCompile Include="ui\ui_menu.cpp" />
     <ClCompile Include="ui\user_list.cpp" />

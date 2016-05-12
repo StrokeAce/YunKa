@@ -13,74 +13,44 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="头文件\ui_common">
-      <UniqueIdentifier>{ca5fa430-1fa7-4ff0-afa7-d93197535430}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\ui">
-      <UniqueIdentifier>{bf929720-22e7-44bb-83c5-4c6041bf9d06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\ui">
-      <UniqueIdentifier>{0378ccb3-19e4-487b-9221-2ec56cb0a51a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\ui_common">
-      <UniqueIdentifier>{6cf7c4b3-7526-47c7-a8d0-5357ce87734e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\chat_common">
-      <UniqueIdentifier>{3f2de605-e641-47e2-a8d5-02eb652e7247}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\chat_common">
-      <UniqueIdentifier>{4a37212d-8c1a-4745-a0f6-9aa1b34092b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\http_load">
-      <UniqueIdentifier>{f061fdb6-b055-4a8b-a383-8dd3858bca66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\auth">
+    <Filter Include="auth">
       <UniqueIdentifier>{7592c42d-ced0-400c-a42e-ba9db551424a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\log">
-      <UniqueIdentifier>{dda67318-a6ce-48ff-aeae-d0154485195b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\md5">
-      <UniqueIdentifier>{cc4ed088-d396-4ba7-b224-6d72c7ead6fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\timer">
-      <UniqueIdentifier>{6b1019f6-74a5-4cf7-934c-0d33d206072f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\http_load">
-      <UniqueIdentifier>{c381ecb2-ef0a-4de3-a754-bd127752e654}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\auth">
-      <UniqueIdentifier>{1510eaab-2994-4349-b22d-973ae2d0f711}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\chat_manager">
-      <UniqueIdentifier>{a4781f7f-2d3c-468a-a8ca-318026192f22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\chat_manager">
-      <UniqueIdentifier>{6d6ef8d2-1ab0-4a21-8c25-91c8dc737b8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\utils">
-      <UniqueIdentifier>{119a860b-367f-4de5-b7c9-6857602d26ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\utils">
-      <UniqueIdentifier>{37731276-cdab-417d-868e-00f14c66f208}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\json">
-      <UniqueIdentifier>{fe583a19-ed8e-4959-a8ec-60df02d45cd0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\json">
-      <UniqueIdentifier>{897fb8a2-09cd-40a9-aaf5-911c84f331ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\cef_browser">
+    <Filter Include="cef_browser">
       <UniqueIdentifier>{2499800e-9351-433a-bf38-04e7545f2080}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\cef_browser">
-      <UniqueIdentifier>{8637e31d-959d-4e0c-a64e-ddc4c6c40540}</UniqueIdentifier>
+    <Filter Include="chat_manager">
+      <UniqueIdentifier>{a4781f7f-2d3c-468a-a8ca-318026192f22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\dui_ex">
+    <Filter Include="http_load">
+      <UniqueIdentifier>{f061fdb6-b055-4a8b-a383-8dd3858bca66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json">
+      <UniqueIdentifier>{fe583a19-ed8e-4959-a8ec-60df02d45cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{dda67318-a6ce-48ff-aeae-d0154485195b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="md5">
+      <UniqueIdentifier>{cc4ed088-d396-4ba7-b224-6d72c7ead6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="timer">
+      <UniqueIdentifier>{6b1019f6-74a5-4cf7-934c-0d33d206072f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{0378ccb3-19e4-487b-9221-2ec56cb0a51a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{119a860b-367f-4de5-b7c9-6857602d26ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="chat_common">
+      <UniqueIdentifier>{3f2de605-e641-47e2-a8d5-02eb652e7247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json\dui_ex">
       <UniqueIdentifier>{f856f96f-186e-4a6c-a500-78bcd2fb8d60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\dui_ex">
-      <UniqueIdentifier>{acfca530-ec00-4d91-ad84-9824bba4d5e2}</UniqueIdentifier>
+    <Filter Include="ui_common">
+      <UniqueIdentifier>{ca5fa430-1fa7-4ff0-afa7-d93197535430}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,301 +70,298 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ui\observer_impl_base.hpp">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\login_wnd.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\main_frame.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\ui_crack.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\ui_menu.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui_common\global_setting_define.h">
-      <Filter>头文件\ui_common</Filter>
+      <Filter>ui_common</Filter>
     </ClInclude>
     <ClInclude Include="ui_common\small_menu.h">
-      <Filter>头文件\ui_common</Filter>
+      <Filter>ui_common</Filter>
     </ClInclude>
     <ClInclude Include="ui\button_ex_ui.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\login_event.h">
-      <Filter>头文件\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\main_frame_event.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui_common\common_utility.h">
-      <Filter>头文件\ui_common</Filter>
+      <Filter>ui_common</Filter>
     </ClInclude>
     <ClInclude Include="ui_common\global_setting.h">
-      <Filter>头文件\ui_common</Filter>
+      <Filter>ui_common</Filter>
     </ClInclude>
     <ClInclude Include="ui_common\path.h">
-      <Filter>头文件\ui_common</Filter>
+      <Filter>ui_common</Filter>
     </ClInclude>
     <ClInclude Include="ui_common\utils.h">
-      <Filter>头文件\ui_common</Filter>
+      <Filter>ui_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comdef.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comfunc.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comobject.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comstruct.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="timer\timer.h">
-      <Filter>头文件\timer</Filter>
+      <Filter>timer</Filter>
     </ClInclude>
     <ClInclude Include="auth\sockbase.h">
-      <Filter>头文件\auth</Filter>
+      <Filter>auth</Filter>
     </ClInclude>
     <ClInclude Include="auth\http_parse.h">
-      <Filter>头文件\auth</Filter>
+      <Filter>auth</Filter>
     </ClInclude>
     <ClInclude Include="auth\auth_error.h">
-      <Filter>头文件\auth</Filter>
+      <Filter>auth</Filter>
     </ClInclude>
     <ClInclude Include="md5\md5.h">
-      <Filter>头文件\md5</Filter>
+      <Filter>md5</Filter>
     </ClInclude>
     <ClInclude Include="log\dirfileop.h">
-      <Filter>头文件\log</Filter>
+      <Filter>log</Filter>
     </ClInclude>
     <ClInclude Include="log\winlog.h">
-      <Filter>头文件\log</Filter>
+      <Filter>log</Filter>
     </ClInclude>
     <ClInclude Include="auth\auth_client.h">
-      <Filter>头文件\auth</Filter>
+      <Filter>auth</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\chat_manager.h">
-      <Filter>头文件\chat_manager</Filter>
+      <Filter>chat_manager</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\chat_objects.h">
-      <Filter>头文件\chat_manager</Filter>
+      <Filter>chat_manager</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\login.h">
-      <Filter>头文件\chat_manager</Filter>
+      <Filter>chat_manager</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\msgs.h">
-      <Filter>头文件\chat_manager</Filter>
+      <Filter>chat_manager</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\socket.h">
-      <Filter>头文件\chat_manager</Filter>
+      <Filter>chat_manager</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\sys_config.h">
-      <Filter>头文件\chat_manager</Filter>
+      <Filter>chat_manager</Filter>
     </ClInclude>
     <ClInclude Include="utils\convert.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\dbconnect.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\emlib.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\encrypt.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\error_info.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\lock.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\mutex.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\pack.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\tstring.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="utils\zlib_stream.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="ui\face_ctrl.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\face_list.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\face_sel_dlg.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\file_dialog_ex.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\gif_image.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\IImageOle.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\xml_document.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comclt.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comcom.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comfloat.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comform.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comsrv.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\comtran.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="json\json.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\json_batchallocator.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\jsonext.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\cJSON.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\writer.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\value.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\reader.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\config.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\autolink.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\features.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="json\forwards.h">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </ClInclude>
     <ClInclude Include="utils\code_convert.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\chat_history_msg.h">
-      <Filter>头文件\chat_manager</Filter>
+      <Filter>chat_manager</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\wx_obj.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="chat_common\commsg.h">
-      <Filter>头文件\chat_common</Filter>
+      <Filter>chat_common</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\binding_test.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\bytes_write_handler.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\cefclient.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\cefclient_osr_dragdrop_win.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\cefclient_osr_widget_win.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\client_app.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\client_handler.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\client_renderer.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\client_switches.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\dialog_test.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\dragdrop_events.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\osrenderer.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\performance.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\performance_setup.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\resource_util.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\scheme_test.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\string_util.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="cef_browser\window_test.h">
-      <Filter>头文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\button_ex_ui.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\control_ex.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\IImageOle.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\list_ex.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\ole_helper.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\rich_edit_help.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\ui_crack.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\ui_richedit2.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="dui_ex\public.h">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClInclude>
     <ClInclude Include="ui\message_handler.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\user_list.h">
-      <Filter>头文件\ui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,239 +371,236 @@
     <ClCompile Include="YunKa.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ui\login_wnd.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\main_frame.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\ui_crack.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\ui_menu.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_common\small_menu.cpp">
-      <Filter>源文件\ui_common</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\button_ex_ui.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\login_event.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\main_frame_event.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_common\common_utility.cpp">
-      <Filter>源文件\ui_common</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_common\global_setting.cpp">
-      <Filter>源文件\ui_common</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_common\path.cpp">
-      <Filter>源文件\ui_common</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_common\utils.cpp">
-      <Filter>源文件\ui_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\comobject.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\comfunc.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
     <ClCompile Include="timer\timer.cpp">
-      <Filter>头文件\timer</Filter>
-    </ClCompile>
-    <ClCompile Include="auth\sockbase.cpp">
-      <Filter>源文件\auth</Filter>
-    </ClCompile>
-    <ClCompile Include="auth\http_parse.cpp">
-      <Filter>源文件\auth</Filter>
+      <Filter>timer</Filter>
     </ClCompile>
     <ClCompile Include="md5\md5.cpp">
-      <Filter>头文件\md5</Filter>
+      <Filter>md5</Filter>
     </ClCompile>
     <ClCompile Include="log\winlog.cpp">
-      <Filter>头文件\log</Filter>
+      <Filter>log</Filter>
     </ClCompile>
     <ClCompile Include="auth\auth_client.cpp">
-      <Filter>源文件\auth</Filter>
+      <Filter>auth</Filter>
     </ClCompile>
-    <ClCompile Include="chat_manager\chat_manager.cpp">
-      <Filter>源文件\chat_manager</Filter>
+    <ClCompile Include="auth\http_parse.cpp">
+      <Filter>auth</Filter>
     </ClCompile>
-    <ClCompile Include="chat_manager\chat_objects.cpp">
-      <Filter>源文件\chat_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_manager\login.cpp">
-      <Filter>源文件\chat_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_manager\msgs.cpp">
-      <Filter>源文件\chat_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_manager\socket.cpp">
-      <Filter>源文件\chat_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_manager\sys_config.cpp">
-      <Filter>源文件\chat_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\convert.cpp">
-      <Filter>源文件\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\encrypt.cpp">
-      <Filter>源文件\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\error_info.cpp">
-      <Filter>源文件\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\pack.cpp">
-      <Filter>源文件\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\tstring.cpp">
-      <Filter>源文件\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\face_ctrl.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\face_list.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\face_sel_dlg.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\file_dialog_ex.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\gif_image.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\xml_document.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="json\json_reader.cpp">
-      <Filter>源文件\json</Filter>
-    </ClCompile>
-    <ClCompile Include="json\cJSON.c">
-      <Filter>源文件\json</Filter>
-    </ClCompile>
-    <ClCompile Include="json\json_value.cpp">
-      <Filter>源文件\json</Filter>
-    </ClCompile>
-    <ClCompile Include="json\json_writer.cpp">
-      <Filter>源文件\json</Filter>
-    </ClCompile>
-    <ClCompile Include="json\jsonext.cpp">
-      <Filter>源文件\json</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\code_convert.cpp">
-      <Filter>源文件\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_manager\chat_history_msg.cpp">
-      <Filter>源文件\chat_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\wx_obj.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\comclt.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\comcom.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\comfloat.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\comform.cpp">
-      <Filter>源文件\chat_common</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_common\comsrv.cpp">
-      <Filter>源文件\chat_common</Filter>
+    <ClCompile Include="auth\sockbase.cpp">
+      <Filter>auth</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\binding_test.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\bytes_write_handler.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\cefclient.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\cefclient_osr_dragdrop_win.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\cefclient_osr_widget_win.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\client_app.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\client_app_delegates.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\client_handler.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\client_handler_win.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\client_renderer.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\client_switches.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\dialog_test.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\osrenderer.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\performance.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\performance_func.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\resource_util_win.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\scheme_test.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\string_util.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\window_test.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
     </ClCompile>
     <ClCompile Include="cef_browser\window_test_win.cpp">
-      <Filter>源文件\cef_browser</Filter>
+      <Filter>cef_browser</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comclt.cpp">
+      <Filter>chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comcom.cpp">
+      <Filter>chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comfloat.cpp">
+      <Filter>chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comform.cpp">
+      <Filter>chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comfunc.cpp">
+      <Filter>chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comobject.cpp">
+      <Filter>chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\comsrv.cpp">
+      <Filter>chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_common\wx_obj.cpp">
+      <Filter>chat_common</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\chat_history_msg.cpp">
+      <Filter>chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\chat_manager.cpp">
+      <Filter>chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\chat_objects.cpp">
+      <Filter>chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\login.cpp">
+      <Filter>chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\msgs.cpp">
+      <Filter>chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\socket.cpp">
+      <Filter>chat_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\sys_config.cpp">
+      <Filter>chat_manager</Filter>
     </ClCompile>
     <ClCompile Include="dui_ex\button_ex_ui.cpp">
-      <Filter>源文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClCompile>
     <ClCompile Include="dui_ex\list_ex.cpp">
-      <Filter>源文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClCompile>
     <ClCompile Include="dui_ex\ole_helper.cpp">
-      <Filter>源文件\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\rich_edit_help.cpp">
-      <Filter>源文件\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\ui_crack.cpp">
-      <Filter>源文件\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\ui_richedit2.cpp">
-      <Filter>源文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </ClCompile>
     <ClCompile Include="dui_ex\public.cpp">
-      <Filter>源文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\rich_edit_help.cpp">
+      <Filter>json\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\ui_crack.cpp">
+      <Filter>json\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="dui_ex\ui_richedit2.cpp">
+      <Filter>json\dui_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="json\cJSON.c">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="json\json_reader.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="json\json_value.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="json\json_writer.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="json\jsonext.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\button_ex_ui.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\face_ctrl.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\face_sel_dlg.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\face_list.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\file_dialog_ex.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\gif_image.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\login_event.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\login_wnd.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\main_frame.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ui_crack.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ui_menu.cpp">
+      <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="ui\user_list.cpp">
-      <Filter>源文件\ui</Filter>
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\xml_document.cpp">
+      <Filter>ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\common_utility.cpp">
+      <Filter>ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\global_setting.cpp">
+      <Filter>ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\path.cpp">
+      <Filter>ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\small_menu.cpp">
+      <Filter>ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_common\utils.cpp">
+      <Filter>ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\code_convert.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\convert.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\encrypt.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\error_info.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\pack.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\tstring.cpp">
+      <Filter>utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -655,18 +619,18 @@
   <ItemGroup>
     <None Include="..\thirdlib\duilib\DuiLib.sln" />
     <None Include="json\json_internalarray.inl">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </None>
     <None Include="json\json_internalmap.inl">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </None>
     <None Include="json\json_valueiterator.inl">
-      <Filter>头文件\json</Filter>
+      <Filter>json</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Library Include="dui_ex\ImageOleCtrl.lib">
-      <Filter>头文件\dui_ex</Filter>
+      <Filter>json\dui_ex</Filter>
     </Library>
   </ItemGroup>
 </Project>
