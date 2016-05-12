@@ -11,7 +11,7 @@ typedef map<string/*thirdId*/, string/*公众号token*/> WxTokens; // 公众号的third
 typedef map<unsigned long, CUserObject*> MapUsers; // 保存坐席用户
 typedef map<char*, CWebUserObject*> MapWebUsers; // 保存访客
 
-// 登录消息的回调接口,该接口实现方不用自己析构
+// 登录消息的回调接口
 class IHandlerLgoin
 {
 public:
@@ -19,7 +19,7 @@ public:
 	virtual void LoginProgress(int percent) = 0;
 };
 
-// 登录后通信消息的回调接口,该接口实现方不用自己析构
+// 登录后通信消息的回调接口
 class IHandlerMsgs
 {
 public:
@@ -81,8 +81,7 @@ public:
 class CChatManager : public IBaseReceive
 {
 private:
-	CChatManager();
-	~CChatManager();
+	CChatManager();	
 
 	friend class CLogin;
 	friend class CMySocket;
@@ -90,6 +89,8 @@ private:
 	virtual void OnReceive(void* pHead, void* pData);
 
 public:
+
+	~CChatManager();
 
 	static CChatManager* GetInstance()
 	{
@@ -139,6 +140,8 @@ public:
 	void ScreenCapture();
 
 	static void CALLBACK TimerProc(string timeName, LPVOID pThis);
+
+	void Exit();
 
 private:
 	/***************     配置文件操作函数     *****************/

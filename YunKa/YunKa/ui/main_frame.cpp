@@ -15,7 +15,7 @@
 
 
 
-CMainFrame::CMainFrame(CChatManager &manager) :m_manager(manager)
+CMainFrame::CMainFrame(CChatManager* manager) :m_manager(manager)
 {
 
 	//初始化
@@ -27,7 +27,7 @@ CMainFrame::CMainFrame(CChatManager &manager) :m_manager(manager)
 
 CMainFrame::~CMainFrame()
 {
-	
+	delete m_manager;
 }
 
 LPCTSTR CMainFrame::GetWindowClassName() const
@@ -287,7 +287,7 @@ void CMainFrame::OnTimer(TNotifyUI& msg)
 
 void CMainFrame::OnExit(TNotifyUI& msg)
 {
-
+	m_manager->Exit();
 	m_frameSmallMenu.DeleteSmallIcon();
 	Close();
 	PostQuitMessage(0);
@@ -409,7 +409,7 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 
 
-	m_manager.SetHandlerMsgs(this);
+	m_manager->SetHandlerMsgs(this);
 }
 
 

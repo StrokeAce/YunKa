@@ -42,18 +42,6 @@ CChatManager::CChatManager()
 
 CChatManager::~CChatManager()
 {
-	if (m_timers)
-	{
-		delete m_timers;
-	}
-	if (m_sysConfig)
-	{
-		delete m_sysConfig;
-	}
-	if (m_login)
-	{
-		delete m_login;
-	}
 }
 
 CSysConfig* CChatManager::GetSysConfig()
@@ -238,10 +226,10 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 	case CMD_FLOAT_CHATINFO: // 会话详细信息
 		nError = RecvFloatChatInfo(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
 		break;
-	case CMD_COM_SEND_MSG:
+	case CMD_COM_SEND_MSG: // 会话消息,非等待应答策略
 		nError = RecvComSendMsg(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
 		break;
-	case CMD_FLOAT_CHATMSG: // 会话消息
+	case CMD_FLOAT_CHATMSG: // 会话消息,等待应答策略
 		nError = RecvFloatChatMsg(Head.head, RecvBuf + nPackHeadLen, TcpPackHead.len - nPackHeadLen);
 		break;
 	case CMD_FLOAT_CHATMSG_ACK: // 发送消息应答
@@ -2271,7 +2259,31 @@ int CChatManager::RecvEventAnnouncement(PACK_HEADER packhead, char *pRecvBuff, i
 
 int CChatManager::RecvSrvUpdateSucc(PACK_HEADER packhead, char *pRecvBuff, int len)
 {
-	return 0;
+	SRV_UPDATE_SUCC RecvInfo(packhead.ver);
+	int nError = 0;
+
+	nError = UnPack(&RecvInfo, pRecvBuff, len);
+	if (nError != 0)
+	{
+		g_WriteLog.WriteLog(C_LOG_ERROR, "RecvSrvUpdateSucc unpack failed,Cmd:%.4x", packhead.cmd);
+		goto RETURN;
+	}
+
+	switch (RecvInfo.type)
+	{
+	case UPDATE_STATUS:
+		m_nOnLineStatus = GetMutiByte(RecvInfo.onlinestatus, ONLINE_INFO_STATUS, ONLINE_INFO_STATUS_LEN);
+		m_userInfo.status = m_nOnLineStatus;
+		break;
+	case UPDATE_PASS:
+		
+		break;
+	default:
+		break;
+	}
+
+RETURN:
+	return nError;
 }
 
 int CChatManager::RecvSrvUpdateFail(PACK_HEADER packhead, char *pRecvBuff, int len)
@@ -2310,12 +2322,7 @@ int CChatManager::RecvSrvDown(PACK_HEADER packhead, char *pRecvBuff, int len)
 		m_handlerMsgs->RecvOffline(&m_userInfo);
 		if (RecvInfo.type >= SRVNORMAL_IPERROR)
 		{
-			string str = "该用户已在其他地方进行登陆";
-		}
-		else
-		{
-			//重新登录
-			//OnStatusOnline();
+			m_lastError = "该用户已在其他地方进行登陆";
 		}
 	}
 
@@ -3445,4 +3452,25 @@ void CChatManager::SetHandlerLogin(IHandlerLgoin* handlerLogin)
 void CChatManager::SetHandlerMsgs(IHandlerMsgs* handlerMsgs)
 {
 	m_handlerMsgs = handlerMsgs;
+}
+
+void CChatManager::Exit()
+{
+	m_socket.m_bRecvThread = false;
+	m_socketEx.m_bRecvThread = false;
+
+	if (m_timers)
+	{
+		delete m_timers;
+	}
+
+	if (m_sysConfig)
+	{
+		delete m_sysConfig;
+	}
+
+	if (m_login)
+	{
+		delete m_login;
+	}
 }

@@ -15,6 +15,8 @@ class CTimer
 public:
 	CTimer();
 
+	~CTimer();
+
 	void Start(int time, TimerHandler func, string lparam, LPVOID pThis);
 
 	void Stop();

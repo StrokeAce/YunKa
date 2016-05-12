@@ -5,6 +5,10 @@ CTimer::CTimer()
 	m_stopFlag = false;
 }
 
+CTimer::~CTimer()
+{
+}
+
 void CTimer::Run()
 {
 	unsigned long tickNow = ::GetTickCount();
@@ -29,24 +33,12 @@ void CTimer::Run()
 void CTimer::Stop()
 {
 	m_stopFlag = true;
-
-	if (m_hThread != INVALID_HANDLE_VALUE)
-	{
-		if (WaitForSingleObject(m_hThread, INFINITE) != WAIT_ABANDONED)
-		{
-			CloseHandle(m_hThread);
-		}
-		m_hThread = INVALID_HANDLE_VALUE;
-	}
 }
 
 DWORD WINAPI CTimer::ThreadProc(LPVOID p)
 {
 	CTimer* timer = (CTimer*)p;
 	timer->Run();
-
-	CloseHandle(timer->m_hThread);
-	timer->m_hThread = INVALID_HANDLE_VALUE;
 
 	return 0;
 }
@@ -73,7 +65,6 @@ CTimerManager::~CTimerManager()
 	{
 		iter->second->Stop();
 		delete iter->second;
-		iter->second = NULL;
 	}
 	m_mapTimers.clear();
 }
@@ -84,8 +75,8 @@ void CTimerManager::SetTimer(int time, string timerName)
 	if (iter == m_mapTimers.end())
 	{
 		CTimer* timer = new CTimer();
-		m_mapTimers.insert(map<string, CTimer*>::value_type(timerName, timer));
 		timer->Start(time, m_handler, timerName, m_this);
+		m_mapTimers.insert(map<string, CTimer*>::value_type(timerName, timer));		
 	}
 }
 

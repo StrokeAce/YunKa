@@ -75,7 +75,7 @@ class CMainFrame : public WindowImplBase, public IHandlerMsgs
 {
 public:
 
-	CMainFrame(CChatManager &manager);
+	CMainFrame(CChatManager * manager);
 	~CMainFrame();
 
 public:
@@ -161,7 +161,7 @@ protected:
 	void OnExit(TNotifyUI& msg);
 
 public:
-	CChatManager &m_manager;
+	CChatManager* m_manager;
 
 
 private:

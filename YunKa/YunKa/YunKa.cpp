@@ -63,7 +63,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	CLoginWnd* pLoginFrame = new CLoginWnd();
 
-	CMainFrame *pWndFrame = new CMainFrame(*pLoginFrame->m_manager);
+	CMainFrame *pWndFrame = new CMainFrame(pLoginFrame->m_manager);
 	pLoginFrame->Create(NULL, _T(""), UI_WNDSTYLE_DIALOG, 0, 0, 0, 0, 0, NULL);
 	pLoginFrame->CenterWindow();
 
