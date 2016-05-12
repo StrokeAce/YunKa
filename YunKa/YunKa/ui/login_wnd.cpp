@@ -14,6 +14,10 @@ CLoginWnd::CLoginWnd()
 	pAccountCombo = NULL;
 
 	m_pSaveWordCheckBox = m_pAuotoLoginCheckBox = NULL;
+
+	m_manager = CChatManager::GetInstance();
+
+	m_manager->SetHandlerLogin(this);
 }
 
 
@@ -332,16 +336,8 @@ void CLoginWnd::LoginProgress(int percent)
 
 void CLoginWnd::StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd)
 {
-	m_manager = CChatManager::GetInstance();
 
-	//bool isAutoLogin = false;
-	//string loginName = "9692111";
-	//string password = "123";
-	//bool isKeepPwd = false;
 
-	//string error;
-
-	m_manager->SetHandlerLogin(this);
 
 	m_manager->StartLogin(loginName, password, isAutoLogin, isKeepPwd);
 
