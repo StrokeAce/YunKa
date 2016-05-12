@@ -12,7 +12,8 @@ CSysConfigFile::CSysConfigFile()
 
 CSysConfigFile::~CSysConfigFile()
 {
-	
+	DeleteAllLoginInfo();
+	DeleteAllAlertInfo();
 }
 
 LOGIN_INFO* CSysConfigFile::GetLoginInfo(int type, unsigned long uid, string sid)
@@ -22,7 +23,7 @@ LOGIN_INFO* CSysConfigFile::GetLoginInfo(int type, unsigned long uid, string sid
 	if ((type == LOGIN_BYUID && uid != 0) || 
 		((type == LOGIN_BYSTRING || type == LOGIN_BYMOBILE || type == LOGIN_BYMAIL) && !sid.empty()))
 	{
-		list<LOGIN_INFO*>::iterator iter;
+		ListLoginedInfo::iterator iter;
 		for (iter = m_cLoginInfoList.begin(); iter != m_cLoginInfoList.end(); ++iter)
 		{
 			if (type == LOGIN_BYUID)
@@ -257,7 +258,7 @@ bool CSysConfigFile::WriteFile(ofstream& fin)
 
 	// 登录信息列表
 	Write(fin, (byte)m_cLoginInfoList.size());
-	list<LOGIN_INFO*>::iterator iter_login = m_cLoginInfoList.begin();
+	ListLoginedInfo::iterator iter_login = m_cLoginInfoList.begin();
 	for (iter_login; iter_login != m_cLoginInfoList.end(); iter_login++)
 	{
 		Write(fin, (*iter_login)->uid);
@@ -268,7 +269,7 @@ bool CSysConfigFile::WriteFile(ofstream& fin)
 
 	// 提示音信息
 	Write(fin, (byte)m_cAlertInfoList.size());
-	list<ALERT_INFO*>::iterator iter_alert = m_cAlertInfoList.begin();
+	ListAlertInfo::iterator iter_alert = m_cAlertInfoList.begin();
 	for (iter_alert; iter_alert != m_cAlertInfoList.end(); iter_alert++)
 	{
 		Write(fin, (*iter_alert)->type);
@@ -531,7 +532,7 @@ void CSysConfigFile::SetWndInitPos(bool bAlways)
 
 void CSysConfigFile::DeleteAllLoginInfo()
 {
-	list<LOGIN_INFO*>::iterator iter = m_cLoginInfoList.begin();
+	ListLoginedInfo::iterator iter = m_cLoginInfoList.begin();
 	for (iter; iter != m_cLoginInfoList.end(); iter++)
 	{
 		delete *iter;
@@ -541,7 +542,7 @@ void CSysConfigFile::DeleteAllLoginInfo()
 
 void CSysConfigFile::DeleteAllAlertInfo()
 {
-	list<ALERT_INFO*>::iterator iter = m_cAlertInfoList.begin();
+	ListAlertInfo::iterator iter = m_cAlertInfoList.begin();
 	for (iter; iter != m_cAlertInfoList.end(); iter++)
 	{
 		delete *iter;

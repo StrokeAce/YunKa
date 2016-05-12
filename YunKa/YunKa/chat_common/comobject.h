@@ -9,6 +9,9 @@
 #include <list>     
 using namespace std;
 
+typedef list<LOGIN_INFO*> ListLoginedInfo;
+typedef list<ALERT_INFO*> ListAlertInfo;
+
 class IBaseReceive
 {
 public:
@@ -96,9 +99,9 @@ public:
 	string				m_sStrRealServer;			// 真实登陆的服务器地址
 	int					m_nRealServerPort;			// 真实登陆的服务器端口
 
-	list<LOGIN_INFO*>	m_cLoginInfoList;			// 登陆过用户的列表
+	ListLoginedInfo		m_cLoginInfoList;			// 登陆过用户的列表
 
-	list<ALERT_INFO*>	m_cAlertInfoList;			// 提示音列表
+	ListAlertInfo		m_cAlertInfoList;			// 提示音列表
 
 	list<string>		m_cServerAddressList;		// 服务器地址列表
 

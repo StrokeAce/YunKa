@@ -44,25 +44,14 @@ CChatManager::~CChatManager()
 {
 }
 
-CSysConfig* CChatManager::GetSysConfig()
-{
-	return NULL;
-}
-
 void CChatManager::ScreenCapture()
 {
 
 }
 
-
-void CChatManager::GetPreLoginInfo(string& loginName, string& password, bool& isAutoLogin, bool& isKeepPwd)
+ListLoginedInfo CChatManager::GetPreLoginInfo()
 {
-	char uid[MAX_256_LEN];
-	sprintf(uid, "%lu", m_sysConfig->m_sLastLoginUid);
-	loginName = uid;
-	password = m_sysConfig->m_sLastLoginPass;
-	isAutoLogin = m_sysConfig->m_bAutoLogin;
-	isKeepPwd = m_sysConfig->m_bSavePass;
+	return m_sysConfig->m_cLoginInfoList;
 }
 
 void CChatManager::StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd)
@@ -527,7 +516,6 @@ bool CChatManager::LoadINIResource()
 	//visitor filter
 	LoadIniInt("visitor filter", "filter", m_initConfig.visitorfilter, sFile, "0");
 	LoadIniString("visitor filter", "info filter", m_initConfig.infofilter, len, sFile, "");
-	LoadIniString("visitor filter", "info filter", m_initConfig.tailfilter, len, sFile, "");
 	LoadIniString("AuthClient", "AuthAddr", m_initConfig.sAuthAddr, len, sFile, "passport.tq.cn");
 	LoadIniInt("AuthClient", "AuthPort", m_initConfig.nAuthPort, sFile, "80");
 	LoadIniString("WebPages", "logout", m_initConfig.webpage_lgout, len, sFile, "http://vip.tq.cn/vip/logout.do");
@@ -3473,4 +3461,10 @@ void CChatManager::Exit()
 	{
 		delete m_login;
 	}
+}
+
+CChatManager* CChatManager::GetInstance()
+{
+	static CChatManager instance;
+	return &instance;
 }

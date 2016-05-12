@@ -10,7 +10,6 @@
 #include <map>
 using namespace std ;
 
-
 typedef struct IDBUFF_INFO{
 	unsigned int id;
 	char *pBuff;
@@ -20,157 +19,88 @@ typedef struct IDBUFF_INFO{
 typedef struct INIT_CONF
 {
 	//用于帮助菜单中的内容
-//	char sProgrameName[256];			//定义的程序名称。用于"关于...."等
-	char sProgrameNameMini[256];		//定义的程序简称
-	char sHelpUrl[256];					//跳转的URL
-
-	char sCopyID[256];					//版本
-	char sHelpAbout[4][256];			//关于对话框中的文字
-	char sHelpAboutURL[4][256];			//关于对话框中的文字文字跳转
-
-	//0 name, 1 name(online/all), 2 name(online), 3 name(all)
-//	int	 nDisplayGroupNameType;			//组户的显示信息
-	//0 nickname, 1 nickname(uid), 2 nickname(sid), 3 nickname(uid:strid)
-	int	 nDisplayUserNameType;			//用户的显示信息
-
-	//访客接待
+	char sProgrameNameMini[256];		// 定义的程序简称
+	char sHelpUrl[256];					// 跳转的URL
+	char sCopyID[256];					// 版本
+	char sHelpAbout[4][256];			// 关于对话框中的文字
+	char sHelpAboutURL[4][256];			// 关于对话框中的文字文字跳转
+	int	 nDisplayUserNameType;			// 用户的显示信息
 	char sVisitorServer[256];
 	int nVisitorServerPort;
-	
-	char sDefaultServer[256];			//登陆的默认服务器
-	int nDefaultPort;					//登陆的默认端口
-	char sListServer[10][256];			//保存十个服务器的列表
-
-	int bSavePass;						//保存密码
-	int bAutoLogin;					//自动登陆
-
-	int	 visitorfilter;
-	//以下格式为 : 0, 北京, 天津
-	//1 表示包含以下词汇
-	//0 表示不包含以下词汇
-	char infofilter[256];
-	char tailfilter[256];
-	
+	char sDefaultServer[256];			// 登陆的默认服务器
+	int nDefaultPort;					// 登陆的默认端口
+	char sListServer[10][256];			// 保存十个服务器的列表
+	int bSavePass;						// 保存密码
+	int bAutoLogin;						// 自动登陆
+	int	visitorfilter;
+	char infofilter[256];				// 以下格式为 : 0, 北京, 天津
 	char sAuthAddr[256];
 	int  nAuthPort;
-	
-	// 退出
-	char webpage_lgout[256];
-
-	// laidian
+	char webpage_lgout[256];			// 退出
 	char webpage_webphone[256];
-	// 查询来电
-	char webpage_querywebphone[256];
-	// 留言
-	char webpage_note[256];
-	// 客户管理
-	char webpage_crm[256];
-	// 统计分析
-	char webpage_analyze[256];
-	// 管理中心
-	char webpage_mgmt[256];
-	// 焦点窗口
-	char webpage_news[256];
-	// 注册新用户
-	char webpage_regnewuser[256];
+	char webpage_querywebphone[256];	// 查询来电
+	char webpage_note[256];				// 留言
+	char webpage_crm[256];				// 客户管理
+	char webpage_analyze[256];			// 统计分析
+	char webpage_mgmt[256];				// 管理中心
+	char webpage_news[256];				// 焦点窗口
+	char webpage_regnewuser[256];		// 注册新用户
 	int webpage_regnewuser_w;
-	int webpage_regnewuser_h;
-	
-	// 新手指南
-	char webpage_tqhelp[256];
-	// 统一用语
-	char webpage_UniIdioms[256];
-	// 实时监控
-	char webpage_RtmMsg[256];
-	// 漫游消息
-	char webpage_SvrMsg[256];
-	
-	// TQ顾问
-	char webpage_TQadviser[256];
-	// 上传头像
-	char webpage_UploadHeadImage[256];
-	// 下载头像
-	char webpage_DownloadHeadImage[256];
-	// 表情
-	char webpage_FaceImage[256];
-	// 系统消息
-	char webpage_SysMessage[256];
-	// 投诉建议
-	char webpage_complaint[256];
-
-	char webpage_SendWebFileLink[256];
-
-	//获取公司用户
-	char webpage_companyuser[256];
-
+	int webpage_regnewuser_h;	
+	char webpage_tqhelp[256];			// 新手指南	
+	char webpage_UniIdioms[256];		// 统一用语	
+	char webpage_RtmMsg[256];			// 实时监控	
+	char webpage_SvrMsg[256];			// 漫游消息
+	char webpage_TQadviser[256];		// TQ顾问	
+	char webpage_UploadHeadImage[256];	// 上传头像
+	char webpage_DownloadHeadImage[256];// 下载头像
+	char webpage_FaceImage[256];		// 表情
+	char webpage_SysMessage[256];		// 系统消息
+	char webpage_complaint[256];		// 投诉建议
+	char webpage_SendWebFileLink[256];	
+	char webpage_companyuser[256];		// 获取公司用户
 	char webpage_iconurl[256];
-
 	char webpage_faqInfo[256];
-
 	char webpage_faqSort[256];
-
 	char webpage_faqall[256];
-
 	char webpage_sendurl[256];
-
-	char webpage_repickchaturl[256];//重启会话
-
-	char webpage_evaluate[256];//邀请评价
-
-	char webpage_accesstoken[256]; // 获取微信token
-	char webpage_workbillurl[256]; //工单
-	//客户履历
-	char visitorpage_visitortail[256];
-	//会话登单
-	char visitorpage_visitorbill[256];
-	//客户信息
-	char visitorpage_visitorinfo[256];
-	//通告信息
-	char visitorpage_notice[256];
-	//下订单
-	char visitorpage_visitororder[256];
-
-	// 登陆窗口的 注册 忘记密码[12/24/2010 SC]
-	char registerAccount[256];
+	char webpage_repickchaturl[256];	// 重启会话
+	char webpage_evaluate[256];			// 邀请评价
+	char webpage_accesstoken[256];		// 获取微信token
+	char webpage_workbillurl[256];		// 工单
+	char visitorpage_visitortail[256];	// 客户履历
+	char visitorpage_visitorbill[256];	// 会话登单
+	char visitorpage_visitorinfo[256];	// 客户信息
+	char visitorpage_notice[256];		// 通告信息
+	char visitorpage_visitororder[256];	// 下订单
+	char registerAccount[256];			// 登陆窗口的 注册 忘记密码[12/24/2010 SC]
 	char forgetPassword[256];
 	int forgetPSVisible;
-
-	bool bZlibEnabled; // 和visit服务器通信，客户端是否启用压缩
-
-	char query_history_records[256]; // 查询历史记录
-	char wechat_media_upload[256]; // 微信服务器媒体文件上传url
-	char wechat_static_map[256]; // 腾讯地图静态图url
-	char wechat_map_location[256]; // 腾讯地图地点标注url
-	char fileserver_media_download[256]; // 文件服务器下载的微信服务器的媒体文件的url
-	char fileserver_media_upload[256]; // 文件服务器上传url
-	char fileserver_media_task[256]; // 向文件服务器获取文件id的url串
-	char fileserver_media_fileid[256]; // 文件上传到微信服务器后，其在文件服务器上相同文件的url串
-
-	//隐藏显示某一些组
-//	bool bHideOfflineVisiterGroup;
+	bool bZlibEnabled;					// 和visit服务器通信，客户端是否启用压缩
+	char query_history_records[256];	// 查询历史记录
+	char wechat_media_upload[256];		// 微信服务器媒体文件上传url
+	char wechat_static_map[256];		// 腾讯地图静态图url
+	char wechat_map_location[256];		// 腾讯地图地点标注url
+	char fileserver_media_download[256];// 文件服务器下载的微信服务器的媒体文件的url
+	char fileserver_media_upload[256];	// 文件服务器上传url
+	char fileserver_media_task[256];	// 向文件服务器获取文件id的url串
+	char fileserver_media_fileid[256];	// 文件上传到微信服务器后，其在文件服务器上相同文件的url串
 }INIT_CONF_T, *INIT_CONF_PT;
 
 //一个过滤器结构
 struct FILTER_USERDEFINE
 {
-	//过滤字符串数目
-	int num;
-
-	//包含该文字还是不包含该文字
-	int include;
-
-	//文字内容, 最多10个,每一个最大长度50
-	char text[MAX_STRINGFILTER_NUM][MAX_STRINGFILTER_LEN];
+	int num;//过滤字符串数目
+	int include;//包含该文字还是不包含该文字
+	char text[MAX_STRINGFILTER_NUM][MAX_STRINGFILTER_LEN];//文字内容, 最多10个,每一个最大长度50
 };
 
+//基本信息
 struct LOGIN_INFO
-{
-	//基本信息
+{	
 	unsigned int uid;	
-	
 	char sid[MAX_SID_LEN+1];			//60
 	char pass[MAX_PASSWORD_LEN+1];		//20
-
 	char compid[MAX_STATUS_LEN+1];
 };
 
@@ -178,11 +108,9 @@ struct LOGIN_INFO
 struct ALERT_INFO
 {
 	int type;
-
 	int tray;
 	int showwnd;
 	int sound;
-
 	char soundfilename[MAX_FILENAME_LEN];
 };
 
@@ -193,18 +121,14 @@ struct TALKTOTAL_INFO
 	int m_ntalknum;			//对话次数
 	int m_ntalktimetotal;	//总对话时间
 	int m_ntalktimenum;		//有有效对话时间的对话数
-
 	int m_nInviteNum;		//邀请次数
 	int m_nacceptinvitenum;	//接受次数
 	int m_nrefuseinvitenum;	//拒绝次数
-
 	int m_nrequestnum;			//请求次数
 	int m_nacceprequestnum;		//接待请求次数
 	int m_nnotacceptrequestnum;	//没有接待请求次数
-
 	int m_nnovisitormsgnum;		//访客没有发送消息
 	int m_nnousermsgnum;		//客服没有发送消息
-
 	int m_ngoodtalknum;		//一般对话
 	int m_nbettertalknum;	//较好对话
 	int m_nbesttalknum;		//极佳对话
@@ -216,13 +140,11 @@ typedef struct TOTAL_INFO{
 	unsigned short	fromsearchnum;	//从搜索引擎
 	unsigned short	fromfriendnum;	//从友好连接
 	unsigned short	frominputnum;	//直接输入
-
 	unsigned short	searchurlnum;	//如大于MAX_LIST_TOTALURL， 则只保存MAX_LIST_TOTALURL个
 	unsigned int	searchurltime[VISITORTALK_MAXLIST_TOTALURL];
 	char			searchurl[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
 	char			searchurlhost[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
 	char			searchurlvar[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
-
 	unsigned short	friendurlnum;
 	unsigned int	friendurltime[VISITORTALK_MAXLIST_TOTALURL];
 	char			friendurl[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
@@ -354,33 +276,23 @@ struct USER_INFO
 {
 	//基本信息
 	unsigned int uid;	
-	
 	unsigned char usertype;
-
-	char sid[MAX_SID_LEN+1];			//60
-	char pass[MAX_PASSWORD_LEN+1];		//20
-
-//	char compid[MAX_STATUS_LEN+1];
+	char sid[MAX_SID_LEN+1];						//60
+	char pass[MAX_PASSWORD_LEN+1];					//20
 	unsigned int	compid;
-
-	char			nickname[MAX_USERNAME_LEN+1];		//名称					20
-	char			username[MAX_USERNAME_LEN+1];		//真实名字					20(40)
-
-	char	 		mobile[MAX_PHONE_LEN+1];			//手机						20(230)
+	char			nickname[MAX_USERNAME_LEN+1];	//名称					20
+	char			username[MAX_USERNAME_LEN+1];	//真实名字					20(40)
+	char	 		mobile[MAX_PHONE_LEN+1];		//手机						20(230)
 	char			phone[MAX_PHONE_LEN+1];			//电话						20(252)
-	char			email[MAX_URL_LEN+1];				//电子邮件					120(580)
-
-	unsigned char	roleid;		//权限角色
+	char			email[MAX_URL_LEN+1];			//电子邮件					120(580)
+	unsigned char	roleid;							//权限角色
 	unsigned int	comauth;						//常用权限(用位表示)		4(658)
 	unsigned int	extauth;						//常用类别和状态(用位表示)		4(662)
-
-	unsigned int	regdate; //注册日期时间，用int数据表示，从1970年开始的秒数
-	unsigned char	areaadminid;			//如果为公司客服，该值表示公司对应的区域编号
-
-	unsigned short	langtype;				//个人信息的语言版本				2(668)
-	unsigned short	bak;					//									2(670)		
-
-	unsigned int	onlineflag;				//备用字段						4(912)
+	unsigned int	regdate;						//注册日期时间，用int数据表示，从1970年开始的秒数
+	unsigned char	areaadminid;					//如果为公司客服，该值表示公司对应的区域编号
+	unsigned short	langtype;						//个人信息的语言版本				2(668)
+	unsigned short	bak;							//									2(670)		
+	unsigned int	onlineflag;						//备用字段						4(912)
 };
 
 //有关用户的商务信息，兼容旧版本
@@ -411,10 +323,10 @@ struct TRADE_INFO
 //访客轨迹信息
 struct WEBUSERTAIL_INFO
 {
-	unsigned int intime;						//4
-	unsigned int outtime;						//4
+	unsigned int intime;					//4
+	unsigned int outtime;					//4
 	char url[MAX_URL_LEN];					//页面
-	char title[MAX_URL_LEN];					//页面
+	char title[MAX_URL_LEN];				//页面
 
 	char prevurl[MAX_URL_LEN];
 	char prevurlhost[MAX_URL_LEN];
@@ -425,19 +337,13 @@ struct WEBUSERTAIL_INFO
 struct WEBBROWSER_INFO
 {
 	char					useragent[MAX_URL_LEN];	//用户标头
-
 	unsigned short			vcolor;					//客户端颜色
 	unsigned short          vnum;					//访问次数
 	unsigned short          vpagenum;				//访问页面数
-
 	unsigned int			visittime;				//访问时间
-
-	WEBUSERTAIL_INFO		tailinfo;	//浏览轨迹信息
-
+	WEBUSERTAIL_INFO		tailinfo;				//浏览轨迹信息
 	char					language[MAX_LANGUAGE_LEN];//访问的语言
-//	char					timezone[MAX_TIMEZONE_LEN];//访问的时区
 	unsigned short			vzone;
-
 	char					browsertype[MAX_BROWSER_LEN];	//浏览器类型
 	char					ostype[MAX_BROWSER_LEN];		//操作系统
 	char					vsize[MAX_VSIZE_LEN];			//屏幕浏览器大小
@@ -453,7 +359,6 @@ struct WEBBROWSER_INFO
 	unsigned short			userend;	//客服结束数
 	unsigned short			clientend;	//客人结束数
 	unsigned short			talknum;	//对话数
-
 	char					solve;
 };
 
@@ -473,8 +378,8 @@ struct WEBONLINE_INFO
 	int				evalation;		//本次对话评价
 
 	unsigned int	random;			//本次上线后的随机数
-	//保存在数据库中的最新的id
-	unsigned int	trafficid;
+	
+	unsigned int	trafficid;		//保存在数据库中的最新的id
 
 	unsigned char	hasmsg;			//有消息保存在缓冲中。
 	unsigned char	isonline;		//是否在线
@@ -535,11 +440,7 @@ struct WEBUSER_UPINFO
 //访客的用户输入信息
 struct WEBUSEREX_INFO
 {
-//	unsigned int	uid;
-//	unsigned int userid;					//创建者
-//	char	username[MAX_USERNAME_LEN];//创建者
-
-	char		  sid[MAX_SID_LEN+1];	//这个为访客唯一标示
+	char	sid[MAX_SID_LEN+1];	//这个为访客唯一标示
 	char	name[MAX_USERNAME_LEN+1];		//和webuser_info一样，
 
 	unsigned char	age;	//0 unknow
@@ -891,25 +792,8 @@ typedef struct WORKBILLTB_ITEM
 	unsigned int talkstarttime;	// --开会会话时间
 	unsigned int talkendtime;		// --结束会话时间
 	unsigned int talktime;			// --工单时长
-	
-//	DEAL_TIME           numeric(28), --客户要求处理时间，如是回拨申请，则为客户要求回拨的时间
-//	DEAL_TIME_LATE      numeric(28), --回拨的最迟时间
-		
-//		MESSAGE_TITLE       TEXT(50),  --留言标题
-//		SUMMARY             TEXT(100), --内容摘要
-//		TALK_CONTENT        Memo,  --会话内容
 	int usermsgnum;			// --本次会话,客服的回复数(TALK_CONTENT中客服说话的次数)
 	int visitorcluesnum;	// --本次会话线索数
-//		REQUEST_REPLY_TYPE  TEXT(50),  --客户要求的答复方式
-//		REPLY_TYPE          TEXT(50),  --客服实际答复方式
-//		REPLY_CONTENT       Memo,  --客服答复内容
-		
-		
-//		LAW_ADDRESS         TEXT(50),  --投诉地点
-//		LAW_SIGNAL          TEXT(10),  --手机信号质量
-//		LAW_CONNECT         TEXT(10),  --通信质量
-//		LAW_FREQUENCY       TEXT(10),  --故障发生频率	
-
 	int billresult;			// --处理结果（未处理：0，已处理：1，转交他人：3）
 	int evalution;			// --评分(对应ABCD四级别)
 	int transferok;			// --转移是否成功(0.没有转移，1.不成功 2.成功)
@@ -1111,5 +995,6 @@ static const wx_face_t wx_faces[] = {
 	{ "/:<&", "/:&lt;&" },	//瑜伽
 	{ "/:oY", wx_face_null },	//投降
 };
+
 
 #endif

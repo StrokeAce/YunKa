@@ -1,11 +1,10 @@
 #pragma once
 
-#include "sys_config.h"
 #include "login.h"
+#include "timer.h"
 #include "../chat_common/comobject.h"
 #include "../chat_common/comstruct.h"
 #include "../chat_common/comfloat.h"
-#include "timer.h"
 
 typedef map<string/*thirdId*/, string/*公众号token*/> WxTokens; // 公众号的thirdid和token一一对应
 typedef map<unsigned long, CUserObject*> MapUsers; // 保存坐席用户
@@ -80,23 +79,12 @@ public:
 
 class CChatManager : public IBaseReceive
 {
-private:
-	CChatManager();	
-
-	friend class CLogin;
-	friend class CMySocket;
-
-	virtual void OnReceive(void* pHead, void* pData);
-
 public:
 
 	~CChatManager();
 
-	static CChatManager* GetInstance()
-	{
-		static CChatManager instance;
-		return &instance;
-	}
+	// 获取通信管理类实例，单例模式
+	static CChatManager* GetInstance();
 
 	// 设置接收登录消息的接口
 	void SetHandlerLogin(IHandlerLgoin* handlerLogin);
@@ -106,44 +94,49 @@ public:
 
 public:
 
-	// 获取上一次登录信息
-	void GetPreLoginInfo(string& loginName, string& password, bool& isAutoLogin, bool& isKeepPwd);
+	// 获取上一次登录信息,调用者不用关心析构
+	ListLoginedInfo GetPreLoginInfo();
 
 	// 开始登录
 	void StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd);
 
-	// 发送在线状态消息
+	// 发送在线状态的消息
 	int SendTo_UpdateOnlineStatus(unsigned short status);
 
-	// 发送获取好友对象列表事件
+	// 发送获取好友对象列表的消息
 	int SendTo_GetShareList();
 
-	// 发送获取会话列表事件
+	// 发送获取会话列表的消息
 	int SendTo_GetListChatInfo();
 
-	// 发送获取所有用户的信息
+	// 发送获取所有用户的信息的消息
 	int SendTo_GetAllUserInfo();
 
-	// 发送获取某个坐席的消息
+	// 发送获取某个坐席信息的消息
 	int SendTo_GetUserInfo(unsigned long uid);
 
-	// 发送获取某个访客的信息
+	// 发送获取某个访客信息的消息
 	int SendTo_GetWebUserInfo(unsigned long webuserid, const char *chatid, char *szMsg = "", unsigned int chatkefuid = 0);
 
-	//获取会话消息信息
+	// 发送获取某个会话信息的消息
 	int SendTo_GetWebUserChatInfo(unsigned short gpid, unsigned long adminid, char *chatid);
-
-	// 获取系统配置对象
-	CSysConfig* GetSysConfig();
 
 	// 截图
 	void ScreenCapture();
-
-	static void CALLBACK TimerProc(string timeName, LPVOID pThis);
-
+	
+	// 退出，程序退出时调用
 	void Exit();
 
 private:
+	CChatManager();
+	friend class CLogin;
+	friend class CMySocket;
+
+	/***************     继承接口的函数实现    *****************/
+
+	virtual void OnReceive(void* pHead, void* pData);
+
+
 	/***************     配置文件操作函数     *****************/
 
 	bool ReadSystemConfig();
@@ -303,6 +296,9 @@ private:
 
 	void GetChatSysMsg(char* msg, CUserObject *pInviteUser, CWebUserObject *pWebUser, int type, CUserObject *pAcceptUser = NULL);
 
+	// 定时器事件处理函数
+	static void CALLBACK TimerProc(string timeName, LPVOID pThis); 
+
 public:
 	int						m_nOnLineStatus;		// 用户是否在线
 	int						m_nOnLineStatusEx;
@@ -342,6 +338,6 @@ private:
 	MMutex					m_idLock;				// 生成消息id的锁
 	int						m_msgId;				// 消息id，自增
 	list<MSG_INFO*>			m_listEarlyMsg;			// 保存还未初始化访客对象之前收到的消息
-	int						m_nClientIndex;
+	int						m_nClientIndex;			// 访客的序列号，自增
 };
 
