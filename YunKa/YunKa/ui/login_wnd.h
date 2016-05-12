@@ -58,7 +58,9 @@ public:
 	// 坐席下线消息
 	virtual void RecvOffline(CUserObject* obj){}
 	// 会话关闭
-	virtual void RecvCloseChat(){}
+	virtual void RecvCloseChat(CWebUserObject* pWebUser){}
+
+	virtual void RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser) {}
 
 	void StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd);
 

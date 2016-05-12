@@ -635,9 +635,6 @@
     <ClCompile Include="dui_ex\public.cpp">
       <Filter>源文件\dui_ex</Filter>
     </ClCompile>
-    <ClCompile Include="ui\message_handler.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
     <ClCompile Include="ui\user_list.cpp">
       <Filter>源文件\ui</Filter>
     </ClCompile>

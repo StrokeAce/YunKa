@@ -861,7 +861,11 @@ int CChatManager::RecvSrvStatusFrdOffline(PACK_HEADER packhead, char *pRecvBuff,
 				m_nOnLineStatus = STATUS_OFFLINE;
 				m_nOnLineStatusEx = STATUS_OFFLINE;
 			}
+
+
 			m_baseMsgs->RecvOffline(pUser);
+
+
 		}
 	}
 

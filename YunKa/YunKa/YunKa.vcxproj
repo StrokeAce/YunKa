@@ -266,7 +266,6 @@
     <ClCompile Include="ui\login_wnd.cpp" />
     <ClCompile Include="ui\main_frame.cpp" />
     <ClCompile Include="ui\main_frame_event.cpp" />
-    <ClCompile Include="ui\message_handler.cpp" />
     <ClCompile Include="ui\ui_crack.cpp" />
     <ClCompile Include="ui\ui_menu.cpp" />
     <ClCompile Include="ui\user_list.cpp" />
