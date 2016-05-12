@@ -11,7 +11,7 @@
 
 <HorizontalLayout>
 <VerticalLayout width="300">
-<Text text="{a}{f 2}界面测试程序{/f}{/a}" showhtml="true" />
+<Text text="{a}{f 2}云咔{/f}{/a}" showhtml="true" />
 </VerticalLayout>
 
 <VerticalLayout />

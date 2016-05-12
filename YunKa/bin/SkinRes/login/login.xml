@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Window size="428,327" caption="0,0,0,36" roundcorner="4,4" >
+
+	<!-- 缺省样式 -->
+    <Include source="Default.xml" />
+
 		<VerticalLayout inset="4,0,4,4" bkimage="file='bg0.png' corner='4,48,4,4'  mask='#FFFF00FF'" >
 		<HorizontalLayout height="32" inset="2,2,2,0">
 			<Label text="登录" width="80" />
@@ -9,7 +13,7 @@
 		<!--Control height="100" bkcolor="#FFFF0000" /-->
 
 
-<HorizontalLayout height="100" inset="2,2,2,0" bkcolor="#FFFF0000">
+<HorizontalLayout height="80" inset="2,2,2,0" bkcolor="#FFFF0000">
 
 
 </HorizontalLayout>
@@ -18,15 +22,22 @@
 		<Container bkcolor="#FF98F8AA" >
 			<Label text="账号：" float="true" pos="60, 20, 110, 42" />
 			<Combo name="accountCombo" float="true" pos="120, 20, 300, 42" tooltip="请点击这里选择您准备使用的账号" normalimage="file='login\\Combo_nor.bmp' corner='2,2,24,2'" hotimage="file='login\\Combo_over.bmp' corner='2,2,24,2'" pushedimage="file='login\\Combo_over.bmp' corner='2,2,24,2'" textpadding="1,1,1,1" >
+
+			
 				
 			</Combo>
 			<!-- Button text="{u}{l}注册账号{/l}{/u}" showhtml="true" float="true" pos="230, 20, 300, 42" tooltip="如果你还没有账号，请点击注册一个账号" /   -->
 			<Edit name="accountEdit" float="true" pos="121, 21, 279, 41" tooltip="请在这里输入您的账号"/>
 			<Label text="密码：" float="true" pos="60, 55, 110, 77" />
 			<Edit name="pwdEdit" float="true" pos="120, 55, 300, 75" password="true" tooltip="请在这里输入您的密码" bordercolor="#FF4EA0D1" bordersize="1"/>
+
+			<!-- CheckBox name="autoLoginBtn" font="1"   float="true" pos="40,100,44,114"  textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" selectedimage="file='login\\btn_checkbox1.bmp' source='0,28,14,42'"  normalimage="file='login\\btn_checkbox1.bmp' source='0,0,14,14'" / --> 				                        <CheckBox name="savePwdCheck" text="记住密码" float="true" pos="60,90,0,0" width="100" height="24"/>
+
+ 			<CheckBox name="autoLoginCheck" text="自动登录" float="true" pos="270,90,0,0" width="100" height="24"/>
+
 			<!-- Button text="{u}{l}找回密码{/l}{/u}" showhtml="true" float="true" pos="230, 55, 300, 75" tooltip="如果你忘记了密码，请点击找回密码"/ -->
-			<Button name="cancelBtn" text="取消" float="true" pos="40, 110, 120, 135" tooltip="Use English Language" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
-			<Button name="loginBtn" text="登录" float="true" pos="308, 110, 388, 135" tooltip="点击这里登录" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
+			<Button name="cancelBtn" text="取消" float="true" pos="40, 125, 120, 150" tooltip="点击这里退出" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
+			<Button name="loginBtn" text="登录" float="true" pos="308, 125, 388, 150" tooltip="点击这里登录" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
 
 		</Container>
     </VerticalLayout>

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <center>
-<HorizontalLayout height="20"  bkcolor="#FF11D6DD">
+<HorizontalLayout height="4"  bkcolor="#FFD3E5F6">
 
 </HorizontalLayout>
 
-<HorizontalLayout height="400" bkcolor="#FFF8F8F8">
+<HorizontalLayout height="400" bkcolor="#FFF8F8F8" inset="2,2,2,2">
 
 </HorizontalLayout>
 
@@ -23,16 +23,24 @@
 
 </HorizontalLayout>
 
-<HorizontalLayout height="60" bkcolor="#FFFEFDFC"  inset="5,0,0,0" >
+<HorizontalLayout  bkcolor="#FFFEFDFC"  inset="5,0,0,0" >
 
 <!--RichEdit2 name="send_rich_edit" multiline="true" vscrollbar="true" autovscroll="true" rich="true" readonly="false" menu="true" inset="5,0,0,0"/-->
 
-<RichEdit2 name="richSend" multiline="true" vscrollbar="true" autovscroll="true" enabled="true" rich="true" readonly="false" wantreturn="true" wantctrlreturn="false" menu="true"/>			
-	
+<!--RichEdit2 name="richSend" multiline="true" vscrollbar="true" autovscroll="true" enabled="true" rich="true" readonly="false" wantreturn="true" wantctrlreturn="false" menu="true"/ -->	
+			
+<RichEdit2 name="richSend" multiline="true" vscrollbar="true" autovscroll="true" enabled="true" rich="true" readonly="false" wantreturn="true" wantctrlreturn="false" menu="true" />		
 
 </HorizontalLayout>
 
-<HorizontalLayout height="20"  bkcolor="#FFDEEEF6" />
+<!-- HorizontalLayout height="20"  bkcolor="#FFDEEEF6" /-->
+<HorizontalLayout height="36"  bkcolor="#FFFEFDFC">
+
+<Button name="sendMsgBtn" text="发送" float="true" font="3" pos="280, 2,360, 34" tooltip="" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
+
+</HorizontalLayout>
+
+
 
 
 </center>

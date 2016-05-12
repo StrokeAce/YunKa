@@ -3,8 +3,9 @@
 
 <!-- 管理栏 -->
 
-<VerticalLayout  bkcolor="#FFF8F8F8"    >
+<!--VerticalLayout  bkcolor="#FFF8F8F8"    -->  
 
+<VerticalLayout  bkcolor="#FFF8F8F8"> 
 <HorizontalLayout > 
 	<VerticalLayout bkcolor="#FFF8F8F8"   width="40"  />
 
