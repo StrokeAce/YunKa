@@ -67,7 +67,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>duilib.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;libcef.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcef_dll_wrapper.lib;cef_sandbox.lib;libcef.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -173,9 +173,11 @@
     <ClInclude Include="ui\login_wnd.h" />
     <ClInclude Include="ui\main_frame.h" />
     <ClInclude Include="ui\main_frame_event.h" />
+    <ClInclude Include="ui\message_handler.h" />
     <ClInclude Include="ui\observer_impl_base.hpp" />
     <ClInclude Include="ui\ui_crack.h" />
     <ClInclude Include="ui\ui_menu.h" />
+    <ClInclude Include="ui\user_list.h" />
     <ClInclude Include="ui\xml_document.h" />
     <ClInclude Include="ui_common\common_utility.h" />
     <ClInclude Include="ui_common\global_setting.h" />
@@ -264,8 +266,10 @@
     <ClCompile Include="ui\login_wnd.cpp" />
     <ClCompile Include="ui\main_frame.cpp" />
     <ClCompile Include="ui\main_frame_event.cpp" />
+    <ClCompile Include="ui\message_handler.cpp" />
     <ClCompile Include="ui\ui_crack.cpp" />
     <ClCompile Include="ui\ui_menu.cpp" />
+    <ClCompile Include="ui\user_list.cpp" />
     <ClCompile Include="ui\xml_document.cpp" />
     <ClCompile Include="ui_common\common_utility.cpp" />
     <ClCompile Include="ui_common\global_setting.cpp" />

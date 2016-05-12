@@ -1,5 +1,6 @@
 #include "../stdafx.h"
 #include "login_wnd.h"
+#include "common_utility.h"
 
 
 
@@ -7,7 +8,12 @@
 
 CLoginWnd::CLoginWnd()
 {
-	m_loginEv = new CLoginEvent(m_pm);
+
+	m_pLoginBtn = m_pCancelBtn = m_pCloseBtn = NULL;
+	pAccountEdit = m_pPasswordEdit = NULL;
+	pAccountCombo = NULL;
+
+	m_pSaveWordCheckBox = m_pAuotoLoginCheckBox = NULL;
 }
 
 
@@ -18,40 +24,97 @@ CLoginWnd::~CLoginWnd()
 
 
 
+void CLoginWnd::OnPrepare(TNotifyUI& msg)
+{
+	CDuiString accountName;
+	//µÇÂ¼È¡Ïû°´Å¥ 
+	m_pLoginBtn = static_cast<CButtonUI*>(m_pm.FindControl(DEF_LOGIN_WND_BUTTON));
+	m_pCancelBtn = static_cast<CButtonUI*>(m_pm.FindControl(DEF_CANCEL_WND_BUTTON));
+
+	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(DEF_CLOSE_WND_BUTTON));
+
+	pAccountCombo = static_cast<CComboUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_COMBO));
+	pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_EDIT));
+
+	m_pSaveWordCheckBox = static_cast<CCheckBoxUI*>(m_pm.FindControl(_T("savePwdCheck")));
+	m_pAuotoLoginCheckBox = static_cast<CCheckBoxUI*>(m_pm.FindControl(_T("autoLoginCheck")));
+	if (m_pSaveWordCheckBox != NULL)
+		m_pSaveWordCheckBox->SetCheck(false);
+	if (m_pAuotoLoginCheckBox != NULL)
+		m_pAuotoLoginCheckBox->SetCheck(true);
+
+
+
+	CListLabelElementUI* pElementUsername = new CListLabelElementUI;
+	pElementUsername->SetText(DEBUG_USERNAME_TEXT);
+	pAccountCombo->Add(pElementUsername);
+	//test	
+	CListLabelElementUI* pElementTest = new CListLabelElementUI;
+	accountName = _T("1111111");
+	pElementTest->SetText(accountName);
+	pAccountCombo->Add(pElementTest);
+	
+
+
+	//if (pAccountCombo && pAccountEdit)
+	//	pAccountEdit->SetText(DEBUG_USERNAME_TEXT);
+	pAccountCombo->SelectItem(0);
+
+
+
+
+	m_pPasswordEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_PASSWORD_TEXT_EDIT));
+	if (m_pPasswordEdit)
+		m_pPasswordEdit->SetText(DEBUG_PASSWORD_TEXT);
+
+
+
+
+
+
+}
+
 
 void CLoginWnd::Notify(TNotifyUI& msg)
 {
-	m_loginEv->Notify(msg);
+	if (_tcsicmp(msg.sType, _T("windowinit")) == 0)
+	{
+		OnPrepare(msg);
+	}
 
-	if (m_loginEv->Start(msg) == 0)
-		Close();
-
-#if 0
 	if (msg.sType == DUI_MSGTYPE_CLICK)
 	{
-		if (msg.pSender->GetName() == DEF_CLOSE_WND_BUTTON || msg.pSender->GetName() == DEF_CANCEL_WND_BUTTON)
+		if (msg.pSender == m_pLoginBtn )
+		{
+			OnLoginButton();
+		}
+		else if (msg.pSender == m_pCancelBtn || msg.pSender == m_pCloseBtn)
 		{
 			m_hLoginMenu.DeleteSmallIcon();
 			PostQuitMessage(0);
-			return;
 		}
-		else if (msg.pSender->GetName() == DEF_LOGIN_WND_BUTTON)
-		{
-			LoginStart();
-			return;
-		}
-
 	}
-	else if (msg.sType == DUI_MSGTYPE_ITEMSELECT)
+	if (msg.sType == DUI_MSGTYPE_ITEMSELECT)
 	{
 		if (msg.pSender->GetName() == DEF_ACCOUNT_ID_COMBO)
 		{
-			CEditUI* pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_EDIT));
-			if (pAccountEdit) pAccountEdit->SetText(msg.pSender->GetText());
+			 pAccountEdit->SetText(msg.pSender->GetText());
+
+		}
+	}
+	if (msg.sType == DUI_MSGTYPE_ITEMCLICK)
+	{
+		if (msg.pSender->GetName() == DEF_ACCOUNT_ID_COMBO)
+		{
+
 		}
 	}
 
-#endif
+
+
+
+
+
 }
 
 LRESULT CLoginWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -68,12 +131,12 @@ LRESULT CLoginWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHand
 	ASSERT(pRoot && "Failed to parse XML");
 	m_pm.AttachDialog(pRoot);
 	m_pm.AddNotifier(this);
-	//SetIcon(101);
 
 
-	m_loginEv->Init(this->GetHWND());
 
 
+	m_hLoginMenu.Init();
+	m_hLoginMenu.CreateSmallIcon(this->GetHWND(), DEFINE_SMALL_ICON_PATH);
 
 
 
@@ -143,7 +206,7 @@ LRESULT CLoginWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_NCPAINT:       lRes = OnNcPaint(uMsg, wParam, lParam, bHandled); break;
 	case WM_NCHITTEST:     lRes = OnNcHitTest(uMsg, wParam, lParam, bHandled); break;
 	case WM_SIZE:          lRes = OnSize(uMsg, wParam, lParam, bHandled); break;
-	case WM_MY_MESSAGE_NOTIFYICON:    lRes = m_loginEv->HandleCustomMessage(uMsg, wParam, lParam); break;
+	case WM_MY_MESSAGE_NOTIFYICON:    HandleCustomMessage(uMsg, wParam, lParam,bHandled); break;
 	default:
 		bHandled = FALSE;
 	}
@@ -154,7 +217,7 @@ LRESULT CLoginWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 LRESULT CLoginWnd::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled)
 {
-#if 0
+
 	if (uMsg == WM_KEYDOWN) {
 		if (wParam == VK_RETURN) {
 			CEditUI* pEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_EDIT));
@@ -167,16 +230,13 @@ LRESULT CLoginWnd::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool&
 			return true;
 		}
 		else if (wParam == VK_ESCAPE) {
-			PostQuitMessage(0);
+			//PostQuitMessage(0);
 			return true;
 		}
 
 	}
 
-#endif
 
-
-	//m_hLoginMenu.HandleCustomMessage(uMsg, wParam, lParam);
 
 #if 0
 	//	m_hLoginMenu.HandleCustomMessage(uMsg, wParam, lParam);
@@ -202,4 +262,87 @@ LRESULT CLoginWnd::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool&
 
 	return false;
 }
+
+
+
+LRESULT CLoginWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+
+
+	m_hLoginMenu.HandleCustomMessage(uMsg,wParam,lParam);
+
+
+
+	return 0;
+}
+
+
+void CLoginWnd::OnLoginButton()
+{
+
+	//bool isAutoLogin = false;
+	//string loginName = "9692111";
+	//string password = "123";
+	//bool isKeepPwd = false;
+
+	//string error;
+
+
+	//test
+	//m_hLoginMenu.DeleteSmallIcon();
+	//Close();
+	//return;
+
+
+	CDuiString userName = pAccountEdit->GetText();
+	CDuiString passWord = m_pPasswordEdit->GetText();
+
+	UnicodeToANSI(userName, _globalSetting.m_userName);
+	UnicodeToANSI(passWord, _globalSetting.m_passWord);
+
+	bool isKeepPwd = m_pSaveWordCheckBox->GetCheck();
+	bool isAutoLogin = m_pAuotoLoginCheckBox->GetCheck();
+
+		
+	StartLogin(_globalSetting.m_userName, _globalSetting.m_passWord, isAutoLogin, isKeepPwd);
+
+
+
+}
+
+void CLoginWnd::LoginProgress(int percent)
+{
+	if (percent == 100)
+	{
+		//µÇÂ¼³É¹¦ 
+
+		//m_manager->SendTo_GetShareList();
+
+
+
+		m_hLoginMenu.DeleteSmallIcon();
+		Close();
+	}
+	else if (percent < 0 || percent>100)  //·µ»ØÊ§°Ü
+	{
+		MessageBox(this->GetHWND(),L"µÇÂ¼Ê§°Ü",L"µÇÂ¼Ê§°Ü",0);
+	}
+}
+
+void CLoginWnd::StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd)
+{
+	m_manager = CChatManager::GetInstance(this);
+
+	//bool isAutoLogin = false;
+	//string loginName = "9692111";
+	//string password = "123";
+	//bool isKeepPwd = false;
+
+	//string error;
+
+	m_manager->StartLogin(loginName, password, isAutoLogin, isKeepPwd);
+
+}
+	
+
 

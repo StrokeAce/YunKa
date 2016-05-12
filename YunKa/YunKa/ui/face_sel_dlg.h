@@ -4,6 +4,8 @@
 
 #define		WM_FACE_CTRL_SEL		WM_USER + 2000
 
+#define		WM_FACE_CLOSE_DLG		WM_USER + 2001
+
 class CFaceSelDlg : public WindowImplBase
 {
 public:
@@ -27,13 +29,16 @@ public:
 	int GetSelFaceIndex();
 	tstring GetSelFaceFileName();
 
+	BOOL m_firstCreate;
+	int m_nSelFaceId;
+	int m_nSelFaceIndex;
+	wstring m_strSelFaceFileName;
+
 protected:
 	void Notify(TNotifyUI& msg);
 
 private:
 	CFaceCtrl * m_pFaceCtrl;
 	CFaceList * m_lpFaceList;
-	int m_nSelFaceId;
-	int m_nSelFaceIndex;
-	wstring m_strSelFaceFileName;
+
 };

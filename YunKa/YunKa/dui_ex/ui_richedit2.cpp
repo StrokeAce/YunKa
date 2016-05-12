@@ -40,7 +40,12 @@ public:
     BOOL Init(CRichEditUI2 *re , const CREATESTRUCT *pcs);
     virtual ~CTxtWinHost2();
 
-    ITextServices* GetTextServices(void) { return pserv; }
+
+
+    ITextServices* GetTextServices(void) 
+	{ 
+		return pserv;
+	}
     void SetClientRect(RECT *prc);
     RECT* GetClientRect() { return &rcClient; }
     BOOL GetWordWrap(void) { return fWordWrap; }
@@ -393,6 +398,8 @@ ULONG CTxtWinHost2::AddRef(void)
 {
     return ++cRefs;
 }
+
+
 
 ULONG CTxtWinHost2::Release(void)
 {
@@ -1782,6 +1789,15 @@ long CRichEditUI2::StreamOut(int nFormat, EDITSTREAM &es)
     return (long)lResult; 
 }
 
+/*
+ITextHost * CRichEditUI2::GetTextHost()
+{
+	if (NULL == m_pTwh)
+		return NULL;
+	return m_pTwh->GetTextHost();
+}
+*/
+
 void CRichEditUI2::DoInit()
 {
     CREATESTRUCT cs;
@@ -2314,6 +2330,14 @@ BOOL CRichEditUI2::SetOLECallback(IRichEditOleCallback* pCallback)
     TxSendMessage(EM_SETOLECALLBACK, 0, (LPARAM)pCallback, 0);
     return TRUE;
 }
+
+ITextServices * CRichEditUI2::GetTextServices()
+{
+	if (NULL == m_pTwh)
+		return NULL;
+	return m_pTwh->GetTextServices();
+}
+
 
 BOOL CRichEditUI2::InsertNotGIFImage(LPCTSTR szFilePath, DWORD dwUserData)
 {

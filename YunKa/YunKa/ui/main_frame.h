@@ -3,10 +3,16 @@
 
 #pragma once
 #include <map>
-#include "main_frame_event.h"
+#include "small_menu.h"
+#include "face_list.h"
+#include "face_sel_dlg.h"
 #include "IImageOle.h"
+#include "ui_richedit2.h"
+
+#include "cef_browser/client_handler.h"
 
 
+using namespace DuiLib2;
 
 // 将HWND显示到CControlUI上面
 class CWndUI : public CControlUI
@@ -75,7 +81,6 @@ public:
 
 	LPCTSTR GetWindowClassName() const;
 	virtual void OnFinalMessage(HWND hWnd);
-	virtual void InitWindow();
 	virtual LRESULT ResponseDefaultKeyEvent(WPARAM wParam);
 	virtual CDuiString GetSkinFile();
 	virtual CDuiString GetSkinFolder();
@@ -84,7 +89,7 @@ public:
 	virtual LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-	//virtual LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	virtual LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 
 
@@ -95,7 +100,7 @@ public:
 	void SetBkColor(DWORD dwBackColor);
 
 
-		virtual void OnClick(TNotifyUI& msg);
+	virtual void OnClick(TNotifyUI& msg);
 	virtual void OnSelectChanged(TNotifyUI &msg);
 	virtual void OnItemClick(TNotifyUI &msg);
 	void OnItemRbClick(TNotifyUI &msg);
@@ -106,6 +111,19 @@ public:
 
 
 
+public:
+	//自己定义的操作函数
+	void OnBtnFont(TNotifyUI& msg);
+	void OnBtnFace(TNotifyUI& msg);
+	void OnBtnScreen(TNotifyUI& msg);
+
+	void CMainFrame::GetSelectFaceId();
+	void CMainFrame::OnBtnSendMessage(TNotifyUI& msg);
+
+	void CMainFrame::_RichEdit_SetNotify(CRichEditUI2* pRichEdit, HWND hWnd);
+
+	BOOL CMainFrame::_RichEdit_InsertFace(CRichEditUI2 * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex);
+
 protected:
 
 	void Notify(TNotifyUI& msg);
@@ -113,10 +131,25 @@ protected:
 	void OnExit(TNotifyUI& msg);
 
 private:
-	CMainFrameEvent *m_frameEvent;
 
-	CRichEditUI* m_pSendEdit;
+	CSmallMenu m_frameSmallMenu;
+
+
+	CButtonUI * m_pFontBtn, *m_pFaceBtn, *m_pScreenBtn, *pSendMsgBtn;
+	CFaceSelDlg m_faceSelDlg;
+	CFaceList  m_faceList;
+
+	CRichEditUI2    *m_pSendEdit;
+
+
+	//CRichEditUI* m_pSendEdit;
 	IRichEditOleCallback2* pRichEditOleCallback2;
+
+
+	HandlerInfo m_pListMsgHandler; // 消息列表
+
+	CDuiString m_sendMsgString;
+	HWND m_hMainWnd;
 
 };
 

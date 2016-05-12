@@ -26,8 +26,14 @@ using namespace std;
 
 #include <objbase.h>
 
-#include "./ui_common/global_setting_define.h"
+
 #include "UIlib.h"
+
+
+#include "global_setting.h"
+
+extern CGlobalSetting _globalSetting;
+
 
 using namespace DuiLib;
 
@@ -38,7 +44,7 @@ using namespace DuiLib;
 
 #ifdef _DEBUG
 #   ifdef _UNICODE
-#       pragma comment(lib, "DuiLib.lib")
+#       pragma comment(lib, "../lib/DuiLib_d.lib")
 #   else
 #       pragma comment(lib, "..\\..\\DuiLib\\Lib\\DuiLib_d.lib")
 #   endif

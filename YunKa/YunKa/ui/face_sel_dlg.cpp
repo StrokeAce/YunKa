@@ -7,6 +7,8 @@ CFaceSelDlg::CFaceSelDlg(void)
 	m_nSelFaceId = -1;
 	m_nSelFaceIndex = -1;
 	m_strSelFaceFileName = _T("");
+
+	m_firstCreate = false;
 }
 
 CFaceSelDlg::~CFaceSelDlg(void)
@@ -35,6 +37,8 @@ void CFaceSelDlg::Init()
 	m_nSelFaceId = -1;
 	m_nSelFaceIndex = -1;
 	m_strSelFaceFileName = _T("");
+
+	m_firstCreate = true;
 }
 
 CDuiString CFaceSelDlg::GetSkinFile()
@@ -76,13 +80,15 @@ LRESULT CFaceSelDlg::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == WM_ACTIVATE)
 	{
-		if (WA_INACTIVE == (UINT)LOWORD(wParam))
-			::PostMessage(m_hWnd, WM_CLOSE, NULL, NULL);
+		//if (WA_INACTIVE == (UINT)LOWORD(wParam))
+		//	::PostMessage(m_hWnd, WM_FACE_CLOSE_DLG, NULL, NULL);
 	}
-	else if (uMsg == WM_CLOSE)
+	else if (uMsg == WM_FACE_CLOSE_DLG)
 	{
 		::PostMessage(::GetParent(m_hWnd), WM_FACE_CTRL_SEL, NULL, NULL);
-		::DestroyWindow(m_hWnd);
+		//::DestroyWindow(m_hWnd);
+
+		::ShowWindow(m_hWnd,SW_HIDE);
 		return 0;
 	}
 	return __super::HandleMessage(uMsg, wParam, lParam);
@@ -127,7 +133,7 @@ void CFaceSelDlg::Notify(TNotifyUI& msg)
 				m_nSelFaceIndex = lpFaceInfo->m_nIndex;
 				m_strSelFaceFileName = lpFaceInfo->m_strFileName;
 			}
-			::PostMessage(m_hWnd, WM_CLOSE, NULL, NULL);
+			::PostMessage(m_hWnd, WM_FACE_CLOSE_DLG, NULL, NULL);
 		}
 	}
 }

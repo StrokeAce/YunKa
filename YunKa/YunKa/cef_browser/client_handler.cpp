@@ -885,6 +885,30 @@ bool ClientHandler::Save(const std::string& path, const std::string& data) {
 }
 
 
+bool ClientHandler::CreateBrowser(HWND hwnd, RECT rect, string url, string handlerName)
+{
+	if (browser_ == NULL)
+	{
+		m_handlerName = handlerName;
+		m_hWnd = hwnd;
+		CefWindowInfo window_info;
+		window_info.SetAsChild(hwnd, rect);
+		CefBrowserSettings settings;
+		return CefBrowserHost::CreateBrowser(window_info, this, url, settings, NULL);
+	}
+	return true;
+}
+
+void ClientHandler::MoveBrowser(RECT rect)
+{
+	if (browser_ != NULL)
+	{
+		CefWindowHandle hwnd = browser_->GetHost()->GetWindowHandle();
+		::MoveWindow(hwnd, rect.left, rect.top, rect.right-rect.left, rect.bottom-rect.top, TRUE);
+	}
+}
+
+
 
 void ClientHandler::ShowBrowser(int nCmdShow)
 {

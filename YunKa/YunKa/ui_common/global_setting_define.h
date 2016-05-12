@@ -18,8 +18,8 @@
 #define WM_UPDATE_SELECT_USER_MSG                                                 WM_USER+102
 
 /*login define****************************************************************************************************************************************************************/
-#define  DEBUG_USERNAME_TEXT                                                         _T("ceshi110")         
-#define  DEBUG_PASSWORD_TEXT                                                         _T("123123")
+#define  DEBUG_USERNAME_TEXT                                                         _T("9692110")         
+#define  DEBUG_PASSWORD_TEXT                                                         _T("123")
 #define  DEBUG_HOST_ADDRESS                                                          ""
 #define  _GLOBAL_LOGIN_UI_CONFIG_FILE                                             _T("login\\login.xml")  // _T("login\\login.xml")
 

@@ -4,12 +4,13 @@
 #pragma once
 
 #include "small_menu.h"
-#include "login_event.h"
+#include "chat_manager.h"
 
 
 
 
-class CLoginWnd : public CWindowWnd, public INotifyUI, public IMessageFilterUI
+
+class CLoginWnd : public CWindowWnd, public INotifyUI, public IMessageFilterUI, public IBaseMsgs
 {
 public:
 	CLoginWnd();
@@ -21,8 +22,6 @@ public:
 		m_pm.RemovePreMessageFilter(this);
 		delete this;
 	};
-
-
 
 	void Notify(TNotifyUI& msg);
 	LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
@@ -37,9 +36,53 @@ public:
 	LRESULT OnMenuHandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 
+	LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+
+	
 public:
+	virtual void LoginProgress(int percent);
+	// 收到一个坐席用户的信息,用来初始化坐席列表
+	virtual void RecvOneUserInfo(CUserObject* obj){}
+	// 收到一个新建的会话消息
+	virtual void RecvCreateChat(CWebUserObject* obj){}
+	// 收到一个会话消息
+	virtual void RecvChatInfo(CWebUserObject* obj){}
+	// 收到更新用户的在线状态
+	virtual void RecvUserStatus(CUserObject* obj){}
+	virtual string GetLastError(){ return ""; }
+	// 收到一条消息
+	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,
+		string msgContent, string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt){}
+	// 坐席上线消息
+	virtual void RecvOnline(CUserObject* obj){}
+	// 坐席下线消息
+	virtual void RecvOffline(CUserObject* obj){}
+	// 会话关闭
+	virtual void RecvCloseChat(){}
+
+	void StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd);
+
+private:
+	CChatManager* m_manager;
+
+
+public:
+
+	void OnPrepare(TNotifyUI& msg);
+	void OnLoginButton();
+	int GetLoginResult(int percent);
+
+private:
 	CPaintManagerUI m_pm;
-	CLoginEvent *m_loginEv;
+
+
+	CSmallMenu m_hLoginMenu;
+
+	CButtonUI * m_pLoginBtn, *m_pCancelBtn,*m_pCloseBtn;
+	CEditUI *pAccountEdit, *m_pPasswordEdit;
+	
+	CComboUI *pAccountCombo;
+	CCheckBoxUI *m_pSaveWordCheckBox, *m_pAuotoLoginCheckBox;
 
 
 };

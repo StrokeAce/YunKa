@@ -329,7 +329,11 @@ class ClientHandler : public CefClient,
   bool Save(const std::string& path, const std::string& data);
 
   /////////////////////////gaowb/////////////////////////////
+  // 创建浏览器
+  bool CreateBrowser(HWND hwnd, RECT rect, string url, string handlerName);
 
+
+  void MoveBrowser(RECT rect);
 
   // 显示或隐藏窗口
   void ShowBrowser(int nCmdShow);

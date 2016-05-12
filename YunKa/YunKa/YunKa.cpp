@@ -10,98 +10,34 @@
 #include "chat_manager.h"
 
 
+#include "cef_browser/cefclient.h"
+
+
+
+
+CefRefPtr<ClientApp> m_cefApp;
+
+
+
 Gdiplus::GdiplusStartupInput g_gdiplusStartupInput;
 ULONG_PTR g_gdiplusToken;
 
+CGlobalSetting _globalSetting;
 
-class CRecv : public IBaseMsgs
-{
-public:
-	CRecv(){}
 
-	~CRecv(){}
 
-	virtual void LoginProgress(int percent)
-	{
-		if (percent == 100)
-		{
-			m_manager->SendTo_GetShareList();
-		}
-		else{}
-	}
-
-	// 收到一个坐席用户的信息,用来初始化坐席列表
-	virtual void RecvOneUserInfo(CUserObject* obj)
-	{
-		int a = 10;
-	}
-
-	// 收到一个新建的会话消息
-	virtual void RecvCreateChat(CWebUserObject* obj)
-	{
-		int a = 10;
-	}
-
-	// 收到一个会话消息
-	virtual void RecvChatInfo(CWebUserObject* obj)
-	{
-		int a = 10;
-	}
-
-	// 收到更新用户的在线状态
-	virtual void RecvUserStatus(CUserObject* obj)
-	{
-		int a = 10;
-	}
-
-	virtual string GetLastError(){ return ""; }
-
-	// 收到一条消息
-	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,
-		string msgContent, string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt)
-	{
-		int a = 10;
-	}
-
-	// 坐席上线消息
-	virtual void RecvOnline(CUserObject* obj){}
-
-	// 坐席下线消息
-	virtual void RecvOffline(CUserObject* obj)
-	{
-		int a = 10;
-	}
-
-	// 会话关闭
-	virtual void RecvCloseChat()
-	{
-		int a = 10;
-	}
-
-	void start()
-	{
-		m_manager = CChatManager::GetInstance(this);
-
-		bool isAutoLogin = false;
-		string loginName = "9692111";
-		string password = "123";
-		bool isKeepPwd = false;
-
-		string error;
-
-		m_manager->StartLogin(loginName, password, isAutoLogin, isKeepPwd);
-		
-	}
-
-private:
-	CChatManager* m_manager;
-};
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPTSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
+
+	m_cefApp = new ClientApp();
+	if (!(m_cefApp->Init(hInstance) < 0))
+		return FALSE;
+
+
 	wstring strFileName = ZYM::CPath::GetAppPath() + _T("ImageOleCtrl.dll");
 
 	BOOL bRet = DllRegisterServer(strFileName.c_str());	// 注册COM组件
@@ -125,33 +61,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (FAILED(Hr)) return 0;
 
 
-	//CRecv* baseMsg = new CRecv();
-	//baseMsg->start();
-
-
-#if 1
 	CLoginWnd* pLoginFrame = new CLoginWnd();
-#else
-
-
-#endif
 
 	pLoginFrame->Create(NULL, _T(""), UI_WNDSTYLE_DIALOG, 0, 0, 0, 0, 0, NULL);
 	pLoginFrame->CenterWindow();
 	int result = pLoginFrame->ShowModal();
 
-	if (result == 1)
+	if ( 1)
 	{
-		//CMicUpWnd * pMainFram = new CMicUpWnd();
-		//if (pMainFram == NULL) { return 0; }
-		//pMainFram->Create(NULL, _T(""), UI_WNDSTYLE_DIALOG, 0, 0, 0, 0, 0, NULL);
-		//pMainFram->CenterWindow();
-		//pMainFram->ShowWindow(true);
-		//pMainFram->ShowModal();
-
-
-
-
 		CMainFrame *pWndFrame = new CMainFrame();
 		pWndFrame->Create(NULL, _T(""), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE | WS_EX_ACCEPTFILES);
 		pWndFrame->CenterWindow();
@@ -175,6 +92,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	Gdiplus::GdiplusShutdown(g_gdiplusToken);	// 反初始化GDI+
 	::OleUninitialize();
+
+
+	m_cefApp->Exit();
+	m_cefApp = NULL;
 
 	return 0;
 }

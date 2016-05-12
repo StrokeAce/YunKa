@@ -137,6 +137,8 @@ public:
     long StreamIn(int nFormat, EDITSTREAM &es);
     long StreamOut(int nFormat, EDITSTREAM &es);
 
+
+
     void DoInit();
     // 注意：TxSendMessage和SendMessage是有区别的，TxSendMessage没有multibyte和unicode自动转换的功能，
     // 而richedit2.0内部是以unicode实现的，在multibyte程序中，必须自己处理unicode到multibyte的转换
@@ -172,8 +174,15 @@ public:
     IRichEditOle* GetIRichEditOle();
     BOOL SetOLECallback(IRichEditOleCallback* pCallback);
 
+
+	//lxh add
+	ITextServices * CRichEditUI2::GetTextServices();
+	//ITextHost * CRichEditUI2::GetTextHost();
+
+
+
 	BOOL InsertImage(LPCTSTR szFilePath, DWORD dwUserData);
-protected:
+public:
     IRichEditOleCallback* m_pIRichEditOleCallback;
     CTxtWinHost2* m_pTwh;
     bool m_bVScrollBarFixing;
