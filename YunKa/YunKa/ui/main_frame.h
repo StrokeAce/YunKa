@@ -8,6 +8,7 @@
 #include "face_sel_dlg.h"
 #include "IImageOle.h"
 #include "ui_richedit2.h"
+#include "chat_manager.h"
 
 #include "cef_browser/client_handler.h"
 
@@ -70,11 +71,11 @@ public:
 
 
 
-class CMainFrame : public WindowImplBase
+class CMainFrame : public WindowImplBase, public IHandlerMsgs
 {
 public:
 
-	CMainFrame();
+	CMainFrame(CChatManager &manager);
 	~CMainFrame();
 
 public:
@@ -109,6 +110,35 @@ public:
 	virtual void OnMouseEnter(TNotifyUI& msg);
 	virtual void OnItemSelect(TNotifyUI &msg);
 
+public:    //主界面消息回调
+	// 收到一个坐席用户的信息,用来初始化坐席列表
+	virtual void RecvOneUserInfo(CUserObject* pWebUser){}
+
+	// 收到一个新建的会话消息
+	virtual void RecvCreateChat(CWebUserObject* pWebUser) {}
+
+	// 收到一个会话消息
+	virtual void RecvChatInfo(CWebUserObject* pWebUser) {}
+
+	// 收到更新用户的在线状态
+	virtual void RecvUserStatus(CUserObject* pUser) {}
+
+	// 坐席上线消息
+	virtual void RecvOnline(CUserObject* pUser) {}
+
+	// 坐席下线消息
+	virtual void RecvOffline(CUserObject* pUser) {}
+
+	virtual void RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser) {}
+
+	virtual void RecvCloseChat(CWebUserObject* pWebUser) {}
+
+	// 获取上一次错误信息
+	virtual string GetLastError() { return ""; }
+
+	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType, string msgContent,
+		string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "") {}
+
 
 
 public:
@@ -130,6 +160,10 @@ protected:
 	void OnPrepare(TNotifyUI& msg);
 	void OnExit(TNotifyUI& msg);
 
+public:
+	CChatManager &m_manager;
+
+
 private:
 
 	CSmallMenu m_frameSmallMenu;
@@ -150,6 +184,7 @@ private:
 
 	CDuiString m_sendMsgString;
 	HWND m_hMainWnd;
+
 
 };
 

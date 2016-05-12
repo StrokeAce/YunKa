@@ -15,11 +15,11 @@
 
 
 
-CMainFrame::CMainFrame()
+CMainFrame::CMainFrame(CChatManager &manager) :m_manager(manager)
 {
+
 	//初始化
 	m_pFontBtn = m_pFaceBtn = m_pScreenBtn = pSendMsgBtn = NULL;
-
 
 }
 
@@ -300,6 +300,11 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 {
 	CDuiString nameString = _T("");
 	CDuiString typeString[4] = { _T("对话中"), _T("转接中"), _T("邀请中"), _T("内部对话") };
+
+
+
+
+
 	//聊天窗口 初始化
 	m_pListMsgHandler.handler = NULL;
 	m_pListMsgHandler.handleName = Handler_ListMsg;
@@ -404,7 +409,7 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 
 
-
+	m_manager.SetHandlerMsgs(this);
 }
 
 

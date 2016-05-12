@@ -5,6 +5,7 @@
 
 #include "small_menu.h"
 #include "chat_manager.h"
+#include "main_frame.h"
 
 
 
@@ -37,14 +38,13 @@ public:
 
 
 	LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-
 	
 public:
 	virtual void LoginProgress(int percent);
 
 	void StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd);
 
-private:
+public:
 	CChatManager* m_manager;
 
 

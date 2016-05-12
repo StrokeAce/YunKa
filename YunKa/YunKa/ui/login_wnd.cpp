@@ -19,6 +19,7 @@ CLoginWnd::CLoginWnd()
 
 CLoginWnd::~CLoginWnd()
 {
+
 }
 
 
@@ -339,6 +340,8 @@ void CLoginWnd::StartLogin(string loginName, string password, bool isAutoLogin, 
 	//bool isKeepPwd = false;
 
 	//string error;
+
+	m_manager->SetHandlerLogin(this);
 
 	m_manager->StartLogin(loginName, password, isAutoLogin, isKeepPwd);
 

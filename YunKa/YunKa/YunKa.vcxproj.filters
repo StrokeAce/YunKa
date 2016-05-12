@@ -93,9 +93,6 @@
     <ClInclude Include="ui\button_ex_ui.h">
       <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="ui\login_event.h">
-      <Filter>ui</Filter>
-    </ClInclude>
     <ClInclude Include="ui_common\common_utility.h">
       <Filter>ui_common</Filter>
     </ClInclude>
@@ -147,13 +144,7 @@
     <ClInclude Include="chat_manager\chat_manager.h">
       <Filter>chat_manager</Filter>
     </ClInclude>
-    <ClInclude Include="chat_manager\chat_objects.h">
-      <Filter>chat_manager</Filter>
-    </ClInclude>
     <ClInclude Include="chat_manager\login.h">
-      <Filter>chat_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="chat_manager\msgs.h">
       <Filter>chat_manager</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\socket.h">
@@ -357,9 +348,6 @@
     <ClInclude Include="dui_ex\public.h">
       <Filter>json\dui_ex</Filter>
     </ClInclude>
-    <ClInclude Include="ui\message_handler.h">
-      <Filter>ui</Filter>
-    </ClInclude>
     <ClInclude Include="ui\user_list.h">
       <Filter>ui</Filter>
     </ClInclude>
@@ -479,13 +467,7 @@
     <ClCompile Include="chat_manager\chat_manager.cpp">
       <Filter>chat_manager</Filter>
     </ClCompile>
-    <ClCompile Include="chat_manager\chat_objects.cpp">
-      <Filter>chat_manager</Filter>
-    </ClCompile>
     <ClCompile Include="chat_manager\login.cpp">
-      <Filter>chat_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_manager\msgs.cpp">
       <Filter>chat_manager</Filter>
     </ClCompile>
     <ClCompile Include="chat_manager\socket.cpp">
@@ -546,9 +528,6 @@
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="ui\gif_image.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\login_event.cpp">
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="ui\login_wnd.cpp">
