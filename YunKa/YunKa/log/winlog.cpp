@@ -205,7 +205,7 @@ void CLog::MakeLogTag( const unsigned int uiLevel )
 		if ( !m_LogStream.is_open())
 		{
 			 m_LogStream.open(m_strAllName.c_str(),std::ios::out|std::ios::app);
-			 m_LogStream<<"name:"<<m_strAllName.c_str()<<",bak name:"<<m_strBakeName.c_str()<<"\r\n";
+			 m_LogStream<<"\r\n"<<"name:"<<m_strAllName.c_str()<<",bak name:"<<m_strBakeName.c_str()<<"\r\n";
 		}
 		m_bWrite =  m_LogStream.is_open() ;
 

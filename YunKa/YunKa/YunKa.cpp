@@ -67,7 +67,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	pLoginFrame->CenterWindow();
 	int result = pLoginFrame->ShowModal();
 
-	if ( 1)
+	if (result == 1)
 	{
 		CMainFrame *pWndFrame = new CMainFrame();
 		pWndFrame->Create(NULL, _T(""), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE | WS_EX_ACCEPTFILES);

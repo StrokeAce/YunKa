@@ -17,10 +17,7 @@ void CLogin::StartLogin(string loginName, string password, bool isAutoLogin, boo
 {
 	if (!CheckLoginInfo(loginName, password, isAutoLogin, isKeepPwd))
 	{
-		if (m_manager->m_baseMsgs)
-		{
-			m_manager->m_baseMsgs->LoginProgress(-1);
-		}
+		m_manager->m_handlerLogin->LoginProgress(-1);
 		return;
 	}
 
@@ -35,17 +32,11 @@ void CLogin::StartLogin(string loginName, string password, bool isAutoLogin, boo
 	if (GetTqAuthToken(uin, loginName.c_str(), password.c_str()) != 1)
 	{
 		m_manager->m_lastError = "认证失败";
-		if (m_manager->m_baseMsgs)
-		{
-			m_manager->m_baseMsgs->LoginProgress(-1);
-		}
+		m_manager->m_handlerLogin->LoginProgress(-1);
 		return;
 	}
 
-	if (m_manager->m_baseMsgs)
-	{
-		m_manager->m_baseMsgs->LoginProgress(20);
-	}
+	m_manager->m_handlerLogin->LoginProgress(20);
 
 	if (!IsNumber(loginName))
 	{
@@ -59,20 +50,14 @@ void CLogin::StartLogin(string loginName, string password, bool isAutoLogin, boo
 	if (CheckLoginFlag(uin, loginName))
 	{
 		m_manager->m_lastError = "该帐号在本地已经登录";
-		if (m_manager->m_baseMsgs)
-		{
-			m_manager->m_baseMsgs->LoginProgress(-1);
-		}
+		m_manager->m_handlerLogin->LoginProgress(-1);
 		return;
 	}
 
 	// 登录
 	if (!LoginToRealServer(m_manager->m_server, m_manager->m_port, uin))
 	{
-		if (m_manager->m_baseMsgs)
-		{
-			m_manager->m_baseMsgs->LoginProgress(-1);
-		}
+		m_manager->m_handlerLogin->LoginProgress(-1);
 	}
 }
 
@@ -234,17 +219,12 @@ bool CLogin::LoginToRealServer(string strServer, int nPort, unsigned int uin)
 	if ((nError = ConnectToServer(strServer, nPort)) != 0)
 		return false;
 
-	if (m_manager->m_baseMsgs)
-	{
-		m_manager->m_baseMsgs->LoginProgress(40);
-	}
+	m_manager->m_handlerLogin->LoginProgress(40);
 
 	if ((nError = SendLoginInfo(uin)) != 0)
 		return false;
-	if (m_manager->m_baseMsgs)
-	{
-		m_manager->m_baseMsgs->LoginProgress(60);
-	}
+
+	m_manager->m_handlerLogin->LoginProgress(60);
 	return true;
 }
 

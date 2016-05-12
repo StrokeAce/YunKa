@@ -1,8 +1,6 @@
 #pragma once
 
 #include "sys_config.h"
-#include "chat_objects.h"
-#include "msgs.h"
 #include "login.h"
 #include "../chat_common/comobject.h"
 #include "../chat_common/comstruct.h"
@@ -13,12 +11,19 @@ typedef map<string/*thirdId*/, string/*公众号token*/> WxTokens; // 公众号的third
 typedef map<unsigned long, CUserObject*> MapUsers; // 保存坐席用户
 typedef map<char*, CWebUserObject*> MapWebUsers; // 保存访客
 
-class IBaseMsgs
+// 登录消息的回调接口,该接口实现方不用自己析构
+class IHandlerLgoin
 {
 public:
 	// 登录的进度,percent=100时表示登录成功
 	virtual void LoginProgress(int percent) = 0;
+};
 
+// 登录后通信消息的回调接口,该接口实现方不用自己析构
+class IHandlerMsgs
+{
+public:
+	
 	// 收到一个坐席用户的信息,用来初始化坐席列表
 	virtual void RecvOneUserInfo(CUserObject* pWebUser) = 0;
 
@@ -76,7 +81,7 @@ public:
 class CChatManager : public IBaseReceive
 {
 private:
-	CChatManager(IBaseMsgs* iBaseMsgs);
+	CChatManager();
 	~CChatManager();
 
 	friend class CLogin;
@@ -86,11 +91,17 @@ private:
 
 public:
 
-	static CChatManager* GetInstance(IBaseMsgs* iBaseMsgs)
+	static CChatManager* GetInstance()
 	{
-		static CChatManager instance(iBaseMsgs);
+		static CChatManager instance;
 		return &instance;
 	}
+
+	// 设置接收登录消息的接口
+	void SetHandlerLogin(IHandlerLgoin* handlerLogin);
+
+	// 设置接收登录后通信消息的接口
+	void SetHandlerMsgs(IHandlerMsgs* handlerMsgs);
 
 public:
 
@@ -123,12 +134,6 @@ public:
 
 	// 获取系统配置对象
 	CSysConfig* GetSysConfig();
-
-	// 获取聊天对象管理类实例
-	CChatObjects* GetChatObjects();
-
-	// 获取聊天消息管理类实例
-	CMsgs* GetMsgs();
 
 	// 截图
 	void ScreenCapture();
@@ -300,9 +305,9 @@ public:
 	int						m_nOnLineStatusEx;
 
 private:
-	CLogin*					m_login;				// 登录处理类
-	CChatObjects*			m_chatObjects;			// 消息处理类	
-	IBaseMsgs*				m_baseMsgs;				// 消息接收接口
+	CLogin*					m_login;				// 登录处理类	
+	IHandlerLgoin*			m_handlerLogin;			// 登录消息接收接口
+	IHandlerMsgs*			m_handlerMsgs;			// 通信消息接收接口
 	CSysConfigFile*			m_sysConfig;			// 用户设置文件类
 	INIT_CONF				m_initConfig;			// 软件配置文件类
 	CMySocket				m_socket;				// 消息连接

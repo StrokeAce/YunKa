@@ -331,7 +331,7 @@ void CLoginWnd::LoginProgress(int percent)
 
 void CLoginWnd::StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd)
 {
-	m_manager = CChatManager::GetInstance(this);
+	m_manager = CChatManager::GetInstance();
 
 	//bool isAutoLogin = false;
 	//string loginName = "9692111";

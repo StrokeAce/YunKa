@@ -130,9 +130,7 @@
     <ClInclude Include="chat_common\wx_obj.h" />
     <ClInclude Include="chat_manager\chat_history_msg.h" />
     <ClInclude Include="chat_manager\chat_manager.h" />
-    <ClInclude Include="chat_manager\chat_objects.h" />
     <ClInclude Include="chat_manager\login.h" />
-    <ClInclude Include="chat_manager\msgs.h" />
     <ClInclude Include="chat_manager\socket.h" />
     <ClInclude Include="chat_manager\sys_config.h" />
     <ClInclude Include="dui_ex\button_ex_ui.h" />
@@ -231,9 +229,7 @@
     <ClCompile Include="chat_common\wx_obj.cpp" />
     <ClCompile Include="chat_manager\chat_history_msg.cpp" />
     <ClCompile Include="chat_manager\chat_manager.cpp" />
-    <ClCompile Include="chat_manager\chat_objects.cpp" />
     <ClCompile Include="chat_manager\login.cpp" />
-    <ClCompile Include="chat_manager\msgs.cpp" />
     <ClCompile Include="chat_manager\socket.cpp" />
     <ClCompile Include="chat_manager\sys_config.cpp" />
     <ClCompile Include="dui_ex\button_ex_ui.cpp" />
