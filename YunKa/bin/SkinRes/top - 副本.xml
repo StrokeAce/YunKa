@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<top>
+
+<VerticalLayout>
+
+<!-- Control height="1" bkcolor="#FF1B4876" / -->
+<!-- Control height="2" bkcolor="#FFD1EDFF" / -->
+
+
+<!-- HorizontalLayout    bkimage="file='bg.png'"  -->
+
+<HorizontalLayout>
+<VerticalLayout width="300">
+<Text text="{a}{f 2}云咔{/f}{/a}" showhtml="true" />
+</VerticalLayout>
+
+<VerticalLayout />
+			<VerticalLayout width="94">
+				<HorizontalLayout  >
+    				<Button name="minBtn" maxwidth="26" maxheight="18" normalimage="file='frame_btn_min.bmp' source='0,0,26,18' mask='#FFFF00FF'" hotimage="file='frame_btn_min.bmp' source='26,0,52,18' mask='#FFFF00FF'" pushedimage="file='frame_btn_min.bmp' source='52,0,78,18' mask='#FFFF00FF'"/>
+    				<Button name="maxBtn" visible="true" maxwidth="26" maxheight="18" normalimage="file='frame_btn_max.bmp' source='0,0,26,18' mask='#FFFF00FF'" hotimage="file='frame_btn_max.bmp' source='26,0,52,18' mask='#FFFF00FF'" pushedimage="file='frame_btn_max.bmp' source='52,0,78,18' mask='#FFFF00FF'"/>
+    				<Button name="restoreBtn" visible="false" maxwidth="26" maxheight="18" normalimage="file='frame_btn_max.bmp' source='104,0,130,18' mask='#FFFF00FF'" hotimage="file='frame_btn_max.bmp' source='130,0,156,18' mask='#FFFF00FF'" pushedimage="file='frame_btn_max.bmp' source='156,0,182,18' mask='#FFFF00FF'" />
+    				<Button name="closeBtn" maxwidth="42" maxheight="18" normalimage="file='frame_btn_close_normal.bmp' mask='#FFFF00FF'" hotimage="file='frame_btn_close_hot.bmp' mask='#FFFF00FF'" pushedimage="file='frame_btn_close_down.bmp' mask='#FFFF00FF'"/>
+    			</HorizontalLayout>
+			</VerticalLayout>
+
+
+
+
+</HorizontalLayout>
+</VerticalLayout>
+
+</top>

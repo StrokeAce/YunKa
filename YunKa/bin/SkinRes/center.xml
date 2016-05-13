@@ -27,9 +27,8 @@
 
 <!--RichEdit2 name="send_rich_edit" multiline="true" vscrollbar="true" autovscroll="true" rich="true" readonly="false" menu="true" inset="5,0,0,0"/-->
 
-<!--RichEdit2 name="richSend" multiline="true" vscrollbar="true" autovscroll="true" enabled="true" rich="true" readonly="false" wantreturn="true" wantctrlreturn="false" menu="true"/ -->	
 			
-<RichEdit2 name="richSend" multiline="true" vscrollbar="true" autovscroll="true" enabled="true" rich="true" readonly="false" wantreturn="true" wantctrlreturn="false" menu="true" />		
+<RichEdit name="richSend" multiline="true" vscrollbar="true" autovscroll="true" enabled="true" rich="true" readonly="false" wantreturn="true" wantctrlreturn="false" menu="true"  inset="2,1,1,1" />		
 
 </HorizontalLayout>
 

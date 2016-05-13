@@ -85,7 +85,7 @@
 <!-- HorizontalLayout height="20"  bkcolor="#FFD2D6DD"-->
 
 <HorizontalLayout height="20"  bkcolor="#FFEBF5FF">
-<Include source="bottom.xml" />
+<!--Include source="bottom.xml" /-->
 </HorizontalLayout>
 
 </VerticalLayout>
