@@ -17,13 +17,13 @@ public:
 public:
 	void StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd);	// ¿ªÊ¼µÇÂ¼
 
+	bool CheckLoginFlag(unsigned long uin, const string& strID, bool bCreate = false, bool bFree = false);
+
 private:
 
 	bool CheckLoginInfo(string loginName, string password,bool isAutoLogin, bool isKeepPwd);
 
-	int GetTqAuthToken(unsigned int &uin, const char *szStrid, const char *szPassWord);
-
-	bool CheckLoginFlag(unsigned long uin, const string& strID, bool bCreate = false, bool bFree = false);
+	int GetTqAuthToken(unsigned int &uin, const char *szStrid, const char *szPassWord);	
 
 	bool LoginToRealServer(string strServer, int nPort, unsigned int uin);
 

@@ -21,7 +21,7 @@ unsigned short g_packSeq = 0;
 CChatManager::CChatManager()
 {
 	m_bExit = false;
-	m_isLoginSuccess = false;
+	m_bLoginSuccess = false;
 	m_server = "tcp01.tq.cn";
 	m_port = 443;
 	m_usSrvRand = 0;
@@ -60,10 +60,10 @@ void CChatManager::StartLogin(string loginName, string password, bool isAutoLogi
 {
 	assert(m_handlerLogin); // 登录之前就应当将消息回调接口设置好
 
-	m_loginName = loginName;
+	m_sLogin = loginName;
 	m_password = password;
-	m_isAutoLogin = isAutoLogin;
-	m_isKeepPwd = isKeepPwd;
+	m_bAutoLogin = isAutoLogin;
+	m_bKeepPwd = isKeepPwd;
 
 	// 开始登录时，启动一个判断登录超时的定时器
 	m_timers->SetTimer(5000, TIMER_NAME_LOGIN);
@@ -73,17 +73,13 @@ void CChatManager::StartLogin(string loginName, string password, bool isAutoLogi
 
 bool CChatManager::ReadSystemConfig()
 {
+	// 加载默认的设置文件
 	char sFile[MAX_256_LEN];
 	string strFile = GetCurrentPath();
-
-	sprintf(sFile, "%s\\config.dat", strFile.c_str());
-
-	if (m_sysConfig->LoadData(sFile))
+	sprintf(sFile, "%s\\config.dat", strFile.c_str(), m_userInfo.UserInfo.uid);
+	if (!m_sysConfig->LoadData(sFile))
 	{
-	}
-	else
-	{
-		SetSystemConfigByInitconfig();
+		SetSystemConfigByInitconfig();		
 	}
 
 	m_sysConfig->m_sVisitorServer = m_initConfig.sVisitorServer;
@@ -308,7 +304,7 @@ int CChatManager::RecvSrvConfLogon(PACK_HEADER packhead, char *pRecvBuff, int le
 	//服务器返回的RecvInfo.type_loginby为0有误
 	m_sysConfig->m_nLastLoginBy = LOGIN_BYSTRING;
 	if (strlen(RecvInfo.strid) <= 0)
-		m_sysConfig->m_sLastLoginStr = m_loginName;
+		m_sysConfig->m_sLastLoginStr = m_sLogin;
 	else
 		m_sysConfig->m_sLastLoginStr = RecvInfo.strid;
 	m_sysConfig->m_sLastLoginPass = m_password;
@@ -340,21 +336,11 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 
 	// 下载登陆用户的头像
 
-	if (!m_isLoginSuccess)
+	if (!m_bLoginSuccess)
 	{
-		SaveUserConfig();
-
-		m_CommUserInfo.UserInfo.compid = m_userInfo.UserInfo.compid;
-
-		// 收到登录用户的信息包，登录成功
-		m_handlerLogin->LoginProgress(100);
-		m_nOnLineStatus = STATUS_ONLINE;
-		m_isLoginSuccess = true;
-		m_timers->SetTimer(1000, TIMER_NAME_NORMAL);
-
 		pUser = AddUserObject(RecvInfo.uin, RecvInfo.strid, RecvInfo.UserInfo.info.nickname, STATUS_ONLINE, -1);
 
-		SendTo_UpdateOnlineStatus(m_nOnLineStatus);
+		LoginSuccess();
 	}
 	else
 	{
@@ -702,17 +688,6 @@ int CChatManager::SendPackTo(CPackInfo *pPackInfo, unsigned long recvuid, unsign
 
 RETURN:
 	return nrtn;
-}
-
-bool CChatManager::LoadUserConfig()
-{
-	//char sFile[MAX_256_LEN];
-	string strFile = GetCurrentPath();
-
-	//sprintf(sFile, "%sconfig_%u.dat", strFile, m_userInfo.UserInfo.uid);
-	//this->m_sysConfig->LoadUserData(sFile, CLIENTVERSION);
-
-	return false;
 }
 
 int CChatManager::RecvSrvConfLogOff(PACK_HEADER packhead, char *pRecvBuff, int len)
@@ -1658,7 +1633,7 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 
 
 		// 同步更新关联词
-		//if (m_sysConfig.bAutoSearchKeyword)
+		//if (m_sysConfig->bAutoSearchKeyword)
 		{
 			//CUserObject *pUser = m_pFormKeyWord->GetCurSelUserOb();
 			//m_pFormKeyWord->ResetKeyWord((m_nOnLineStatus != STATUS_OFFLINE), pUser, RecvInfo.strmsg);
@@ -2336,7 +2311,7 @@ int CChatManager::SendTo_GetShareList()
 	assert(m_handlerMsgs);
 
 	int nError = SYS_ERROR_SEND_BEFORE_LOGIN;
-	if (m_isLoginSuccess)
+	if (m_bLoginSuccess)
 	{
 		COM_FLOAT_SHARELIST SendInfo(VERSION);
 
@@ -2348,7 +2323,7 @@ int CChatManager::SendTo_GetShareList()
 int CChatManager::SendTo_GetListChatInfo()
 {
 	int nError = SYS_ERROR_SEND_BEFORE_LOGIN;
-	if (m_isLoginSuccess)
+	if (m_bLoginSuccess)
 	{
 		COM_FLOAT_GETLIST SendInfo(VERSION);
 
@@ -2393,7 +2368,7 @@ CUserObject * CChatManager::GetUserObjectByUid(unsigned long id)
 {
 	if (id == 0)
 	{
-		return &m_CommUserInfo;
+		return &m_commUserInfo;
 	}
 
 	if (m_userInfo.UserInfo.uid != 0 && m_userInfo.UserInfo.uid == id)
@@ -2435,7 +2410,7 @@ void CChatManager::TimerProc(string timeName, LPVOID pThis)
 	}
 	else if (timeName == TIMER_NAME_LOGIN)
 	{
-		if (!chat_manager->m_isLoginSuccess)
+		if (!chat_manager->m_bLoginSuccess)
 		{
 			chat_manager->m_lastError = "登录超时";
 		}
@@ -2446,7 +2421,7 @@ void CChatManager::TimerProc(string timeName, LPVOID pThis)
 int CChatManager::SendTo_GetAllUserInfo()
 {
 	int nError = SYS_ERROR_SEND_BEFORE_LOGIN;
-	if (m_isLoginSuccess)
+	if (m_bLoginSuccess)
 	{
 		CUserObject *pUser;
 		map <unsigned long, CUserObject*>::iterator iter_user;
@@ -2465,7 +2440,7 @@ int CChatManager::SendTo_GetAllUserInfo()
 int CChatManager::SendTo_GetUserInfo(unsigned long uid)
 {
 	int nError = SYS_ERROR_SEND_BEFORE_LOGIN;
-	if (m_isLoginSuccess)
+	if (m_bLoginSuccess)
 	{
 		if (uid == 0)
 		{
@@ -2585,7 +2560,7 @@ void CChatManager::CloseAllSocket()
 int CChatManager::SendTo_UpdateOnlineStatus(unsigned short status)
 {
 	int nError = SYS_ERROR_SEND_BEFORE_LOGIN;
-	if (m_isLoginSuccess)
+	if (m_bLoginSuccess)
 	{
 		unsigned int dwstatus = 0;
 
@@ -2923,7 +2898,6 @@ void CChatManager::RecvComSendWorkBillMsg(unsigned long senduid, unsigned long r
 		}
 		else
 		{
-
 			pWebUser = GetWebUserObjectBySid(sid);
 
 			if (pWebUser == NULL)
@@ -2947,7 +2921,7 @@ void CChatManager::RecvComSendWorkBillMsg(unsigned long senduid, unsigned long r
 			if (!pWebUser->m_sWxAppid.empty())
 			{
 				pWebUser->m_bIsFrWX = true;
-				//GetWxUserInfoAndToken(pWebUser);
+				SendGetWxUserInfoAndToken(pWebUser);
 			}
 
 			time_t tnow = time(NULL);
@@ -3192,15 +3166,6 @@ int CChatManager::SendTo_GetWebUserChatInfo(unsigned short gpid, unsigned long a
 	return nError;
 }
 
-void CChatManager::SaveUserConfig()
-{
-	char sFile[256];
-	string strFile = GetCurrentPath();
-
-	sprintf(sFile, "%s\\config.dat", strFile.c_str());
-	m_sysConfig->SaveData(sFile);
-}
-
 CWebUserObject * CChatManager::ChangeWebUserSid(CWebUserObject *pWebUser, char *sid, char *thirdid)
 {
 	if (pWebUser == NULL || sid == NULL)
@@ -3388,7 +3353,8 @@ void CChatManager::SetHandlerMsgs(IHandlerMsgs* handlerMsgs)
 void CChatManager::Exit()
 {
 	m_bExit = true;
-	m_socket.m_bRecvThread = false;	
+	m_socket.m_bRecvThread = false;
+	m_sysConfig->SaveData();
 
 	if (m_timers)
 	{
@@ -3416,4 +3382,62 @@ CChatManager* CChatManager::GetInstance()
 {
 	static CChatManager instance;
 	return &instance;
+}
+
+void CChatManager::LoginSuccess()
+{
+	m_bLoginSuccess = true;
+
+	m_commUserInfo.UserInfo.compid = m_userInfo.UserInfo.compid;
+
+	// 收到登录用户的信息包，登录成功
+	m_handlerLogin->LoginProgress(100);
+	m_nOnLineStatus = STATUS_ONLINE;	
+	m_timers->SetTimer(1000, TIMER_NAME_NORMAL);
+
+	if (m_sysConfig->m_bSavePass)
+	{
+		m_sysConfig->AddOneLoginInfo(m_userInfo.UserInfo.uid, m_userInfo.UserInfo.sid,
+			m_userInfo.UserInfo.pass, DWORDToString(m_userInfo.UserInfo.compid));
+	}
+	else
+	{
+		m_sysConfig->AddOneLoginInfo(m_userInfo.UserInfo.uid, m_userInfo.UserInfo.sid,
+			"", DWORDToString(m_userInfo.UserInfo.compid));
+	}
+
+	m_sysConfig->m_nLastLoginBy = m_login->m_nLoginBy;
+	switch (m_login->m_nLoginBy)
+	{
+	case LOGIN_BYUID:
+		m_sysConfig->m_sLastLoginUid = StringToDWORD(m_sLogin);
+		break;
+	case LOGIN_BYSTRING:
+		m_sysConfig->m_sLastLoginStr = m_sLogin;
+		break;
+	default:
+		break;
+	}
+
+	m_commUserInfo.UserInfo.compid = m_userInfo.UserInfo.compid;
+	m_nOnLineStatus = STATUS_ONLINE;
+	m_nSendPing = 0;
+	m_nSendPingFail = 0;
+
+	// 保存默认设置文件
+	m_sysConfig->SaveData();
+
+	char sFile[MAX_256_LEN];
+	string strFile = GetCurrentPath();
+	sprintf(sFile, "%s\\config_%u.dat", strFile.c_str(), m_userInfo.UserInfo.uid);
+	m_sysConfig->LoadData(sFile);
+
+	SendTo_UpdateOnlineStatus(m_nOnLineStatus);
+
+	if (m_vistor->ConnectToVisitorServer())
+	{
+		m_vistor->LoginToVisitorServer();
+	}
+
+	m_login->CheckLoginFlag(m_sysConfig->m_sLastLoginUid, m_sysConfig->m_sLastLoginStr, true);
 }

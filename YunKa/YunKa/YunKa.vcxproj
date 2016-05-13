@@ -269,7 +269,6 @@
     <Image Include="YunKa.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\thirdlib\duilib\DuiLib.sln" />
     <None Include="json\json_internalarray.inl" />
     <None Include="json\json_internalmap.inl" />
     <None Include="json\json_valueiterator.inl" />

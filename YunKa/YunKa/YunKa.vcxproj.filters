@@ -554,7 +554,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\thirdlib\duilib\DuiLib.sln" />
     <None Include="json\json_internalarray.inl">
       <Filter>json</Filter>
     </None>

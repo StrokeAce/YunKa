@@ -148,8 +148,6 @@ private:
 
 	bool LoadINIResource();
 
-	bool LoadUserConfig();  //按照坐席个人在加载一份配置文件
-
 
 	/***************     消息包处理函数      *****************/
 
@@ -281,8 +279,6 @@ private:
 
 	void SolveWebUserEarlyMsg(CWebUserObject *pWebUser);
 
-	void SaveUserConfig();
-
 	CWebUserObject *ChangeWebUserSid(CWebUserObject *pWebUser, char *sid, char *thirdid);
 
 	void GetChatSysMsg(char* msg, CUserObject *pInviteUser, CWebUserObject *pWebUser, int type, CUserObject *pAcceptUser = NULL);
@@ -290,33 +286,35 @@ private:
 	// 定时器事件处理函数
 	static void CALLBACK TimerProc(string timeName, LPVOID pThis); 
 
+	void LoginSuccess();
+
 public:
 	int						m_nOnLineStatus;		// 用户是否在线
 	int						m_nOnLineStatusEx;
-	bool					m_bExit;
+	bool					m_bExit;				// 
 	CUserObject				m_userInfo;				// 登录用户的信息
+	CSysConfigFile*			m_sysConfig;			// 用户设置文件类
+	INIT_CONF				m_initConfig;			// 软件配置文件类
 
 private:
 	CLogin*					m_login;				// 登录处理类	
 	IHandlerLgoin*			m_handlerLogin;			// 登录消息接收接口
-	IHandlerMsgs*			m_handlerMsgs;			// 通信消息接收接口
-	CSysConfigFile*			m_sysConfig;			// 用户设置文件类
-	INIT_CONF				m_initConfig;			// 软件配置文件类
+	IHandlerMsgs*			m_handlerMsgs;			// 通信消息接收接口	
 	CMySocket				m_socket;				// 消息连接
 	CChatVisitor*			m_vistor;				// 访客接待处理对象
-	string					m_loginName;			// 登录名
+	string					m_sLogin;				// 登录名
 	string					m_password;				// 登录密码
 	string					m_server;				// 服务器地址
 	string					m_lastError;			// 上一次错误信息
-	bool					m_isAutoLogin;			// 是否自动登录
-	bool					m_isKeepPwd;			// 是否记住密码
-	bool					m_isLoginSuccess;		// 是否已登录
+	bool					m_bAutoLogin;			// 是否自动登录
+	bool					m_bKeepPwd;				// 是否记住密码
+	bool					m_bLoginSuccess;		// 是否已登录
 	int						m_port;					// 服务器端口		
 	unsigned short			m_usSrvRand;			// 服务器的随机数
 	unsigned short			m_usCltRand;			// 本次运行的随机数
 	MapUsers				m_mapUsers;				// 协助对象的存储集合
 	MapWebUsers				m_mapWebUsers;			// 访客的存储集合
-	CUserObject				m_CommUserInfo;			// 公用用户
+	CUserObject				m_commUserInfo;			// 公用用户
 	int						m_myInfoIsGet;			// 是否我的信息已经获取到了	
 	CTimerManager*			m_timers;				// 定时器管理类
 	int						m_nMyInfoIsGet;			// 是否我的信息已经获取到了

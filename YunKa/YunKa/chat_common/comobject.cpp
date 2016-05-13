@@ -20,8 +20,7 @@ LOGIN_INFO* CSysConfigFile::GetLoginInfo(int type, unsigned long uid, string sid
 {
 	LOGIN_INFO* loginInfo = NULL;
 
-	if ((type == LOGIN_BYUID && uid != 0) || 
-		((type == LOGIN_BYSTRING || type == LOGIN_BYMOBILE || type == LOGIN_BYMAIL) && !sid.empty()))
+	if ((type == LOGIN_BYUID && uid != 0) || (type == LOGIN_BYSTRING && !sid.empty()))
 	{
 		ListLoginedInfo::iterator iter;
 		for (iter = m_cLoginInfoList.begin(); iter != m_cLoginInfoList.end(); ++iter)
@@ -47,8 +46,6 @@ LOGIN_INFO* CSysConfigFile::GetLoginInfo(int type, unsigned long uid, string sid
 
 void CSysConfigFile::ResetValue()
 {
-	sprintf_s(m_sConfigname, "%s\\config.dat", GetCurrentPath().c_str());
-
 	m_bSavePass = false;
 	m_bAutoLogin = false;
 	m_nKeySendType = 0;
@@ -142,7 +139,7 @@ bool CSysConfigFile::ReadFile(ifstream& fout)
 	Read(fout, m_sStrRealServer);
 	Read(fout, m_nRealServerPort);
 
-	//最后登录的类型
+	// 登录过的信息
 	DeleteAllLoginInfo();
 	Read(fout, count);
 	for (int i = 0; i < (int)count; i++)
@@ -343,28 +340,27 @@ bool CSysConfigFile::WriteFile(ofstream& fin)
 
 bool CSysConfigFile::LoadData(char *sFilename)
 {
+	assert(sFilename != NULL && strlen(sFilename) > 0);
+
 	if (sFilename != NULL && strlen(sFilename) > 0)
 	{
 		strcpy(m_sConfigname, sFilename);
-	}
+	}	
 
 	if (_access(m_sConfigname, 0) == -1)
 	{
-		ResetValue();
 		return false;
 	}
 
 	ifstream outfile(sFilename, std::ios::binary);
 	if (!outfile)
 	{
-		ResetValue();
 		return false;
 	}
 
 	if (ReadFile(outfile))
 	{
 		outfile.close();
-		ResetValue();
 		return false;
 	}
 
@@ -388,6 +384,8 @@ bool CSysConfigFile::SaveData(char *sFilename)
 	{
 		strcpy(m_sConfigname, sFilename);
 	}
+
+	assert(m_sConfigname);
 
 	char sTempFile[256];
 	sprintf(sTempFile, "%s.bak", m_sConfigname);
@@ -413,7 +411,6 @@ bool CSysConfigFile::SaveData(char *sFilename)
 	}
 
 	infile.close();
-
 	return true;
 }
 
@@ -662,6 +659,23 @@ void CSysConfigFile::Read(ifstream& fout, char* chVal)
 	fout.read((char*)(&count), sizeof(byte));
 	fout.read(chVal, (int)count);
 	chVal[(int)count] = '\0';
+}
+
+LOGIN_INFO * CSysConfigFile::AddOneLoginInfo(unsigned long uid, string sid, string pass, string compid)
+{
+	LOGIN_INFO* plg = GetLoginInfo(LOGIN_BYUID, uid, "");
+
+	if (plg == NULL)
+	{
+		plg = new LOGIN_INFO;
+		plg->uid = uid;
+	}
+
+	strcpy(plg->sid, sid.c_str());
+	strcpy(plg->pass, pass.c_str());
+	strcpy(plg->compid, compid.c_str());
+
+	return plg;
 }
 
 CUserObject::CUserObject()

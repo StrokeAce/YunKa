@@ -1,10 +1,8 @@
 #include "../stdafx.h"
 #include "comfunc.h"
 #include "comdef.h"
-#include "../utils/tstring.h"
-//#include <Psapi.h>
-
-//#pragma   comment(lib,"psapi.lib")
+#include "md5.h"
+#include "tstring.h"
 
 //字符串到长整形的互换
 DWORD StringToDWORD(string str)
@@ -483,7 +481,7 @@ unsigned int SetByte(unsigned int &source, int index, unsigned char ucvalue)
 string FullPath(string extPath)
 {
 	string strFullPath = GetCurrentPath();
-	int pos;
+
 	//if ((pos = extPath.("\\")) != string::npos)
 		//extPath = extPath.substr(1, extPath.size());
 
@@ -493,4 +491,83 @@ string FullPath(string extPath)
 unsigned long GetCurrentLongTime()
 {
 	return 0;
+}
+
+string GetMd5Str(const string str)
+{
+	unsigned char kmd[32];
+	char strReturn[256];
+	sprintf(strReturn, "%s", str.c_str());
+	struct MD5Context md5c;
+	MD5Init(&md5c);
+	MD5Update(&md5c, (unsigned char *)strReturn, strlen(strReturn));
+	MD5Final((unsigned char *)kmd, &md5c);
+
+	dec2hex(kmd, strReturn);
+	strReturn[32] = '\0';
+	return strReturn;
+}
+
+string DWORDToString(unsigned long num)
+{
+	if (num == 0)
+		return "0";
+
+	char str[256];
+
+	_itoa(num, str, 10);
+	return str;
+}
+
+bool IsXMLCommandStringExist(char *pBuff, char *cmditem)
+{
+	if (pBuff == NULL || cmditem == NULL)
+		return false;
+
+	char sitem1[100], sitem2[100];
+	char *p1, *p2;
+	int len1, len2;
+	sprintf(sitem1, "<%s>", cmditem);
+	sprintf(sitem2, "</%s>", cmditem);
+	len1 = strlen(sitem1);
+	len2 = strlen(sitem2);
+
+	p1 = strstr(pBuff, sitem1);
+	p2 = strstr(pBuff, sitem2);
+
+	return (p1 == pBuff && p2 != NULL && p2 > p1);
+}
+
+char *GetXMLCommandString(char *pBuff, char *cmd, char *cmditem, int maxlen)
+{
+	if (pBuff == NULL || cmd == NULL || cmditem == NULL)
+		return "";
+
+	char sitem1[100], sitem2[100];
+	char *p1, *p2;
+	int len1, len2, len;
+	sprintf(sitem1, "<%s>", cmditem);
+	sprintf(sitem2, "</%s>", cmditem);
+	len1 = strlen(sitem1);
+	len2 = strlen(sitem2);
+
+	p1 = strstr(pBuff, sitem1);
+	p2 = strstr(pBuff, sitem2);
+
+	sprintf(cmd, "");
+	if (p1 != NULL && p2 != NULL)
+	{
+		len = p2 - p1 - len1;
+		if (len > 0)
+		{
+			if (len > maxlen)
+				len = maxlen;
+
+			memcpy(cmd, p1 + len1, len);
+			cmd[len] = '\0';
+		}
+	}
+
+	return cmd;
+
 }

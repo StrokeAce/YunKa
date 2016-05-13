@@ -28,7 +28,7 @@ public:
 
 	void ResetValue();
 	bool LoadData(char *sFilename);
-	bool SaveData(char *sFilename);
+	bool SaveData(char *sFilename=NULL);
 	bool ReadFile(ifstream& fout);
 	bool WriteFile(ofstream& fin);
 	void SetWndInitPos(bool bAlways);
@@ -47,13 +47,10 @@ public:
 	string GestringFromUID(unsigned long uid);
 	unsigned long GetUIDFromString(int type, string strID);
 
-	//查看该用户在列表中的位置
-	int GetLoginInfoIndex(int type, unsigned long uid, string strID);
 	LOGIN_INFO* GetLoginInfo(int type, unsigned long uid, string sid);
 
 	//增加一个新的对象
 	LOGIN_INFO *AddOneLoginInfo(unsigned long uid, string sid, string pass, string compid);
-	LOGIN_INFO *AddOneLoginInfo(LOGIN_INFO *LoginInfo);
 
 	//增加一个登录服务器对象
 	void AddServerAddress(string strServer, bool bMoveToTop = true);

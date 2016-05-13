@@ -4,6 +4,8 @@
 #include "comstruct.h"
 #include "wx_obj.h"
 
+//长整形和字符串的互换
+string DWORDToString(unsigned long num);
 unsigned long StringToDWORD(string str);
 
 bool IsNumber(string lpStr);
@@ -54,5 +56,11 @@ string FullPath(string extPath);
 
 //获得当前的系统时间
 unsigned long GetCurrentLongTime();
+
+string GetMd5Str(const string str);
+
+bool IsXMLCommandStringExist(char *pBuff, char *cmditem);
+
+char *GetXMLCommandString(char *pBuff, char *cmd, char *cmditem, int maxlen = 1024);
 
 #endif
