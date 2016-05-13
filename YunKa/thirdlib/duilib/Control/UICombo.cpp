@@ -115,7 +115,7 @@ LRESULT CComboWnd::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         for( int i = 0; i < m_pOwner->GetCount(); i++ ) {
             m_pLayout->Add(static_cast<CControlUI*>(m_pOwner->GetItemAt(i)));
         }
-		m_pm.AttachDialog(m_pLayout);
+        m_pm.AttachDialog(m_pLayout);
         
         return 0;
     }
@@ -267,8 +267,7 @@ bool CComboUI::SelectItem(int iIndex, bool bTakeFocus)
     if( m_items.GetSize() == 0 ) return false;
     if( iIndex >= m_items.GetSize() ) iIndex = m_items.GetSize() - 1;
     CControlUI* pControl = static_cast<CControlUI*>(m_items[iIndex]);
-	if( !pControl) return false; ///bug修复，不刷新问题
-    ////if( !pControl || !pControl->IsVisible() || !pControl->IsEnabled() ) return false;
+    if( !pControl || !pControl->IsVisible() || !pControl->IsEnabled() ) return false;
     IListItemUI* pListItem = static_cast<IListItemUI*>(pControl->GetInterface(_T("ListItem")));
     if( pListItem == NULL ) return false;
     m_iCurSel = iIndex;

@@ -131,7 +131,7 @@ namespace DuiLib
 	class UILIB_API CDuiString
 	{
 	public:
-		enum { MAX_LOCAL_STRING_LEN = 512 };	//修复bug， 字符串原来是63，太短， 可能会出错
+		enum { MAX_LOCAL_STRING_LEN = 63 };
 
 		CDuiString();
 		CDuiString(const TCHAR ch);
@@ -190,7 +190,6 @@ namespace DuiLib
 		int Replace(LPCTSTR pstrFrom, LPCTSTR pstrTo);
 
 		int __cdecl Format(LPCTSTR pstrFormat, ...);
-        int __cdecl Format(LPCTSTR pstrFormat, va_list Args);
 		int __cdecl SmallFormat(LPCTSTR pstrFormat, ...);
 
 	protected:

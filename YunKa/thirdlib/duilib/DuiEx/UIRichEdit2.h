@@ -4,8 +4,18 @@
 #pragma once
 #include <stdio.h>
 #include "OleHelper.h"
+#include "../Uilib.h"
+
+
+class CControlUI;
+class IMessageFilterUI;
+class CContainerUI;
+
+
 
 namespace DuiLib2 {
+
+
 
 	typedef struct _CRichEditFontFormat
 	{

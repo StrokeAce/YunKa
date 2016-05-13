@@ -76,45 +76,45 @@ public:
     void SetCharFormat(CHARFORMAT2W &c);
     void SetParaFormat(PARAFORMAT2 &p);
 
-    ITextHost * GetTextHost()
-    {
-        AddRef();
-        return this;
-    }
+	ITextHost * GetTextHost()
+	{
+		AddRef();
+		return this;
+	}
 
-    ITextServices * GetTextServices2()
-    {
-        if (NULL == pserv)
-            return NULL;
-        pserv->AddRef();
-        return pserv;
-    }
+	ITextServices * GetTextServices2()
+	{
+		if (NULL == pserv)
+			return NULL;
+		pserv->AddRef();
+		return pserv;
+	}
 
-    BOOL SetOleCallback(IRichEditOleCallback* pCallback)
-    {
-        if (NULL == pserv)
-            return FALSE;
-        HRESULT lRes = 0;
-        pserv->TxSendMessage(EM_SETOLECALLBACK, 0, (LPARAM)pCallback, &lRes);
-        return (BOOL)lRes;
-    }
+	BOOL SetOleCallback(IRichEditOleCallback* pCallback)
+	{
+		if (NULL == pserv)
+			return FALSE;
+		HRESULT lRes = 0;
+		pserv->TxSendMessage(EM_SETOLECALLBACK, 0, (LPARAM)pCallback, &lRes);
+		return (BOOL)lRes;
+	}
 
-    BOOL CanPaste(UINT nFormat = 0)
-    {
-        if (NULL == pserv)
-            return FALSE;
-        HRESULT lRes = 0;
-        pserv->TxSendMessage(EM_CANPASTE, nFormat, 0L, &lRes);
-        return (BOOL)lRes;
-    }
+	BOOL CanPaste(UINT nFormat = 0)
+	{
+		if (NULL == pserv)
+			return FALSE;
+		HRESULT lRes = 0;
+		pserv->TxSendMessage(EM_CANPASTE, nFormat, 0L, &lRes);
+		return (BOOL)lRes;
+	}
 
-    void PasteSpecial(UINT uClipFormat, DWORD dwAspect = 0, HMETAFILE hMF = 0)
-    {
-        if (NULL == pserv)
-            return;
-        REPASTESPECIAL reps = { dwAspect, (DWORD_PTR)hMF };
-        pserv->TxSendMessage(EM_PASTESPECIAL, uClipFormat, (LPARAM)&reps, NULL);
-    }
+	void PasteSpecial(UINT uClipFormat, DWORD dwAspect = 0, HMETAFILE hMF = 0)
+	{
+		if (NULL == pserv)
+			return;
+		REPASTESPECIAL reps = { dwAspect, (DWORD_PTR)hMF };
+		pserv->TxSendMessage(EM_PASTESPECIAL, uClipFormat, (LPARAM)&reps, NULL);
+	}
 
     // -----------------------------
     //	IUnknown interface
@@ -339,23 +339,8 @@ BOOL CTxtWinHost::Init(CRichEditUI *re, const CREATESTRUCT *pcs)
 
     fInplaceActive = TRUE;
 
-    // Create Text Services component 支持Rich20新特性
-    //if(FAILED(CreateTextServices(NULL, this, &pUnk)))
-    typedef HRESULT(_stdcall *CTSFunc)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
-    CTSFunc ctsFunc = NULL;
-    auto hRiched20 = LoadLibrary(_T("msfedit.dll"));
-
-    if (NULL == hRiched20)
-        goto err;
-    else
-    {
-        ctsFunc = (CTSFunc)GetProcAddress(hRiched20, "CreateTextServices");
-
-        if (NULL == ctsFunc)
-            goto err;
-    }
-
-    if (FAILED(ctsFunc(NULL, this, &pUnk)))
+    // Create Text Services component
+    if(FAILED(CreateTextServices(NULL, this, &pUnk)))
         goto err;
 
     hr = pUnk->QueryInterface(IID_ITextServices,(void **)&pserv);
@@ -1068,14 +1053,8 @@ void CTxtWinHost::SetParaFormat(PARAFORMAT2 &p)
 
 CRichEditUI::CRichEditUI() : m_pTwh(NULL), m_bVScrollBarFixing(false), m_bWantTab(true), m_bWantReturn(true), 
     m_bWantCtrlReturn(true), m_bRich(true), m_bReadOnly(false), m_bWordWrap(false), m_dwTextColor(0), m_iFont(-1), 
-    m_iLimitText(cInitTextMax), m_lTwhStyle(ES_MULTILINE), m_bInited(false), m_chLeadByte(0)
+    m_iLimitText(cInitTextMax), m_lTwhStyle(ES_MULTILINE), m_bReg(false)
 {
-
-#ifndef _UNICODE
-    m_fAccumulateDBC =true;
-#else
-    m_fAccumulateDBC= false;
-#endif
 }
 
 CRichEditUI::~CRichEditUI()
@@ -1185,7 +1164,7 @@ void CRichEditUI::SetFont(LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnd
     if( m_pTwh ) {
         LOGFONT lf = { 0 };
         ::GetObject(::GetStockObject(DEFAULT_GUI_FONT), sizeof(LOGFONT), &lf);
-        _tcsncpy(lf.lfFaceName, pStrFontName, LF_FACESIZE);
+        _tcscpy(lf.lfFaceName, pStrFontName);
         lf.lfCharSet = DEFAULT_CHARSET;
         lf.lfHeight = -nSize;
         if( bBold ) lf.lfWeight += FW_BOLD;
@@ -1678,9 +1657,6 @@ long CRichEditUI::StreamOut(int nFormat, EDITSTREAM &es)
 
 void CRichEditUI::DoInit()
 {
-    if(m_bInited)
-        return ;
-
     CREATESTRUCT cs;
     cs.style = m_lTwhStyle;
     cs.x = 0;
@@ -1696,8 +1672,6 @@ void CRichEditUI::DoInit()
         m_pTwh->OnTxInPlaceActivate(NULL);
         m_pManager->AddMessageFilter(this);
     }
-
-    m_bInited= true;
 }
 
 HRESULT CRichEditUI::TxSendMessage(UINT msg, WPARAM wparam, LPARAM lparam, LRESULT *plresult) const
@@ -1728,43 +1702,43 @@ bool CRichEditUI::OnTxViewChanged()
 
 bool CRichEditUI::SetDropAcceptFile(bool bAccept) 
 {
-    LRESULT lResult;
-    TxSendMessage(EM_SETEVENTMASK, 0,ENM_DROPFILES|ENM_LINK, // ENM_CHANGE| ENM_CORRECTTEXT | ENM_DRAGDROPDONE | ENM_DROPFILES | ENM_IMECHANGE | ENM_LINK | ENM_OBJECTPOSITIONS | ENM_PROTECTED | ENM_REQUESTRESIZE | ENM_SCROLL | ENM_SELCHANGE | ENM_UPDATE,
-        &lResult);
-    return (BOOL)lResult == FALSE;
+	LRESULT lResult;
+	TxSendMessage(EM_SETEVENTMASK, 0,ENM_DROPFILES|ENM_LINK, // ENM_CHANGE| ENM_CORRECTTEXT | ENM_DRAGDROPDONE | ENM_DROPFILES | ENM_IMECHANGE | ENM_LINK | ENM_OBJECTPOSITIONS | ENM_PROTECTED | ENM_REQUESTRESIZE | ENM_SCROLL | ENM_SELCHANGE | ENM_UPDATE,
+		&lResult);
+	return (BOOL)lResult == FALSE;
 }
 
 void CRichEditUI::OnTxNotify(DWORD iNotify, void *pv)
 {
-    switch(iNotify)
-    { 
-    case EN_DROPFILES:   
-    case EN_MSGFILTER:   
-    case EN_OLEOPFAILED:   
-    case EN_PROTECTED:   
-    case EN_SAVECLIPBOARD:   
-    case EN_SELCHANGE:   
-    case EN_STOPNOUNDO:   
-    case EN_LINK:   
-    case EN_OBJECTPOSITIONS:   
-    case EN_DRAGDROPDONE:   
-        {
-            if(pv)                        // Fill out NMHDR portion of pv   
-            {   
-                LONG nId =  GetWindowLong(this->GetManager()->GetPaintWindow(), GWL_ID);   
-                NMHDR  *phdr = (NMHDR *)pv;   
-                phdr->hwndFrom = this->GetManager()->GetPaintWindow();   
-                phdr->idFrom = nId;   
-                phdr->code = iNotify;  
+	switch(iNotify)
+	{ 
+	case EN_DROPFILES:   
+	case EN_MSGFILTER:   
+	case EN_OLEOPFAILED:   
+	case EN_PROTECTED:   
+	case EN_SAVECLIPBOARD:   
+	case EN_SELCHANGE:   
+	case EN_STOPNOUNDO:   
+	case EN_LINK:   
+	case EN_OBJECTPOSITIONS:   
+	case EN_DRAGDROPDONE:   
+		{
+			if(pv)                        // Fill out NMHDR portion of pv   
+			{   
+				LONG nId =  GetWindowLong(this->GetManager()->GetPaintWindow(), GWL_ID);   
+				NMHDR  *phdr = (NMHDR *)pv;   
+				phdr->hwndFrom = this->GetManager()->GetPaintWindow();   
+				phdr->idFrom = nId;   
+				phdr->code = iNotify;  
 
-                if(SendMessage(this->GetManager()->GetPaintWindow(), WM_NOTIFY, (WPARAM) nId, (LPARAM) pv))   
-                {   
-                    //hr = S_FALSE;   
-                }   
-            }    
-        }
-        break;
-    }
+				if(SendMessage(this->GetManager()->GetPaintWindow(), WM_NOTIFY, (WPARAM) nId, (LPARAM) pv))   
+				{   
+					//hr = S_FALSE;   
+				}   
+			}    
+		}
+		break;
+	}
 }
 
 // 多行非rich格式的richedit有一个滚动条bug，在最后一行是空行时，LineDown和SetScrollPos无法滚动到最后
@@ -1886,18 +1860,12 @@ void CRichEditUI::DoEvent(TEventUI& event)
             m_pTwh->OnTxInPlaceActivate(NULL);
             m_pTwh->GetTextServices()->TxSendMessage(WM_SETFOCUS, 0, 0, 0);
         }
-        m_bFocused = true;
-        Invalidate();
-        return;
     }
     if( event.Type == UIEVENT_KILLFOCUS )  {
         if( m_pTwh ) {
             m_pTwh->OnTxInPlaceActivate(NULL);
             m_pTwh->GetTextServices()->TxSendMessage(WM_KILLFOCUS, 0, 0, 0);
         }
-        m_bFocused = false;
-        Invalidate();
-        return;
     }
     if( event.Type == UIEVENT_TIMER ) {
         if( m_pTwh ) {
@@ -2176,27 +2144,6 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
     if( !IsMouseEnabled() && uMsg >= WM_MOUSEFIRST && uMsg <= WM_MOUSELAST ) return 0;
     if( uMsg == WM_MOUSEWHEEL && (LOWORD(wParam) & MK_CONTROL) == 0 ) return 0;
 
-    if (uMsg == WM_IME_COMPOSITION)
-    {
-        // 解决微软输入法位置异常的问题
-        HIMC hIMC = ImmGetContext(GetManager()->GetPaintWindow());
-        if (hIMC) 
-        {
-            // Set composition window position near caret position
-            POINT point;
-            GetCaretPos(&point);
-
-            COMPOSITIONFORM Composition;
-            Composition.dwStyle = CFS_POINT;
-            Composition.ptCurrentPos.x = point.x;
-            Composition.ptCurrentPos.y = point.y;
-            ImmSetCompositionWindow(hIMC, &Composition);
-
-            ImmReleaseContext(GetManager()->GetPaintWindow(),hIMC);
-        }
-        return 0;
-    }
-
     bool bWasHandled = true;
     if( (uMsg >= WM_MOUSEFIRST && uMsg <= WM_MOUSELAST) || uMsg == WM_SETCURSOR ) {
         if( !m_pTwh->IsCaptured() ) {
@@ -2247,8 +2194,8 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
             bWasHandled = false;
             return 0;
         }
-        else
-            bWasHandled = false;
+		else
+			bWasHandled = false;
     }
     else
     {
@@ -2260,51 +2207,6 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
             return 0;
         }
     }
-
-    if(WM_CHAR == uMsg)
-    {
-#ifndef _UNICODE
-        // check if we are waiting for 2 consecutive WM_CHAR messages
-        if ( IsAccumulateDBCMode() )
-        {
-            if ( (GetKeyState(VK_KANA) & 0x1) )
-            {
-                // turn off accumulate mode
-                SetAccumulateDBCMode ( false );
-                m_chLeadByte = 0;
-            }
-            else
-            {
-                if ( !m_chLeadByte )
-                {
-                    // This is the first WM_CHAR message, 
-                    // accumulate it if this is a LeadByte.  Otherwise, fall thru to
-                    // regular WM_CHAR processing.
-                    if ( IsDBCSLeadByte ( (WORD)wParam ) )
-                    {
-                        // save the Lead Byte and don't process this message
-                        m_chLeadByte = (WORD)wParam << 8 ;
-
-                        //TCHAR a = (WORD)wParam << 8 ;
-                        return 0;
-                    }
-                }
-                else
-                {
-                    // This is the second WM_CHAR message,
-                    // combine the current byte with previous byte.
-                    // This DBC will be handled as WM_IME_CHAR.
-                    wParam |= m_chLeadByte;
-                    uMsg = WM_IME_CHAR;
-
-                    // setup to accumulate more WM_CHAR
-                    m_chLeadByte = 0; 
-                }
-            }
-        }
-#endif
-    }
-
     LRESULT lResult = 0;
     HRESULT Hr = TxSendMessage(uMsg, wParam, lParam, &lResult);
     if( Hr == S_OK ) bHandled = bWasHandled;
@@ -2316,50 +2218,39 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
     return lResult;
 }
 
-void CRichEditUI::SetAccumulateDBCMode( bool bDBCMode )
-{
-    m_fAccumulateDBC = bDBCMode;
-}
-
-bool CRichEditUI::IsAccumulateDBCMode()
-{
-    return m_fAccumulateDBC;
-}
-
 ITextHost * CRichEditUI::GetTextHost()
 {
-    if (NULL == m_pTwh)
-        return NULL;
-    return m_pTwh->GetTextHost();
+	if (NULL == m_pTwh)
+		return NULL;
+	return m_pTwh->GetTextHost();
 }
 
 ITextServices * CRichEditUI::GetTextServices()
 {
-    if (NULL == m_pTwh)
-        return NULL;
-    return m_pTwh->GetTextServices2();
+	if (NULL == m_pTwh)
+		return NULL;
+	return m_pTwh->GetTextServices2();
 }
 
 BOOL CRichEditUI::SetOleCallback(IRichEditOleCallback* pCallback)
 {
-    if (NULL == m_pTwh)
-        return FALSE;
-    return m_pTwh->SetOleCallback(pCallback);
+	if (NULL == m_pTwh)
+		return FALSE;
+	return m_pTwh->SetOleCallback(pCallback);
 }
 
 BOOL CRichEditUI::CanPaste(UINT nFormat/* = 0*/)
 {
-    if (NULL == m_pTwh)
-        return FALSE;
-    return m_pTwh->CanPaste(nFormat);
+	if (NULL == m_pTwh)
+		return FALSE;
+	return m_pTwh->CanPaste(nFormat);
 }
 
 void CRichEditUI::PasteSpecial(UINT uClipFormat, DWORD dwAspect/* = 0*/, HMETAFILE hMF/* = 0*/)
 {
-    if (NULL == m_pTwh)
-        return;
-    m_pTwh->PasteSpecial(uClipFormat, dwAspect, hMF);
+	if (NULL == m_pTwh)
+		return;
+	m_pTwh->PasteSpecial(uClipFormat, dwAspect, hMF);
 }
-
 
 } // namespace DuiLib

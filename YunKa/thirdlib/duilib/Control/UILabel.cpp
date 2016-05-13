@@ -15,7 +15,7 @@ namespace DuiLib
 		return Color(255, r, g, b);
 	}
 
-	CLabelUI::CLabelUI() : m_uTextStyle(DT_VCENTER|DT_SINGLELINE), m_dwTextColor(0), 
+	CLabelUI::CLabelUI() : m_uTextStyle(DT_VCENTER), m_dwTextColor(0), 
 		m_dwDisabledTextColor(0),
 		m_iFont(-1),
 		m_bShowHtml(false),
@@ -178,7 +178,7 @@ namespace DuiLib
 
 	void CLabelUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	{
-		/*if( _tcscmp(pstrName, _T("align")) == 0 ) {
+		if( _tcscmp(pstrName, _T("align")) == 0 ) {
 			if( _tcsstr(pstrValue, _T("left")) != NULL ) {
 				m_uTextStyle &= ~(DT_CENTER | DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
 				m_uTextStyle |= DT_LEFT;
@@ -203,42 +203,12 @@ namespace DuiLib
 				m_uTextStyle &= ~(DT_TOP | DT_VCENTER | DT_VCENTER);
 				m_uTextStyle |= (DT_BOTTOM | DT_SINGLELINE);
 			}
-		}*/
-		//bug修改，使能垂直居中
-		if (_tcscmp(pstrName, _T("align")) == 0) {
-			if (_tcsstr(pstrValue, _T("left")) != NULL) {
-				m_uTextStyle &= ~(DT_CENTER | DT_RIGHT | DT_SINGLELINE);
-				m_uTextStyle |= DT_LEFT;
-			}
-			if (_tcsstr(pstrValue, _T("center")) != NULL) {
-				m_uTextStyle &= ~(DT_LEFT | DT_RIGHT);
-				m_uTextStyle |= DT_CENTER;
-			}
-			if (_tcsstr(pstrValue, _T("right")) != NULL) {
-				m_uTextStyle &= ~(DT_LEFT | DT_CENTER | DT_SINGLELINE);
-				m_uTextStyle |= DT_RIGHT;
-			}
-		}
-		else if (_tcscmp(pstrName, _T("valign")) == 0) {
-			if (_tcsstr(pstrValue, _T("top")) != NULL) {
-				m_uTextStyle &= ~(DT_BOTTOM | DT_VCENTER);
-				m_uTextStyle |= (DT_TOP | DT_SINGLELINE);
-			}
-			if (_tcsstr(pstrValue, _T("center")) != NULL) {
-				m_uTextStyle &= ~(DT_TOP | DT_BOTTOM);
-				m_uTextStyle |= (DT_VCENTER | DT_SINGLELINE);
-			}
-			if (_tcsstr(pstrValue, _T("bottom")) != NULL) {
-				m_uTextStyle &= ~(DT_TOP | DT_VCENTER);
-				m_uTextStyle |= (DT_BOTTOM | DT_SINGLELINE);
-			}
 		}
 		else if( _tcscmp(pstrName, _T("endellipsis")) == 0 ) {
 			if( _tcscmp(pstrValue, _T("true")) == 0 ) m_uTextStyle |= DT_END_ELLIPSIS;
 			else m_uTextStyle &= ~DT_END_ELLIPSIS;
 		}    
-		else if( _tcscmp(pstrName, _T("font")) == 0 )
-			SetFont(_ttoi(pstrValue));
+		else if( _tcscmp(pstrName, _T("font")) == 0 ) SetFont(_ttoi(pstrValue));
 		else if( _tcscmp(pstrName, _T("textcolor")) == 0 ) {
 			if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 			LPTSTR pstr = NULL;
@@ -317,9 +287,6 @@ namespace DuiLib
 		rc.top += m_rcTextPadding.top;
 		rc.bottom -= m_rcTextPadding.bottom;
 
-		//m_uTextStyle |= DT_SINGLELINE;
-		//m_uTextStyle |= (DT_CENTER);
-	
 		if(!GetEnabledEffect())
 		{
 			if( m_sText.IsEmpty() ) return;
@@ -327,18 +294,18 @@ namespace DuiLib
 			if( IsEnabled() ) {
 				if( m_bShowHtml )
 					CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, m_sText, m_dwTextColor, \
-					NULL, NULL, nLinks, /*DT_SINGLELINE |*/ m_uTextStyle);
+					NULL, NULL, nLinks, DT_SINGLELINE | m_uTextStyle);
 				else
 					CRenderEngine::DrawText(hDC, m_pManager, rc, m_sText, m_dwTextColor, \
-					m_iFont, /*DT_SINGLELINE | */m_uTextStyle);
+					m_iFont, DT_SINGLELINE | m_uTextStyle);
 			}
 			else {
 				if( m_bShowHtml )
 					CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, m_sText, m_dwDisabledTextColor, \
-					NULL, NULL, nLinks, /*DT_SINGLELINE |*/ m_uTextStyle);
+					NULL, NULL, nLinks, DT_SINGLELINE | m_uTextStyle);
 				else
 					CRenderEngine::DrawText(hDC, m_pManager, rc, m_sText, m_dwDisabledTextColor, \
-					m_iFont, /*DT_SINGLELINE |*/ m_uTextStyle);
+					m_iFont, DT_SINGLELINE | m_uTextStyle);
 			}
 		}
 		else

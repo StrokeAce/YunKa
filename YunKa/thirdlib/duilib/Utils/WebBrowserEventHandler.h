@@ -7,9 +7,8 @@ namespace DuiLib
 {
 	class CWebBrowserEventHandler
 	{
-		LONG               m_cRef;
 	public:
-		CWebBrowserEventHandler() { m_cRef = 0; }
+		CWebBrowserEventHandler() {}
 		~CWebBrowserEventHandler() {}
 
 		virtual void BeforeNavigate2( IDispatch *pDisp,VARIANT *&url,VARIANT *&Flags,VARIANT *&TargetFrameName,VARIANT *&PostData,VARIANT *&Headers,VARIANT_BOOL *&Cancel ) {}
@@ -18,44 +17,6 @@ namespace DuiLib
 		virtual void ProgressChange(LONG nProgress, LONG nProgressMax){}
 		virtual void NewWindow3(IDispatch **pDisp, VARIANT_BOOL *&Cancel, DWORD dwFlags, BSTR bstrUrlContext, BSTR bstrUrl){}
 		virtual void CommandStateChange(long Command,VARIANT_BOOL Enable){};
-
-		HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject)
-		{
-			HRESULT result = S_OK;
-
-			if (IsBadWritePtr(ppvObject, sizeof(LPVOID)))
-				result = E_INVALIDARG;
-
-			if (result == S_OK)
-			{
-				*ppvObject = NULL;
-
-				if (IsEqualIID(riid, IID_IUnknown))
-					*ppvObject = this;
-				//             else if ( IsEqualIID( riid, IID_IOleClientSite ) )
-				//                 *ppvObject = (IOleClientSite *) this;
-				else if (IsEqualIID(riid, IID_IDocHostUIHandler))
-					*ppvObject = (IDocHostUIHandler *) this;
-				else
-					result = E_NOINTERFACE;
-			}
-
-			if (result == S_OK)
-				this->AddRef();
-
-			return result;
-		}
-
-		ULONG STDMETHODCALLTYPE AddRef(){
-			InterlockedIncrement(&m_cRef);
-			return m_cRef;
-		}
-
-		ULONG STDMETHODCALLTYPE Release() {
-			ULONG ulRefCount = InterlockedDecrement(&m_cRef);
-
-			return ulRefCount;
-		}
 
 		// interface IDocHostUIHandler
 		virtual HRESULT STDMETHODCALLTYPE ShowContextMenu(

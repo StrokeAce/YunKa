@@ -1,5 +1,8 @@
 #pragma once
 
+
+class CContainerUI;
+
 class ComputerExamineUI : public CContainerUI
 {
 public:

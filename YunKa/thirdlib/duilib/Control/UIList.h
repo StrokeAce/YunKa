@@ -240,7 +240,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class UILIB_API CListHeaderItemUI : public CContainerUI
+class UILIB_API CListHeaderItemUI : public CControlUI
 {
 public:
     CListHeaderItemUI();
@@ -432,41 +432,6 @@ public:
     void DrawItemText(HDC hDC, const RECT& rcItem);    
     void DrawItemBk(HDC hDC, const RECT& rcItem);
 
- 	void SetPos(RECT rc)
-	{
-		CContainerUI::SetPos(rc);
-		if( m_pOwner == NULL ) return;		
-		
-		if (m_pHeader == NULL)
-		{
-			return;
-		}
-		TListInfoUI* pInfo = m_pOwner->GetListInfo();
-		int nCount = m_items.GetSize();
-		for (int i = 0; i < nCount; i++)
-		{
-			CControlUI *pHorizontalLayout = static_cast<CControlUI*>(m_items[i]);
-// 			if (pHorizontalLayout != NULL)
-// 			{
-// 				RECT rtHeader = pHeaderItem->GetPos();
-// 				RECT rt = pHorizontalLayout->GetPos();
-// 				rt.left = pInfo->rcColumn[i].left;
-// 				rt.right = pInfo->rcColumn[i].right;
-// 				pHorizontalLayout->SetPos(rt);
-// 			}
-
-			CListHeaderItemUI *pHeaderItem = static_cast<CListHeaderItemUI*>(m_pHeader->GetItemAt(i));
-			if (pHorizontalLayout != NULL && pHeaderItem != NULL)
-			{
-				RECT rtHeader = pHeaderItem->GetPos();
-				RECT rt = pHorizontalLayout->GetPos();
-				rt.left = rtHeader.left;
-				rt.right = rtHeader.right;
-				pHorizontalLayout->SetPos(rt);
-			}
-		}
- 	}
-	CListHeaderUI *m_pHeader;
 protected:
     int m_iIndex;
     bool m_bSelected;

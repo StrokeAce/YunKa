@@ -191,8 +191,6 @@ namespace DuiLib
 	void CDateTimeUI::SetTime(SYSTEMTIME* pst)
 	{
 		m_sysTime = *pst;
-		m_nDTUpdateFlag = DT_UPDATE;
-		UpdateText(); ///BUG修复，设置时间不刷新
 		Invalidate();
 	}
 

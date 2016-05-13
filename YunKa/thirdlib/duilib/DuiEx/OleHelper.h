@@ -11,7 +11,9 @@
 #pragma comment( lib, "GdiPlus.lib" )
 using namespace Gdiplus;
 
-namespace DuiLib2 {
+class CControlUI;
+
+namespace DuiLib{
 
 	// 除GIF图像以外的基本图像格式的实现类
 	class CImageDataObject : IDataObject
