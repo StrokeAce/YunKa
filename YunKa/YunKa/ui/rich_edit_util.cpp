@@ -1,5 +1,5 @@
-#include "StdAfx.h"
-#include "RichEditUtil.h"
+#include "..\StdAfx.h"
+#include "rich_edit_util.h"
 
 IRichEditOle* RichEdit_GetOleInterface(HWND hWnd)
 {

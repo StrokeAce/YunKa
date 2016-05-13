@@ -324,7 +324,7 @@
     <ClInclude Include="ui_common\ole_helper.h">
       <Filter>ui_common</Filter>
     </ClInclude>
-    <ClInclude Include="ui\RichEditUtil.h">
+    <ClInclude Include="ui\rich_edit_util.h">
       <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -536,7 +536,7 @@
     <ClCompile Include="ui_common\ole_helper.cpp">
       <Filter>ui_common</Filter>
     </ClCompile>
-    <ClCompile Include="ui\RichEditUtil.cpp">
+    <ClCompile Include="ui\rich_edit_util.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,7 +8,7 @@
 #include "chat_manager.h"
 #include "cef_browser/client_handler.h"
 
-#include "RichEditUtil.h"
+#include "rich_edit_util.h"
 #include "IImageOle.h"
 #include "face_list.h"
 #include "face_sel_dlg.h"
