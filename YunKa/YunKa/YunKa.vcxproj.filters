@@ -351,6 +351,9 @@
     <ClInclude Include="ui\user_list.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="chat_manager\chat_visitor.h">
+      <Filter>chat_manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -580,6 +583,9 @@
     </ClCompile>
     <ClCompile Include="utils\tstring.cpp">
       <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_manager\chat_visitor.cpp">
+      <Filter>chat_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

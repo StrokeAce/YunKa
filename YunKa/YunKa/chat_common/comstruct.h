@@ -483,7 +483,6 @@ struct UPFILE_INFO
 	char	sendname[MAX_USERNAME_LEN];
 };
 
-
 //消息的列表结构
 //950
 typedef  struct MSG_LISTINFO{
@@ -728,7 +727,6 @@ struct LISTCHATINFO
 	
 };
 
-
 //历史记录过滤条件
 typedef struct VISITORTALK_FILTER
 {
@@ -874,6 +872,12 @@ struct RESEND_MSG_PARAMS
 	int msgDataType;		// 消息数据类型
 	string fileId;			// 媒体文件在文件服务器的id
 	string filePath;		// 文件在本地存储路径
+};
+
+struct WEBUSER_URL_INFO
+{
+	string url;				// 访问地址
+	unsigned long dwtime;	// 访问时间
 };
 
 typedef struct {

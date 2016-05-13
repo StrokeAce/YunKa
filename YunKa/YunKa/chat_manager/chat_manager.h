@@ -2,6 +2,7 @@
 
 #include "login.h"
 #include "timer.h"
+#include "chat_visitor.h"
 #include "../chat_common/comobject.h"
 #include "../chat_common/comstruct.h"
 #include "../chat_common/comfloat.h"
@@ -252,19 +253,9 @@ private:
 
 	int Send_GetInfo(unsigned long id, char *strid, unsigned short cmd, unsigned short cmdtype = 0, unsigned short type = 0);
 
-	int SendPingToVisitorServer();
-
-	int SendBuffToVisitorServer(char *sbuff, int len);
-
 	int SendAckEx(unsigned short seq, unsigned long uid = 0, unsigned long ip = 0, unsigned short port = 0);
 
 	int SendAutoRespMsg(CWebUserObject *pWebUser, const char *msg, BOOL bClearTimer = true);
-
-	//发送开始通话到访客接待服务器
-	int SendWebuserTalkBegin(CWebUserObject *pWebUser);
-
-	//发送结束通话包到访客接待服务器
-	int SendWebuserTalkEnd(CWebUserObject *pWebUser);
 
 	//开始接受会话消息
 	int SendStartRecvFloatMsg(unsigned short gpid, unsigned long adminid, char *chatid, unsigned short sLastMsgid);
@@ -302,6 +293,8 @@ private:
 public:
 	int						m_nOnLineStatus;		// 用户是否在线
 	int						m_nOnLineStatusEx;
+	bool					m_bExit;
+	CUserObject				m_userInfo;				// 登录用户的信息
 
 private:
 	CLogin*					m_login;				// 登录处理类	
@@ -310,7 +303,7 @@ private:
 	CSysConfigFile*			m_sysConfig;			// 用户设置文件类
 	INIT_CONF				m_initConfig;			// 软件配置文件类
 	CMySocket				m_socket;				// 消息连接
-	CMySocket				m_socketEx;				// 访客接待连接
+	CChatVisitor*			m_vistor;				// 访客接待处理对象
 	string					m_loginName;			// 登录名
 	string					m_password;				// 登录密码
 	string					m_server;				// 服务器地址
@@ -318,8 +311,7 @@ private:
 	bool					m_isAutoLogin;			// 是否自动登录
 	bool					m_isKeepPwd;			// 是否记住密码
 	bool					m_isLoginSuccess;		// 是否已登录
-	int						m_port;					// 服务器端口
-	CUserObject				m_userInfo;				// 登录用户的信息	
+	int						m_port;					// 服务器端口		
 	unsigned short			m_usSrvRand;			// 服务器的随机数
 	unsigned short			m_usCltRand;			// 本次运行的随机数
 	MapUsers				m_mapUsers;				// 协助对象的存储集合
@@ -331,7 +323,7 @@ private:
 	int						m_nSendPing;			// 心跳包发送的次数
 	int						m_nSendPingFail;		// 心跳包发送失败次数 
 	int						m_nLoginToVisitor;		// 
-	time_t					m_tResentVisitPackTime;	// 
+	 
 	unsigned long			m_nNextInviteWebuserUid;// 邀请的访客信息
 	unsigned long			m_nNextInviteUid;		// 主动邀请的用户
 	WxTokens				m_mapTokens;			// 公众号token存储集合

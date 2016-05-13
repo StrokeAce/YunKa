@@ -20,21 +20,23 @@ unsigned short g_packSeq = 0;
 
 CChatManager::CChatManager()
 {
+	m_bExit = false;
 	m_isLoginSuccess = false;
 	m_server = "tcp01.tq.cn";
 	m_port = 443;
 	m_usSrvRand = 0;
 	m_usCltRand = (unsigned short)(rand() & 0xFFFF);
-	m_tResentVisitPackTime = 0;
-	m_socket.SetReceiveObject(this);
-	m_login = new CLogin();
-	m_login->m_manager = this;
-	m_sysConfig = new CSysConfigFile();
-	m_timers = new CTimerManager(CChatManager::TimerProc, this);
+	m_socket.SetReceiveObject(this);	
+	m_login->m_manager = this;	
 	m_msgId = 0;
 	m_nClientIndex = 1;
 	m_handlerLogin = NULL;
 	m_handlerMsgs = NULL;
+	m_login = new CLogin();
+	m_vistor = new CChatVisitor();
+	m_vistor->m_manager = this;
+	m_timers = new CTimerManager(CChatManager::TimerProc, this);
+	m_sysConfig = new CSysConfigFile();	
 
 	LoadINIResource();
 	ReadSystemConfig();
@@ -146,6 +148,8 @@ void CChatManager::SolveUserdefineFilter(FILTER_USERDEFINE &filter, char *sfilte
 
 void CChatManager::OnReceive(void* pHead, void* pData)
 {
+	if (m_bExit) return;
+
 	int nError = 0;
 	TCP_PACK_HEADER TcpPackHead;
 
@@ -796,7 +800,7 @@ int CChatManager::RecvSrvStatusFrdOffline(PACK_HEADER packhead, char *pRecvBuff,
 			pWebUser->transferuid = 0;
 			if (pWebUser->m_bConnected)
 			{
-				SendWebuserTalkEnd(pWebUser);
+				m_vistor->SendWebuserTalkEnd(pWebUser);
 
 				pWebUser->m_bConnected = true;
 				pWebUser->m_nWaitTimer = -20;
@@ -1075,7 +1079,7 @@ int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
 
 					if ((RecvInfo.msg.bak == MSG_BAK_NORMAL) && !pWebUser->m_bConnected)
 					{
-						SendWebuserTalkBegin(pWebUser);
+						m_vistor->SendWebuserTalkBegin(pWebUser);
 						pWebUser->cTalkedSatus = INTALKING;
 						pWebUser->talkuid = m_userInfo.UserInfo.uid;
 
@@ -1123,7 +1127,7 @@ int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
 				else
 				{
 					pWebUser->cTalkedSatus = HASTALKED;
-					SendWebuserTalkEnd(pWebUser);
+					m_vistor->SendWebuserTalkEnd(pWebUser);
 					if (pWebUser->m_bConnected)
 					{
 						pWebUser->m_bConnected = FALSE;
@@ -2543,7 +2547,7 @@ void CChatManager::TimerSolveAck()
 		if (m_nOnLineStatusEx != STATUS_OFFLINE)
 		{
 			// 发送网络层级的ping包，确认服务器是否能连接
-			if (SendPingToVisitorServer() != 0)
+			if (m_vistor->SendPingToVisitorServer() != 0)
 			{
 				// 连接不上处理
 				m_nOnLineStatusEx = STATUS_OFFLINE;
@@ -2576,37 +2580,6 @@ void CChatManager::SetOfflineStatus()
 void CChatManager::CloseAllSocket()
 {
 
-}
-
-int CChatManager::SendPingToVisitorServer()
-{
-	char sbuff[512];
-	int nError(0);
-
-	if (time(NULL) - m_tResentVisitPackTime > 60)
-	{
-		time(&m_tResentVisitPackTime);
-
-		sprintf(sbuff, "<PING><PING>\r\n");
-		nError = SendBuffToVisitorServer(sbuff, strlen(sbuff));
-	}
-	return nError;
-}
-
-int CChatManager::SendBuffToVisitorServer(char *sbuff, int len)
-{
-	int nrtn = 0;
-	int nError;
-	g_VisitLog.WriteLog(C_LOG_TRACE, "send:%s", sbuff);
-
-	if (!m_socketEx.SendBuff(sbuff, len, nError))
-	{
-		nrtn = SYS_ERROR_SENDFAIL;
-
-		g_VisitLog.WriteLog(C_LOG_TRACE, "send visit pack failed:%s!", sbuff);
-	}
-
-	return nrtn;
 }
 
 int CChatManager::SendTo_UpdateOnlineStatus(unsigned short status)
@@ -2908,36 +2881,6 @@ int CChatManager::SendAutoRespMsg(CWebUserObject *pWebUser, const char *msg, BOO
 	return rtn;
 }
 
-int CChatManager::SendWebuserTalkBegin(CWebUserObject *pWebUser)
-{
-	if (pWebUser == NULL)
-		return SYS_ERROR_SENDFAIL;
-
-	char sbuff[512];
-	int nError;
-
-	sprintf(sbuff, "<SCRIPTMSG><COMMAND>TALKBEG</COMMAND><ADMINID>%lu</ADMINID><CLIENTID>%s</CLIENTID><SERVICEUIN>%lu</SERVICEUIN><NICKNAME>%s</NICKNAME></SCRIPTMSG>\r\n",
-		pWebUser->floatadminuid, pWebUser->info.sid, m_userInfo.UserInfo.uid, m_userInfo.UserInfo.nickname);
-
-	nError = SendBuffToVisitorServer(sbuff, strlen(sbuff));
-	return nError;
-}
-
-int CChatManager::SendWebuserTalkEnd(CWebUserObject *pWebUser)
-{
-	if (pWebUser == NULL)
-		return SYS_ERROR_SENDFAIL;
-
-	char sbuff[512];
-	int nError;
-
-	sprintf(sbuff, "<SCRIPTMSG><COMMAND>TALKEND</COMMAND><ADMINID>%lu</ADMINID><CLIENTID>%s</CLIENTID><SERVICEUIN>%lu</SERVICEUIN><NICKNAME>%s</NICKNAME></SCRIPTMSG>\r\n",
-		pWebUser->floatadminuid, pWebUser->info.sid, m_userInfo.UserInfo.uid, m_userInfo.UserInfo.nickname);
-
-	nError = SendBuffToVisitorServer(sbuff, strlen(sbuff));
-	return nError;
-}
-
 void CChatManager::RecvComSendWorkBillMsg(unsigned long senduid, unsigned long recvuid, char *msg, char* mobile)
 {
 	char sid[MAX_WEBCLIENID_LEN + 1] = { 0 }, billid[MAX_CHATID_LEN + 1] = { 0 }, szReturnParameters[51] = { 0 };
@@ -3048,7 +2991,7 @@ void CChatManager::RecvComSendWorkBillMsg(unsigned long senduid, unsigned long r
 		else if ((pWebUser->cTalkedSatus != INTALKING || !pWebUser->m_bConnected)
 			&& m_userInfo.UserInfo.uid == recvuid && !pWebUser->m_bNewComm)//非等待应答的会话
 		{
-			SendWebuserTalkBegin(pWebUser);
+			m_vistor->SendWebuserTalkBegin(pWebUser);
 
 			pWebUser->cTalkedSatus = INTALKING;
 
@@ -3444,8 +3387,8 @@ void CChatManager::SetHandlerMsgs(IHandlerMsgs* handlerMsgs)
 
 void CChatManager::Exit()
 {
-	m_socket.m_bRecvThread = false;
-	m_socketEx.m_bRecvThread = false;
+	m_bExit = true;
+	m_socket.m_bRecvThread = false;	
 
 	if (m_timers)
 	{
@@ -3460,6 +3403,12 @@ void CChatManager::Exit()
 	if (m_login)
 	{
 		delete m_login;
+	}
+
+	if (m_vistor)
+	{
+		m_vistor->m_socketEx.m_bRecvThread = false;
+		delete m_vistor;
 	}
 }
 

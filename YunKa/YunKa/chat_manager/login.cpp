@@ -7,6 +7,11 @@
 
 CLogin::CLogin()
 {	
+	m_nLoginBy = -1;
+	m_authAdminid = 0;
+	memset(m_szAuthtoken, 0, MAX_256_LEN + 1);
+	m_manager = NULL;
+	m_pTqAuthClient = NULL;
 }
 
 CLogin::~CLogin()
