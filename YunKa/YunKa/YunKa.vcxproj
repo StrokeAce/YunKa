@@ -67,7 +67,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libcef_dll_wrapper.lib;cef_sandbox.lib;libcef.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcef_dll_wrapper.lib;cef_sandbox.lib;libcef.lib;opengl32.lib;Riched20.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -134,15 +134,6 @@
     <ClInclude Include="chat_manager\login.h" />
     <ClInclude Include="chat_manager\socket.h" />
     <ClInclude Include="chat_manager\sys_config.h" />
-    <ClInclude Include="dui_ex\button_ex_ui.h" />
-    <ClInclude Include="dui_ex\control_ex.h" />
-    <ClInclude Include="dui_ex\IImageOle.h" />
-    <ClInclude Include="dui_ex\list_ex.h" />
-    <ClInclude Include="dui_ex\ole_helper.h" />
-    <ClInclude Include="dui_ex\public.h" />
-    <ClInclude Include="dui_ex\rich_edit_help.h" />
-    <ClInclude Include="dui_ex\ui_crack.h" />
-    <ClInclude Include="dui_ex\ui_richedit2.h" />
     <ClInclude Include="json\autolink.h" />
     <ClInclude Include="json\cJSON.h" />
     <ClInclude Include="json\config.h" />
@@ -161,16 +152,15 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="timer\timer.h" />
-    <ClInclude Include="ui\button_ex_ui.h" />
     <ClInclude Include="ui\face_ctrl.h" />
     <ClInclude Include="ui\face_list.h" />
     <ClInclude Include="ui\face_sel_dlg.h" />
-    <ClInclude Include="ui\file_dialog_ex.h" />
     <ClInclude Include="ui\gif_image.h" />
     <ClInclude Include="ui\IImageOle.h" />
     <ClInclude Include="ui\login_wnd.h" />
     <ClInclude Include="ui\main_frame.h" />
     <ClInclude Include="ui\observer_impl_base.hpp" />
+    <ClInclude Include="ui\RichEditUtil.h" />
     <ClInclude Include="ui\ui_crack.h" />
     <ClInclude Include="ui\ui_menu.h" />
     <ClInclude Include="ui\user_list.h" />
@@ -178,6 +168,8 @@
     <ClInclude Include="ui_common\common_utility.h" />
     <ClInclude Include="ui_common\global_setting.h" />
     <ClInclude Include="ui_common\global_setting_define.h" />
+    <ClInclude Include="ui_common\IImageOle.h" />
+    <ClInclude Include="ui_common\ole_helper.h" />
     <ClInclude Include="ui_common\path.h" />
     <ClInclude Include="ui_common\small_menu.h" />
     <ClInclude Include="ui_common\utils.h" />
@@ -232,13 +224,6 @@
     <ClCompile Include="chat_manager\login.cpp" />
     <ClCompile Include="chat_manager\socket.cpp" />
     <ClCompile Include="chat_manager\sys_config.cpp" />
-    <ClCompile Include="dui_ex\button_ex_ui.cpp" />
-    <ClCompile Include="dui_ex\list_ex.cpp" />
-    <ClCompile Include="dui_ex\ole_helper.cpp" />
-    <ClCompile Include="dui_ex\public.cpp" />
-    <ClCompile Include="dui_ex\rich_edit_help.cpp" />
-    <ClCompile Include="dui_ex\ui_crack.cpp" />
-    <ClCompile Include="dui_ex\ui_richedit2.cpp" />
     <ClCompile Include="json\cJSON.c" />
     <ClCompile Include="json\jsonext.cpp" />
     <ClCompile Include="json\json_reader.cpp" />
@@ -251,20 +236,20 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="timer\timer.cpp" />
-    <ClCompile Include="ui\button_ex_ui.cpp" />
     <ClCompile Include="ui\face_ctrl.cpp" />
     <ClCompile Include="ui\face_list.cpp" />
     <ClCompile Include="ui\face_sel_dlg.cpp" />
-    <ClCompile Include="ui\file_dialog_ex.cpp" />
     <ClCompile Include="ui\gif_image.cpp" />
     <ClCompile Include="ui\login_wnd.cpp" />
     <ClCompile Include="ui\main_frame.cpp" />
+    <ClCompile Include="ui\RichEditUtil.cpp" />
     <ClCompile Include="ui\ui_crack.cpp" />
     <ClCompile Include="ui\ui_menu.cpp" />
     <ClCompile Include="ui\user_list.cpp" />
     <ClCompile Include="ui\xml_document.cpp" />
     <ClCompile Include="ui_common\common_utility.cpp" />
     <ClCompile Include="ui_common\global_setting.cpp" />
+    <ClCompile Include="ui_common\ole_helper.cpp" />
     <ClCompile Include="ui_common\path.cpp" />
     <ClCompile Include="ui_common\small_menu.cpp" />
     <ClCompile Include="ui_common\utils.cpp" />
@@ -290,7 +275,7 @@
     <None Include="json\json_valueiterator.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="dui_ex\ImageOleCtrl.lib" />
+    <Library Include="ui_common\ImageOleCtrl.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

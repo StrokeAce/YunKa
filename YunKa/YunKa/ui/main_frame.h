@@ -4,16 +4,16 @@
 #pragma once
 #include <map>
 #include "small_menu.h"
-#include "face_list.h"
-#include "face_sel_dlg.h"
-#include "IImageOle.h"
-#include "ui_richedit2.h"
-#include "chat_manager.h"
 
+#include "chat_manager.h"
 #include "cef_browser/client_handler.h"
 
+#include "RichEditUtil.h"
+#include "IImageOle.h"
+#include "face_list.h"
+#include "face_sel_dlg.h"
 
-using namespace DuiLib2;
+
 
 // 将HWND显示到CControlUI上面
 class CWndUI : public CControlUI
@@ -147,12 +147,11 @@ public:
 	void OnBtnFace(TNotifyUI& msg);
 	void OnBtnScreen(TNotifyUI& msg);
 
-	void CMainFrame::GetSelectFaceId();
-	void CMainFrame::OnBtnSendMessage(TNotifyUI& msg);
+	void OnFaceCtrlSel(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	void OnBtnSendMessage(TNotifyUI& msg);
 
-	void CMainFrame::_RichEdit_SetNotify(CRichEditUI2* pRichEdit, HWND hWnd);
+	BOOL _RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex);
 
-	BOOL CMainFrame::_RichEdit_InsertFace(CRichEditUI2 * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex);
 
 protected:
 
@@ -173,11 +172,10 @@ private:
 	CFaceSelDlg m_faceSelDlg;
 	CFaceList  m_faceList;
 
-	CRichEditUI2    *m_pSendEdit;
+	//CRichEditUI2    *m_pSendEdit;
 
 
-	//CRichEditUI* m_pSendEdit;
-	IRichEditOleCallback2* pRichEditOleCallback2;
+	CRichEditUI* m_pSendEdit;
 
 
 	HandlerInfo m_pListMsgHandler; // 消息列表

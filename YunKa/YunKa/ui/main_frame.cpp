@@ -10,7 +10,7 @@
 #include "chat_common\comfunc.h"
 #include "utils\code_convert.h"
 #include "user_list.h"
-#include "rich_edit_help.h"
+
 
 
 
@@ -20,7 +20,7 @@ CMainFrame::CMainFrame(CChatManager* manager) :m_manager(manager)
 
 	//初始化
 	m_pFontBtn = m_pFaceBtn = m_pScreenBtn = pSendMsgBtn = NULL;
-
+	m_pSendEdit = NULL;
 }
 
 
@@ -39,8 +39,8 @@ CControlUI* CMainFrame::CreateControl(LPCTSTR pstrClass)
 {
 
 
-	if (_tcscmp(pstrClass, _T("RichEdit2")) == 0)
-		return new DuiLib2::CRichEditUI2;
+	//if (_tcscmp(pstrClass, _T("RichEdit2")) == 0)
+	//	return new DuiLib2::CRichEditUI2;
 
 	
 
@@ -131,7 +131,7 @@ LRESULT CMainFrame::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     if (uMsg == WM_FACE_CTRL_SEL)
 	{
 
-		GetSelectFaceId();
+		OnFaceCtrlSel(uMsg,wParam,lParam);
 	}
 
 
@@ -287,7 +287,7 @@ void CMainFrame::OnTimer(TNotifyUI& msg)
 
 void CMainFrame::OnExit(TNotifyUI& msg)
 {
-	m_manager->Exit();
+
 	m_frameSmallMenu.DeleteSmallIcon();
 	Close();
 	PostQuitMessage(0);
@@ -313,26 +313,6 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 
 	m_hMainWnd = m_PaintManager.GetPaintWindow();
-	m_pSendEdit = static_cast<CRichEditUI2*>(m_PaintManager.FindControl(_T("richSend")));
-
-
-	//m_pSendEdit->DoInit();
-	//IRichEditOleCallback2* pRichEditOleCallback2 = NULL;
-	//HRESULT hr = ::CoCreateInstance(CLSID_ImageOle, NULL, CLSCTX_INPROC_SERVER,
-	//	__uuidof(IRichEditOleCallback2), (void**)&pRichEditOleCallback2);
-	//if (SUCCEEDED(hr))
-	//{
-	//	pRichEditOleCallback2->SetNotifyHwnd(m_hMainWnd);
-	//	ITextServices * pTextServices = m_pSendEdit->GetTextServices();
-	//	pRichEditOleCallback2->SetTextServices(pTextServices);
-	//	pTextServices->Release();
-	//	//m_pSendEdit->iri
-	//	pRichEditOleCallback2->Release();
-	//}
-	//
-	//IDropTarget *pdt = m_pSendEdit->GetTxDropTarget();
-	//HRESULT  hrer = ::RegisterDragDrop(m_hMainWnd, pdt);
-	//pdt->Release();
 
 
 	//中间栏按钮
@@ -407,9 +387,34 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 	//	m_pListMsgHandler.handler->GetBrowser()->GetMainFrame()->LoadURL("www.baidu.com");
 	}
 
+	m_pSendEdit = static_cast<CRichEditUI*>(m_PaintManager.FindControl(_T("richSend")));
+	m_pSendEdit->SetText(_T(""));
+	m_pSendEdit->SetFocus();
+
+	IRichEditOleCallback2* pRichEditOleCallback2 = NULL;
+	HRESULT hr = ::CoCreateInstance(CLSID_ImageOle, NULL, CLSCTX_INPROC_SERVER,
+		__uuidof(IRichEditOleCallback2), (void**)&pRichEditOleCallback2);
+	if (SUCCEEDED(hr))
+	{
+		pRichEditOleCallback2->SetNotifyHwnd(m_hWnd);
+		ITextServices * pTextServices = m_pSendEdit->GetTextServices();
+		pRichEditOleCallback2->SetTextServices(pTextServices);
+		pTextServices->Release();
+		m_pSendEdit->SetOleCallback(pRichEditOleCallback2);
+		pRichEditOleCallback2->Release();
+	}
+	IDropTarget *pdt = m_pSendEdit->GetTxDropTarget();
+	hr = ::RegisterDragDrop(m_hWnd, pdt);
+	pdt->Release();
+
+
 
 
 	m_manager->SetHandlerMsgs(this);
+
+
+
+
 }
 
 
@@ -536,6 +541,7 @@ void CMainFrame::OnBtnFont(TNotifyUI& msg)
 
 void CMainFrame::OnBtnFace(TNotifyUI& msg)
 {
+
 	if (!m_faceSelDlg.m_firstCreate)
 	{
 		m_faceSelDlg.SetFaceList(&m_faceList);
@@ -547,7 +553,7 @@ void CMainFrame::OnBtnFace(TNotifyUI& msg)
 			::ClientToScreen(this->m_hWnd, (LPPOINT)&rcBtn);
 
 			int cx = 432;
-			int cy = 236;
+		    int cy = 236;
 			int x = rcBtn.left - cx / 2;
 			int y = rcBtn.top - cy;
 
@@ -574,52 +580,23 @@ void CMainFrame::OnBtnScreen(TNotifyUI& msg)
 }
 
 //选择表情后的处理
-void CMainFrame::GetSelectFaceId()
+void CMainFrame::OnFaceCtrlSel(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	//首先获取 当前发送框的内容 然后加上表情内容
-	//m_sendMsgString = m_pSendEdit->GetText();
-
-//	m_pSendEdit->m_pTwh->GetTextServices()
-
-	m_sendMsgString = m_pSendEdit->GetTextRange(0, 100);
-
-	CDuiString path = m_faceSelDlg.m_strSelFaceFileName.c_str();
-	m_pSendEdit->InsertImage(path, 0);
-
-	m_sendMsgString = m_pSendEdit->GetTextRange(20, 100);
-
-
-	m_pSendEdit->Clear();
+	int nFaceId = m_faceSelDlg.GetSelFaceId();
+	int nFaceIndex = m_faceSelDlg.GetSelFaceIndex();
+	tstring strFileName = m_faceSelDlg.GetSelFaceFileName();
+	if (!strFileName.empty())
+	{
+		_RichEdit_InsertFace(m_pSendEdit, strFileName.c_str(), nFaceId, nFaceIndex);
+		m_pSendEdit->SetFocus();
+	}
+	((COptionUI *)m_pFaceBtn)->Selected(false);
 
 }
 
-void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
-{
-
-//	m_sendMsgString = { m_pstr = 0x066e0f7c L"sdsdsdsdsdsds￼" m_szBuffer = 0x066e0f7c L"sdsdsdsdsdsds￼" }
-
-	//m_sendMsgString = m_pSendEdit->GetText();
 
 
-
-
-	//ITextServices * pTextServices = m_pSendEdit->GetTextServices();
-
-
-	//ITextServices * pTextServices = m_pSendEdit->GetTextServices();
-
-	//tstring strText;
-	//RichEdit_GetText(pTextServices, strText);
-
-	//pTextServices->Release();
-
-	//if (strText.size() <= 0)
-	//	return;
-
-
-}
-
-BOOL CMainFrame::_RichEdit_InsertFace(CRichEditUI2 * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex)
+BOOL CMainFrame::_RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex)
 {
 	BOOL bRet = FALSE;
 
@@ -627,43 +604,43 @@ BOOL CMainFrame::_RichEdit_InsertFace(CRichEditUI2 * pRichEdit, LPCTSTR lpszFile
 		return FALSE;
 
 	ITextServices * pTextServices = pRichEdit->GetTextServices();
-
-
-	//ITextHost * pTextHost = pRichEdit->GetTextHost();
-	//if (pTextServices != NULL && pTextHost != NULL)
-	//{
-	//	bRet = RichEdit_InsertFace(pTextServices, pTextHost,
-	//		lpszFileName, nFaceId, nFaceIndex, RGB(255, 255, 255), TRUE, 40);
-	//}
-
-	//if (pTextServices != NULL)
-	//	pTextServices->Release();
-	//if (pTextHost != NULL)
-	//	pTextHost->Release();
-
-	//return bRet;
-
-
-	return 0;
-}
-
-
-void CMainFrame::_RichEdit_SetNotify(CRichEditUI2* pRichEdit, HWND hWnd)
-{
-	IRichEditOleCallback2* pRichEditOleCallback2 = NULL;
-	HRESULT hr = ::CoCreateInstance(CLSID_ImageOle, NULL, CLSCTX_INPROC_SERVER,
-		__uuidof(IRichEditOleCallback2), (void**)&pRichEditOleCallback2);
-#if 0
-	if (SUCCEEDED(hr))
+	ITextHost * pTextHost = pRichEdit->GetTextHost();
+	if (pTextServices != NULL && pTextHost != NULL)
 	{
-		pRichEditOleCallback2->SetNotifyHwnd(hWnd);
-		ITextServices * pTextServices =  pRichEdit->m_p;
-		pRichEditOleCallback2->SetTextServices(pTextServices);
-		pTextServices->Release();
-//		pRichEdit->SetOleCallback(pRichEditOleCallback2);
-		pRichEditOleCallback2->Release();
+		//if (pRichEdit == m_pRecvEdit)
+			//RichEdit_SetStartIndent(pTextServices, 300);
+		bRet = RichEdit_InsertFace(pTextServices, pTextHost,
+			lpszFileName, nFaceId, nFaceIndex, RGB(255, 255, 255), TRUE, 40);
 	}
-#endif
+
+	if (pTextServices != NULL)
+		pTextServices->Release();
+	if (pTextHost != NULL)
+		pTextHost->Release();
+
+	return bRet;
 }
+
+
+void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
+{
+
+	ITextServices * pTextServices = m_pSendEdit->GetTextServices();
+
+	tstring strText;
+	RichEdit_GetText(pTextServices, strText);
+
+	pTextServices->Release();
+
+	if (strText.size() <= 0)
+		return;
+
+	m_pSendEdit->SetText(_T(""));
+	m_pSendEdit->SetFocus();
+
+}
+
+
+
 
 

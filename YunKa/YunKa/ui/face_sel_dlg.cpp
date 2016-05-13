@@ -43,12 +43,15 @@ void CFaceSelDlg::Init()
 
 CDuiString CFaceSelDlg::GetSkinFile()
 {
+
 	return _T("FaceSelDlg.xml");
 }
 
 CDuiString CFaceSelDlg::GetSkinFolder()
 {
-	return CDuiString(CPaintManagerUI::GetInstancePath()) + _T("SkinRes\\");
+	return  _T("SkinRes\\");
+
+	//return CDuiString(CPaintManagerUI::GetInstancePath()) + _T("SkinRes\\");
 }
 
 CControlUI* CFaceSelDlg::CreateControl(LPCTSTR pstrClass)
@@ -80,17 +83,26 @@ LRESULT CFaceSelDlg::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == WM_ACTIVATE)
 	{
-		//if (WA_INACTIVE == (UINT)LOWORD(wParam))
-		//	::PostMessage(m_hWnd, WM_FACE_CLOSE_DLG, NULL, NULL);
+		if (WA_INACTIVE == (UINT)LOWORD(wParam))
+			::PostMessage(m_hWnd, WM_FACE_CLOSE_DLG_2, NULL, NULL);
 	}
+
 	else if (uMsg == WM_FACE_CLOSE_DLG)
 	{
 		::PostMessage(::GetParent(m_hWnd), WM_FACE_CTRL_SEL, NULL, NULL);
 		//::DestroyWindow(m_hWnd);
 
-		::ShowWindow(m_hWnd,SW_HIDE);
+		::ShowWindow(m_hWnd, SW_HIDE);
 		return 0;
 	}
+
+	else if (uMsg == WM_FACE_CLOSE_DLG_2)
+	{
+		::ShowWindow(m_hWnd, SW_HIDE);
+		return 0;
+	}
+
+
 	return __super::HandleMessage(uMsg, wParam, lParam);
 }
 
@@ -136,4 +148,9 @@ void CFaceSelDlg::Notify(TNotifyUI& msg)
 			::PostMessage(m_hWnd, WM_FACE_CLOSE_DLG, NULL, NULL);
 		}
 	}
+}
+
+UILIB_RESOURCETYPE CFaceSelDlg::GetResourceType() const
+{
+	return UILIB_FILE;
 }

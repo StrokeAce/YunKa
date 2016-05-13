@@ -1,6 +1,5 @@
-#include "../StdAfx.h"
-#include "rich_edit_help.h"
-//#include "Log.h"
+#include "StdAfx.h"
+#include "RichEditUtil.h"
 
 IRichEditOle* RichEdit_GetOleInterface(HWND hWnd)
 {
@@ -305,21 +304,6 @@ void RichEdit_SetLinkText(HWND hWnd, BOOL bEnable)
 	RichEdit_SetSelectionCharFormat(hWnd, cf);
 }
 
-void RichEdit_SetLinkText(ITextServices * pTextServices, BOOL bEnable)
-{
-	CHARFORMAT cf;
-	memset(&cf, 0, sizeof(cf));
-	RichEdit_GetSelectionCharFormat(pTextServices, cf);
-
-	cf.dwMask = cf.dwMask | CFM_LINK;
-	if (bEnable)							// 设置超链接
-		cf.dwEffects |= CFE_LINK;
-	else
-		cf.dwEffects &= ~CFE_LINK;
-
-	RichEdit_SetSelectionCharFormat(pTextServices, cf);
-}
-
 // 设置左缩进(单位:缇)
 BOOL RichEdit_SetStartIndent(HWND hWnd, int nSize)
 {
@@ -353,11 +337,8 @@ BOOL RichEdit_InsertFace(HWND hWnd, LPCTSTR lpszFileName, int nFaceId,
 
 	bstrFileName = ::SysAllocString(lpszFileName);
 	if (NULL == bstrFileName)
-		return FALSE;												   
+		return FALSE;
 
-	/*pTextServices->TxSendMessage(EM_GETOLEINTERFACE, 0, (LPARAM)&pRichEditOle, NULL);
-	if (NULL == pRichEditOle)
-	goto Ret0;*/
 	pRichEditOle = RichEdit_GetOleInterface(hWnd);
 	if (NULL == pRichEditOle)
 		goto Ret0;
@@ -376,8 +357,7 @@ BOOL RichEdit_InsertFace(HWND hWnd, LPCTSTR lpszFileName, int nFaceId,
 		goto Ret0;
 
 	pOleObject->SetClientSite(pOleClientSite);
-	//pImageOle->SetTextServices(pTextServices);
-	//pImageOle->SetTextHost(pTextHost);
+
 	pImageOle->SetRichEditHwnd(hWnd);
 	pImageOle->SetTextServices(NULL);
 	pImageOle->SetTextHost(NULL);
@@ -444,7 +424,7 @@ void RichEdit_GetText(HWND hWnd, tstring& strText)
 			if (reobject.cp > 0 && reobject.cp > nPos)
 			{
 				strTemp = strOrgText.substr(nPos, reobject.cp-nPos);
-				Pub::Replace(strTemp, _T("/"), _T("//"));
+				Replace(strTemp, _T("/"), _T("//"));
 				strText += strTemp;
 			}
 			nPos = reobject.cp + 1;
@@ -532,7 +512,7 @@ void RichEdit_GetText(HWND hWnd, tstring& strText)
 	if (nPos < (int)strOrgText.size())
 	{
 		strTemp = strOrgText.substr(nPos);
-		Pub::Replace(strTemp, _T("/"), _T("//"));
+		Replace(strTemp, _T("/"), _T("//"));
 		strText += strTemp;
 	}
 
@@ -847,107 +827,84 @@ BOOL RichEdit_InsertFace(ITextServices *pTextServices, ITextHost *pTextHost,
 						 LPCTSTR lpszFileName, int nFaceId,	int nFaceIndex, 
 						 COLORREF clrBg, BOOL bAutoScale, int nReservedWidth)
 {
-	//LOG("插入表情图片:" + Pub::StdWStrToStdStr(lpszFileName));
-
 	BSTR bstrFileName = NULL;
 	IRichEditOle * pRichEditOle = NULL;
 	IOleClientSite *pOleClientSite = NULL;
 	IImageOle* pImageOle = NULL;
 	IOleObject *pOleObject = NULL;
-	REOBJECT reobject = { 0 };
+	REOBJECT reobject = {0};
 	HRESULT hr = E_FAIL;
-
 
 	if (NULL == pTextServices || NULL == pTextHost ||
 		NULL == lpszFileName || NULL == *lpszFileName)
 		return FALSE;
-	
-	try
-	{
-		TCHAR cProtocol[16] = {0};
-		_tcsncpy(cProtocol, lpszFileName, 7);
-		if ((_tcsicmp(cProtocol, _T("http://")) != 0) && ::GetFileAttributes(lpszFileName) == 0xFFFFFFFF)
-			return FALSE;
-	
-		bstrFileName = ::SysAllocString(lpszFileName);
-		if (NULL == bstrFileName)
-			return FALSE;
-	
-		pTextServices->TxSendMessage(EM_GETOLEINTERFACE, 0, (LPARAM)&pRichEditOle, NULL);
-		if (NULL == pRichEditOle)
-			goto Ret0;
-	
-		hr = ::CoCreateInstance(CLSID_ImageOle, NULL, 
-			CLSCTX_INPROC_SERVER, IID_IImageOle, (void**)&pImageOle);
-		if (FAILED(hr))
-			goto Ret0;
-	
-		hr = pImageOle->QueryInterface(IID_IOleObject, (void **)&pOleObject);
-		if (FAILED(hr))
-			goto Ret0;
-	
-		pRichEditOle->GetClientSite(&pOleClientSite);
-		if (NULL == pOleClientSite)
-			goto Ret0;
-	
-		pOleObject->SetClientSite(pOleClientSite);
-	
-		pImageOle->SetTextServices(pTextServices);
-		pImageOle->SetTextHost(pTextHost);
-		pImageOle->SetFaceId(nFaceId);
-		pImageOle->SetFaceIndex(nFaceIndex);
-		pImageOle->SetBgColor(clrBg);
-		pImageOle->SetAutoScale(bAutoScale, nReservedWidth);
-		HRESULT h = pImageOle->LoadFromFile(bstrFileName);
-		if (h != S_OK)
-		{
-			//LOG("加载图片有问题");
-			goto Ret0;
-		}
-	
-		hr = ::OleSetContainedObject(pOleObject, TRUE);
-	
-		reobject.cbStruct = sizeof(REOBJECT);
-		reobject.clsid    = CLSID_ImageOle;
-		reobject.cp       = REO_CP_SELECTION;
-		reobject.dvaspect = DVASPECT_CONTENT;
-		reobject.dwFlags  = REO_BELOWBASELINE;
-		reobject.poleobj  = pOleObject;
-		reobject.polesite = pOleClientSite;
-		reobject.dwUser   = 0;
-	
-		hr = pRichEditOle->InsertObject(&reobject);
-	
-	
-}
-catch (std::exception* e)
-{
-	//LOG(e->what());
-}
+
+	TCHAR cProtocol[16] = {0};
+	_tcsncpy(cProtocol, lpszFileName, 7);
+	if ((_tcsicmp(cProtocol, _T("http://")) != 0) && ::GetFileAttributes(lpszFileName) == 0xFFFFFFFF)
+		return FALSE;
+
+	bstrFileName = ::SysAllocString(lpszFileName);
+	if (NULL == bstrFileName)
+		return FALSE;
+
+	pTextServices->TxSendMessage(EM_GETOLEINTERFACE, 0, (LPARAM)&pRichEditOle, NULL);
+	if (NULL == pRichEditOle)
+		goto Ret0;
+
+	hr = ::CoCreateInstance(CLSID_ImageOle, NULL, 
+		CLSCTX_INPROC_SERVER, IID_IImageOle, (void**)&pImageOle);
+	if (FAILED(hr))
+		goto Ret0;
+
+	hr = pImageOle->QueryInterface(IID_IOleObject, (void **)&pOleObject);
+	if (FAILED(hr))
+		goto Ret0;
+
+	pRichEditOle->GetClientSite(&pOleClientSite);
+	if (NULL == pOleClientSite)
+		goto Ret0;
+
+	pOleObject->SetClientSite(pOleClientSite);
+
+	pImageOle->SetTextServices(pTextServices);
+	pImageOle->SetTextHost(pTextHost);
+	pImageOle->SetFaceId(nFaceId);
+	pImageOle->SetFaceIndex(nFaceIndex);
+	pImageOle->SetBgColor(clrBg);
+	pImageOle->SetAutoScale(bAutoScale, nReservedWidth);
+	pImageOle->LoadFromFile(bstrFileName);
+
+	hr = ::OleSetContainedObject(pOleObject, TRUE);
+
+	reobject.cbStruct = sizeof(REOBJECT);
+	reobject.clsid    = CLSID_ImageOle;
+	reobject.cp       = REO_CP_SELECTION;
+	reobject.dvaspect = DVASPECT_CONTENT;
+	reobject.dwFlags  = REO_BELOWBASELINE;
+	reobject.poleobj  = pOleObject;
+	reobject.polesite = pOleClientSite;
+	reobject.dwUser   = 0;
+
+	hr = pRichEditOle->InsertObject(&reobject);
 
 Ret0:
-if (pOleObject != NULL)
-pOleObject->Release();
+	if (pOleObject != NULL)
+		pOleObject->Release();
 
-if (pImageOle != NULL)
-pImageOle->Release();
+	if (pImageOle != NULL)
+		pImageOle->Release();
 
-if (pOleClientSite != NULL)
-pOleClientSite->Release();
+	if (pOleClientSite != NULL)
+		pOleClientSite->Release();
 
-if (pRichEditOle != NULL)
-pRichEditOle->Release();
+	if (pRichEditOle != NULL)
+		pRichEditOle->Release();
 
-if (bstrFileName != NULL)
-::SysFreeString(bstrFileName);
-//LOG("插入表情图片完成");
-return SUCCEEDED(hr);
+	if (bstrFileName != NULL)
+		::SysFreeString(bstrFileName);
 
-	
-
-
-
-	
+	return SUCCEEDED(hr);
 }
 
 // 获取文本
@@ -975,7 +932,7 @@ void RichEdit_GetText(ITextServices * pTextServices, tstring& strText)
 			if (reobject.cp > 0 && reobject.cp > nPos)
 			{
 				strTemp = strOrgText.substr(nPos, reobject.cp-nPos);
-				Pub::Replace(strTemp, _T("/"), _T("//"));
+				Replace(strTemp, _T("/"), _T("//"));
 				strText += strTemp;
 			}
 			nPos = reobject.cp + 1;
@@ -1015,7 +972,7 @@ void RichEdit_GetText(ITextServices * pTextServices, tstring& strText)
 	if (nPos < (int)strOrgText.size())
 	{
 		strTemp = strOrgText.substr(nPos);
-		Pub::Replace(strTemp, _T("/"), _T("//"));
+		Replace(strTemp, _T("/"), _T("//"));
 		strText += strTemp;
 	}
 
@@ -1096,19 +1053,4 @@ BOOL RichEdit_GetImageOle(ITextServices * pTextServices, POINT pt, IImageOle** p
 	pRichEditOle->Release();
 
 	return bRet;
-}
-
-void RichEdit_InsertRTF(ITextServices * pTextServices, LPCTSTR lpszRTFText)
-{
-	IRichEditOle *pRichEditOle = NULL;
-
-	SETTEXTEX st;
-	st.codepage = 1200;
-	st.flags = ST_SELECTION | ST_KEEPUNDO;
-	
-	char * ch = Pub::UnicodeToAnsi(lpszRTFText);
-
-		pTextServices->TxSendMessage(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)(LPCSTR)ch, NULL);
-
-		delete[] ch;
 }

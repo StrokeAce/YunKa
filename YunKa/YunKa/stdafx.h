@@ -44,7 +44,7 @@ using namespace DuiLib;
 
 #ifdef _DEBUG
 #   ifdef _UNICODE
-#       pragma comment(lib, "../lib/DuiLib_d.lib")
+#       pragma comment(lib, "../lib/DuiLib.lib")
 #   else
 #       pragma comment(lib, "..\\..\\DuiLib\\Lib\\DuiLib_d.lib")
 #   endif

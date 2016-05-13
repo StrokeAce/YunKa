@@ -6,6 +6,8 @@
 
 #define		WM_FACE_CLOSE_DLG		WM_USER + 2001
 
+#define		WM_FACE_CLOSE_DLG_2		WM_USER + 2002
+
 class CFaceSelDlg : public WindowImplBase
 {
 public:
@@ -22,6 +24,8 @@ public:
 	virtual void OnFinalMessage(HWND hWnd);
 	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+
+	virtual UILIB_RESOURCETYPE GetResourceType() const;
 
 public:
 	void SetFaceList(CFaceList * lpFaceList);

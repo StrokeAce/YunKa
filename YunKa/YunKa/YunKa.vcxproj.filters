@@ -46,9 +46,6 @@
     <Filter Include="chat_common">
       <UniqueIdentifier>{3f2de605-e641-47e2-a8d5-02eb652e7247}</UniqueIdentifier>
     </Filter>
-    <Filter Include="json\dui_ex">
-      <UniqueIdentifier>{f856f96f-186e-4a6c-a500-78bcd2fb8d60}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ui_common">
       <UniqueIdentifier>{ca5fa430-1fa7-4ff0-afa7-d93197535430}</UniqueIdentifier>
     </Filter>
@@ -89,9 +86,6 @@
     </ClInclude>
     <ClInclude Include="ui_common\small_menu.h">
       <Filter>ui_common</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\button_ex_ui.h">
-      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui_common\common_utility.h">
       <Filter>ui_common</Filter>
@@ -190,9 +184,6 @@
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\face_sel_dlg.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\file_dialog_ex.h">
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\gif_image.h">
@@ -321,38 +312,20 @@
     <ClInclude Include="cef_browser\window_test.h">
       <Filter>cef_browser</Filter>
     </ClInclude>
-    <ClInclude Include="dui_ex\button_ex_ui.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="dui_ex\control_ex.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="dui_ex\IImageOle.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="dui_ex\list_ex.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="dui_ex\ole_helper.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="dui_ex\rich_edit_help.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="dui_ex\ui_crack.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="dui_ex\ui_richedit2.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="dui_ex\public.h">
-      <Filter>json\dui_ex</Filter>
-    </ClInclude>
     <ClInclude Include="ui\user_list.h">
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="chat_manager\chat_visitor.h">
       <Filter>chat_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_common\IImageOle.h">
+      <Filter>ui_common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_common\ole_helper.h">
+      <Filter>ui_common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\RichEditUtil.h">
+      <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -479,27 +452,6 @@
     <ClCompile Include="chat_manager\sys_config.cpp">
       <Filter>chat_manager</Filter>
     </ClCompile>
-    <ClCompile Include="dui_ex\button_ex_ui.cpp">
-      <Filter>json\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\list_ex.cpp">
-      <Filter>json\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\ole_helper.cpp">
-      <Filter>json\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\public.cpp">
-      <Filter>json\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\rich_edit_help.cpp">
-      <Filter>json\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\ui_crack.cpp">
-      <Filter>json\dui_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="dui_ex\ui_richedit2.cpp">
-      <Filter>json\dui_ex</Filter>
-    </ClCompile>
     <ClCompile Include="json\cJSON.c">
       <Filter>json</Filter>
     </ClCompile>
@@ -515,9 +467,6 @@
     <ClCompile Include="json\jsonext.cpp">
       <Filter>json</Filter>
     </ClCompile>
-    <ClCompile Include="ui\button_ex_ui.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
     <ClCompile Include="ui\face_ctrl.cpp">
       <Filter>ui</Filter>
     </ClCompile>
@@ -525,9 +474,6 @@
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="ui\face_list.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\file_dialog_ex.cpp">
       <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="ui\gif_image.cpp">
@@ -587,6 +533,12 @@
     <ClCompile Include="chat_manager\chat_visitor.cpp">
       <Filter>chat_manager</Filter>
     </ClCompile>
+    <ClCompile Include="ui_common\ole_helper.cpp">
+      <Filter>ui_common</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\RichEditUtil.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="YunKa.rc">
@@ -614,8 +566,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="dui_ex\ImageOleCtrl.lib">
-      <Filter>json\dui_ex</Filter>
+    <Library Include="ui_common\ImageOleCtrl.lib">
+      <Filter>ui_common</Filter>
     </Library>
   </ItemGroup>
 </Project>

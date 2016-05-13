@@ -1,0 +1,1226 @@
+[0506/160758:ERROR:memory_mapped_file.cc(41)] Couldn't open E:\UI\YunKa\bin\icudtl.dat
+[0506/160758:ERROR:icu_util.cc(149)] Couldn't mmap E:\UI\YunKa\bin\icudtl.dat
+[0506/160758:FATAL:content_main_runner.cc(721)] Check failed: base::i18n::InitializeICU(). 
+Backtrace:
+	cef_trace_event_instant [0x113A7E51+1495937]
+	cef_trace_event_instant [0x112DE6DF+670735]
+	SetCrashKeyValueImpl [0x156F4273+34324787]
+	cef_string_list_value [0x1108D0B1+180721]
+	cef_string_list_value [0x1108C3F7+177463]
+	cef_initialize [0x10FD3A46+390]
+	CefInitialize [0x012B48F2+322]
+	ClientApp::Init [0x0115D9D7+295] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:37)
+	wWinMain [0x012A823C+188] (e:\ui\yunka\yunka\yunka.cpp:33)
+	__tmainCRTStartup [0x013B9948+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x013B9B2D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/160808:ERROR:memory_mapped_file.cc(41)] Couldn't open E:\UI\YunKa\bin\icudtl.dat
+[0506/160808:ERROR:icu_util.cc(149)] Couldn't mmap E:\UI\YunKa\bin\icudtl.dat
+[0506/160808:FATAL:content_main_runner.cc(721)] Check failed: base::i18n::InitializeICU(). 
+Backtrace:
+	cef_trace_event_instant [0x10BB7E51+1495937]
+	cef_trace_event_instant [0x10AEE6DF+670735]
+	SetCrashKeyValueImpl [0x14F04273+34324787]
+	cef_string_list_value [0x1089D0B1+180721]
+	cef_string_list_value [0x1089C3F7+177463]
+	cef_initialize [0x107E3A46+390]
+	CefInitialize [0x007448F2+322]
+	ClientApp::Init [0x005ED9D7+295] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:37)
+	wWinMain [0x0073823C+188] (e:\ui\yunka\yunka\yunka.cpp:33)
+	__tmainCRTStartup [0x00849948+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00849B2D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/160820:ERROR:memory_mapped_file.cc(41)] Couldn't open E:\UI\YunKa\bin\icudtl.dat
+[0506/160820:ERROR:icu_util.cc(149)] Couldn't mmap E:\UI\YunKa\bin\icudtl.dat
+[0506/160820:FATAL:content_main_runner.cc(721)] Check failed: base::i18n::InitializeICU(). 
+Backtrace:
+	cef_trace_event_instant [0x10837E51+1495937]
+	cef_trace_event_instant [0x1076E6DF+670735]
+	SetCrashKeyValueImpl [0x14B84273+34324787]
+	cef_string_list_value [0x1051D0B1+180721]
+	cef_string_list_value [0x1051C3F7+177463]
+	cef_initialize [0x10463A46+390]
+	CefInitialize [0x010848F2+322]
+	ClientApp::Init [0x00F2D9D7+295] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:37)
+	wWinMain [0x0107823C+188] (e:\ui\yunka\yunka\yunka.cpp:33)
+	__tmainCRTStartup [0x01189948+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x01189B2D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/162402:ERROR:memory_mapped_file.cc(41)] Couldn't open E:\UI\YunKa\bin\icudtl.dat
+[0506/162402:ERROR:icu_util.cc(149)] Couldn't mmap E:\UI\YunKa\bin\icudtl.dat
+[0506/162402:FATAL:content_main_runner.cc(721)] Check failed: base::i18n::InitializeICU(). 
+Backtrace:
+	cef_trace_event_instant [0x11387E51+1495937]
+	cef_trace_event_instant [0x112BE6DF+670735]
+	SetCrashKeyValueImpl [0x156D4273+34324787]
+	cef_string_list_value [0x1106D0B1+180721]
+	cef_string_list_value [0x1106C3F7+177463]
+	cef_initialize [0x10FB3A46+390]
+	CefInitialize [0x015648F2+322]
+	ClientApp::Init [0x0140D9D7+295] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:37)
+	wWinMain [0x015583EC+620] (e:\ui\yunka\yunka\yunka.cpp:58)
+	__tmainCRTStartup [0x01669948+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x01669B2D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/162441:ERROR:memory_mapped_file.cc(41)] Couldn't open E:\UI\YunKa\bin\icudtl.dat
+[0506/162441:ERROR:icu_util.cc(149)] Couldn't mmap E:\UI\YunKa\bin\icudtl.dat
+[0506/162441:FATAL:content_main_runner.cc(721)] Check failed: base::i18n::InitializeICU(). 
+Backtrace:
+	cef_trace_event_instant [0x106E7E51+1495937]
+	cef_trace_event_instant [0x1061E6DF+670735]
+	SetCrashKeyValueImpl [0x14A34273+34324787]
+	cef_string_list_value [0x103CD0B1+180721]
+	cef_string_list_value [0x103CC3F7+177463]
+	cef_initialize [0x10313A46+390]
+	CefInitialize [0x015A48F2+322]
+	ClientApp::Init [0x0144D9D7+295] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:37)
+	wWinMain [0x015983EC+620] (e:\ui\yunka\yunka\yunka.cpp:58)
+	__tmainCRTStartup [0x016A9948+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x016A9B2D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/163836:ERROR:memory_mapped_file.cc(41)] Couldn't open E:\UI\YunKa\bin\icudtl.dat
+[0506/163836:ERROR:icu_util.cc(149)] Couldn't mmap E:\UI\YunKa\bin\icudtl.dat
+[0506/163836:FATAL:content_main_runner.cc(721)] Check failed: base::i18n::InitializeICU(). 
+Backtrace:
+	cef_trace_event_instant [0x112C7E51+1495937]
+	cef_trace_event_instant [0x111FE6DF+670735]
+	SetCrashKeyValueImpl [0x15614273+34324787]
+	cef_string_list_value [0x10FAD0B1+180721]
+	cef_string_list_value [0x10FAC3F7+177463]
+	cef_initialize [0x10EF3A46+390]
+	CefInitialize [0x011F48F2+322]
+	ClientApp::Init [0x0109D9D7+295] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:37)
+	wWinMain [0x011E823C+188] (e:\ui\yunka\yunka\yunka.cpp:35)
+	__tmainCRTStartup [0x012F9948+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x012F9B2D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/171156:ERROR:memory_mapped_file.cc(41)] Couldn't open E:\UI\YunKa\bin\icudtl.dat
+[0506/171156:ERROR:icu_util.cc(149)] Couldn't mmap E:\UI\YunKa\bin\icudtl.dat
+[0506/171156:FATAL:content_main_runner.cc(721)] Check failed: base::i18n::InitializeICU(). 
+Backtrace:
+	cef_trace_event_instant [0x10B47E51+1495937]
+	cef_trace_event_instant [0x10A7E6DF+670735]
+	SetCrashKeyValueImpl [0x14E94273+34324787]
+	cef_string_list_value [0x1082D0B1+180721]
+	cef_string_list_value [0x1082C3F7+177463]
+	cef_initialize [0x10773A46+390]
+	CefInitialize [0x016648F2+322]
+	ClientApp::Init [0x0150D9D7+295] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:37)
+	wWinMain [0x0165823C+188] (e:\ui\yunka\yunka\yunka.cpp:35)
+	__tmainCRTStartup [0x01769948+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x01769B2D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/175316:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/175322:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/175335:WARNING:message_in_transit_queue.cc(18)] Destroying nonempty message queue
+[0506/175712:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/175712:FATAL:v8_impl.cc(246)] Check failed: current_tls_.Get(). 
+Backtrace:
+	cef_trace_event_instant [0x11547E51+1495937]
+	cef_trace_event_instant [0x1147E6DF+670735]
+	cef_string_list_value [0x1120DEC0+53248]
+	cef_string_list_value [0x1120B7A4+43236]
+	cef_time_to_timet [0x112CCE93+123763]
+	cef_time_to_timet [0x1138795A+888378]
+	SetCrashKeyValueImpl [0x14E01463+23237411]
+	SetCrashKeyValueImpl [0x151BFD32+27163634]
+	IsSandboxedProcess [0x171B615F+7570543]
+	IsSandboxedProcess [0x171B624F+7570783]
+	IsSandboxedProcess [0x171B5C7F+7569295]
+	SetCrashKeyValueImpl [0x15895039+34328313]
+	SetCrashKeyValueImpl [0x15894F0F+34328015]
+	SetCrashKeyValueImpl [0x15893360+34320928]
+	cef_string_list_value [0x1122C188+176840]
+	cef_execute_process [0x11173285+213]
+	CefExecuteProcess [0x00DE4FA6+278]
+	ClientApp::Init [0x00C8D9B5+133] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:25)
+	wWinMain [0x00DD918C+188] (e:\ui\yunka\yunka\yunka.cpp:35)
+	__tmainCRTStartup [0x00EEA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00EEA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/175735:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/175735:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/180137:ERROR:render_process_impl.cc(68)] WebFrame LEAKED 1 TIMES
+[0506/180137:FATAL:v8_impl.cc(81)] Check failed: context_map_.empty(). 
+Backtrace:
+	cef_trace_event_instant [0x10BF7E51+1495937]
+	cef_trace_event_instant [0x10B2E6DF+670735]
+	cef_string_list_value [0x108B6F8F+24783]
+	cef_string_list_value [0x108B9D06+36422]
+	cef_string_list_value [0x108BDEF0+53296]
+	cef_string_list_value [0x108BB7A4+43236]
+	cef_time_to_timet [0x1097CE93+123763]
+	cef_time_to_timet [0x10A3795A+888378]
+	SetCrashKeyValueImpl [0x144B1463+23237411]
+	SetCrashKeyValueImpl [0x1486FD32+27163634]
+	IsSandboxedProcess [0x1686615F+7570543]
+	IsSandboxedProcess [0x1686624F+7570783]
+	IsSandboxedProcess [0x16865C7F+7569295]
+	SetCrashKeyValueImpl [0x14F45039+34328313]
+	SetCrashKeyValueImpl [0x14F44F0F+34328015]
+	SetCrashKeyValueImpl [0x14F43360+34320928]
+	cef_string_list_value [0x108DC188+176840]
+	cef_execute_process [0x10823285+213]
+	CefExecuteProcess [0x01194FA6+278]
+	ClientApp::Init [0x0103D9B5+133] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:25)
+	wWinMain [0x0118918C+188] (e:\ui\yunka\yunka\yunka.cpp:35)
+	__tmainCRTStartup [0x0129A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0129A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/181034:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/181034:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/181049:WARNING:message_in_transit_queue.cc(18)] Destroying nonempty message queue
+[0506/181258:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10AB7E51+1495937]
+	cef_trace_event_instant [0x109EE6DF+670735]
+	cef_log [0x10948212+82]
+	cef::logging::LogMessage::~LogMessage [0x00DBA770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x00C5504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00D9BC60+976] (e:\ui\yunka\yunka\ui\main_frame.cpp:292)
+	CMainFrame::Notify [0x00D9AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x104382C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x1043847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x1043992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x1040C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00D9AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x104275EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x766462FA+818]
+	GetDC [0x7664731E+82]
+	GetThreadDesktop [0x76646DED+394]
+	GetThreadDesktop [0x76646E4C+489]
+	KiUserCallbackDispatcher [0x7721013A+46]
+	DispatchMessageW [0x7664789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10426AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00DB94B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x00ECA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00ECA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/181259:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/181259:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/181327:WARNING:message_in_transit_queue.cc(18)] Destroying nonempty message queue
+[0506/181723:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/181726:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/181728:INFO:CONSOLE(102)] "一张网页，要经历怎样的过程，才能抵达用户面前？
+一位新人，要经历怎样的成长，才能站在技术之巅？
+探寻这里的秘密；
+体验这里的挑战；
+成为这里的主人；
+加入百度，加入网页搜索，你，可以影响世界。
+", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/181728:INFO:CONSOLE(102)] "请将简历发送至 %c ps_recruiter@baidu.com（ 邮件标题请以“姓名-应聘XX职位-来自console”命名）", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/181728:INFO:CONSOLE(102)] "职位介绍：http://dwz.cn/hr2013", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/181732:VERBOSE2:ipc_channel_win.cc(464)] sent message @0243D320 on channel @024E9200 with type 65535
+[0506/181732:VERBOSE2:ipc_channel_win.cc(115)] sending message @09E989C0 on channel @024E9200 with type 262229 (0 in queue)
+[0506/181732:VERBOSE2:ipc_channel_win.cc(464)] sent message @09E989C0 on channel @024E9200 with type 262229
+[0506/181732:VERBOSE2:ipc_channel_win.cc(115)] sending message @024C0F00 on channel @024E9200 with type 262229 (0 in queue)
+[0506/181732:VERBOSE2:ipc_channel_win.cc(464)] sent message @024C0F00 on channel @024E9200 with type 262229
+[0506/181732:VERBOSE2:ipc_channel_win.cc(115)] sending message @09E985A0 on channel @024E9200 with type 262229 (0 in queue)
+[0506/181732:VERBOSE2:ipc_channel_win.cc(464)] sent message @09E985A0 on channel @024E9200 with type 262229
+[0506/181733:VERBOSE2:ipc_channel_win.cc(115)] sending message @09E989C0 on channel @024E9200 with type 262229 (0 in queue)
+[0506/181733:VERBOSE2:ipc_channel_win.cc(464)] sent message @09E989C0 on channel @024E9200 with type 262229
+[0506/181733:VERBOSE2:ipc_channel_win.cc(115)] sending message @0B9A5A20 on channel @024E9200 with type 262229 (0 in queue)
+[0506/181733:VERBOSE2:ipc_channel_win.cc(464)] sent message @0B9A5A20 on channel @024E9200 with type 262229
+[0506/181736:WARNING:message_in_transit_queue.cc(18)] Destroying nonempty message queue
+[0506/182203:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/182205:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/182206:INFO:CONSOLE(102)] "一张网页，要经历怎样的过程，才能抵达用户面前？
+一位新人，要经历怎样的成长，才能站在技术之巅？
+探寻这里的秘密；
+体验这里的挑战；
+成为这里的主人；
+加入百度，加入网页搜索，你，可以影响世界。
+", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182206:INFO:CONSOLE(102)] "请将简历发送至 %c ps_recruiter@baidu.com（ 邮件标题请以“姓名-应聘XX职位-来自console”命名）", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182206:INFO:CONSOLE(102)] "职位介绍：http://dwz.cn/hr2013", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182207:VERBOSE2:ipc_channel_win.cc(464)] sent message @0A817EB0 on channel @0A8AA000 with type 65535
+[0506/182207:VERBOSE2:ipc_channel_win.cc(115)] sending message @02E76F60 on channel @0A8AA000 with type 262229 (0 in queue)
+[0506/182207:VERBOSE2:ipc_channel_win.cc(464)] sent message @02E76F60 on channel @0A8AA000 with type 262229
+[0506/182208:VERBOSE2:ipc_channel_win.cc(115)] sending message @0A8BCD20 on channel @0A8AA000 with type 262229 (0 in queue)
+[0506/182208:VERBOSE2:ipc_channel_win.cc(464)] sent message @0A8BCD20 on channel @0A8AA000 with type 262229
+[0506/182208:VERBOSE2:ipc_channel_win.cc(115)] sending message @02E76AE0 on channel @0A8AA000 with type 262229 (0 in queue)
+[0506/182208:VERBOSE2:ipc_channel_win.cc(464)] sent message @02E76AE0 on channel @0A8AA000 with type 262229
+[0506/182208:VERBOSE2:ipc_channel_win.cc(115)] sending message @0A8BC3C0 on channel @0A8AA000 with type 262229 (0 in queue)
+[0506/182208:VERBOSE2:ipc_channel_win.cc(464)] sent message @0A8BC3C0 on channel @0A8AA000 with type 262229
+[0506/182208:VERBOSE2:ipc_channel_win.cc(115)] sending message @02E762A0 on channel @0A8AA000 with type 262229 (0 in queue)
+[0506/182208:VERBOSE2:ipc_channel_win.cc(464)] sent message @02E762A0 on channel @0A8AA000 with type 262229
+[0506/182212:WARNING:message_in_transit_queue.cc(18)] Destroying nonempty message queue
+[0506/182244:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/182246:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/182246:INFO:CONSOLE(102)] "一张网页，要经历怎样的过程，才能抵达用户面前？
+一位新人，要经历怎样的成长，才能站在技术之巅？
+探寻这里的秘密；
+体验这里的挑战；
+成为这里的主人；
+加入百度，加入网页搜索，你，可以影响世界。
+", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182246:INFO:CONSOLE(102)] "请将简历发送至 %c ps_recruiter@baidu.com（ 邮件标题请以“姓名-应聘XX职位-来自console”命名）", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182246:INFO:CONSOLE(102)] "职位介绍：http://dwz.cn/hr2013", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182248:VERBOSE2:ipc_channel_win.cc(115)] sending message @02647060 on channel @02621400 with type 262229 (0 in queue)
+[0506/182248:VERBOSE2:ipc_channel_win.cc(464)] sent message @02647060 on channel @02621400 with type 262229
+[0506/182248:VERBOSE2:ipc_channel_win.cc(115)] sending message @0730DC00 on channel @02621400 with type 262229 (0 in queue)
+[0506/182248:VERBOSE2:ipc_channel_win.cc(464)] sent message @0730DC00 on channel @02621400 with type 262229
+[0506/182248:VERBOSE2:ipc_channel_win.cc(115)] sending message @0730D0C0 on channel @02621400 with type 262229 (0 in queue)
+[0506/182248:VERBOSE2:ipc_channel_win.cc(464)] sent message @0730D0C0 on channel @02621400 with type 262229
+[0506/182248:VERBOSE2:ipc_channel_win.cc(115)] sending message @0730D600 on channel @02621400 with type 262229 (0 in queue)
+[0506/182248:VERBOSE2:ipc_channel_win.cc(464)] sent message @0730D600 on channel @02621400 with type 262229
+[0506/182248:VERBOSE2:ipc_channel_win.cc(115)] sending message @077F9B40 on channel @02621400 with type 262229 (0 in queue)
+[0506/182248:VERBOSE2:ipc_channel_win.cc(464)] sent message @077F9B40 on channel @02621400 with type 262229
+[0506/182818:WARNING:message_in_transit_queue.cc(18)] Destroying nonempty message queue
+[0506/182843:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/182844:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/182845:INFO:CONSOLE(102)] "一张网页，要经历怎样的过程，才能抵达用户面前？
+一位新人，要经历怎样的成长，才能站在技术之巅？
+探寻这里的秘密；
+体验这里的挑战；
+成为这里的主人；
+加入百度，加入网页搜索，你，可以影响世界。
+", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182845:INFO:CONSOLE(102)] "请将简历发送至 %c ps_recruiter@baidu.com（ 邮件标题请以“姓名-应聘XX职位-来自console”命名）", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182845:INFO:CONSOLE(102)] "职位介绍：http://dwz.cn/hr2013", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/182846:VERBOSE2:ipc_channel_win.cc(464)] sent message @06E63190 on channel @08CA5200 with type 65535
+[0506/182846:VERBOSE2:ipc_channel_win.cc(115)] sending message @06EBFA20 on channel @08CA5200 with type 262229 (0 in queue)
+[0506/182846:VERBOSE2:ipc_channel_win.cc(464)] sent message @06EBFA20 on channel @08CA5200 with type 262229
+[0506/182846:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 2 1 F F F 1 0
+[0506/182846:VERBOSE2:ipc_channel_win.cc(464)] sent message @00ABE9B0 on channel @08CA6400 with type 65535
+[0506/182846:VERBOSE2:ipc_channel_win.cc(115)] sending message @06EBFEA0 on channel @08CA6400 with type 262229 (1 in queue)
+[0506/182846:VERBOSE2:ipc_channel_win.cc(464)] sent message @06EBFEA0 on channel @08CA6400 with type 262229
+[0506/182846:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 3 1 F F F 1 0
+[0506/182846:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 0 1 F F F 1 0
+[0506/182846:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 1 1 F F F 1 0
+[0506/182846:VERBOSE2:ipc_channel_win.cc(115)] sending message @00AB5060 on channel @08CA6400 with type 262229 (0 in queue)
+[0506/182846:VERBOSE2:ipc_channel_win.cc(464)] sent message @00AB5060 on channel @08CA6400 with type 262229
+[0506/182847:VERBOSE2:ipc_channel_win.cc(115)] sending message @00A9B4E0 on channel @08CA6400 with type 262229 (0 in queue)
+[0506/182847:VERBOSE2:ipc_channel_win.cc(464)] sent message @00A9B4E0 on channel @08CA6400 with type 262229
+[0506/182847:VERBOSE2:ipc_channel_win.cc(115)] sending message @00AB55A0 on channel @08CA6400 with type 262229 (0 in queue)
+[0506/182847:VERBOSE2:ipc_channel_win.cc(464)] sent message @00AB55A0 on channel @08CA6400 with type 262229
+[0506/182902:INFO:CONSOLE(30)] "[object Object]", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (30)
+[0506/182902:INFO:CONSOLE(1)] "Uncaught TypeError: undefined is not a function", source: https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=d&json=1&p=3&sid=18881_1466_19034_19721_19805_19899_19558_19808_19843_19901_19860_15268_12260_16915&req=2&csor=1&cb=jQuery110206412741458043456_1462530524901&_=1462530524903 (1)
+[0506/182902:INFO:CONSOLE(30)] "[object Object]", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (30)
+[0506/182902:INFO:CONSOLE(1)] "Uncaught TypeError: undefined is not a function", source: https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=df&json=1&p=3&sid=18881_1466_19034_19721_19805_19899_19558_19808_19843_19901_19860_15268_12260_16915&req=2&csor=2&pwd=d&cb=jQuery110206412741458043456_1462530524901&_=1462530524904 (1)
+[0506/182902:INFO:CONSOLE(30)] "[object Object]", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (30)
+[0506/182902:INFO:CONSOLE(1)] "Uncaught TypeError: undefined is not a function", source: https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=dfd&json=1&p=3&sid=18881_1466_19034_19721_19805_19899_19558_19808_19843_19901_19860_15268_12260_16915&req=2&csor=3&pwd=df&cb=jQuery110206412741458043456_1462530524901&_=1462530524905 (1)
+[0506/182905:VERBOSE2:ipc_channel_win.cc(115)] sending message @075769C0 on channel @08CA6400 with type 262229 (0 in queue)
+[0506/182905:VERBOSE2:ipc_channel_win.cc(464)] sent message @075769C0 on channel @08CA6400 with type 262229
+[0506/183247:WARNING:message_in_transit_queue.cc(18)] Destroying nonempty message queue
+[0506/183305:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/183307:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/183309:INFO:CONSOLE(102)] "一张网页，要经历怎样的过程，才能抵达用户面前？
+一位新人，要经历怎样的成长，才能站在技术之巅？
+探寻这里的秘密；
+体验这里的挑战；
+成为这里的主人；
+加入百度，加入网页搜索，你，可以影响世界。
+", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183309:INFO:CONSOLE(102)] "请将简历发送至 %c ps_recruiter@baidu.com（ 邮件标题请以“姓名-应聘XX职位-来自console”命名）", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183309:INFO:CONSOLE(102)] "职位介绍：http://dwz.cn/hr2013", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183310:VERBOSE2:ipc_channel_win.cc(115)] sending message @00E552A0 on channel @00E30000 with type 262229 (0 in queue)
+[0506/183310:VERBOSE2:ipc_channel_win.cc(464)] sent message @00E552A0 on channel @00E30000 with type 262229
+[0506/183310:VERBOSE2:ipc_channel_win.cc(464)] sent message @07173280 on channel @07194000 with type 65535
+[0506/183310:VERBOSE2:ipc_channel_win.cc(115)] sending message @0825D960 on channel @07194000 with type 262229 (1 in queue)
+[0506/183310:VERBOSE2:ipc_channel_win.cc(464)] sent message @0825D960 on channel @07194000 with type 262229
+[0506/183310:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 3 1 F F F 1 0
+[0506/183310:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 0 1 F F F 1 0
+[0506/183310:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 1 1 F F F 1 0
+[0506/183311:VERBOSE2:ipc_channel_win.cc(115)] sending message @0825D840 on channel @07194000 with type 262229 (0 in queue)
+[0506/183311:VERBOSE2:ipc_channel_win.cc(464)] sent message @0825D840 on channel @07194000 with type 262229
+[0506/183311:VERBOSE2:ipc_channel_win.cc(115)] sending message @00D96180 on channel @07194000 with type 262229 (0 in queue)
+[0506/183311:VERBOSE2:ipc_channel_win.cc(464)] sent message @00D96180 on channel @07194000 with type 262229
+[0506/183311:VERBOSE2:ipc_channel_win.cc(115)] sending message @00E55E40 on channel @07194000 with type 262229 (0 in queue)
+[0506/183311:VERBOSE2:ipc_channel_win.cc(464)] sent message @00E55E40 on channel @07194000 with type 262229
+[0506/183422:WARNING:message_in_transit_queue.cc(18)] Destroying nonempty message queue
+[0506/183432:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/183433:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/183434:INFO:CONSOLE(102)] "一张网页，要经历怎样的过程，才能抵达用户面前？
+一位新人，要经历怎样的成长，才能站在技术之巅？
+探寻这里的秘密；
+体验这里的挑战；
+成为这里的主人；
+加入百度，加入网页搜索，你，可以影响世界。
+", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183434:INFO:CONSOLE(102)] "请将简历发送至 %c ps_recruiter@baidu.com（ 邮件标题请以“姓名-应聘XX职位-来自console”命名）", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183434:INFO:CONSOLE(102)] "职位介绍：http://dwz.cn/hr2013", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183435:VERBOSE2:ipc_channel_win.cc(464)] sent message @08AF23C0 on channel @0B43C400 with type 65535
+[0506/183435:VERBOSE2:ipc_channel_win.cc(115)] sending message @08B9E8A0 on channel @0B43C400 with type 262229 (0 in queue)
+[0506/183435:VERBOSE2:ipc_channel_win.cc(464)] sent message @08B9E8A0 on channel @0B43C400 with type 262229
+[0506/183435:VERBOSE2:ipc_channel_win.cc(115)] sending message @02D7D0C0 on channel @0B43C400 with type 262229 (0 in queue)
+[0506/183435:VERBOSE2:ipc_channel_win.cc(464)] sent message @02D7D0C0 on channel @0B43C400 with type 262229
+[0506/183435:VERBOSE2:ipc_channel_win.cc(115)] sending message @02D7D000 on channel @0B43C400 with type 262229 (0 in queue)
+[0506/183435:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 1 1 F F F 1 0
+[0506/183435:VERBOSE2:ipc_channel_win.cc(464)] sent message @02D7D000 on channel @0B43C400 with type 262229
+[0506/183436:VERBOSE2:ipc_channel_win.cc(115)] sending message @02D5BC60 on channel @0B43C400 with type 262229 (0 in queue)
+[0506/183436:VERBOSE2:ipc_channel_win.cc(464)] sent message @02D5BC60 on channel @0B43C400 with type 262229
+[0506/183436:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 3 1 F F F 1 0
+[0506/183436:VERBOSE2:ipc_channel_win.cc(115)] sending message @08B9E600 on channel @0B43C400 with type 262229 (0 in queue)
+[0506/183436:VERBOSE2:ipc_channel_win.cc(464)] sent message @08B9E600 on channel @0B43C400 with type 262229
+[0506/183436:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 0 1 F F F 1 0
+[0506/183436:VERBOSE2:scheduler.cc(647)] Scheduler::ProcessScheduledActions: ACTION_NONE F 0 1 1 F F F 1 0
+[0506/183500:ERROR:render_process_impl.cc(68)] WebFrame LEAKED 1 TIMES
+[0506/183500:FATAL:v8_impl.cc(81)] Check failed: context_map_.empty(). 
+Backtrace:
+	cef_trace_event_instant [0x115C7E51+1495937]
+	cef_trace_event_instant [0x114FE6DF+670735]
+	cef_string_list_value [0x11286F8F+24783]
+	cef_string_list_value [0x11289D06+36422]
+	cef_string_list_value [0x1128DEF0+53296]
+	cef_string_list_value [0x1128B7A4+43236]
+	cef_time_to_timet [0x1134CE93+123763]
+	cef_time_to_timet [0x1140795A+888378]
+	SetCrashKeyValueImpl [0x14E81463+23237411]
+	SetCrashKeyValueImpl [0x1523FD32+27163634]
+	IsSandboxedProcess [0x1723615F+7570543]
+	IsSandboxedProcess [0x1723624F+7570783]
+	IsSandboxedProcess [0x17235C7F+7569295]
+	SetCrashKeyValueImpl [0x15915039+34328313]
+	SetCrashKeyValueImpl [0x15914F0F+34328015]
+	SetCrashKeyValueImpl [0x15913360+34320928]
+	cef_string_list_value [0x112AC188+176840]
+	cef_execute_process [0x111F3285+213]
+	CefExecuteProcess [0x004E4FA6+278]
+	ClientApp::Init [0x0038D9B5+133] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:25)
+	wWinMain [0x004D918C+188] (e:\ui\yunka\yunka\yunka.cpp:37)
+	__tmainCRTStartup [0x005EA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x005EA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/183519:ERROR:renderer_main.cc(207)] Running without renderer sandbox
+[0506/183520:ERROR:singleton_hwnd.cc(43)] Cannot create windows on non-UI thread!
+[0506/183521:INFO:CONSOLE(102)] "一张网页，要经历怎样的过程，才能抵达用户面前？
+一位新人，要经历怎样的成长，才能站在技术之巅？
+探寻这里的秘密；
+体验这里的挑战；
+成为这里的主人；
+加入百度，加入网页搜索，你，可以影响世界。
+", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183521:INFO:CONSOLE(102)] "请将简历发送至 %c ps_recruiter@baidu.com（ 邮件标题请以“姓名-应聘XX职位-来自console”命名）", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183521:INFO:CONSOLE(102)] "职位介绍：http://dwz.cn/hr2013", source: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/js/all_async_search_6305f449.js (102)
+[0506/183523:VERBOSE2:ipc_channel_win.cc(464)] sent message @06B6C460 on channel @02F20400 with type 65535
+[0506/183523:VERBOSE2:ipc_channel_win.cc(115)] sending message @02FB3360 on channel @02F20400 with type 262229 (0 in queue)
+[0506/183523:VERBOSE2:ipc_channel_win.cc(464)] sent message @02FB3360 on channel @02F20400 with type 262229
+[0506/183523:VERBOSE2:ipc_channel_win.cc(115)] sending message @02FB3180 on channel @02F20400 with type 262229 (0 in queue)
+[0506/183523:VERBOSE2:ipc_channel_win.cc(464)] sent message @02FB3180 on channel @02F20400 with type 262229
+[0506/183523:VERBOSE2:ipc_channel_win.cc(115)] sending message @02EF6780 on channel @02F20400 with type 262229 (0 in queue)
+[0506/183523:VERBOSE2:ipc_channel_win.cc(464)] sent message @02EF6780 on channel @02F20400 with type 262229
+[0506/183524:VERBOSE2:ipc_channel_win.cc(115)] sending message @02FB3420 on channel @02F20400 with type 262229 (0 in queue)
+[0506/183524:VERBOSE2:ipc_channel_win.cc(464)] sent message @02FB3420 on channel @02F20400 with type 262229
+[0506/183524:VERBOSE2:ipc_channel_win.cc(115)] sending message @02FB33C0 on channel @02F20400 with type 262229 (0 in queue)
+[0506/183524:VERBOSE2:ipc_channel_win.cc(464)] sent message @02FB33C0 on channel @02F20400 with type 262229
+[0506/184458:ERROR:render_process_impl.cc(68)] WebFrame LEAKED 1 TIMES
+[0506/184458:FATAL:v8_impl.cc(81)] Check failed: context_map_.empty(). 
+Backtrace:
+	cef_trace_event_instant [0x10DD7E51+1495937]
+	cef_trace_event_instant [0x10D0E6DF+670735]
+	cef_string_list_value [0x10A96F8F+24783]
+	cef_string_list_value [0x10A99D06+36422]
+	cef_string_list_value [0x10A9DEF0+53296]
+	cef_string_list_value [0x10A9B7A4+43236]
+	cef_time_to_timet [0x10B5CE93+123763]
+	cef_time_to_timet [0x10C1795A+888378]
+	SetCrashKeyValueImpl [0x14691463+23237411]
+	SetCrashKeyValueImpl [0x14A4FD32+27163634]
+	IsSandboxedProcess [0x16A4615F+7570543]
+	IsSandboxedProcess [0x16A4624F+7570783]
+	IsSandboxedProcess [0x16A45C7F+7569295]
+	SetCrashKeyValueImpl [0x15125039+34328313]
+	SetCrashKeyValueImpl [0x15124F0F+34328015]
+	SetCrashKeyValueImpl [0x15123360+34320928]
+	cef_string_list_value [0x10ABC188+176840]
+	cef_execute_process [0x10A03285+213]
+	CefExecuteProcess [0x00DA4FA6+278]
+	ClientApp::Init [0x00C4D9B5+133] (e:\ui\yunka\yunka\cef_browser\client_app.cpp:25)
+	wWinMain [0x00D9918C+188] (e:\ui\yunka\yunka\yunka.cpp:37)
+	__tmainCRTStartup [0x00EAA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00EAA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/184812:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x11497E51+1495937]
+	cef_trace_event_instant [0x113CE6DF+670735]
+	cef_log [0x11328212+82]
+	cef::logging::LogMessage::~LogMessage [0x0045A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x002F504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x0043BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x0043AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x10E182C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x10E1847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x10E1992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x10DEC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x0043AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x10E075EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x766462FA+818]
+	GetDC [0x7664731E+82]
+	GetThreadDesktop [0x76646DED+394]
+	GetThreadDesktop [0x76646E4C+489]
+	KiUserCallbackDispatcher [0x7721013A+46]
+	DispatchMessageW [0x7664789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10E06AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x004594B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x0056A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0056A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/190222:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x11487E51+1495937]
+	cef_trace_event_instant [0x113BE6DF+670735]
+	cef_log [0x11318212+82]
+	cef::logging::LogMessage::~LogMessage [0x00BBA770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x00A5504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00B9BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x00B9AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x10E082C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x10E0847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x10E0992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x10DDC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00B9AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x10DF75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x766462FA+818]
+	GetDC [0x7664731E+82]
+	GetThreadDesktop [0x76646DED+394]
+	GetThreadDesktop [0x76646E4C+489]
+	KiUserCallbackDispatcher [0x7721013A+46]
+	DispatchMessageW [0x7664789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10DF6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00BB94B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x00CCA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00CCA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0506/190329:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x11487E51+1495937]
+	cef_trace_event_instant [0x113BE6DF+670735]
+	cef_log [0x11318212+82]
+	cef::logging::LogMessage::~LogMessage [0x00BBA770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x00A5504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00B9BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x00B9AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x10E082C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x10E0847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x10E0992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x10DDC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00B9AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x10DF75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x766462FA+818]
+	GetDC [0x7664731E+82]
+	GetThreadDesktop [0x76646DED+394]
+	GetThreadDesktop [0x76646E4C+489]
+	KiUserCallbackDispatcher [0x7721013A+46]
+	DispatchMessageW [0x7664789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10DF6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00BB94B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x00CCA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00CCA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x7468338A+18]
+	RtlInitializeExceptionChain [0x77239A02+99]
+	RtlInitializeExceptionChain [0x772399D5+54]
+
+[0509/152400:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x0133A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x011D504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x0131BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x0131AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x583E82C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x583E847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x583E992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x583BC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x0131AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x583D75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x583D6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x013394B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x0144A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0144A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/152726:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x0133A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x011D504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x0131BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x0131AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x580182C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x5801847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x5801992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x57FEC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x0131AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x580075EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x58006AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x013394B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x0144A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0144A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/152832:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x0161A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x014B504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x015FBBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x015FAC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x57DC82C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x57DC847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x57DC992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x57D9C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x015FAB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x57DB75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x57DB6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x016194B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x0172A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0172A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/152936:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x0161A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x014B504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x015FBBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x015FAC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x580182C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x5801847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x5801992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x57FEC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x015FAB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x580075EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x58006AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x016194B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x0172A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0172A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/153016:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x0161A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x014B504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x015FBBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x015FAC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x57DC82C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x57DC847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x57DC992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x57D9C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x015FAB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x57DB75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x57DB6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x016194B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x0172A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0172A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/153650:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x0161A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x014B504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x015FBBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x015FAC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x5AFB82C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x5AFB847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x5AFB992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x5AF8C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x015FAB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x5AFA75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x5AFA6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x016194B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x0172A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0172A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/153958:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x0050A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x003A504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x004EBBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x004EAC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x5AE882C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x5AE8847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x5AE8992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x5AE5C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x004EAB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x5AE775EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x5AE76AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x005094B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x0061A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0061A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/154737:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x00E5A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x00CF504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00E3BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x00E3AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x577782C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x5777847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x5777992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x5774C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00E3AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x577675EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x57766AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00E594B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x00F6A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00F6A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/154954:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x00E5A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x00CF504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00E3BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x00E3AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x580182C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x5801847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x5801992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x57FEC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00E3AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x580075EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x58006AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00E594B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x00F6A718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00F6A8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/155116:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x015CA770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0146504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x015ABBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x015AAC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x57EE82C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x57EE847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x57EE992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x57EBC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x015AAB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x57ED75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x57ED6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x015C94B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x016DA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x016DA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/155210:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x004DA770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0037504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x004BBBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x004BAC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x580182C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x5801847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x5801992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x57FEC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x004BAB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x580075EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x58006AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x004D94B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x005EA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x005EA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/160727:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10A47E51+1495937]
+	cef_trace_event_instant [0x1097E6DF+670735]
+	cef_log [0x108D8212+82]
+	cef::logging::LogMessage::~LogMessage [0x0159A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0143504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x0157BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x0157AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x103C82C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x103C847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x103C992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x1039C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x0157AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x103B75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x103B6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x015994B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x016AA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x016AA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/160918:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x110D7E51+1495937]
+	cef_trace_event_instant [0x1100E6DF+670735]
+	cef_log [0x10F68212+82]
+	cef::logging::LogMessage::~LogMessage [0x0159A770+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0143504D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x0157BBC0+816] (e:\ui\yunka\yunka\ui\main_frame.cpp:294)
+	CMainFrame::Notify [0x0157AC06+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:203)
+	DuiLib::CPaintManagerUI::SendNotify [0x10A582C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x10A5847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x10A5992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x10A2C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x0157AB67+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:166)
+	DuiLib::CWindowWnd::__WndProc [0x10A475EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10A46AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x015994B4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x016AA718+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x016AA8FD+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/171936:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10CF7E51+1495937]
+	cef_trace_event_instant [0x10C2E6DF+670735]
+	cef_log [0x10B88212+82]
+	cef::logging::LogMessage::~LogMessage [0x00C82D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x00B1857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00C61F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x00C60E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x106782C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x1067847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x1067992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x1064C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00C60DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x106675EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10666AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00C81AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x00D92E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00D9303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/172133:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10917E51+1495937]
+	cef_trace_event_instant [0x1084E6DF+670735]
+	cef_log [0x107A8212+82]
+	cef::logging::LogMessage::~LogMessage [0x01662D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x014F857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x01641F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x01640E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x102982C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x1029847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x1029992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x1026C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x01640DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x102875EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10286AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x01661AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x01772E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0177303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/172219:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x115F7E51+1495937]
+	cef_trace_event_instant [0x1152E6DF+670735]
+	cef_log [0x11488212+82]
+	cef::logging::LogMessage::~LogMessage [0x00562D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x003F857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00541F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x00540E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x10F782C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x10F7847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x10F7992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x10F4C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00540DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x10F675EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10F66AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00561AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x00672E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0067303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/172244:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10EB7E51+1495937]
+	cef_trace_event_instant [0x10DEE6DF+670735]
+	cef_log [0x10D48212+82]
+	cef::logging::LogMessage::~LogMessage [0x00692D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0052857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00671F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x00670E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x108382C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x1083847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x1083992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x1080C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00670DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x108275EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10826AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00691AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x007A2E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x007A303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/172635:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x110D7E51+1495937]
+	cef_trace_event_instant [0x1100E6DF+670735]
+	cef_log [0x10F68212+82]
+	cef::logging::LogMessage::~LogMessage [0x014A2D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0133857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x01481F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x01480E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x10A582C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x10A5847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x10A5992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x10A2C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x01480DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x10A475EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10A46AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x014A1AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x015B2E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x015B303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/172822:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x111B7E51+1495937]
+	cef_trace_event_instant [0x110EE6DF+670735]
+	cef_log [0x11048212+82]
+	cef::logging::LogMessage::~LogMessage [0x014A2D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0133857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x01481F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x01480E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x10B382C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x10B3847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x10B3992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x10B0C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x01480DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x10B275EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10B26AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x014A1AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x015B2E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x015B303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/172905:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10897E51+1495937]
+	cef_trace_event_instant [0x107CE6DF+670735]
+	cef_log [0x10728212+82]
+	cef::logging::LogMessage::~LogMessage [0x014A2D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0133857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x01481F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x01480E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x102182C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x1021847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x1021992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x101EC5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x01480DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x102075EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10206AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x014A1AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x015B2E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x015B303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/173307:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x11347E51+1495937]
+	cef_trace_event_instant [0x1127E6DF+670735]
+	cef_log [0x111D8212+82]
+	cef::logging::LogMessage::~LogMessage [0x00DE2D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x00C7857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x00DC1F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x00DC0E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x10CC82C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x10CC847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x10CC992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x10C9C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x00DC0DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x10CB75EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x10CB6AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x00DE1AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x00EF2E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x00EF303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0509/175031:FATAL:cef_ref_counted.h(339)] Assert failed: ptr_ != 0. 
+
+Backtrace:
+	cef_trace_event_instant [0x10587E51+1495937]
+	cef_trace_event_instant [0x104BE6DF+670735]
+	cef_log [0x10418212+82]
+	cef::logging::LogMessage::~LogMessage [0x013F2D90+112]
+	scoped_refptr<CefBrowser>::operator-> [0x0128857D+237] (e:\ui\yunka\thirdlib\libcef\include\base\cef_ref_counted.h:340)
+	CMainFrame::OnPrepare [0x013D1F52+1090] (e:\ui\yunka\yunka\ui\main_frame.cpp:319)
+	CMainFrame::Notify [0x013D0E86+86] (e:\ui\yunka\yunka\ui\main_frame.cpp:207)
+	DuiLib::CPaintManagerUI::SendNotify [0x57E582C0+384] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1535)
+	DuiLib::CPaintManagerUI::SendNotify [0x57E5847A+138] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:1518)
+	DuiLib::CPaintManagerUI::MessageHandler [0x57E5992C+1964] (e:\ui\yunka\thirdlib\duilib\core\uimanager.cpp:641)
+	DuiLib::WindowImplBase::HandleMessage [0x57E2C5CE+1198] (e:\ui\yunka\thirdlib\duilib\utils\winimplbase.cpp:407)
+	CMainFrame::HandleMessage [0x013D0DE7+87] (e:\ui\yunka\yunka\ui\main_frame.cpp:170)
+	DuiLib::CWindowWnd::__WndProc [0x57E475EC+300] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:440)
+	gapfnScSendMessage [0x74A062FA+818]
+	GetDC [0x74A0731E+82]
+	GetThreadDesktop [0x74A06DED+394]
+	GetThreadDesktop [0x74A06E4C+489]
+	KiUserCallbackDispatcher [0x7775013A+46]
+	DispatchMessageW [0x74A0789A+15]
+	DuiLib::CWindowWnd::ShowModal [0x57E46AE6+374] (e:\ui\yunka\thirdlib\duilib\core\uibase.cpp:304)
+	wWinMain [0x013F1AC4+996] (e:\ui\yunka\yunka\yunka.cpp:97)
+	__tmainCRTStartup [0x01502E58+296] (f:\dd\vctools\crt\crtw32\startup\crt0.c:251)
+	wWinMainCRTStartup [0x0150303D+13] (f:\dd\vctools\crt\crtw32\startup\crt0.c:165)
+	BaseThreadInitThunk [0x752A338A+18]
+	RtlInitializeExceptionChain [0x77779A02+99]
+	RtlInitializeExceptionChain [0x777799D5+54]
+
+[0511/104842:WARNING:dns_config_service_win.cc(654)] Failed to read DnsConfig.
+[0512/115646:INFO:child_thread.cc(583)] ChildThread::EnsureConnected()
+[0512/120512:INFO:child_thread.cc(583)] ChildThread::EnsureConnected()
+[0513/134127:INFO:child_thread.cc(583)] ChildThread::EnsureConnected()
+[0513/134334:INFO:child_thread.cc(583)] ChildThread::EnsureConnected()
+[0513/134423:INFO:child_thread.cc(583)] ChildThread::EnsureConnected()

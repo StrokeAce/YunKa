@@ -1,11 +1,7 @@
 #pragma once
 
-/////////////////////////////////////
-///   RichEdit 包装
-////////////////////////////////////
-
 #include <string>
-#include "public.h"
+#include "Utils.h"
 #include "IImageOle.h"
 
 #if defined(UNICODE) || defined(_UNICODE)
@@ -77,5 +73,3 @@ void RichEdit_ReplaceSel(ITextServices * pTextServices, LPCTSTR lpszNewText,	// 
 						 BOOL bBold, BOOL bItalic, BOOL bUnderLine, BOOL bIsLink, 
 						 int nStartIndent, BOOL bCanUndo = FALSE);
 BOOL RichEdit_GetImageOle(ITextServices * pTextServices, POINT pt, IImageOle** pImageOle);
-void RichEdit_SetLinkText(ITextServices * pTextServices, BOOL bEnable);						// 设置超链接
-void RichEdit_InsertRTF(ITextServices * pTextServices, LPCTSTR lpszRTFText);
