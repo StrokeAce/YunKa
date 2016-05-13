@@ -26,13 +26,13 @@ CChatManager::CChatManager()
 	m_port = 443;
 	m_usSrvRand = 0;
 	m_usCltRand = (unsigned short)(rand() & 0xFFFF);
-	m_socket.SetReceiveObject(this);	
-	m_login->m_manager = this;	
+	m_socket.SetReceiveObject(this);		
 	m_msgId = 0;
 	m_nClientIndex = 1;
 	m_handlerLogin = NULL;
 	m_handlerMsgs = NULL;
 	m_login = new CLogin();
+	m_login->m_manager = this;
 	m_vistor = new CChatVisitor();
 	m_vistor->m_manager = this;
 	m_timers = new CTimerManager(CChatManager::TimerProc, this);
