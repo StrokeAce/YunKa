@@ -9,8 +9,8 @@
 
 #include "chat_common\comfunc.h"
 #include "utils\code_convert.h"
-#include "user_list.h"
 
+#include <WinUser.h>
 
 
 
@@ -285,7 +285,7 @@ void CMainFrame::OnTimer(TNotifyUI& msg)
 {
 }
 
-void CMainFrame::OnExit(TNotifyUI& msg)
+void CMainFrame::OnCloseBtn(TNotifyUI& msg)
 {
 
 	m_frameSmallMenu.DeleteSmallIcon();
@@ -295,14 +295,74 @@ void CMainFrame::OnExit(TNotifyUI& msg)
 
 }
 
+void CMainFrame::OnMaxBtn(TNotifyUI& msg)
+{
+	int leftWidth = 0;
+	RECT rc;
+	RECT sysRect;
+	CDuiString formatString;
+
+	SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+	CControlUI *leftLayout = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("VerticalLayoutUI_LeftFrame")));
+	CControlUI *lineLayout = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("VerticalLayoutUI_LeftLine1")));
+
+	leftWidth = leftLayout->GetWidth();
+	leftWidth += lineLayout->GetWidth();
+
+	GetWindowRect(this->m_hWnd,&sysRect);
+	//SystemParametersInfo(SPI_GETWORKAREA, 0, (PVOID)&rc, 0);
+	int centerWidth = (sysRect.right - leftWidth) /2;
+
+	CControlUI *centerLayout = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("VerticalLayoutUI_CenterFrame")));
+	CControlUI *rightLayout = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("VerticalLayoutUI_RightFrame")));
+
+	formatString.Format(_T("%d"), centerWidth);
+	centerLayout->SetAttribute(_T("width"), formatString);
+	formatString.Format(_T("%d"), sysRect.right - leftWidth - centerWidth);
+	rightLayout->SetAttribute(_T("width"), formatString);
+
+
+
+	CControlUI *ShowMsgWnd = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("HorizontalLayoutUI_ShowMsg")));
+
+
+	rc = ShowMsgWnd->GetPos();
+
+
+
+
+	m_pListMsgHandler.handler->MoveBrowser( rc);
+
+
+
+
+}
+
+void CMainFrame::OnRestoreBtn(TNotifyUI& msg)
+{
+
+	SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0);
+
+}
+
+void CMainFrame::OnMinBtn(TNotifyUI& msg)
+{
+
+	SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
+	//this->ShowWindow(FALSE);
+	//SetProcessWorkingSetSize(::GetCurrentProcess(), -1, -1);
+
+}
+
+
+
+
+
 
 void CMainFrame::OnPrepare(TNotifyUI& msg)
 {
 	CDuiString nameString = _T("");
 	CDuiString typeString[4] = { _T("对话中"), _T("转接中"), _T("邀请中"), _T("内部对话") };
-
-
-
 
 
 	//聊天窗口 初始化
@@ -333,10 +393,13 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 
 	//左侧用户列表显示
-	UserListUI* pUserList = static_cast<UserListUI*>(m_PaintManager.FindControl(_T("userlist")));
+    pUserList = static_cast<UserListUI*>(m_PaintManager.FindControl(_T("userlist")));
 
-	
 
+	UserListUI::Node* pCategoryNode = NULL;
+	pCategoryNode = pUserList->AddNode(_T("{x 4}{i gameicons.png 18 3}{x 4}对话列表"));
+
+#if 0	
 	UserListUI::Node* pCategoryNode = NULL;
 	UserListUI::Node* pGameNode = NULL;
 	UserListUI::Node* pServerNode = NULL;
@@ -363,7 +426,7 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 			//}
 		}
 	}
-
+#endif
 
 
 
@@ -378,11 +441,20 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 		CCodeConvert f_covet;
 		string utfUrl;
 		f_covet.Gb2312ToUTF_8(utfUrl, localUrl.c_str(), localUrl.length());
-		RECT rc = {304,164,304+378,398+164};
+		//这里需要根据每个控件的位置  计算起始大小
+		//RECT rc = { 308, 144, 308 + 379, 399 + 144 };
 
-		//RECT rc = { 0, 0, 0, 0 };
+		//m_pListMsgHandler.handler->CreateBrowser(this->m_hWnd, rc, utfUrl, Handler_ListMsg);
+		CControlUI *ShowMsgWnd = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("HorizontalLayoutUI_ShowMsg")));
 
-		//m_pListMsgHandler.handler->CreateBrowser(this->m_hWnd, rc, "www.baidu.com", Handler_ListMsg);
+		RECT rect,padRect;
+		rect = ShowMsgWnd->GetPos();
+		padRect = ShowMsgWnd->GetPadding();
+		int width = ShowMsgWnd->GetWidth();
+		int height = ShowMsgWnd->GetHeight();
+
+
+		m_pListMsgHandler.handler->CreateBrowser(this->m_hWnd, rect, "www.baidu.com", Handler_ListMsg);
 
 	//	m_pListMsgHandler.handler->GetBrowser()->GetMainFrame()->LoadURL("www.baidu.com");
 	}
@@ -409,14 +481,9 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 
 
-
-	m_manager->SetHandlerMsgs(this);
-
-
-
+	SendMsgToGetList();
 
 }
-
 
 
 
@@ -435,23 +502,21 @@ void CMainFrame::OnClick(TNotifyUI& msg)
 
 	if (msg.pSender->GetName() == DEF_CLOSE_WND_BUTTON)
 	{
-		OnExit(msg);
+		OnCloseBtn(msg);
 	}
 	else  if (msg.pSender->GetName() == DEF_MIN_WND_BUTTON)
 	{
-		SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
-		//this->ShowWindow(FALSE);
-		//SetProcessWorkingSetSize(::GetCurrentProcess(), -1, -1);
-
+		OnMinBtn(msg);
 	}
 	else  if (msg.pSender->GetName() == DEF_RESTORE_WND_BUTTON)
 	{
-		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0);
 
+		OnRestoreBtn(msg);
 	}
 	else  if (msg.pSender->GetName() == DEF_MAX_WND_BUTTON)
 	{
-		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		OnMaxBtn(msg);
+
 
 	}
 
@@ -637,6 +702,71 @@ void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
 
 	m_pSendEdit->SetText(_T(""));
 	m_pSendEdit->SetFocus();
+
+}
+
+
+//请求坐席列表
+void CMainFrame::SendMsgToGetList()
+{
+
+	m_manager->SetHandlerMsgs(this);
+	m_manager->SendTo_GetShareList();
+
+}
+
+
+
+void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
+{
+	CDuiString nameString,taklString,changeString,acceptString;
+	CDuiString onlineString;
+	CDuiString strTemp;
+
+	UserListUI::Node* pUserNameNode = NULL;
+	UserListUI::Node* pUserTalkNode = NULL;
+	UserListUI::Node* pUserChangeNode = NULL;
+	UserListUI::Node* pUserAcceptNode = NULL;
+
+	if (user->status == 1) //离线
+	{
+		onlineString = _T("(离线)");
+	}
+	else                   //在线
+	{
+		onlineString = _T("(在线)");
+	}
+
+	strTemp = AnsiToUnicode(user->UserInfo.nickname);
+
+	nameString.Format(_T("{x 4}{i gameicons.png 18 3}{x 4}%s %s"), strTemp.GetData(), onlineString);
+
+	
+	//第一个主节点 显示 名称 在线状态
+	pUserNameNode = ptr->AddNode(nameString);
+
+	taklString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}对话中"));
+	pUserTalkNode = pUserList->AddNode(taklString, pUserNameNode);
+
+	changeString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}转接中"));
+	pUserChangeNode = pUserList->AddNode(changeString, pUserNameNode);
+
+
+	acceptString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}邀请中"));
+	pUserTalkNode = pUserList->AddNode(acceptString, pUserNameNode);
+
+
+	pUserList->ExpandNode(pUserNameNode, false);
+
+}
+
+
+//回调过来的 坐席信息
+void CMainFrame::RecvOneUserInfo(CUserObject* pWebUser)
+{
+
+
+	AddUserList(pUserList,pWebUser);
 
 }
 

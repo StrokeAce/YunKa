@@ -8,16 +8,10 @@
 #include "path.h"
 #include "utils.h"
 #include "chat_manager.h"
-
-
 #include "cef_browser/cefclient.h"
 
 
-
-
 CefRefPtr<ClientApp> m_cefApp;
-
-
 
 Gdiplus::GdiplusStartupInput g_gdiplusStartupInput;
 ULONG_PTR g_gdiplusToken;
@@ -69,7 +63,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	int result = pLoginFrame->ShowModal();
 
-	if (  1)
+	if (result == 1)
 	{
 		
 		pWndFrame->Create(NULL, _T(""), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE | WS_EX_ACCEPTFILES);
@@ -85,7 +79,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	
 
 	CPaintManagerUI::MessageLoop();
-
 	::CoUninitialize();
 
 

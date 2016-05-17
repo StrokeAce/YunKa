@@ -12,7 +12,7 @@
 #include "IImageOle.h"
 #include "face_list.h"
 #include "face_sel_dlg.h"
-
+#include "user_list.h"
 
 
 // 将HWND显示到CControlUI上面
@@ -104,7 +104,7 @@ public:
 	virtual void OnClick(TNotifyUI& msg);
 	virtual void OnSelectChanged(TNotifyUI &msg);
 	virtual void OnItemClick(TNotifyUI &msg);
-	void OnItemRbClick(TNotifyUI &msg);
+	virtual void OnItemRbClick(TNotifyUI &msg);
 	virtual void OnTimer(TNotifyUI &msg);
 	virtual void OnHeaderClick(TNotifyUI& msg);
 	virtual void OnMouseEnter(TNotifyUI& msg);
@@ -112,7 +112,7 @@ public:
 
 public:    //主界面消息回调
 	// 收到一个坐席用户的信息,用来初始化坐席列表
-	virtual void RecvOneUserInfo(CUserObject* pWebUser){}
+	virtual void RecvOneUserInfo(CUserObject* pWebUser);
 
 	// 收到一个新建的会话消息
 	virtual void RecvCreateChat(CWebUserObject* pWebUser) {}
@@ -152,12 +152,19 @@ public:
 
 	BOOL _RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex);
 
+	void SendMsgToGetList();
+	void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user);
 
 protected:
 
 	void Notify(TNotifyUI& msg);
 	void OnPrepare(TNotifyUI& msg);
-	void OnExit(TNotifyUI& msg);
+	void OnCloseBtn(TNotifyUI& msg);
+	void OnMaxBtn(TNotifyUI& msg);
+	void OnRestoreBtn(TNotifyUI& msg);
+	void OnMinBtn(TNotifyUI& msg);
+
+
 
 public:
 	CChatManager* m_manager;
@@ -182,6 +189,8 @@ private:
 
 	CDuiString m_sendMsgString;
 	HWND m_hMainWnd;
+
+	UserListUI* pUserList;
 
 
 };

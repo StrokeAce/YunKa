@@ -320,11 +320,6 @@ void CLoginWnd::LoginProgress(int percent)
 	if (percent == 100)
 	{
 		//µÇÂ¼³É¹¦ 
-
-		//m_manager->SendTo_GetShareList();
-
-
-
 		m_hLoginMenu.DeleteSmallIcon();
 		Close();
 	}

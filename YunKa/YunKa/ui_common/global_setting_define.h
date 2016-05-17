@@ -4,6 +4,10 @@
 
 #define  _DEBUG_DATA_
 
+#define   WND_X                          1024            
+#define   WND_Y                          700
+
+
 //全局字符串定义 
 
 #define    DEFINE_SMALL_ICON_PATH                                               _T("E:\\Moliyun\\bin\\SkinRes\\small.ico")
