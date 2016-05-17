@@ -334,11 +334,12 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 		goto RETURN;
 	}
 
-	// 下载登陆用户的头像
-
 	if (!m_bLoginSuccess)
 	{
 		pUser = AddUserObject(RecvInfo.uin, RecvInfo.strid, RecvInfo.UserInfo.info.nickname, STATUS_ONLINE, -1);
+
+		// 下载头像
+		pUser->DownLoadFace(m_initConfig.webpage_DownloadHeadImage);
 
 		LoginSuccess();
 	}
@@ -382,7 +383,8 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 				{
 					goto RETURN;
 				}
-
+				// 下载头像
+				pUser->DownLoadFace(m_initConfig.webpage_DownloadHeadImage);
 				pUser->m_nFlag = 1;
 			}
 			else
@@ -399,9 +401,6 @@ int CChatManager::RecvSrvRepUserinfo(PACK_HEADER packhead, char *pRecvBuff, int 
 			}
 
 			m_handlerMsgs->RecvOneUserInfo(pUser);
-
-			// 下载头像
-			pUser->DownLoadFace();
 		}
 	}
 	
@@ -463,7 +462,7 @@ bool CChatManager::LoadINIResource()
 
 	int i, len = MAX_256_LEN;
 
-	sprintf(sFile, "%sTQConfig.ini", GetCurrentPath().c_str());
+	sprintf(sFile, "%s\\TQConfig.ini", GetCurrentPath().c_str());
 
 	LoadIniString("common", "programe name mini", m_initConfig.sProgrameNameMini, len, sFile, NULL);
 
@@ -553,7 +552,7 @@ bool CChatManager::LoadINIResource()
 	LoadIniString("WebPages", "UploadHeadImage", m_initConfig.webpage_UploadHeadImage, len, sFile, "http://vip.tq.cn/vip/preuploadfacelink.do?a=");
 
 	// 下载头像
-	LoadIniString("WebPages", "DownloadHeadImage", m_initConfig.webpage_DownloadHeadImage, len, sFile, "http://vip.tq.cn/vip/preuploadfacelink.do?a=");
+	LoadIniString("WebPages", "DownloadHeadImage", m_initConfig.webpage_DownloadHeadImage, len, sFile, "http://admin.tq.cn/vip/facelinkimgs/");
 
 	// 表情
 	LoadIniString("WebPages", "FaceImage", m_initConfig.webpage_FaceImage, len, sFile, "http://vip.tq.cn/clientimages/face/images");
@@ -867,7 +866,7 @@ int CChatManager::RecvFloatShareList(PACK_HEADER packhead, char *pRecvBuff, int 
 		if (pUser == NULL)
 		{
 			pUser = AddUserObject(ShareUserOb.uin, "", "", onlineflag.stStatus.nOnlineStatus, -1);
-			//pUser->DownLoadFace();
+			pUser->DownLoadFace(m_initConfig.webpage_DownloadHeadImage);
 		}
 
 		g_WriteLog.WriteLog(C_LOG_TRACE, "RecvFloatShareList:uin=%u:OnlineStatus=%d", ShareUserOb.uin, onlineflag.stStatus.nOnlineStatus);
@@ -1126,7 +1125,7 @@ int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
 		{
 			pUser = AddUserObject(RecvInfo.msg.senduin, "", RecvInfo.msg.strmobile, STATUS_ONLINE, -1);
 			// 下载该坐席的头像
-			pUser->DownLoadFace();
+			pUser->DownLoadFace(m_initConfig.webpage_DownloadHeadImage);
 			if (pUser == NULL)
 			{
 				goto RETURN;
@@ -3440,4 +3439,14 @@ void CChatManager::LoginSuccess()
 	}
 
 	m_login->CheckLoginFlag(m_sysConfig->m_sLastLoginUid, m_sysConfig->m_sLastLoginStr, true);
+}
+
+CWebUserObject * CChatManager::GetWebUserObjectByScriptFlag(char *scriptflag)
+{
+	return NULL;
+}
+
+CUserObject* CChatManager::GetMySelfUserInfo()
+{
+	return &m_userInfo;
 }

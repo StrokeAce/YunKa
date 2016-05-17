@@ -18,7 +18,7 @@ static unsigned short s_nHttpProxyPort=0;
 
 // 所有的Http Switch 地址
 static vector< pair<string, unsigned short> > g_vecHttpSwitchHost;
-const char c_strDefaultHttpSwitchHost[] = "192.168.0.99";//218.61.32.99
+const char c_strDefaultHttpSwitchHost[] = "192.168.0.99";
 std::string IntToANSstr(unsigned long iValue)
 {
         char szBuf[80];

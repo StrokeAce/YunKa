@@ -22,6 +22,8 @@ public:
 
 	int SendBuffToVisitorServer(char *sbuff, int len);
 
+	int SendStartRecvMsgToVisitorServer();
+
 	int ConnectToVisitorServer();
 
 	int LoginToVisitorServer();
@@ -52,14 +54,23 @@ public:
 	//访客下线
 	void SolveVisitorSystemDown(char *pInitBuff);
 
-	//systemset
-	void SolveVisitorSystemSystenset(char *pInitBuff);
-
-	//stoprecvmsg
 	void SolveVisitorSystemStopRecvMsg(char *pInitBuff);
 
-	//alreadyapply
 	void SolveVisitorSystemAlreadyApply(char *pInitBuff);
+
+	void GetInviteSysMsg(char* msg, CWebUserObject *pWebUser, char *nickname, int result);
+
+	void GetWebUserSysMsg(char* msg, CWebUserObject *pWebUser, WEBUSER_UPINFO *pInfo, const string& strscriptflag);
+
+	void RecvSrvRespVisitorInfo(CWebUserObject *pWebUser, WEBUSER_UPINFO *pInfo);
+
+	string SolveVisitorInfoHtmlTxt(CWebUserObject *pWebUser, WEBUSER_UPINFO *pInfo);
+
+	void SolvePrevURL(CWebUserObject *pWebUser, WEBUSER_UPINFO *pInfo);
+
+	void SolveWebUserTipsTail(CWebUserObject *pWebUser, WEBUSER_UPINFO *pInfo);
+
+	void SolveWebUserOnlineTipsTail(CWebUserObject *pWebUser, WEBUSER_UPINFO *pInfo);
 
 private:
 	/***************     继承接口的函数实现    *****************/
@@ -70,7 +81,7 @@ public:
 	CChatManager*	m_manager;
 	CMySocket		m_socketEx;				// 访客接待连接
 	time_t			m_tResentVisitPackTime;	//
-
+	int				m_nOnLineStatusEx;
 private:
 	friend class CMySocket;
 

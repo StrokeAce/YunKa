@@ -152,7 +152,7 @@ public:
 	bool Load(unsigned short ver);
 	bool Save(unsigned short ver);
 
-	void DownLoadFace();
+	void DownLoadFace(char* loadUrl);
 
 public:
 	USER_INFO UserInfo;
@@ -174,6 +174,7 @@ public:
 
 	bool m_bKeywordsChange;
 	bool m_bKeywordsGet;
+	string m_loadHeadUrl;
 
 public:
 	int	nTimer;  //定时器
@@ -216,6 +217,8 @@ public:
 
 	int IsForbid();
 
+	bool IsDisplay(CSysConfigFile *pConfig, unsigned long uid = 0);
+
 	void SetForbid(bool bForbid);
 
 	bool IsIDIsMutiUser(unsigned long uid);
@@ -223,6 +226,12 @@ public:
 	void RemoveMutiUser(unsigned long uid);
 	bool IsMutiUser();
 	void RemoveAllMutiUser();
+
+	bool ScriptFlagIsExist(char *scriptflag);
+	void AddScriptFlag(char *scriptflag, char *url);
+	void DeleteScriptFlag(char *scriptflag);
+	void DeleteAllScriptFlag();
+	WEBUSER_URL_INFO* GetScriptFlagOb(char *scriptflag);
 
 public:
 	unsigned char			m_bNewComm;					//新协议
@@ -252,7 +261,7 @@ public:
 	char					prevurl[MAX_URL_LEN];
 	char					prevurlhost[MAX_URL_LEN];
 	char					prevurlvar[MAX_URL_LEN];
-	unsigned char			refuseinvite;				//用户拒绝过邀请， 但不包括自动邀请
+	unsigned char			m_refuseinvite;				//用户拒绝过邀请， 但不包括自动邀请
 	int						m_nWaitTimer;				//邀请， 消息发送等待时的定时处理
 	int						m_resptimeoutmsgtimer;		//访客未应答自动回复时间
 	int						m_resptimeoutclosetimer;	//访客长时间未回复，开始自动关闭对话

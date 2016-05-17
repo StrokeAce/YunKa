@@ -47,6 +47,8 @@ WxObj* ParseWxJsonMsg(const char* msg);
 //获取时间, 格式：MM-DD HH:MM:SS
 string GetTimeStringMDAndHMS(unsigned long ntime);
 
+string GetExtDateTimeFormatTime(unsigned long ntime);
+
 char *GetContentBetweenString(const char *str, const char *sstart, const char * send, char *content);
 
 bool GetByte(unsigned int value, int index);
@@ -62,5 +64,11 @@ string GetMd5Str(const string str);
 bool IsXMLCommandStringExist(char *pBuff, char *cmditem);
 
 char *GetXMLCommandString(char *pBuff, char *cmd, char *cmditem, int maxlen = 1024);
+
+int GetXMLCommandInt(char *pBuff, char *cmditem);
+
+bool ParseSearchURLHostAndVar(string strurl, string &strHost, string &strVar);
+
+int GetApplyTypeID(string stype);
 
 #endif

@@ -7,19 +7,19 @@
 
 using namespace std;
 
-string CConvert::GetRegStr(tstring name,TCHAR* base)
+string CConvert::GetRegStr(string name,char* base)
 //得到name的字串值s, result必须先初始化
 {
 #ifndef _LINUX_
 	HKEY hResult;
 	char result[256];
 	strcpy(result,"");
-	if(ERROR_SUCCESS!=RegOpenKey(HKEY_LOCAL_MACHINE,base,&hResult))
+	if(ERROR_SUCCESS!=RegOpenKeyA(HKEY_LOCAL_MACHINE,base,&hResult))
 	{
 		return "";
 	}
 	DWORD dwcount=255;
-	RegQueryValueEx(hResult,name.c_str(),0,0,(BYTE*)&result[0],&dwcount);
+	RegQueryValueExA(hResult,name.c_str(),0,0,(BYTE*)&result[0],&dwcount);
 	RegCloseKey(hResult);
 	return result;
 #else
@@ -27,17 +27,17 @@ string CConvert::GetRegStr(tstring name,TCHAR* base)
 #endif
 }
 
-unsigned long CConvert::GetRegInt(tstring name,TCHAR* base)//得到name的长整型值
+unsigned long CConvert::GetRegInt(string name,char* base)//得到name的长整型值
 {
 #ifndef _LINUX_
 	HKEY hResult;
 	int result=0;
-	if(ERROR_SUCCESS!=RegOpenKey(HKEY_LOCAL_MACHINE,base,&hResult))
+	if(ERROR_SUCCESS!=RegOpenKeyA(HKEY_LOCAL_MACHINE,base,&hResult))
 	{
 		return 0;
 	}
 	DWORD dwcount=sizeof(int);
-	RegQueryValueEx(hResult,name.c_str (),0,0,(BYTE*)&result,&dwcount);
+	RegQueryValueExA(hResult,name.c_str (),0,0,(BYTE*)&result,&dwcount);
 	RegCloseKey(hResult);
 	return result;
 #else
@@ -45,28 +45,28 @@ unsigned long CConvert::GetRegInt(tstring name,TCHAR* base)//得到name的长整型值
 #endif
 }
 
-void CConvert::SetRegStr(tstring name,tstring result,TCHAR* base)
+void CConvert::SetRegStr(string name,string result,char* base)
 //设置name的字串值result
 {
 #ifndef _LINUX_
 	HKEY hResult;
-	if(ERROR_SUCCESS!=RegCreateKey(HKEY_LOCAL_MACHINE,base,&hResult))
+	if(ERROR_SUCCESS!=RegCreateKeyA(HKEY_LOCAL_MACHINE,base,&hResult))
 	       return;
 	DWORD dwcount=result.length ();
-	RegSetValueEx(hResult,name.c_str (),0,REG_SZ ,(BYTE*)result.c_str (),dwcount);
+	RegSetValueExA(hResult,name.c_str (),0,REG_SZ ,(BYTE*)result.c_str (),dwcount);
 	RegCloseKey(hResult);
 #else
 //	SetInitStr(name,result);
 #endif
 }
-void CConvert::SetRegInt(tstring name,unsigned long result,TCHAR* base)//设置name的长整型值
+void CConvert::SetRegInt(string name,unsigned long result,char* base)//设置name的长整型值
 {
 #ifndef _LINUX_
 	HKEY hResult;
-	if(ERROR_SUCCESS!=RegCreateKey(HKEY_LOCAL_MACHINE,base,&hResult))
+	if(ERROR_SUCCESS!=RegCreateKeyA(HKEY_LOCAL_MACHINE,base,&hResult))
 	       return;
 	DWORD dwcount=sizeof(int);
-	RegSetValueEx(hResult,name.c_str (), 0,REG_DWORD ,(BYTE*)&result,dwcount);
+	RegSetValueExA(hResult,name.c_str (), 0,REG_DWORD ,(BYTE*)&result,dwcount);
 	RegCloseKey(hResult);
 #else
 //	SetInitInt(name,result);
@@ -429,9 +429,9 @@ unsigned long CConvert::StrToInt(const std::string &strValue)
         return atol(strValue.c_str());
 }
 
-string CConvert::LoadFile(const tstring &path)
+string CConvert::LoadFile(const string &path)
 {
-	FILE* f=_tfopen(path.c_str(),_T("rb"));
+	FILE* f=fopen(path.c_str(),"rb");
 	if(f==NULL)
 		return "";
 	fseek(f,0,SEEK_END);
@@ -445,9 +445,9 @@ string CConvert::LoadFile(const tstring &path)
 	delete [] buf;
 	return result;
 }
-bool CConvert::SaveFile(const tstring &path,const char* content, unsigned long len)//modify by zyl
+bool CConvert::SaveFile(const string &path,const char* content, unsigned long len)//modify by zyl
 {
-	FILE* f=_tfopen(path.c_str(),_T("wb"));
+	FILE* f=fopen(path.c_str(),"wb");
 	if(f==NULL)
 		return false;
 	fwrite(content,1,len,f);

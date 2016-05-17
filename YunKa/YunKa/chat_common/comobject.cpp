@@ -3,6 +3,7 @@
 #include <fstream>
 #include <process.h>
 #include "comfunc.h"
+#include "http_unit.h"
 
 
 CSysConfigFile::CSysConfigFile()
@@ -701,40 +702,42 @@ bool CUserObject::Save(unsigned short ver)
 // 头像下载线程
 static UINT WINAPI DownLoadFaceThread(void * para)
 {
-	//CString strFaceLinkPath = ((CEmocssApp *)AfxGetApp())->m_InitConfig.webpage_DownloadHeadImage;
-	//CString strPath, strPNG;
-	//strPath = FullPath(_T("Images\\headimages"));
-	//strPNG.Format(_T("%s\\%lu.png"), strPath, ((CUserObject*)para)->UserInfo.uid);
+	char strFaceLink[MAX_256_LEN];
+	char strStorePath[MAX_256_LEN];
+	char strPNG[MAX_256_LEN];
+	string strFaceLinkPath = ((CUserObject*)para)->m_loadHeadUrl;
+	string strPath;
+	strPath = FullPath("Images\\headimages");
+	sprintf(strPNG, "%s\\%lu.png", strPath.c_str(), ((CUserObject*)para)->UserInfo.uid);
 
-	//static TCHAR* szExt[] = { _T("jpg"), _T("gif"), _T("png"), _T("jpeg"), NULL };
+	static char* szExt[] = { "jpg", "gif", "png", "jpeg", NULL };
+	DWORD dwRetVal = 0;
 
-	//CString strFaceLink, strStorePath;
-	//DWORD dwRetVal = 0;
-
-	//for (int i = 0; szExt[i] != NULL; i++)
-	//{
-	//	strFaceLink.Format(_T("%s/logo_%lu.%s"), strFaceLinkPath, ((CUserObject*)para)->UserInfo.uid, szExt[i]);
-	//	strStorePath.Format(_T("%s\\%lu.%s"), strPath, ((CUserObject*)para)->UserInfo.uid, szExt[i]);
-	//	dwRetVal = HttpDownloadFile(((CUserObject*)para)->UserInfo.uid, strFaceLink, strStorePath);
-	//	if (dwRetVal == 0)
-	//	{
-	//		if (i != 2)
-	//		{
-	//			// 将图片换成png格式
-	//			CImage imgHead;
-	//			imgHead.Load(strStorePath);
-	//			imgHead.Save(strPNG, Gdiplus::ImageFormatPNG);
-	//			DeleteFile(strStorePath);
-	//		}
-	//		return true;
-	//	}
-	//}
+	for (int i = 0; szExt[i] != NULL; i++)
+	{
+		sprintf(strFaceLink, "%s/logo_%lu.%s", strFaceLinkPath.c_str(), ((CUserObject*)para)->UserInfo.uid, szExt[i]);
+		sprintf(strStorePath, "%s\\%lu.%s", strPath.c_str(), ((CUserObject*)para)->UserInfo.uid, szExt[i]);
+		dwRetVal = HttpDownloadFile(((CUserObject*)para)->UserInfo.uid, strFaceLink, strStorePath);
+		if (dwRetVal == 0)
+		{
+			if (i != 2)
+			{
+				// 将图片换成png格式
+				//CImage imgHead;
+				//imgHead.Load(strStorePath);
+				//imgHead.Save(strPNG, Gdiplus::ImageFormatPNG);
+				//DeleteFile(strStorePath);
+			}
+			return true;
+		}
+	}
 
 	return false;
 }
 
-void CUserObject::DownLoadFace()
+void CUserObject::DownLoadFace(char* loadUrl)
 {
+	m_loadHeadUrl = loadUrl;
 	char filePath[MAX_PATH];
 	sprintf(filePath, "%s\\%lu.png", FullPath("Images\\headimages").c_str(), UserInfo.uid);
 	if (_access(filePath, 0) == 0)
@@ -798,7 +801,7 @@ CWebUserObject::CWebUserObject()
 	nVisitNum = 0;
 	nTalkNum = 0;
 
-	refuseinvite = 0;
+	m_refuseinvite = 0;
 	nVisitFrom = WEBUSERICON_DIRECTURL;
 	m_bIsFrWX = FALSE;
 	cTalkedSatus = 0;
@@ -857,6 +860,11 @@ int CWebUserObject::IsForbid()
 	return ::GetByte(exinfo.comauth, WEBUSERAUTH_FORBID);
 }
 
+bool CWebUserObject::IsDisplay(CSysConfigFile *pConfig, unsigned long uid)
+{
+	return false;
+}
+
 void CWebUserObject::SetForbid(bool bForbid)
 {
 	exinfo.comauth = ::SetByte(exinfo.comauth, WEBUSERAUTH_FORBID, bForbid);
@@ -906,4 +914,60 @@ bool CWebUserObject::IsMutiUser()
 void CWebUserObject::RemoveAllMutiUser()
 {
 	m_listCommonTalkId.clear();
+}
+
+bool CWebUserObject::ScriptFlagIsExist(char *scriptflag)
+{
+	MapWebUserFLag::iterator iter = m_mapUrlAndScriptFlagOb.find(scriptflag);
+	if (iter != m_mapUrlAndScriptFlagOb.end())
+	{
+		return true;
+	}
+	return false;
+}
+
+void CWebUserObject::AddScriptFlag(char *scriptflag, char *url)
+{
+	if (scriptflag == NULL || strlen(scriptflag) <= 0)
+		return;
+	if (url == NULL)
+		return;
+
+	if (!ScriptFlagIsExist(scriptflag))
+	{
+		WEBUSER_URL_INFO* info = new WEBUSER_URL_INFO();
+		info->dwtime = GetCurrentLongTime();
+		info->url = url;
+		m_mapUrlAndScriptFlagOb.insert(MapWebUserFLag::value_type(scriptflag, info));
+	}
+}
+
+void CWebUserObject::DeleteScriptFlag(char *scriptflag)
+{
+	MapWebUserFLag::iterator iter = m_mapUrlAndScriptFlagOb.find(scriptflag);
+	if (iter != m_mapUrlAndScriptFlagOb.end())
+	{
+		delete iter->second;
+		m_mapUrlAndScriptFlagOb.erase(iter);
+	}
+}
+
+void CWebUserObject::DeleteAllScriptFlag()
+{
+	MapWebUserFLag::iterator iter = m_mapUrlAndScriptFlagOb.begin();
+	for (iter; iter != m_mapUrlAndScriptFlagOb.end(); iter++)
+	{
+		delete iter->second;
+	}
+	m_mapUrlAndScriptFlagOb.clear();
+}
+
+WEBUSER_URL_INFO* CWebUserObject::GetScriptFlagOb(char *scriptflag)
+{
+	MapWebUserFLag::iterator iter = m_mapUrlAndScriptFlagOb.find(scriptflag);
+	if (iter != m_mapUrlAndScriptFlagOb.end())
+	{
+		return iter->second;
+	}
+	return NULL;
 }

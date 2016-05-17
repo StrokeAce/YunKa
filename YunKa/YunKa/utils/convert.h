@@ -10,7 +10,7 @@
 #include <vector>
 
 using namespace std;
-#define REGBASE  _T("Software\\X-Maze\0")
+#define REGBASE  "Software\\X-Maze\0"
 //#define REGROOT  HKEY_CURRENT_USER
 
 #ifdef _UNICODE	
@@ -27,8 +27,8 @@ using namespace std;
 //代码转换类
 class CConvert{
 public:
-        static string LoadFile(const tstring &path);
-        static bool SaveFile(const tstring &path,const char* content,unsigned long len);
+        static string LoadFile(const string &path);
+        static bool SaveFile(const string &path,const char* content,unsigned long len);
         static bool LoadListFromFile(string path,vector<string>& result);
         static bool GetNextTag(string& content,string& tagname,const string& replacevalue,int &start,int &stop);
 	/**
@@ -36,14 +36,14 @@ public:
 	 * @return 参数的值
 	 * @param name 参数的名字
 	 */
-	static unsigned long GetRegInt(tstring name,TCHAR* base=REGBASE);
+	static unsigned long GetRegInt(string name,char* base=REGBASE);
 
 	/**
 	 * 获取注册表字符串值.
 	 * @return 参数的值
 	 * @param name 参数的名字
 	 */
-	static string	GetRegStr(tstring name,TCHAR* base=REGBASE);
+	static string	GetRegStr(string name, char* base = REGBASE);
 
 
 	/**
@@ -51,14 +51,14 @@ public:
 	 * @param name 参数的名字
 	 * @param value 参数的值
 	 */
-	static void SetRegInt(tstring name , unsigned long  value,TCHAR* base=REGBASE);
+	static void SetRegInt(string name , unsigned long value, char* base=REGBASE);
 
 	/**
 	 * 设置注册表字符串值.
 	 * @param name 参数的名字
 	 * @param value 参数的值
 	 */
-	static void SetRegStr(tstring name,tstring value,TCHAR* base=REGBASE);
+	static void SetRegStr(string name, string value, char* base = REGBASE);
 
 	/*
 	*	交互数字

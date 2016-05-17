@@ -327,6 +327,15 @@
     <ClInclude Include="ui\rich_edit_util.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="http_load\http_unit.h">
+      <Filter>http_load</Filter>
+    </ClInclude>
+    <ClInclude Include="http_load\sock.h">
+      <Filter>http_load</Filter>
+    </ClInclude>
+    <ClInclude Include="http_load\switch_sock.h">
+      <Filter>http_load</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -538,6 +547,15 @@
     </ClCompile>
     <ClCompile Include="ui\rich_edit_util.cpp">
       <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="http_load\http_unit.cpp">
+      <Filter>http_load</Filter>
+    </ClCompile>
+    <ClCompile Include="http_load\sock.cpp">
+      <Filter>http_load</Filter>
+    </ClCompile>
+    <ClCompile Include="http_load\switch_sock.cpp">
+      <Filter>http_load</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

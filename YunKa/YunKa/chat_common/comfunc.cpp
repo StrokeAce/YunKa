@@ -480,11 +480,7 @@ unsigned int SetByte(unsigned int &source, int index, unsigned char ucvalue)
 
 string FullPath(string extPath)
 {
-	string strFullPath = GetCurrentPath();
-
-	//if ((pos = extPath.("\\")) != string::npos)
-		//extPath = extPath.substr(1, extPath.size());
-
+	extPath = GetCurrentPath() + "\\" + extPath;
 	return extPath;
 }
 
@@ -570,4 +566,50 @@ char *GetXMLCommandString(char *pBuff, char *cmd, char *cmditem, int maxlen)
 
 	return cmd;
 
+}
+
+int GetXMLCommandInt(char *pBuff, char *cmditem)
+{
+	char cmd[50];
+
+	GetXMLCommandString(pBuff, cmd, cmditem, 48);
+
+	return atol(cmd);
+}
+
+bool ParseSearchURLHostAndVar(string strurl, string &strHost, string &strVar)
+{
+	return false;
+}
+
+std::string GetExtDateTimeFormatTime(unsigned long ntime)
+{
+	string stime = "";
+	char ctime[MAX_256_LEN];
+	time_t tt;
+	if (ntime == 0)
+		tt = time(NULL);
+	else
+		tt = (time_t)(ntime);
+
+	struct tm * ttm = localtime(&tt);
+	if (ttm != NULL)
+	{
+		sprintf(ctime, "%d-%d-%d %d:%d:%d", ttm->tm_year + 1900, ttm->tm_mon + 1, ttm->tm_mday, ttm->tm_hour, ttm->tm_min, ttm->tm_sec);
+		stime = ctime;
+	}
+
+	return stime;
+}
+
+int GetApplyTypeID(string stype)
+{
+	if (stype.compare("APPLY_ASK") == 0)
+		return APPLY_ASK;
+	else if (stype.compare("APPLY_OPEN") == 0)
+		return APPLY_OPEN;
+	else if (stype.compare("MYGETNOTE") == 0)
+		return MYGETNOTE;
+	else
+		return APPLY_UNKNOWN;
 }

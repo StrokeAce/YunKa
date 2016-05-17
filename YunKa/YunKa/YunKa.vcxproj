@@ -60,7 +60,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./dui_ex;./ui;./ui_common;./auth;./log;./md5;./timer;./chat_manager;./utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./dui_ex;./ui;./ui_common;./auth;./log;./md5;./timer;./chat_manager;./utils;./http_load;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>../Build/$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
@@ -134,6 +134,9 @@
     <ClInclude Include="chat_manager\login.h" />
     <ClInclude Include="chat_manager\socket.h" />
     <ClInclude Include="chat_manager\sys_config.h" />
+    <ClInclude Include="http_load\http_unit.h" />
+    <ClInclude Include="http_load\sock.h" />
+    <ClInclude Include="http_load\switch_sock.h" />
     <ClInclude Include="json\autolink.h" />
     <ClInclude Include="json\cJSON.h" />
     <ClInclude Include="json\config.h" />
@@ -224,6 +227,9 @@
     <ClCompile Include="chat_manager\login.cpp" />
     <ClCompile Include="chat_manager\socket.cpp" />
     <ClCompile Include="chat_manager\sys_config.cpp" />
+    <ClCompile Include="http_load\http_unit.cpp" />
+    <ClCompile Include="http_load\sock.cpp" />
+    <ClCompile Include="http_load\switch_sock.cpp" />
     <ClCompile Include="json\cJSON.c" />
     <ClCompile Include="json\jsonext.cpp" />
     <ClCompile Include="json\json_reader.cpp" />

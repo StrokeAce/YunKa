@@ -1,11 +1,10 @@
-//---------------------------------------------------------------------------
-
+#include "../stdafx.h"
 #include "http_unit.h"
 #include "convert.h"
+#include "../chat_common/comfunc.h"
+#include <WinInet.h>
 
-#pragma hdrstop
-
-//---------------------------------------------------------------------------
+#pragma comment(lib, "wininet.lib")
 
 void UseSwitchInHttpDownload(bool bUse)
 {
@@ -112,236 +111,6 @@ SOCKET ConnectToServer(const char* cDomain,unsigned short port,
 	return s;
 }
 
-int HttpDownloadFile(string url,
-				 string &body,
-				 string &urlfile,
-				 string postfile,
-				 HWND hWnd,
-				 const string& AdditionHead,
-				 const char* pszProxyip,
-				 unsigned short proxyport)
-{
-	body="";
-	urlfile="";
-	int pos=url.find ('/',8);
-	if(pos==-1)
-	{
-		return 404;
-	}
-	
-	
-	string host=url.substr(7,pos-7);
-	string remotepath=url.substr (pos,url.length ());
-	pos=host.find(':');
-	int port=80;
-	if(pos!=-1)
-	{
-        port=atoi(host.substr(pos+1,host.length()).c_str()); 
-		if(port==0)
-			port=80;
-		host=host.substr(0,pos);
-	}
-	
-    
-	SOCKET sServer=INVALID_SOCKET;
-	string strError;
-
-	if (pszProxyip == NULL || strlen(pszProxyip) == 0)
-	{
-		sServer = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
-		if( sServer == INVALID_SOCKET)
-			return 0;
-
-
-		struct sockaddr_in inAddr;
-
-		inAddr.sin_addr.S_un.S_addr=inet_addr(host.c_str());
-		inAddr.sin_family=AF_INET;
-		inAddr.sin_port=htons(port);
-		if(inAddr.sin_addr.S_un.S_addr == INADDR_NONE)
-		{
-			struct hostent* phost = gethostbyname(host.c_str());
-			if(phost == NULL)
-				return 404;
-			inAddr.sin_addr = *((struct in_addr*)phost->h_addr);
-		}
-		if(connect(sServer, (SOCKADDR*)&inAddr, sizeof(inAddr)) != 0)
-		{
-			//cerr<<"无法连接服务器"<<endl;
-			closesocket(sServer);
-			sServer=INVALID_SOCKET;
-			strError.Format("host = %s, port = %d",
-				convertstring(host).c_str(), port);
-		}
-	}else
-	{
-		sServer=ConnectToServer(host.c_str(), port, pszProxyip, proxyport);
-		strError.Format("host = %s, port = %d, proxyip = %s, proxyport = %d",
-			convertstring(host).c_str(), port, convertstring(pszProxyip).c_str(), proxyport);
-
-	}
-	if (sServer==INVALID_SOCKET)
-	{
-		return 404;
-	}
-	
-	string cmd;
-	CFile myFile;
-	CFileException e;
-	WIN32_FIND_DATA FindFileData;
-	DWORD dwRead;
-	int nCurDel, nDelToSend;
-	int nCurRead, nCurSend;
-	char data[1024];
-	int onereadlen = 1000;
-	int nHttpCode = 404;	  
-	
-
-	if( myFile.Open(postfile, CFile::modeRead | CFile::typeBinary |CFile::shareDenyWrite, &e ) == false)
-	{
-		return 404;
-	}
-	
-	FindClose(FindFirstFile(postfile, &FindFileData));
-	
-	dwRead = 0;
-	myFile.Seek(dwRead, CFile::begin);
-	
-	nDelToSend = FindFileData.nFileSizeLow/100;
-	nCurDel=0;
-
-	if(postfile.IsEmpty())
-	{
-		cmd="GET "+remotepath+" HTTP/1.0\r\nHost: "+host+"\r\nUser-Agent:Tracq\r\n"+AdditionHead+"\r\n";
-	}
-	else
-	{
-		char buff[256];
-		sprintf(buff, "%d", FindFileData.nFileSizeLow);
-		cmd="POST "+remotepath+" HTTP/1.0\r\nHost: "+host+"\r\nUser-Agent:Tracq\r\nContent-Length: "+ buff +"\r\n"+AdditionHead+"\r\n";
-	}
-	
-	send(sServer, cmd.c_str(),cmd.length(), 0);
-	if( hWnd != NULL);
-
-	while(dwRead < FindFileData.nFileSizeLow)
-	{
-		nCurRead = myFile.Read(data, onereadlen);
-				
-		if(nCurRead == 0)
-		{
-			break;
-		}
-		else if(nCurRead < 0)
-		{
-			myFile.Close();
-			return 404;
-		}
-				
-		dwRead += nCurRead;
-		nCurDel += nCurRead;
-				
-		nCurSend = send(sServer, data, nCurRead, 0);
-		if( nCurSend <= 0)
-		{
-			myFile.Close();			
-			closesocket(sServer);
-			return 404;
-		}
-
-		if(nCurDel > nDelToSend || dwRead == nCurRead)
-		{
-			if( hWnd != NULL);
-			nCurDel = 0;
-		}
-				
-		if(FindFileData.nFileSizeLow <= onereadlen)
-			break;
-	}
-			
-	myFile.Close();			
-
-
-	char *buf=new char[15535];  
-	int nLenth = 0;   
-	int nRecv;
-	nRecv = recv(sServer, buf, 15534, 0);
-	if (nRecv > 0)
-	{
-		buf[nRecv]=0;
-
-		char* pStatue = strchr(buf,' ');
-		char* headend = strstr(buf,"\r\n\r\n");
-		*headend = '\0';
-		headend += 4;
-		nHttpCode = atoi(pStatue);
-		if (nHttpCode != 200)
-		{
-			closesocket(sServer);
-			delete [] buf;
-			return nHttpCode;
-		}
-		
-		string retstring = buf;
-		int index = retstring.find("FileUrl:");
-		if(index != string::npos)
-		{
-			int endindex = retstring.find("\n", index);
-			if(endindex != string::npos)
-			{
-				urlfile = retstring.substr(index+9, endindex - index - 9);
-			}
-		}
-		
-		pStatue = strstr(buf, "Content-Length:");
-		pStatue += 15;
-		nLenth = atoi(pStatue);  
-		
-		string strNewURL;
-		char* pNewURL= strstr(buf, "Last-Modified:");
-		if(pNewURL != NULL)
-		{
-			pNewURL+=14;
-			while((*pNewURL)==' ')
-			{
-				pNewURL++;
-			}
-			char* pEnd=strchr(pNewURL,'\n'); 
-			if(pEnd) 
-				*pEnd='\0';
-			pEnd = strchr(pNewURL,'\r');
-			if(pEnd) 
-				*pEnd='\0';
-		}
-		
-		int headlen=headend-buf;
-		body = string(headend, nRecv - headlen); 
-		
-		nLenth = nLenth - nRecv + headlen;
-		while(nLenth > 0)
-		{
-			nRecv = recv(sServer, buf, 15534, 0);
-			if (nRecv<=0)
-			{
-				break;
-			}
-			buf[nRecv]=0;
-			body += string(buf, nRecv);
-			nLenth -= nRecv;
-		}
-		if (nLenth>0) 
-		{
-			nHttpCode=404;
-		}
-	}
-	
-
-	closesocket(sServer);
-
-	delete [] buf;
-    return nHttpCode;
-}
-
 int HttpDownload(string url,
 				 string post,
 				 string &body,
@@ -372,7 +141,6 @@ int HttpDownload(string url,
 	
     
 	SOCKET sServer=INVALID_SOCKET;
-	string strError;
 
 	if (pszProxyip == NULL || strlen(pszProxyip) == 0)
 	{
@@ -395,22 +163,16 @@ int HttpDownload(string url,
 		}
 		if(connect(sServer, (SOCKADDR*)&inAddr, sizeof(inAddr)) != 0)
 		{
-			//cerr<<"无法连接服务器"<<endl;
 			closesocket(sServer);
 			sServer=INVALID_SOCKET;
-			strError.Format(_T("host = %s, port = %d"),
-				convertstring(host).c_str(), port);
 		}
 	}else
 	{
 		sServer=ConnectToServer(host.c_str(), port, pszProxyip, proxyport);
-		strError.Format(_T("host = %s, port = %d, proxyip = %s, proxyport = %d"),
-			convertstring(host).c_str(), port, convertstring(pszProxyip).c_str(), proxyport);
 
 	}
 	if (sServer==INVALID_SOCKET)
 	{
-		//MessageBox(progDlg->GetSafeHwnd(), strError, _T("Error"), MB_OK);
 		return 404;
 	}
 	
@@ -424,8 +186,8 @@ int HttpDownload(string url,
 		cmd="POST "+remotepath+" HTTP/1.0\r\nHost: "+host+"\r\nUser-Agent:Tracq\r\nContent-Length: "+ CConvert::IntToStr(post.length())+"\r\n"+AdditionHead+"\r\n"+post;
 	}
 	
-	tstring str;
-	str = GetModuleFileDir() + _T("\\postu.txt");
+	string str;
+	str = GetCurrentPath() + "\\postu.txt";
 	CConvert::SaveFile(str, cmd.c_str(), cmd.length());//modify by zyl
 	
 	send(sServer, cmd.c_str(),cmd.length(), 0);
@@ -471,7 +233,6 @@ int HttpDownload(string url,
 			pEnd = strchr(pNewURL,'\r');
 			if(pEnd) 
 				*pEnd='\0';
-			//  LastModify = pNewURL;
 		}
 		
 		int headlen=headend-buf;
@@ -501,37 +262,18 @@ int HttpDownload(string url,
     return nHttpCode;
 }
 
-string GetModuleFileDir()
-{
-	DWORD	dwLength, dwSize;
-	TCHAR	szFileName [MAX_PATH];
-	string	strFileName;
-	int		nPos;
-	
-	dwSize = sizeof (szFileName) / sizeof (szFileName [0]);
-	dwLength = ::GetModuleFileName (NULL, szFileName, dwSize);
-	if (dwLength <= 0) 
-	{
-		return _T("");
-	}
-
-	strFileName = szFileName;
-	nPos = strFileName.ReverseFind( '\\' );
-	return strFileName.Left( nPos );
-}
-
 void GetHostInfo(const string& strHostInfo, string& strHost, UINT& nPort)
 {
-	int pos = strHostInfo.Find(_T(":"));
+	int pos = strHostInfo.find(":");
 
 	strHost = strHostInfo;
 	nPort = 80;
 
 	if (pos != -1)
 	{
-		strHost = strHostInfo.Left(pos);
-		string strPort = strHostInfo.Right(strHostInfo.GetLength() - pos - 1);
-		nPort = (UINT)_ttoi(strPort);
+		strHost = strHostInfo.substr(pos);
+		string strPort = strHostInfo.substr(strHostInfo.length() - pos - 1);
+		nPort = (UINT)atoi(strPort.c_str());
 	}
 }
 
@@ -542,20 +284,20 @@ void GetRequestInfoFromUrl(const string& strUrl,
 {
 	int pos, pos1;
 
-	string strHttp = _T("http://");
-	string strSp = _T("/");
+	string strHttp = "http://";
+	string strSp = "/";
 
-	pos = strUrl.Find(strHttp);
-	int httplen = strHttp.GetLength();
+	pos = strUrl.find(strHttp);
+	int httplen = strHttp.length();
 	if (pos != -1)
 	{
 		string strHostInfo;
-		pos1 = strUrl.Find(strSp, pos + httplen);
+		pos1 = strUrl.find(strSp, pos + httplen);
 		if (pos1 != -1)
 		{
-			strHostInfo = strUrl.Mid(pos + httplen, pos1 - pos - httplen);
+			strHostInfo = strUrl.substr(pos + httplen, pos1 - pos - httplen);
 			GetHostInfo(strHostInfo, strHost, nPort);
-			strRequest = strUrl.Right(strUrl.GetLength() - pos1);
+			strRequest = strUrl.substr(strUrl.length() - pos1);
 		}
 	}
 }
@@ -578,36 +320,36 @@ DWORD HttpDownloadFile(int nIndex,
 	GetRequestInfoFromUrl(strUrl, strHost, nPort, strRequest);
 
 
-	HINTERNET hInternet = InternetOpen(strHost,
+	HINTERNET hInternet = InternetOpenA(strHost.c_str(),
 		INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
 
-	HINTERNET hConn = InternetConnect(hInternet,
-		strHost,
+	HINTERNET hConn = InternetConnectA(hInternet,
+		strHost.c_str(),
 		nPort,
 		NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
 
-	static char* accept[2] = { _T("*/*"), NULL };
-	HINTERNET hRequest = HttpOpenRequest(hConn, _T("GET"),
-		strRequest, NULL, NULL,
-		(char**)accept,
+	static char* accept[2] = { "*/*", NULL };
+	HINTERNET hRequest = HttpOpenRequestA(hConn, "GET",
+		strRequest.c_str(), NULL, NULL,
+		(LPCSTR*)accept,
 		INTERNET_FLAG_RELOAD,
 		0);
 
 	if (lpszHeader)
 	{
-		HttpAddRequestHeaders(hRequest, lpszHeader, -1L, HTTP_ADDREQ_FLAG_ADD);
+		HttpAddRequestHeadersA(hRequest, lpszHeader, -1L, HTTP_ADDREQ_FLAG_ADD);
 	}
 
 	BOOL bRet = HttpSendRequest(hRequest, NULL, 0, NULL, 0);
 
-	TCHAR databuf[HTTP_RECV_DATA_BUF + 1] = { 0 };
+	char databuf[HTTP_RECV_DATA_BUF + 1] = { 0 };
 	DWORD dwSize = HTTP_RECV_DATA_BUF;
 	bRet = HttpQueryInfo(hRequest, HTTP_QUERY_STATUS_CODE, databuf, &dwSize, NULL);
 
-	if (_tcscmp(databuf, _T("200")) == 0)
+	if (strcmp(databuf, "200") == 0)
 	{
 
-		HANDLE hFile = CreateFile(lpszLocalName,
+		HANDLE hFile = CreateFileA(lpszLocalName,
 			GENERIC_WRITE,
 			0,
 			NULL,
@@ -631,7 +373,7 @@ DWORD HttpDownloadFile(int nIndex,
 		if (bRet != 0)
 		{
 			bKnowSize = TRUE;
-			cbFileSize = (DWORD)_ttol(databuf);
+			cbFileSize = (DWORD)atol(databuf);
 		}
 
 		DWORD dwFinishLen = 0;

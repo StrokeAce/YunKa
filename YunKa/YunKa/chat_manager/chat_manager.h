@@ -225,6 +225,9 @@ private:
 
 	int SendPackTo(CPackInfo *pPackInfo, unsigned long recvuid = 0, unsigned long recvsock = 0, HWND hWnd = NULL);
 
+public:
+	CUserObject* GetMySelfUserInfo();
+
 	CUserObject *AddUserObject(unsigned long id, char *sid, char *name, unsigned char status, unsigned long fd);
 
 	CUserObject *GetUserObjectByUid(unsigned long id);
@@ -288,6 +291,8 @@ private:
 
 	void LoginSuccess();
 
+	CWebUserObject *GetWebUserObjectByScriptFlag(char *scriptflag);
+
 public:
 	int						m_nOnLineStatus;		// 用户是否在线
 	int						m_nOnLineStatusEx;
@@ -296,7 +301,7 @@ public:
 	CSysConfigFile*			m_sysConfig;			// 用户设置文件类
 	INIT_CONF				m_initConfig;			// 软件配置文件类
 
-private:
+public:
 	CLogin*					m_login;				// 登录处理类	
 	IHandlerLgoin*			m_handlerLogin;			// 登录消息接收接口
 	IHandlerMsgs*			m_handlerMsgs;			// 通信消息接收接口	
