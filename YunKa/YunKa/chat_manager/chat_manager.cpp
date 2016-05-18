@@ -3397,12 +3397,12 @@ void CChatManager::LoginSuccess()
 
 	if (m_bKeepPwd)
 	{
-		m_sysConfig->AddOneLoginInfo(m_userInfo.UserInfo.uid, m_userInfo.UserInfo.sid,
+		m_sysConfig->AddLatestLoginInfo(m_userInfo.UserInfo.uid, m_userInfo.UserInfo.sid,
 			m_userInfo.UserInfo.pass, m_bAutoLogin, m_bKeepPwd);
 	}
 	else
 	{
-		m_sysConfig->AddOneLoginInfo(m_userInfo.UserInfo.uid, m_userInfo.UserInfo.sid,
+		m_sysConfig->AddLatestLoginInfo(m_userInfo.UserInfo.uid, m_userInfo.UserInfo.sid,
 			"", m_bAutoLogin, m_bKeepPwd);
 	}
 

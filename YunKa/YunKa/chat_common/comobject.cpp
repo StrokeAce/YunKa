@@ -21,34 +21,6 @@ CSysConfigFile::~CSysConfigFile()
 	DeleteAllAlertInfo();
 }
 
-LOGIN_INFO* CSysConfigFile::GetLoginInfo(int type, unsigned long uid, string sid)
-{
-	LOGIN_INFO* loginInfo = NULL;
-
-	if ((type == LOGIN_BYUID && uid != 0) || (type == LOGIN_BYSTRING && !sid.empty()))
-	{
-		ListLoginedInfo::iterator iter;
-		for (iter = m_cLoginInfoList.begin(); iter != m_cLoginInfoList.end(); ++iter)
-		{
-			if (type == LOGIN_BYUID)
-			{
-				if ((*iter)->uid == uid && uid != 0)
-				{
-					loginInfo = (*iter);
-				}
-			}
-			else if (type == LOGIN_BYSTRING)
-			{
-				if ((*iter)->sid == sid)
-				{
-					loginInfo = (*iter);
-				}
-			}
-		}
-	}
-	return loginInfo;
-}
-
 void CSysConfigFile::ResetValue()
 {
 	m_nKeySendType = 0;
@@ -662,21 +634,25 @@ void CSysConfigFile::Read(ifstream& fout, char* chVal)
 	chVal[(int)count] = '\0';
 }
 
-LOGIN_INFO * CSysConfigFile::AddOneLoginInfo(unsigned long uid, string sid, string pass, bool bAutoLogin, bool bKeepPwd)
+LOGIN_INFO * CSysConfigFile::AddLatestLoginInfo(unsigned long uid, string sid, string pass, bool bAutoLogin, bool bKeepPwd)
 {
-	LOGIN_INFO* plg = GetLoginInfo(LOGIN_BYUID, uid, "");
-
-	if (plg == NULL)
+	ListLoginedInfo::iterator iter = m_cLoginInfoList.begin();
+	for (iter; iter != m_cLoginInfoList.end(); iter++)
 	{
-		plg = new LOGIN_INFO;
-		plg->uid = uid;
-		m_cLoginInfoList.push_back(plg);
+		if ((*iter)->uid == uid && uid != 0)
+		{
+			m_cLoginInfoList.erase(iter);
+			break;
+		}
 	}
 
+	LOGIN_INFO* plg = new LOGIN_INFO;
+	plg->uid = uid;
 	strcpy(plg->sid, sid.c_str());
 	strcpy(plg->pass, pass.c_str());
 	plg->bAutoLogin = bAutoLogin;
 	plg->bKeepPwd = bKeepPwd;
+	m_cLoginInfoList.push_back(plg);
 
 	return plg;
 }

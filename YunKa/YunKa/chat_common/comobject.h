@@ -47,10 +47,8 @@ public:
 	string GestringFromUID(unsigned long uid);
 	unsigned long GetUIDFromString(int type, string strID);
 
-	LOGIN_INFO* GetLoginInfo(int type, unsigned long uid, string sid);
-
 	//增加一个新的对象
-	LOGIN_INFO *AddOneLoginInfo(unsigned long uid, string sid, string pass, bool bAutoLogin, bool bKeepPwd);
+	LOGIN_INFO *AddLatestLoginInfo(unsigned long uid, string sid, string pass, bool bAutoLogin, bool bKeepPwd);
 
 	//增加一个登录服务器对象
 	void AddServerAddress(string strServer, bool bMoveToTop = true);
