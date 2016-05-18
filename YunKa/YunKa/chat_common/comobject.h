@@ -16,7 +16,7 @@ typedef map<string, WEBUSER_URL_INFO*> MapWebUserFLag;
 class IBaseReceive
 {
 public:
-	virtual void OnReceive(void* pHead, void* pData) = 0;
+	virtual void OnReceive(void* wParam, void* lParam) = 0;
 };
 
 //≥ı º…Ë÷√

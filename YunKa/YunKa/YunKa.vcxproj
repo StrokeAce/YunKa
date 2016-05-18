@@ -271,10 +271,6 @@
     <ResourceCompile Include="YunKa.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="small.ico" />
-    <Image Include="YunKa.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="json\json_internalarray.inl" />
     <None Include="json\json_internalmap.inl" />
     <None Include="json\json_valueiterator.inl" />

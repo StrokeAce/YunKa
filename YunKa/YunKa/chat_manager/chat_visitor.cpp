@@ -16,11 +16,9 @@ CChatVisitor::~CChatVisitor()
 
 }
 
-void CChatVisitor::OnReceive(void* pHead, void* pData)
+void CChatVisitor::OnReceive(void* wParam, void* lParam)
 {
 	if (m_manager->m_bExit) return;
-
-	TCP_PACK_HEADER TcpPackHead;
 
 	static char visitlogmame[100] = { 0 };
 	if (!visitlogmame[0])
@@ -31,9 +29,9 @@ void CChatVisitor::OnReceive(void* pHead, void* pData)
 
 	time(&m_tResentVisitPackTime);
 
-	TcpPackHead = *((TCP_PACK_HEADER *)pHead);
-	assert(TcpPackHead.len <= PACKMAXLEN);
-	char *pBuff = (char *)pData;
+	int len = *(int*)wParam;
+	assert(len <= PACKMAXLEN);
+	char *pBuff = (char *)lParam;
 
 	g_VisitLog.WriteLog(C_LOG_TRACE, "recv:%s", pBuff);
 

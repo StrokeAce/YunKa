@@ -277,6 +277,34 @@ unsigned short SendOnePack(SOCKET socket, char *data, int len, int &nError, unsi
 	return SendOnePack(socket, data, tcppackhead, nError);
 }
 
+int SendAllBuff(SOCKET socket, const char *sbuff, int len, int &nError)
+{
+	nError = 0;
+
+	int ret, idx;
+	int nLeft, nSend;
+
+	nLeft = len;
+	idx = 0;
+	nSend = 0;
+	while (nLeft > 0)
+	{
+		ret = send(socket, (sbuff + idx), nLeft, 0);
+		if (ret == SOCKET_ERROR)
+		{
+			nError = GetLastError();
+			closesocket(socket);
+		goto RETURN;
+		}
+		idx += ret;
+		nSend += ret;
+		nLeft -= ret;
+	}
+
+RETURN:
+	return nSend;
+}
+
 void ConvertMsg(char *msg, int buflen)
 {
 	wstring s = convertstring((const char *)msg);

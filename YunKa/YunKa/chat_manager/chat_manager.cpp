@@ -143,7 +143,7 @@ void CChatManager::SolveUserdefineFilter(FILTER_USERDEFINE &filter, char *sfilte
 	return;
 }
 
-void CChatManager::OnReceive(void* pHead, void* pData)
+void CChatManager::OnReceive(void* wParam, void* lParam)
 {
 	if (m_bExit) return;
 
@@ -154,10 +154,10 @@ void CChatManager::OnReceive(void* pHead, void* pData)
 	int nTcpPackHeadLen = sizeof(TCP_PACK_HEADER);
 	int nErrType = 0;
 
-	TcpPackHead = *((TCP_PACK_HEADER *)pHead);
+	TcpPackHead = *((TCP_PACK_HEADER *)wParam);
 	assert(TcpPackHead.len <= PACKMAXLEN);
 
-	char *RecvBuf = (char*)pData;
+	char *RecvBuf = (char*)lParam;
 
 	COM_HEAD_PACK Head;
 	Head.head = *((PACK_HEADER*)RecvBuf);
@@ -729,6 +729,7 @@ int CChatManager::RecvSrvStatusFrdOnline(PACK_HEADER packhead, char *pRecvBuff, 
 			pUser->status = STATUS_ONLINE;
 			strcpy(pUser->UserInfo.nickname, RecvInfo.nickname);
 			pUser->m_nFlag = 1;
+			pUser->DownLoadFace(m_initConfig.webpage_DownloadHeadImage);
 		}
 		else
 		{
@@ -1541,7 +1542,7 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 		{
 			// 根据uin和昵称先初始化坐席简单信息
 			pAssistUser = AddUserObject(packhead.uin, "", RecvInfo.nickname, STATUS_ONLINE, -1);
-
+			pAssistUser->DownLoadFace(m_initConfig.webpage_DownloadHeadImage);
 			// 然后更新该坐席的最新信息
 			//GetUserInfoFromSrv(packhead.uin);
 		}

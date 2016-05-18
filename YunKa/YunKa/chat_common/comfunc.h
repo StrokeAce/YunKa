@@ -34,6 +34,8 @@ unsigned short SendOnePack(SOCKET socket, char *data, int len, int &nError, unsi
 	unsigned long senduid, unsigned long recvuid, unsigned long sendsock, unsigned long recvsock,
 	unsigned short seq);
 
+int SendAllBuff(SOCKET socket, const char *sbuff, int len, int &nError);
+
 void ConvertMsg(char *msg, int buflen);
 
 void ConvertWidecharToChar(const WCHAR *pFrom, int len, char *pTo, int buflen, bool butf8);

@@ -135,7 +135,7 @@ private:
 
 	/***************     继承接口的函数实现    *****************/
 
-	virtual void OnReceive(void* pHead, void* pData);
+	virtual void OnReceive(void* wParam, void* lParam);
 
 
 	/***************     配置文件操作函数     *****************/

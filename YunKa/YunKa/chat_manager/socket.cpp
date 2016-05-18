@@ -1,8 +1,9 @@
 #include "socket.h"
 #include "../chat_common/commsg.h"
 #include "../chat_common/comcom.h"
-#include "encrypt.h"
 #include "../chat_common/comfunc.h"
+#include "chat_manager.h"
+#include "encrypt.h"
 #include <process.h>
 #include <mutex>
 
@@ -80,7 +81,7 @@ void CMySocket::RecvThread(void *param)
 
 		if (pthis->m_hSocket != INVALID_SOCKET)
 		{
-			//::SendMessage(pthis->m_hWnd, pthis->m_MsgRecvFailID, 0, SYS_ERROR_RECVFAIL);
+			g_WriteLog.WriteLog(C_LOG_ERROR, "socket失效，掉线");
 			pthis->Close();
 			pthis->OnClose();
 		}
@@ -99,8 +100,8 @@ bool  CMySocket::TestContinue()
 
 	//发送ping包接续连接试试
 	COM_SEND_PING SendInfo(VERSION);
-	//SendInfo.o.online_flag = pApp->m_UserInfo.UserInfo.onlineflag;
-	//int nError = pApp->SendPackTo(&SendInfo, 0, 0);
+	SendInfo.o.online_flag = ((CChatManager*)m_receiveObj)->m_userInfo.UserInfo.onlineflag;
+	((CChatManager*)m_receiveObj)->SendPackTo(&SendInfo, 0, 0);
 
 	fd_set fd;;
 	FD_ZERO(&fd);
@@ -256,7 +257,7 @@ bool CMySocket::OnRecvWebPack()
 				}
 			}
 		}
-		//::SendMessage(m_hWnd, m_MsgRecvSuccID, posend, LPARAM(spack.c_str()));
+		m_receiveObj->OnReceive((void*)&posend, (void*)(spack.c_str()));
 	}
 	return m_sRecvBuf.size() < MAXSOCKPACKSIZE;
 }
@@ -380,7 +381,7 @@ bool CMySocket::SendBuff(char *sbuff, int len, int &nError)
 
 	if (m_bIM || !m_bZlib) 
 	{
-		//return len == SendAllBuff(m_hSocket, sbuff, len, nError);
+		return len == SendAllBuff(m_hSocket, sbuff, len, nError);
 	}
 	else 
 	{
@@ -391,7 +392,7 @@ bool CMySocket::SendBuff(char *sbuff, int len, int &nError)
 			return false;
 		}
 
-		//return szZout.size() == SendAllBuff(m_hSocket, szZout.c_str(), szZout.size(), nError);
+		return szZout.size() == SendAllBuff(m_hSocket, szZout.c_str(), szZout.size(), nError);
 	}
 	return true;
 }

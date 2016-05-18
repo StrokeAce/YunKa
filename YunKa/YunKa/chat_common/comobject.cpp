@@ -765,6 +765,7 @@ static UINT WINAPI DownLoadFaceThread(void * para)
 				// 将图片换成png格式
 				TransImageFormat(convertstring(strStorePath).c_str(), convertstring(strPNG).c_str());
 				DeleteFileA(strStorePath);
+				((CUserObject*)para)->m_loadHeadUrl = strPNG;
 			}
 			return true;
 		}
@@ -777,7 +778,7 @@ void CUserObject::DownLoadFace(char* loadUrl)
 {
 	m_loadHeadUrl = loadUrl;
 	char filePath[MAX_PATH];
-	sprintf(filePath, "%s\\%lu.png", FullPath("Images\\headimages").c_str(), UserInfo.uid);
+	sprintf(filePath, "%s\\%lu.png", FullPath("res\\headimage").c_str(), UserInfo.uid);
 	if (_access(filePath, 0) == 0)
 		return;
 	HANDLE hDownLoadThread = (HANDLE)_beginthreadex(NULL, 0, DownLoadFaceThread, this, CREATE_SUSPENDED, NULL);
