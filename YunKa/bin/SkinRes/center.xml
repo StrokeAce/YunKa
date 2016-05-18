@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <center>
-<HorizontalLayout height="4"  bkcolor="#FFD3E5F6">
+<HorizontalLayout name="HorizontalLayoutUI_CenterTop" height="2"  bkcolor="#FFD3E5F6">
 
 </HorizontalLayout>
 
-<HorizontalLayout height="400" bkcolor="#FFF8F8F8" inset="2,2,2,2">
+<HorizontalLayout name="HorizontalLayoutUI_ShowMsg" height="420" bkcolor="#FFF8F8F8" inset="2,1,1,2">
 
 </HorizontalLayout>
 
@@ -12,7 +12,7 @@
 
 <!--  中间按钮显示栏 -->
 <!--  HorizontalLayout height="25" bkcolor="#FFFCFCFC" -->
-<HorizontalLayout height="27" inset="2,3,2,4" bkimage="file='mainframe\\MidToolBarBg.png'">
+<HorizontalLayout  name="HorizontalLayoutUI_MiddleButtonBar"   height="27" inset="2,3,2,4" bkimage="file='mainframe\\MidToolBarBg.png'">
 
 <Option name="btnFont" width="24" height="20" maxheight="20" maxwidth="24" bkimage="file='mainframe\\icon_font.png' dest='2,0,22,20'" hotimage="file='mainframe\\aio_toolbar_highligh.png' corner='3,3,3,3'" selectedimage="file='mainframe\\aio_toolbar_down.png' corner='3,3,3,3'"  />
 					<Control width="5"/>
@@ -23,7 +23,7 @@
 
 </HorizontalLayout>
 
-<HorizontalLayout  bkcolor="#FFFEFDFC"  inset="5,0,0,0" >
+<HorizontalLayout  name="HorizontalLayoutUI_InputRichEdit"  bkcolor="#FFFEFDFC"  inset="5,0,0,0" >
 
 <!--RichEdit2 name="send_rich_edit" multiline="true" vscrollbar="true" autovscroll="true" rich="true" readonly="false" menu="true" inset="5,0,0,0"/-->
 
@@ -33,7 +33,7 @@
 </HorizontalLayout>
 
 <!-- HorizontalLayout height="20"  bkcolor="#FFDEEEF6" /-->
-<HorizontalLayout height="36"  bkcolor="#FFFEFDFC">
+<HorizontalLayout height="36"  name="HorizontalLayoutUI_SendMsgButton"   bkcolor="#FFFEFDFC">
 
 <Button name="sendMsgBtn" text="发送" float="true" font="3" pos="280, 2,360, 34" tooltip="" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
 

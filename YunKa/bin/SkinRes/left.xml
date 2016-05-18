@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <left>
 
-<HorizontalLayout width="300" minwidth="200" maxwidth="520" inset="0,0,3,0" sepwidth="6" sepimm="true" bkcolor="#FF60B1FE">
+<!--HorizontalLayout width="300" minwidth="200" maxwidth="520" inset="1,0,3,0" sepwidth="6" sepimm="true" bkcolor="#FF60B1FE"-->
 
- <UserList name="userlist" bkcolor="#FFF6F9FF" inset="1,1,1,1" bordercolor="#FF1B4876" bordersize="1" header="hidden" itemhotimage="file='tree_hot.bmp' corner='2,1,2,1' " itemselectedimage="file='tree_select.bmp' corner='2,1,2,1'" itemlinecolor="#FFE4EAF2" itemshowhtml="true" vscrollbar="true" hscrollbar="true" vscrollbarstyle="width=&quot;6&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot;">
-   </UserList>
+<HorizontalLayout width="300" inset="1,1,2,1"  bkcolor="#FF60B1FE">
+
+ <UserList name="userlist" bkcolor="#FFF6F9FF" inset="1,0,1,0" bordercolor="#FF1B4876" bordersize="1" header="hidden" itemhotimage="file='tree_hot.bmp' corner='2,1,2,1' " itemselectedimage="file='tree_select.bmp' corner='2,1,2,1'" itemlinecolor="#FFE4EAF2" itemshowhtml="true" vscrollbar="true"  autovscroll="true" >
+</UserList>
 
 </HorizontalLayout>
 
-
-
+  
+<!-- hscrollbar="true"  vscrollbarstyle="width=&quot;15&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot;" -->
 
 </left>
