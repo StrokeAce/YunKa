@@ -153,7 +153,8 @@ public:
 	BOOL _RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex);
 
 	void SendMsgToGetList();
-	void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user);
+	void CMainFrame::AddOnlineVisitor(UserListUI * ptr, CUserObject *user);
+	void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user, int type);
 
 protected:
 
@@ -191,6 +192,7 @@ private:
 	HWND m_hMainWnd;
 
 	UserListUI* pUserList;
+	CUserObject* m_mySelfInfo;
 
 
 };

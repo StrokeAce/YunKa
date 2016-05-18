@@ -231,6 +231,7 @@ void CMainFrame::Notify(TNotifyUI& msg)
 	}
 	else if (_tcsicmp(msg.sType, _T("selectchanged")) == 0)
 	{
+
 	}
 
 
@@ -283,6 +284,14 @@ void CMainFrame::Notify(TNotifyUI& msg)
 
 void CMainFrame::OnTimer(TNotifyUI& msg)
 {
+
+	if (msg.pSender == pUserList)
+	{
+		
+		AddOnlineVisitor(pUserList, NULL);
+		m_PaintManager.KillTimer(pUserList);
+	}
+
 }
 
 void CMainFrame::OnCloseBtn(TNotifyUI& msg)
@@ -372,7 +381,6 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 	m_pListMsgHandler.isCreated = false;
 
 
-	m_hMainWnd = m_PaintManager.GetPaintWindow();
 
 
 	//中间栏按钮
@@ -394,17 +402,13 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 	//左侧用户列表显示
     pUserList = static_cast<UserListUI*>(m_PaintManager.FindControl(_T("userlist")));
-
-	UserListUI::Node* pTalkListLable = NULL;
+	//UserListUI::Node* pTalkListLable = NULL;
 	UserListUI::Node* pWaitForStart = NULL; //(_T("{x 4}{i gameicons.png 18 3}{x 4}对话列表"))
 	UserListUI::Node* pWaitForAccept = NULL;
-	pTalkListLable = pUserList->AddNode(_T("{x 4}{x 4}对话列表"));
-
+	//pTalkListLable = pUserList->AddNode(_T("{x 4}{x 4}对话列表"));
 
 	pWaitForStart = pUserList->AddNode(_T("{x 4}{i gameicons.png 18 0}{x 4}等待开始"));
 	pWaitForAccept = pUserList->AddNode(_T("{x 4}{i gameicons.png 18 16}{x 4}等待应答"),pWaitForStart);
-
-
 
 
 #if 0	
@@ -488,7 +492,7 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 	pdt->Release();
 
 
-
+	//请求坐席列表
 	SendMsgToGetList();
 
 }
@@ -524,8 +528,6 @@ void CMainFrame::OnClick(TNotifyUI& msg)
 	else  if (msg.pSender->GetName() == DEF_MAX_WND_BUTTON)
 	{
 		OnMaxBtn(msg);
-
-
 	}
 
 	else  if (msg.pSender->GetName() == L"acceptbutton")
@@ -719,15 +721,60 @@ void CMainFrame::SendMsgToGetList()
 {
 
 	m_manager->SetHandlerMsgs(this);
+
+	//先请求自己的信息 
+	m_mySelfInfo = m_manager->GetMySelfUserInfo();
+
+
+	AddUserList(pUserList, m_mySelfInfo, 1);
+
+
+
+	//获取坐席列表
 	m_manager->SendTo_GetShareList();
+
+
+	m_hMainWnd = m_PaintManager.GetPaintWindow();
+
+
+	m_PaintManager.SetTimer(pUserList, WM_ADD_ONLINE_DATA_TIMER_ID, DELAY_ADD_ONLINE_DATA_TIME);
 
 }
 
 
-
-void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
+void CMainFrame::AddOnlineVisitor(UserListUI * ptr, CUserObject *user)
 {
-	CDuiString nameString,taklString,changeString,acceptString;
+	CDuiString nameString, taklString, changeString, acceptString, inTalkString;
+	CDuiString onlineString;
+	CDuiString strTemp;
+
+	UserListUI::Node* pOnlineNode = NULL;
+	UserListUI::Node* pAutoAccept = NULL;
+	UserListUI::Node* pVisiting = NULL;
+	UserListUI::Node* pOver = NULL;
+
+
+
+	nameString.Format(_T("{x 4}{i gameicons.png 18 0}{x 4} 在线访客"));
+	//第一个主节点 显示 名称 在线访客
+	pOnlineNode = ptr->AddNode(nameString);
+
+	nameString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}自动邀请"));
+	pAutoAccept = pUserList->AddNode(nameString, pOnlineNode);
+
+	nameString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}访问中"));
+	pVisiting = pUserList->AddNode(nameString, pOnlineNode);
+
+
+	nameString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}已结束"));
+	pOver = pUserList->AddNode(nameString, pOnlineNode);
+
+}
+
+
+void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user,int type)
+{
+	CDuiString nameString,taklString,changeString,acceptString,inTalkString;
 	CDuiString onlineString;
 	CDuiString strTemp;
 
@@ -735,6 +782,7 @@ void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
 	UserListUI::Node* pUserTalkNode = NULL;
 	UserListUI::Node* pUserChangeNode = NULL;
 	UserListUI::Node* pUserAcceptNode = NULL;
+	UserListUI::Node* pUserInTalkNode = NULL;
 
 	if (user->status == 1) //离线
 	{
@@ -762,10 +810,22 @@ void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
 
 
 	acceptString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}邀请中"));
-	pUserTalkNode = pUserList->AddNode(acceptString, pUserNameNode);
+	pUserAcceptNode = pUserList->AddNode(acceptString, pUserNameNode);
 
+	//type == 0 是其他坐席 1是自己信息
+	if (type == 1)
+	{	
+		inTalkString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}内部对话"));
+		pUserInTalkNode = pUserList->AddNode(inTalkString, pUserNameNode);
 
-	pUserList->ExpandNode(pUserNameNode, false);
+		pUserList->ExpandNode(pUserNameNode, true);
+	}
+
+	else
+	{
+		pUserList->ExpandNode(pUserNameNode, false);
+	}
+
 
 }
 
@@ -775,9 +835,10 @@ void CMainFrame::RecvOneUserInfo(CUserObject* pWebUser)
 {
 
 
-	AddUserList(pUserList,pWebUser);
+	AddUserList(pUserList,pWebUser,0);
 
 }
+
 
 
 

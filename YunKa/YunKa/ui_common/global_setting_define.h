@@ -8,8 +8,23 @@
 #define   WND_Y                          700
 
 
-//全局字符串定义 
 
+
+
+
+/************************************************ 定时器定义  *****************************************************************************************************************************************************/
+//延时加载在线访客的定时器
+#define     WM_ADD_ONLINE_DATA_TIMER_ID                                  1
+#define     DELAY_ADD_ONLINE_DATA_TIME                                   2000
+
+
+
+
+
+
+
+//全局字符串定义 
+//小图标
 #define    DEFINE_SMALL_ICON_PATH                                               _T("E:\\Moliyun\\bin\\SkinRes\\small.ico")
 
 
@@ -20,6 +35,11 @@
 #define WM_INIT_ROOM_USER_LIST_MSG                                                WM_USER+100
 #define WM_GET_MYSELF_INFO_MSG                                                    WM_USER+101
 #define WM_UPDATE_SELECT_USER_MSG                                                 WM_USER+102
+
+
+
+
+
 
 /*login define****************************************************************************************************************************************************************/
 #define  DEBUG_USERNAME_TEXT                                                         _T("9692110")         
