@@ -50,7 +50,7 @@ public:
 	LOGIN_INFO* GetLoginInfo(int type, unsigned long uid, string sid);
 
 	//增加一个新的对象
-	LOGIN_INFO *AddOneLoginInfo(unsigned long uid, string sid, string pass, string compid);
+	LOGIN_INFO *AddOneLoginInfo(unsigned long uid, string sid, string pass, bool bAutoLogin, bool bKeepPwd);
 
 	//增加一个登录服务器对象
 	void AddServerAddress(string strServer, bool bMoveToTop = true);
@@ -77,8 +77,6 @@ public:
 	void Read(ifstream& fout, byte& byVal);
 	void Read(ifstream& fout, char* chVal);
 
-	bool				m_bSavePass;				// 是否保存密码
-	bool				m_bAutoLogin;				// 是否自动登陆 
 	int					m_nKeySendType;				// 发送类型，enter或ctrl+enter
 	int					m_nX;						// 客户端起始x坐标
 	int					m_nY;						// 客户端起始y坐标

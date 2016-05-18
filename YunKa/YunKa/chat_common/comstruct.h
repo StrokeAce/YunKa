@@ -101,7 +101,8 @@ struct LOGIN_INFO
 	unsigned int uid;	
 	char sid[MAX_SID_LEN+1];			//60
 	char pass[MAX_PASSWORD_LEN+1];		//20
-	char compid[MAX_STATUS_LEN+1];
+	bool bAutoLogin;
+	bool bKeepPwd;
 };
 
 //提醒方式结构

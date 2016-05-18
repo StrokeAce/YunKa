@@ -297,7 +297,7 @@ void GetRequestInfoFromUrl(const string& strUrl,
 		{
 			strHostInfo = strUrl.substr(pos + httplen, pos1 - pos - httplen);
 			GetHostInfo(strHostInfo, strHost, nPort);
-			strRequest = strUrl.substr(strUrl.length() - pos1);
+			strRequest = strUrl.substr(pos1, strUrl.length() - pos1);
 		}
 	}
 }
@@ -340,11 +340,11 @@ DWORD HttpDownloadFile(int nIndex,
 		HttpAddRequestHeadersA(hRequest, lpszHeader, -1L, HTTP_ADDREQ_FLAG_ADD);
 	}
 
-	BOOL bRet = HttpSendRequest(hRequest, NULL, 0, NULL, 0);
+	BOOL bRet = HttpSendRequestA(hRequest, NULL, 0, NULL, 0);
 
 	char databuf[HTTP_RECV_DATA_BUF + 1] = { 0 };
 	DWORD dwSize = HTTP_RECV_DATA_BUF;
-	bRet = HttpQueryInfo(hRequest, HTTP_QUERY_STATUS_CODE, databuf, &dwSize, NULL);
+	bRet = HttpQueryInfoA(hRequest, HTTP_QUERY_STATUS_CODE, databuf, &dwSize, NULL);
 
 	if (strcmp(databuf, "200") == 0)
 	{
@@ -364,7 +364,7 @@ DWORD HttpDownloadFile(int nIndex,
 		}
 
 		dwSize = HTTP_RECV_DATA_BUF;
-		bRet = HttpQueryInfo(hRequest, HTTP_QUERY_CONTENT_LENGTH, databuf, &dwSize, NULL);
+		bRet = HttpQueryInfoA(hRequest, HTTP_QUERY_CONTENT_LENGTH, databuf, &dwSize, NULL);
 
 		BOOL bKnowSize = FALSE;
 

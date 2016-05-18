@@ -1,10 +1,14 @@
 #include "comobject.h"
+#include "comfunc.h"
+#include "http_unit.h"
+#include "tstring.h"
 #include  <io.h>
 #include <fstream>
 #include <process.h>
-#include "comfunc.h"
-#include "http_unit.h"
+#include <gdiplus.h>  
+using namespace Gdiplus;
 
+#pragma comment(lib,"gdiplus")  
 
 CSysConfigFile::CSysConfigFile()
 {
@@ -47,8 +51,6 @@ LOGIN_INFO* CSysConfigFile::GetLoginInfo(int type, unsigned long uid, string sid
 
 void CSysConfigFile::ResetValue()
 {
-	m_bSavePass = false;
-	m_bAutoLogin = false;
 	m_nKeySendType = 0;
 	
 	SetWndInitPos(true);
@@ -120,8 +122,6 @@ bool CSysConfigFile::ReadFile(ifstream& fout)
 {
 	byte count = 0;
 
-	Read(fout, m_bSavePass);
-	Read(fout, m_bAutoLogin);
 	Read(fout, m_nKeySendType);
 	Read(fout, m_nX);
 	Read(fout, m_nY);
@@ -149,7 +149,8 @@ bool CSysConfigFile::ReadFile(ifstream& fout)
 		Read(fout, plg->uid);
 		Read(fout, plg->sid);
 		Read(fout, plg->pass);
-		Read(fout, plg->compid);
+		Read(fout, plg->bAutoLogin);
+		Read(fout, plg->bKeepPwd);
 		m_cLoginInfoList.push_back(plg);
 	}
 	
@@ -234,8 +235,6 @@ bool CSysConfigFile::ReadFile(ifstream& fout)
 bool CSysConfigFile::WriteFile(ofstream& fin)
 {
 	byte count = 0;
-	Write(fin, m_bSavePass);
-	Write(fin, m_bAutoLogin);
 	Write(fin, m_nKeySendType);
 	Write(fin, m_nX);
 	Write(fin, m_nY);
@@ -262,7 +261,8 @@ bool CSysConfigFile::WriteFile(ofstream& fin)
 		Write(fin, (*iter_login)->uid);
 		Write(fin, (*iter_login)->sid);
 		Write(fin, (*iter_login)->pass);
-		Write(fin, (*iter_login)->compid);
+		Write(fin, (*iter_login)->bAutoLogin);
+		Write(fin, (*iter_login)->bKeepPwd);
 	}
 
 	// 提示音信息
@@ -423,7 +423,7 @@ ALERT_INFO *CSysConfigFile::SetAllDefaultAlertInfo(int type)
 	int pos;
 	if ((pos = strPath.rfind("\\")) != string::npos)
 		strPath = strPath.substr(0, pos);
-	strPath += "\\sound";
+	strPath += "\\res\\sound";
 
 	ALERT_INFO *pInfo, *pRtn;
 
@@ -662,7 +662,7 @@ void CSysConfigFile::Read(ifstream& fout, char* chVal)
 	chVal[(int)count] = '\0';
 }
 
-LOGIN_INFO * CSysConfigFile::AddOneLoginInfo(unsigned long uid, string sid, string pass, string compid)
+LOGIN_INFO * CSysConfigFile::AddOneLoginInfo(unsigned long uid, string sid, string pass, bool bAutoLogin, bool bKeepPwd)
 {
 	LOGIN_INFO* plg = GetLoginInfo(LOGIN_BYUID, uid, "");
 
@@ -670,11 +670,13 @@ LOGIN_INFO * CSysConfigFile::AddOneLoginInfo(unsigned long uid, string sid, stri
 	{
 		plg = new LOGIN_INFO;
 		plg->uid = uid;
+		m_cLoginInfoList.push_back(plg);
 	}
 
 	strcpy(plg->sid, sid.c_str());
 	strcpy(plg->pass, pass.c_str());
-	strcpy(plg->compid, compid.c_str());
+	plg->bAutoLogin = bAutoLogin;
+	plg->bKeepPwd = bKeepPwd;
 
 	return plg;
 }
@@ -699,6 +701,68 @@ bool CUserObject::Save(unsigned short ver)
 	return false;
 }
 
+int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
+{
+	UINT  num = 0;          // number of image encoders  
+	UINT  size = 0;         // size of the image encoder array in bytes  
+
+	ImageCodecInfo* pImageCodecInfo = NULL;
+
+	//2.获取GDI+支持的图像格式编码器种类数以及ImageCodecInfo数组的存放大小  
+	GetImageEncodersSize(&num, &size);
+	if (size == 0)
+		return -1;  // Failure  
+
+	//3.为ImageCodecInfo数组分配足额空间  
+	pImageCodecInfo = (ImageCodecInfo*)(malloc(size));
+	if (pImageCodecInfo == NULL)
+		return -1;  // Failure  
+
+	//4.获取所有的图像编码器信息  
+	GetImageEncoders(num, size, pImageCodecInfo);
+
+	//5.查找符合的图像编码器的Clsid  
+	for (UINT j = 0; j < num; ++j)
+	{
+		if (wcscmp(pImageCodecInfo[j].MimeType, format) == 0)
+		{
+			*pClsid = pImageCodecInfo[j].Clsid;
+			free(pImageCodecInfo);
+			return j;  // Success  
+		}
+	}
+
+	//6.释放步骤3分配的内存  
+	free(pImageCodecInfo);
+	return -1;
+}
+
+void TransImageFormat(const WCHAR* srcName, const WCHAR* destName)
+{
+	GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
+
+	//1.初始化GDI+，以便后续的GDI+函数可以成功调用  
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+
+	CLSID   encoderClsid;
+	Status  stat;
+
+	//7.创建Image对象并加载图片  
+	Image* image = new Image(srcName);
+
+	// Get the CLSID of the PNG encoder.  
+	GetEncoderClsid(_T("image/png"), &encoderClsid);
+
+	//8.调用Image.Save方法进行图片格式转换，并把步骤3)得到的图像编码器Clsid传递给它  
+	stat = image->Save(destName, &encoderClsid, NULL);
+
+	//9.释放Image对象  
+	delete image;
+	//10.清理所有GDI+资源  
+	GdiplusShutdown(gdiplusToken);
+}
+
 // 头像下载线程
 static UINT WINAPI DownLoadFaceThread(void * para)
 {
@@ -707,7 +771,7 @@ static UINT WINAPI DownLoadFaceThread(void * para)
 	char strPNG[MAX_256_LEN];
 	string strFaceLinkPath = ((CUserObject*)para)->m_loadHeadUrl;
 	string strPath;
-	strPath = FullPath("Images\\headimages");
+	strPath = FullPath("res\\headimage");
 	sprintf(strPNG, "%s\\%lu.png", strPath.c_str(), ((CUserObject*)para)->UserInfo.uid);
 
 	static char* szExt[] = { "jpg", "gif", "png", "jpeg", NULL };
@@ -715,7 +779,7 @@ static UINT WINAPI DownLoadFaceThread(void * para)
 
 	for (int i = 0; szExt[i] != NULL; i++)
 	{
-		sprintf(strFaceLink, "%s/logo_%lu.%s", strFaceLinkPath.c_str(), ((CUserObject*)para)->UserInfo.uid, szExt[i]);
+		sprintf(strFaceLink, "%slogo_%lu.%s", strFaceLinkPath.c_str(), ((CUserObject*)para)->UserInfo.uid, szExt[i]);
 		sprintf(strStorePath, "%s\\%lu.%s", strPath.c_str(), ((CUserObject*)para)->UserInfo.uid, szExt[i]);
 		dwRetVal = HttpDownloadFile(((CUserObject*)para)->UserInfo.uid, strFaceLink, strStorePath);
 		if (dwRetVal == 0)
@@ -723,10 +787,8 @@ static UINT WINAPI DownLoadFaceThread(void * para)
 			if (i != 2)
 			{
 				// 将图片换成png格式
-				//CImage imgHead;
-				//imgHead.Load(strStorePath);
-				//imgHead.Save(strPNG, Gdiplus::ImageFormatPNG);
-				//DeleteFile(strStorePath);
+				TransImageFormat(convertstring(strStorePath).c_str(), convertstring(strPNG).c_str());
+				DeleteFileA(strStorePath);
 			}
 			return true;
 		}

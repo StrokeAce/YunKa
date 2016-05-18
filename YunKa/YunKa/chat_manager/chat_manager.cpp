@@ -44,6 +44,7 @@ CChatManager::CChatManager()
 
 CChatManager::~CChatManager()
 {
+	Exit();
 }
 
 void CChatManager::ScreenCapture()
@@ -3394,15 +3395,15 @@ void CChatManager::LoginSuccess()
 	m_nOnLineStatus = STATUS_ONLINE;	
 	m_timers->SetTimer(1000, TIMER_NAME_NORMAL);
 
-	if (m_sysConfig->m_bSavePass)
+	if (m_bKeepPwd)
 	{
 		m_sysConfig->AddOneLoginInfo(m_userInfo.UserInfo.uid, m_userInfo.UserInfo.sid,
-			m_userInfo.UserInfo.pass, DWORDToString(m_userInfo.UserInfo.compid));
+			m_userInfo.UserInfo.pass, m_bAutoLogin, m_bKeepPwd);
 	}
 	else
 	{
 		m_sysConfig->AddOneLoginInfo(m_userInfo.UserInfo.uid, m_userInfo.UserInfo.sid,
-			"", DWORDToString(m_userInfo.UserInfo.compid));
+			"", m_bAutoLogin, m_bKeepPwd);
 	}
 
 	m_sysConfig->m_nLastLoginBy = m_login->m_nLoginBy;
