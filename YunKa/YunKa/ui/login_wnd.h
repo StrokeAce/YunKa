@@ -43,6 +43,7 @@ public:
 	virtual void LoginProgress(int percent);
 
 	void StartLogin(string loginName, string password, bool isAutoLogin, bool isKeepPwd);
+	void CLoginWnd::OnItemSelected(TNotifyUI& msg);
 
 public:
 	CChatManager* m_manager;
@@ -65,6 +66,8 @@ private:
 	
 	CComboUI *pAccountCombo;
 	CCheckBoxUI *m_pSaveWordCheckBox, *m_pAuotoLoginCheckBox;
+
+	ListLoginedInfo m_loginListInfo;
 
 
 };

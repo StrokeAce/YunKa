@@ -32,6 +32,10 @@ CLoginWnd::~CLoginWnd()
 void CLoginWnd::OnPrepare(TNotifyUI& msg)
 {
 	CDuiString accountName;
+	WCHAR passWord[32] = {0};
+	BOOL autoLoginCheck, remPwd;
+
+	m_loginListInfo = m_manager->GetPreLoginInfo();
 	//µÇÂ¼È¡Ïû°´Å¥ 
 	m_pLoginBtn = static_cast<CButtonUI*>(m_pm.FindControl(DEF_LOGIN_WND_BUTTON));
 	m_pCancelBtn = static_cast<CButtonUI*>(m_pm.FindControl(DEF_CANCEL_WND_BUTTON));
@@ -41,41 +45,40 @@ void CLoginWnd::OnPrepare(TNotifyUI& msg)
 	pAccountCombo = static_cast<CComboUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_COMBO));
 	pAccountEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_ACCOUNT_ID_EDIT));
 
+	m_pPasswordEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_PASSWORD_TEXT_EDIT));
+
 	m_pSaveWordCheckBox = static_cast<CCheckBoxUI*>(m_pm.FindControl(_T("savePwdCheck")));
 	m_pAuotoLoginCheckBox = static_cast<CCheckBoxUI*>(m_pm.FindControl(_T("autoLoginCheck")));
-	if (m_pSaveWordCheckBox != NULL)
-		m_pSaveWordCheckBox->SetCheck(false);
-	if (m_pAuotoLoginCheckBox != NULL)
-		m_pAuotoLoginCheckBox->SetCheck(true);
 
+	if (m_loginListInfo.size() > 0)
+	{
+		ListLoginedInfo::iterator iter = m_loginListInfo.begin();
+		for (iter; iter != m_loginListInfo.end(); iter++)
+		{
+			accountName.Format(_T("%d"), (*iter)->uid);
+			ANSIToUnicode((*iter)->pass, passWord);
 
+			autoLoginCheck = (*iter)->bAutoLogin;
+			remPwd = (*iter)->bKeepPwd;
+			CListLabelElementUI* pElementUsername = new CListLabelElementUI;
+			pElementUsername->SetText(accountName);
+			pAccountCombo->Add(pElementUsername);
 
-	CListLabelElementUI* pElementUsername = new CListLabelElementUI;
-	pElementUsername->SetText(DEBUG_USERNAME_TEXT);
-	pAccountCombo->Add(pElementUsername);
-	//test	
-	CListLabelElementUI* pElementTest = new CListLabelElementUI;
-	accountName = _T("1111111");
-	pElementTest->SetText(accountName);
-	pAccountCombo->Add(pElementTest);
+		}
+		pAccountCombo->SelectItem(m_loginListInfo.size()-1);
+		if (m_pPasswordEdit)
+			m_pPasswordEdit->SetText(passWord);
+
+		if (m_pSaveWordCheckBox != NULL)
+		{
+			m_pSaveWordCheckBox->SetCheck(remPwd);
+		}
 	
-
-
-	//if (pAccountCombo && pAccountEdit)
-	//	pAccountEdit->SetText(DEBUG_USERNAME_TEXT);
-	pAccountCombo->SelectItem(0);
-
-
-
-
-	m_pPasswordEdit = static_cast<CEditUI*>(m_pm.FindControl(DEF_PASSWORD_TEXT_EDIT));
-	if (m_pPasswordEdit)
-		m_pPasswordEdit->SetText(DEBUG_PASSWORD_TEXT);
-
-
-
-
-
+		if (m_pAuotoLoginCheckBox != NULL)
+		{
+			m_pAuotoLoginCheckBox->SetCheck(autoLoginCheck);
+		}
+	}
 
 }
 
@@ -101,11 +104,7 @@ void CLoginWnd::Notify(TNotifyUI& msg)
 	}
 	if (msg.sType == DUI_MSGTYPE_ITEMSELECT)
 	{
-		if (msg.pSender->GetName() == DEF_ACCOUNT_ID_COMBO)
-		{
-			 pAccountEdit->SetText(msg.pSender->GetText());
-
-		}
+		OnItemSelected(msg);
 	}
 	if (msg.sType == DUI_MSGTYPE_ITEMCLICK)
 	{
@@ -114,13 +113,41 @@ void CLoginWnd::Notify(TNotifyUI& msg)
 
 		}
 	}
+}
 
+void CLoginWnd::OnItemSelected(TNotifyUI& msg)
+{
+	CDuiString getStr;
+	WCHAR getWord[32] = { 0 };
+	BOOL autoLoginCheck, remPwd;
 
+	if (msg.pSender->GetName() == DEF_ACCOUNT_ID_COMBO)
+	{
+		CDuiString getText = msg.pSender->GetText();	
 
-
-
+		ListLoginedInfo::iterator iter = m_loginListInfo.begin();
+		for (iter; iter != m_loginListInfo.end(); iter++)
+		{
+			getStr.Format(_T("%d"), (*iter)->uid);
+	
+			if (getText == getStr)
+			{
+				ANSIToUnicode((*iter)->pass, getWord);
+				autoLoginCheck = (*iter)->bAutoLogin;
+				remPwd = (*iter)->bKeepPwd;
+				pAccountEdit->SetText(getText);
+				m_pPasswordEdit->SetText(getWord);
+				m_pSaveWordCheckBox->SetCheck(remPwd);
+				m_pAuotoLoginCheckBox->SetCheck(autoLoginCheck);
+				break;
+			}
+		}
+	}
 
 }
+
+
+
 
 LRESULT CLoginWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {

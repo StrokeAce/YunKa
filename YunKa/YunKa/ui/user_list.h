@@ -221,10 +221,10 @@ public:
 		for (int i = 0; i < node->data()._level; ++i) {
 			html_text += _T("<x 24>");
 		}
-		if (node->data()._level < 3) {
-			if (node->data()._expand) html_text += _T("<a><i tree_expand.png 2 1></a>");
-			else html_text += _T("<a><i tree_expand.png 2 0></a>");
-		}
+		//if (node->data()._level < 3) {
+		//	if (node->data()._expand) html_text += _T("<a><i tree_expand.png 2 1></a>");
+		//	else html_text += _T("<a><i tree_expand.png 2 0></a>");
+		//}
 		html_text += node->data()._text;
 		pListElement->SetText(html_text);
 		if (node->data()._level == 0)
@@ -278,10 +278,10 @@ public:
 		for (int i = 0; i < node->data()._level; ++i) {
 			html_text += _T("<x 24>");
 		}
-		if (node->data()._level < 3) {
-			if (node->data()._expand) html_text += _T("<a><i tree_expand.png 2 1></a>");
-			else html_text += _T("<a><i tree_expand.png 2 0></a>");
-		}
+		//if (node->data()._level < 3) {
+		//	if (node->data()._expand) html_text += _T("<a><i tree_expand.png 2 1></a>");
+		//	else html_text += _T("<a><i tree_expand.png 2 0></a>");
+		//}
 		html_text += node->data()._text;
 		node->data()._pListElement->SetText(html_text);
 

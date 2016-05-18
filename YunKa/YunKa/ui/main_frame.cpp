@@ -395,9 +395,17 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 	//左侧用户列表显示
     pUserList = static_cast<UserListUI*>(m_PaintManager.FindControl(_T("userlist")));
 
+	UserListUI::Node* pTalkListLable = NULL;
+	UserListUI::Node* pWaitForStart = NULL; //(_T("{x 4}{i gameicons.png 18 3}{x 4}对话列表"))
+	UserListUI::Node* pWaitForAccept = NULL;
+	pTalkListLable = pUserList->AddNode(_T("{x 4}{x 4}对话列表"));
 
-	UserListUI::Node* pCategoryNode = NULL;
-	pCategoryNode = pUserList->AddNode(_T("{x 4}{i gameicons.png 18 3}{x 4}对话列表"));
+
+	pWaitForStart = pUserList->AddNode(_T("{x 4}{i gameicons.png 18 0}{x 4}等待开始"));
+	pWaitForAccept = pUserList->AddNode(_T("{x 4}{i gameicons.png 18 16}{x 4}等待应答"),pWaitForStart);
+
+
+
 
 #if 0	
 	UserListUI::Node* pCategoryNode = NULL;
@@ -739,7 +747,8 @@ void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
 
 	strTemp = AnsiToUnicode(user->UserInfo.nickname);
 
-	nameString.Format(_T("{x 4}{i gameicons.png 18 3}{x 4}%s %s"), strTemp.GetData(), onlineString);
+	//{x 4}{i gameicons.png 18 3}{x 4} {x 4}{i gameicons.png 18 2}{x 4}
+	nameString.Format(_T("{x 4}{i gameicons.png 18 0}{x 4} %s %s"), strTemp.GetData(), onlineString);
 
 	
 	//第一个主节点 显示 名称 在线状态
