@@ -4,7 +4,6 @@
 #pragma once
 
 
-
 inline double CalculateDelay(double state) {
 	return pow(state, 2);
 }
@@ -17,7 +16,9 @@ public:
 	struct NodeData
 	{
 		int _level;
+		unsigned int _uid;
 		bool _expand;
+		CDuiString key_text;
 		CDuiString _text;
 		CListLabelElementUI* _pListElement;
 	};
@@ -253,10 +254,130 @@ public:
 		return node;
 	}
 
+
+	Node* AddNode(LPCTSTR text, int dex ,Node* parent = NULL )
+	{
+		if (!parent) parent = _root;
+
+		CListLabelElementUI* pListElement = new CListLabelElementUI;
+		Node* node = new Node;
+		node->data()._level = parent->data()._level + 1;
+		if (node->data()._level == 0) node->data()._expand = true;
+		else node->data()._expand = false;
+		node->data()._text = text;
+		node->data()._pListElement = pListElement;
+		//设置空间高度
+		//pListElement->SetAttribute(L"height", L"30");
+		if (parent != _root) {
+			if (!(parent->data()._expand && parent->data()._pListElement->IsVisible()))
+				pListElement->SetInternVisible(false);
+		}
+
+		CDuiString html_text;
+		html_text += _T("<x 6>");
+		for (int i = 0; i < node->data()._level; ++i) {
+			html_text += _T("<x 24>");
+		}
+		//if (node->data()._level < 3) {
+		//	if (node->data()._expand) html_text += _T("<a><i tree_expand.png 2 1></a>");
+		//	else html_text += _T("<a><i tree_expand.png 2 0></a>");
+		//}
+		html_text += node->data()._text;
+		pListElement->SetText(html_text);
+		if (node->data()._level == 0)
+			pListElement->SetFixedHeight(24);
+		else if (node->data()._level == 1) pListElement->SetFixedHeight(24);
+		pListElement->SetTag((UINT_PTR)node);
+		if (node->data()._level == 0) {
+			pListElement->SetBkImage(_T("file='tree_top.png' corner='2,1,2,1' fade='100'"));
+		}
+
+		int index = 0;
+		
+		/*
+		if (parent->has_children()) {
+			Node* prev = parent->get_last_child();
+			index = prev->data()._pListElement->GetIndex() + 1;
+		}
+		else {
+			if (parent == _root) index = dex;
+			else index = parent->data()._pListElement->GetIndex() + 1;
+		}
+		*/
+
+		index = dex;
+		if (!CListUI::AddAt(pListElement, index)) {
+			delete pListElement;
+			delete node;
+			node = NULL;
+		}
+		parent->add_child(node);
+		return node;
+	}
+
+
+	int GetNodeIndex( Node* node)
+	{
+		int index = 0;
+		
+		
+		
+		if (!node)
+		{
+			node = _root;
+			Node* prev = node->get_last_child();
+			index = prev->data()._pListElement->GetIndex() + 1;
+
+			return index;
+		}
+		
+		/*
+		if (node->has_children()) {
+			Node* prev = node->get_last_child();
+			index = prev->data()._pListElement->GetIndex() + 1;
+		}
+		else {
+			if (node == _root) index = dex;
+			else index = node->data()._pListElement->GetIndex() + 1;
+		}
+		*/
+		
+		if (node->has_children())
+		{
+			Node* prev = node->get_last_child();
+			index = prev->data()._pListElement->GetIndex() +1;
+		}
+
+		return index;
+	}
+
+
 	bool RemoveNode(Node* node)
 	{
+		vector<Node*> childVertor;
+
+		if (!node || node == _root) 
+			return false;
+
+		int num = node->num_children();
+		for (int i = 0; i < num; i++) {
+			Node* child = node->child(i);
+			childVertor.push_back(child);
+		}
+		for (int i = 0; i < num; i++)
+		{
+			RemoveNode(childVertor[i]);
+		}
+		CListUI::Remove(node->data()._pListElement);
+		node->parent()->remove_child(node);
+		delete node;
+		return true;
+	}
+
+	bool RemoveNode2(Node* node)
+	{
 		if (!node || node == _root) return false;
-		for (int i = 0; i < node->num_children(); ++i) {
+		for (int i = 0; i < node->num_children(); i++) {
 			Node* child = node->child(i);
 			RemoveNode(child);
 		}

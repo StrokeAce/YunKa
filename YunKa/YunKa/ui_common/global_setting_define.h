@@ -19,7 +19,11 @@
 
 
 
-
+//常量字符定义
+#define   ONLINE_TEXT                         _T("(在线)")
+#define   OFFLINE_TEXT                        _T("(离线)")   
+ 
+#define   DEFAULT_TREE_TYPE_1                  _T("{x 4}{i gameicons.png 18 0}{x 4}")
 
 
 

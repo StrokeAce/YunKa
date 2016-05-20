@@ -121,13 +121,13 @@ public:    //主界面消息回调
 	virtual void RecvChatInfo(CWebUserObject* pWebUser) {}
 
 	// 收到更新用户的在线状态
-	virtual void RecvUserStatus(CUserObject* pUser) {}
+	virtual void RecvUserStatus(CUserObject* pUser);
 
 	// 坐席上线消息
-	virtual void RecvOnline(CUserObject* pUser) {}
+	virtual void RecvOnline(CUserObject* pUser);
 
 	// 坐席下线消息
-	virtual void RecvOffline(CUserObject* pUser) {}
+	virtual void RecvOffline(CUserObject* pUser);
 
 	virtual void RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser) {}
 
@@ -153,8 +153,10 @@ public:
 	BOOL _RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex);
 
 	void SendMsgToGetList();
-	void CMainFrame::AddOnlineVisitor(UserListUI * ptr, CUserObject *user);
-	void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user, int type);
+	void AddUserList(UserListUI * ptr, CUserObject *user);
+	void AddUserList(UserListUI * ptr, CUserObject *user, int pos);
+	void AddOnlineVisitor(UserListUI * ptr, CUserObject *user, int index);
+	void AddMyselfToList(UserListUI * ptr, CUserObject *user);
 
 protected:
 
@@ -169,6 +171,14 @@ protected:
 
 public:
 	CChatManager* m_manager;
+    int	m_currentNumber;
+	map<unsigned int, UserListUI::Node*> m_onlineNodeMap;
+	map<unsigned int, UserListUI::Node*> m_offlineNodeMap;
+	UserListUI::Node* pOnlineNode ;
+	UserListUI::Node* pWaitForStart;
+	UserListUI::Node* pMySelfeNode;
+
+	list<CUserObject* > m_upUser;
 
 
 private:
