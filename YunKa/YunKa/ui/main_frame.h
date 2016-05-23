@@ -112,7 +112,7 @@ public:
 
 public:    //主界面消息回调
 	// 收到一个坐席用户的信息,用来初始化坐席列表
-	virtual void RecvOneUserInfo(CUserObject* pWebUser);
+	virtual void RecvUserInfo(CUserObject* pWebUser);
 
 
 	// 收到一个会话消息
@@ -136,10 +136,12 @@ public:    //主界面消息回调
 	// 获取上一次错误信息
 	virtual string GetLastError() { return ""; }
 
-	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType, string msgContent,
+	virtual void RecvMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType, string msgContent,
 		string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "") {}
 
+	virtual void ResultRecvMsg(string msgId, bool bSuccess){};
 
+	virtual void ResultSendMsg(string msgId, bool bSuccess){};
 
 public:
 	//自己定义的操作函数

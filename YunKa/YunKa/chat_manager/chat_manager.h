@@ -25,7 +25,7 @@ class IHandlerMsgs
 public:
 	
 	// 收到一个坐席用户的信息,用来初始化坐席列表
-	virtual void RecvOneUserInfo(CUserObject* pWebUser) = 0;
+	virtual void RecvUserInfo(CUserObject* pWebUser) = 0;
 
 	// 收到一个会话消息
 	virtual void RecvChatInfo(CWebUserObject* pWebUser) = 0;
@@ -65,7 +65,7 @@ public:
 	virtual string GetLastError() = 0;
 
 	//************************************
-	// Method:    RecvOneMsg
+	// Method:    RecvMsg
 	// Qualifier: 收到一条消息
 	// Parameter: pObj 聊天的对象，其他坐席、web访客、微信访客
 	// Parameter: msgFrom 消息的发送者类型，其他坐席、访客(微信或web)、协助对象(另一个坐席)
@@ -78,10 +78,24 @@ public:
 	// Parameter: msgContentWx 微信消息，当非文字的微信消息时，需要该参数
 	// Parameter: msgExt 预留的参数
 	//************************************
-	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,	string msgContent, 
+	virtual void RecvMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,	string msgContent, 
 		string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "") = 0;
 
-	//virtual void CallBackSendOneMsg();
+	//************************************
+	// Method:    ResultRecvMsg
+	// Qualifier: 接收一条语音或图片等媒体文件消息的结果
+	// Parameter: msgId 消息id
+	// Parameter: bSuccess 是否接收成功
+	//************************************
+	virtual void ResultRecvMsg(string msgId, bool bSuccess) = 0;
+
+	//************************************
+	// Method:    ResultSendMsg
+	// Qualifier: 发送一条消息的结果
+	// Parameter: msgId 消息id
+	// Parameter: bSuccess 是否发送成功
+	//************************************
+	virtual void ResultSendMsg(string msgId, bool bSuccess) = 0;
 };
 
 class CChatManager : public IBaseReceive
@@ -128,8 +142,19 @@ public:
 	// 发送获取某个会话信息的消息
 	int SendTo_GetWebUserChatInfo(unsigned short gpid, unsigned long adminid, char *chatid);
 
-	// 发送一条消息
-	int SendTo_OneMsg();
+	//************************************
+	// Method:    SendTo_Msg
+	// Qualifier: 发送一条消息
+	// Parameter: IBaseObject * pUser
+	// Parameter: string msgId
+	//************************************
+	int SendTo_Msg(IBaseObject* pUser, string msgId, int msgDataType, string msg);
+
+	// 重新发送一条消息
+	int ReSendTo_Msg(string msgId);
+
+	// 重新接收一条消息
+	int ReRecv_Msg(string msgId);
 
 	// 截图
 	void ScreenCapture();
@@ -288,7 +313,7 @@ public:
 
 	int SendCloseChat(CWebUserObject *pWebUser, int ntype);
 
-	int SendMsgToWebUser(CWebUserObject *pWebUser, const char *msg, int type = MSG_NORMAL, int bak = 0, char *sfont = "HTML");
+	int SendMsg(IBaseObject* pUser, const char *msg, int bak = 0, char *sfont = "HTML");
 
 	int SendGetChatHisMsg(unsigned long webuserid, const char *chatid);//获取非等待应答会话的会话历史消息
 

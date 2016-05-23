@@ -987,7 +987,7 @@ void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
 
 
 //回调过来的 坐席信息
-void CMainFrame::RecvOneUserInfo(CUserObject* pWebUser)
+void CMainFrame::RecvUserInfo(CUserObject* pWebUser)
 {
 
 	//m_PaintManager.KillTimer(pUserList);

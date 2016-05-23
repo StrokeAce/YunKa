@@ -659,7 +659,27 @@ LOGIN_INFO * CSysConfigFile::AddLatestLoginInfo(unsigned long uid, string sid, s
 
 CUserObject::CUserObject()
 {
-	
+	m_nEMObType = OBJECT_USER;
+	memset(&UserInfo, '\0', sizeof(USER_INFO));
+	m_nWaitTimer = -20;
+	talkstatus = TALKSTATUS_NO;
+	status = STATUS_OFFLINE;
+	strcpy(sstatus, "");
+	nTimer = 0;
+	nFlashFirstOnline = 0;
+	nVisitNum = 0;
+	nTalkNum = 0;
+	nLastVisitTime = 0;
+	bTalkMeAfterLogon = false;
+	m_nFlag = 0;
+	m_bOpen = false;
+	m_bReset = false;
+	m_bConnected = false;
+	talkuid = 0;
+	m_bFriend = false;
+	m_bInnerTalk = false;
+	m_bKeywordsChange = false;
+	m_bKeywordsGet = false;
 }
 
 CUserObject::~CUserObject()
