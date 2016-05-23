@@ -2646,7 +2646,7 @@ void CChatManager::TimerSolveAck()
 	m_nSendPing++;
 
 	//30秒发送一次刺激包
-	if (m_nSendPing > 60)
+	if (m_nSendPing > 30)
 	{
 		if (m_nOnLineStatus != STATUS_OFFLINE)
 		{

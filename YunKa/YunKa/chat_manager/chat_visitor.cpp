@@ -422,7 +422,7 @@ void CChatVisitor::SolveVisitorSystemUp(char *pInitBuff)
 	if (pWebUser == NULL)
 	{
 		pWebUser = m_manager->AddWebUserObject(webuser_upinfo.sid, "", webuser_upinfo.nickname, webuser_upinfo.scriptflag, webuser_upinfo.visiturl, STATUS_ONLINE, 0);
-		g_VisitLog.WriteLog(C_LOG_TRACE, "SolveVisitorSystemUp sid=%s,"",nickname=%s, scriptflag=s%, visiturl=s%", 
+		g_VisitLog.WriteLog(C_LOG_TRACE, "SolveVisitorSystemUp sid=%s,nickname=%s, scriptflag=%s, visiturl=%s", 
 			webuser_upinfo.sid, webuser_upinfo.nickname, webuser_upinfo.scriptflag, webuser_upinfo.visiturl);
 		pWebUser->info.nameflag = nameflag;
 		pWebUser->m_onlinetime = ::GetCurrentLongTime();
