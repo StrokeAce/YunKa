@@ -447,24 +447,24 @@
 #define MSG_RESPDENYFRD		206		//拒绝加入
 
 //发送的消息格式
-#define MSG_TXT				0  //文本消息
-#define MSG_RTF				1  //rtf格式文本消息
-#define MSG_HTML			2  //html格式消息
-#define MSG_RTFFILE			3  //以rtf格式保存的文件消息，此时消息内容为文件名
+#define MSG_TXT				0  // 文本消息
+#define MSG_RTF				1  // rtf格式文本消息
+#define MSG_HTML			2  // html格式消息
+#define MSG_RTFFILE			3  // 以rtf格式保存的文件消息，此时消息内容为文件名
 
 
 //发送的消息格式
-#define MSG_TXT				0  //文本消息
-#define MSG_RTF				1  //rtf格式文本消息
-#define MSG_HTML			2  //html格式消息
-#define MSG_RTFFILE			3  //以rtf格式保存的文件消息，此时消息内容为文件名
+#define MSG_TXT				0  // 文本消息
+#define MSG_RTF				1  // rtf格式文本消息
+#define MSG_HTML			2  // html格式消息
+#define MSG_RTFFILE			3  // 以rtf格式保存的文件消息，此时消息内容为文件名
 
 //MSG这个包的BAK备用字段的使用约定dw
-#define MSG_BAK_NORMAL    0   //BAK字段的默认值
-#define MSG_BAK_INPUTING  1   //对方正在输入
-#define MSG_BAK_AUTOANSER 2   //自动答复，包括机器人
-#define MSG_BAK_TRANSFER_ACCEPT	3 // 接受会话转移
-#define MSG_BAK_TRANSFER_TIMEOUT 4 // 会话转移超时
+#define MSG_BAK_NORMAL    0			// BAK字段的默认值
+#define MSG_BAK_INPUTING  1			// 对方正在输入
+#define MSG_BAK_AUTOANSER 2			// 自动答复，包括机器人
+#define MSG_BAK_TRANSFER_ACCEPT	3	// 接受会话转移
+#define MSG_BAK_TRANSFER_TIMEOUT 4	// 会话转移超时
 
 //nameid包含的内容
 #define NAMEID_ID				0  //uid 
@@ -516,19 +516,19 @@
 #define COMM_ERROR_DBSQL				26
 
 
-#define DENYLOGIN_USERISNOTEXIST	1   //用户不存在
-#define DENYLOGIN_PASSWORDERROR		2   //密码错误
-#define DENYLOGIN_TOOMANY			3   //服务器用户数太多了
-#define DENYLOGIN_FORBIDHIDELOGON	4   //该用户不能隐身登陆
-#define DENYLOGIN_FORBIDUSE			5   //用户已禁用
-#define DENYLOGIN_TOOMANYCLIENT		6   //服务器用户数量已超过许可
-#define DENYLOGIN_SERVERBUSY		8   //服务器繁忙，一般是获取数据库连接失败了
-#define DENYLOGIN_OLDCOPY			10  //客户端版本太低，服务器拒绝登陆!
-#define DENYLOGIN_INBLACKLIST		17   //用户在黑名单中
-#define DENYLOGIN_TOOOFTEN		    18   //登陆太频繁了
-#define DENYLOGIN_SERVERERROR		19   //服务器内部错误
-#define DENYLOGIN_LOGONTYPEERROR	20   //登陆方式不识别
-#define DENYLOGIN_UNPACKERROR	    21   //解包出错
+#define DENYLOGIN_USERISNOTEXIST	1		// 用户不存在
+#define DENYLOGIN_PASSWORDERROR		2		// 密码错误
+#define DENYLOGIN_TOOMANY			3		// 服务器用户数太多了
+#define DENYLOGIN_FORBIDHIDELOGON	4		// 该用户不能隐身登陆
+#define DENYLOGIN_FORBIDUSE			5		// 用户已禁用
+#define DENYLOGIN_TOOMANYCLIENT		6		// 服务器用户数量已超过许可
+#define DENYLOGIN_SERVERBUSY		8		// 服务器繁忙，一般是获取数据库连接失败了
+#define DENYLOGIN_OLDCOPY			10		// 客户端版本太低，服务器拒绝登陆!
+#define DENYLOGIN_INBLACKLIST		17		// 用户在黑名单中
+#define DENYLOGIN_TOOOFTEN		    18		// 登陆太频繁了
+#define DENYLOGIN_SERVERERROR		19		// 服务器内部错误
+#define DENYLOGIN_LOGONTYPEERROR	20		// 登陆方式不识别
+#define DENYLOGIN_UNPACKERROR	    21		// 解包出错
 
 //是否第一次登陆，本地没有保存信息
 #define LOGIN_FIRST				1  //正常登录
@@ -680,7 +680,8 @@
 
 
 #define SYS_ERROR_MEMORY			100000
-#define SYS_ERROR_SEND_BEFORE_LOGIN	100001 // 发送了登录后才能发送的消息类型
+#define SYS_ERROR_BEFORE_LOGIN		100001 // 发送了登录后才能发送的消息类型
+#define SYS_ERROR_PARAMETER			100002 // 参数错误
 
 #define COMM_ERROR_SEG				400000
 #define COMM_DENYLOGIN_SEG			410000
@@ -855,11 +856,6 @@
 #define	DIALOGBAR_NORMAL			0
 #define	DIALOGBAR_SEARCHBAR			1
 
-//窗口的图标
-#define	WND_BUTTON_MIN				0
-#define	WND_BUTTON_NORMAL			1
-#define	WND_BUTTON_MAX				2
-#define	WND_BUTTON_CLOSE			3
 
 //按钮的大小，相互的间隔
 #define	WND_BUTTON_H				19
@@ -870,34 +866,6 @@
 #define	PACKSOLVE_SUCCESS			0
 #define	PACKSOLVE_NULL				1
 #define	PACKSOLVE_UNPACKERROR		2
-
-//一些系统需要的图标
-#define HTMLTOOLICON_SEND				0
-#define HTMLTOOLICON_CUTSCREEN			2
-#define HTMLTOOLICON_ICONFACE			4
-#define HTMLTOOLICON_HTMLTXT			6
-#define HTMLTOOLICON_SAVE				8
-#define HTMLTOOLICON_FONT				10
-#define HTMLTOOLICON_TXTCOLOR			12
-#define HTMLTOOLICON_BOLD				14
-#define HTMLTOOLICON_ITALY				16
-#define HTMLTOOLICON_UNDERLINE			18
-#define HTMLTOOLICON_BACKGROUNDCOLOR	20
-#define HTMLTOOLICON_NUMINDEX			22
-#define HTMLTOOLICON_PRJINDEX			24
-#define HTMLTOOLICON_LEFT				26
-#define HTMLTOOLICON_CENTER				28
-#define HTMLTOOLICON_RIGHT				30
-#define HTMLTOOLICON_ADDINDENT			32
-#define HTMLTOOLICON_DELINDENT			34
-#define HTMLTOOLICON_ADDHYPERLINK		36
-#define HTMLTOOLICON_CANCELHYPERLINK	38
-#define HTMLTOOLICON_CANCELFORMAT		40
-#define HTMLTOOLICON_QQ					42
-#define HTMLTOOLICON_MSN				44
-#define HTMLTOOLICON_SENDFILE			46
-#define HTMLTOOLICON_UNCHECK			48
-#define HTMLTOOLICON_CHECK				50
 
 typedef enum{
 	VISITORTALK_TOOLBAR_SPLITTER,		
@@ -988,12 +956,6 @@ typedef enum{
 
 #define TYPE_SPLITTER		4
 #define TYPE_MORE			5
-
-//绘制渐变色类型
-#define GRADIENT_TB			0	//normal color - bottom color
-#define GRADIENT_BT			1	//bottom color - normal color
-#define GRADIENT_TBT		2	//normal - bottom - normal
-#define GRADIENT_BTB		3	//bottom - normal - bottom
 
 #define TRIANGLE_LEFT		1		//左
 #define TRIANGLE_RIGHT		2		//左
@@ -1172,11 +1134,6 @@ typedef std::list<void *>	PtrList;
 #define CODE_AUDIO_SUCCESS 0 // 成功
 #define CODE_AUDIO_NO_DEVICE 1 // 没有录音设备
 #define CODE_AUDIO_FAIL 2 // 失败
-
-// 定时器名字
-#define TIMER_NAME_NORMAL "TIMER_NORMAL"
-#define TIMER_NAME_LOGIN "TIMER_LOGIN"
-
 
 #define FACE_PREFIX "<IMG src=\""
 #define FACE_ALT ".gif\" alt=\""

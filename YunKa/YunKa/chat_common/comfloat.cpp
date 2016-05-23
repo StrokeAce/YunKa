@@ -706,8 +706,8 @@ bool COM_FLOAT_INVITERESULT::unpack()
 }
 
 ///////////////////////////客服应答超时///////////////////////////////////////////////
-CFLoatChatKefuRelease::CFLoatChatKefuRelease(unsigned short ver,unsigned short sGpid)
-:COM_FLOAT_CHATPACK(CMD_FLOAT_KEFU_RELEASE,ver,sGpid )
+CFloatChatRelease::CFloatChatRelease(unsigned short ver, unsigned short sGpid)
+:COM_FLOAT_CHATPACK(CMD_FLOAT_RELEASE,ver,sGpid )
 {
 	uAdminId=0;
 	chatid[0]=0;
@@ -718,7 +718,7 @@ CFLoatChatKefuRelease::CFLoatChatKefuRelease(unsigned short ver,unsigned short s
 	usReason=0;           //原因
 // 	nNewKefu=0;           //如果会话已邀请协助，一般为最后一位协助对象
 }
-bool CFLoatChatKefuRelease::pack()
+bool CFloatChatRelease::pack()
 {
 	m_Pack<<uAdminId;
 	if (!m_Pack.packString(chatid,MAX_CHATID_LEN))
@@ -741,7 +741,7 @@ bool CFLoatChatKefuRelease::pack()
 
 	return true;
 }
-bool CFLoatChatKefuRelease::unpack()
+bool CFloatChatRelease::unpack()
 {
 	m_Pack>>uAdminId;
 	unsigned short len;

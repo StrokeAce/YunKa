@@ -49,23 +49,12 @@ public:
 	bool operator<<(unsigned short a);
 	bool operator<<(unsigned int a);
 	bool packString(const char *a, int maxLen);
-	//将Unicode串编码转码后再打包
-//	bool packString(const TCHAR *a, int maxLen);
 
 	//解包函数
 	bool operator>>(unsigned char &a);
 	bool operator>>(unsigned short &a);
 	bool operator>>(unsigned int &a);
 	bool unpackString(char *a, unsigned short &len, int maxLen=BUFFMAXLEN);
-	//解包并转换为Unicode编码串
-//	bool unpackString(TCHAR *a, unsigned short &len, int maxLen=BUFFMAXLEN);
-
-public:
-	//有关文件传输的打包和解包函数
-	bool PackFileInfo(FILE_INFO	fileinfo, unsigned short ver);
-
-	bool UnpackFileInfo(FILE_INFO	&fileinfo, unsigned short ver);
-
 	void Clear();
 };
 

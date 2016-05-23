@@ -41,7 +41,6 @@ protected:
 
 };
 
-
 /**
 CMD_FLOAT_CREATECHAT=0x0230 //创建广播会话对象
 如果GP创建会话成功，将此包广播道所有用户（不含发送者），失败返回发送者CMD_FLOAT_CMDERROR包
@@ -122,7 +121,7 @@ class COM_FLOAT_CHATINFO:public COM_FLOAT_CHATPACK
 public:
 	COM_FLOAT_CHATINFO(unsigned short ver,unsigned short sGpid);
 	bool pack();  
-	bool unpack();  
+	bool unpack();
 	
 public:
 	unsigned int uAdminId;				//管理员号码
@@ -421,10 +420,10 @@ enum FloatChatTimeOutReason
 };
 
 ///////////////////////////客服应答超时///////////////////////////////////////////////
-class CFLoatChatKefuRelease:public COM_FLOAT_CHATPACK
+class CFloatChatRelease:public COM_FLOAT_CHATPACK
 {
 public:
-	CFLoatChatKefuRelease(unsigned short ver,unsigned short sGpid);
+	CFloatChatRelease(unsigned short ver, unsigned short sGpid);
 	bool pack();  
 	bool unpack();  
 	

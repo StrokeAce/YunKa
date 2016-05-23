@@ -20,6 +20,7 @@
 #define TIMER_FIRSTONLINE	18	//第一次用户上线闪烁文字
 #define TIMER_SENDVIDEO		19	//间隔一秒的定时器，用于ping mutiping idleoffline
 #define TIMER_AUTOLOGIN		20	//自动登录
+#define TIMER_LOGIN			21	//登录
 #define TIMER_DOWNLISTEN	50	//文件下载服务器监听等待时间定时器
 #define TIMER_VISITOR_ACCEPT 80
 #define TIMER_TRANS_TIMEOUT 81 //转接会话超时处理 gxl
@@ -78,51 +79,13 @@
 
 #define	WM_NAVIGATE_BEFORE			(WM_USER + 130)
 #define WM_NAVIGATE_BEFORE2			(WM_USER + 135)
-//#define WM_INPLACE_NOTIFY			(WM_USER + 140)
 #define WM_CHECKFALSHITEM			(WM_USER + 140)
 #define WM_GETTIPSINFO_TREE			(WM_USER + 150)
 #define WM_TREECOLOR_CHANGE			(WM_USER + 160)
-/*
-//系统消息来后，闪烁在状态条上图标
-#define WM_OPENSYSTEM			(WM_USER + 200)
-#define WM_LOGIN_SERVER			(WM_USER + 210)
-*/
+
 //接收到包并解析后，返回到窗口
 #define WM_RESPONSE_DATA		(WM_USER + 220)
-/*
-//发送数据
-#define WM_SEND_DATA			(WM_USER + 230)
-//接收到回应包，表示包发送成功
-#define WM_SEND_SUCCESS			(WM_USER + 240)
-//发送数据失败
-#define WM_SEND_FAIL			(WM_USER + 250)
-//接收包
-#define WM_RECV_DATA			(WM_USER + 260)
-//接收到更新信息的包(从服务器获取)
-#define	WM_UPDATE_USERINFO		(WM_USER + 270)
-//接收到修改信息的包(修改到服务器)
-#define	WM_CHANGE_USERINFO		(WM_USER + 280)
 
-//在共享文件管理器中改变共享文件的显示
-#define	WM_CHANGE_SHAREFILE		(WM_USER + 200)
-//文件下载中分类对象的改变
-#define	WM_DOWNFILE_SORT		(WM_USER + 210)
-//文件下载中进度改变
-#define	WM_DOWNFILE_PROGRESS	(WM_USER + 220)
-//文件列表中删除
-#define	WM_DOWNFILE_DELETET		(WM_USER + 230)
-
-//在消息管理器中改变某一个好友的显示
-#define	WM_CHANGE_UIN_MANAGER	(WM_USER + 250)
-//在消息管理器中改变某一个组的显示
-#define	WM_CHANGE_GROUP_MANAGER	(WM_USER + 260)
-//在消息管理器中改变某一个内容项的显示
-#define	WM_MSGMEMO_CHANGE		(WM_USER + 270)
-//在消息管理器中改变某一个选择项的显示
-#define	WM_MSGITEM_CHANGE		(WM_USER + 280)
-//在消息管理器中改变宽度
-#define	WM_MSGITEM_CHANGECOUMNE	(WM_USER + 290)
-*/
 //托盘发送的消息
 #define	WM_MSG_NOTIFYICON		(WM_USER + 300)
 /*
@@ -133,32 +96,6 @@
 #define	WM_MSG_ICONFACE			(WM_USER + 310)
 #define	WM_MSG_KILLFOCUS		(WM_USER + 320)
 
-/*
-//字体改变消息
-#define	WM_MSG_FONT				(WM_USER + 321)
-//字号改变的消息
-#define	WM_MSG_SIZE				(WM_USER + 322)
-//颜色改变的消息
-#define	WM_MSG_COLOR			(WM_USER + 323)
-//转发消息
-#define	WM_MSG_RESEND			(WM_USER + 324)
-//转发客人
-#define	WM_MSG_TRANSFERCLIENT	(WM_USER + 325)
-//发送截屏文件的消息
-#define	WM_MSG_SENDSCREEN		(WM_USER + 326)
-
-//键盘鼠标活动消息
-#define	WM_MOURSEKEYBOARDE_ACTIVE	(WM_USER + 350)
-
-//键盘鼠标活动消息
-#define	WM_TOPWND_RESULT		(WM_USER + 360)	//最前面窗口的选中对象
-
-//hyperlink的消息
-#define	WM_HYPERLINK_SEND				(WM_USER + 500)
-
-//外部添加多个联系人的的消息
-#define	WM_ADDFRD_BYEXT					(WM_USER + 600)
-*/
 //tabctrl定义的消息
 #define	WM_TABCTRL_LBUTTONDOWN			(WM_USER + 700)
 //em tab window定义的消息
@@ -172,10 +109,6 @@
 
 //xp编辑框处理消息
 #define WM_XPEDIT						(WM_USER + 970)
-
-//#define WM_MOUSE_DBCLICK				(WM_USER + 980)
-//被邀请用户离开，或者主持人暂时不收消息（后者以后再加）
-//#define WM_TALK_USERLEAVE				(WM_USER + 990)
 
 #define WM_USERTREEITEM_SELECT			(WM_USER + 1000)
 #define WM_USERTREEITEM_DBCLICK			(WM_USER + 1001)

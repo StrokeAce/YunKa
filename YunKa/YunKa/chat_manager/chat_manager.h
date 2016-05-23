@@ -27,9 +27,6 @@ public:
 	// 收到一个坐席用户的信息,用来初始化坐席列表
 	virtual void RecvOneUserInfo(CUserObject* pWebUser) = 0;
 
-	// 收到一个新建的会话消息
-	virtual void RecvCreateChat(CWebUserObject* pWebUser) = 0;
-
 	// 收到一个会话消息
 	virtual void RecvChatInfo(CWebUserObject* pWebUser) = 0;
 
@@ -57,6 +54,13 @@ public:
 	//************************************
 	virtual void RecvCloseChat(CWebUserObject* pWebUser) = 0;
 
+	//************************************
+	// Method:    RecvReleaseChat
+	// Qualifier: 释放会话
+	// Parameter: pWebUser 被释放的访客
+	//************************************
+	virtual void RecvReleaseChat(CWebUserObject* pWebUser) = 0;
+
 	// 获取上一次错误信息
 	virtual string GetLastError() = 0;
 
@@ -76,6 +80,8 @@ public:
 	//************************************
 	virtual void RecvOneMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,	string msgContent, 
 		string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "") = 0;
+
+	//virtual void CallBackSendOneMsg();
 };
 
 class CChatManager : public IBaseReceive
@@ -121,6 +127,9 @@ public:
 
 	// 发送获取某个会话信息的消息
 	int SendTo_GetWebUserChatInfo(unsigned short gpid, unsigned long adminid, char *chatid);
+
+	// 发送一条消息
+	int SendTo_OneMsg();
 
 	// 截图
 	void ScreenCapture();
@@ -185,7 +194,7 @@ private:
 
 	int RecvInviteResult(PACK_HEADER packhead, char *pRecvBuff, int len);
 
-	int RecvFloatKefuRelease(PACK_HEADER packhead, char *pRecvBuff, int len);
+	int RecvFloatRelease(PACK_HEADER packhead, char *pRecvBuff, int len);
 
 	int RecvFloatCMDError(PACK_HEADER packhead, char *pRecvBuff, int len);
 
@@ -241,7 +250,14 @@ public:
 
 	unsigned short GetPackSeq();	
 
+	// 定时发送心跳包保活
 	void TimerSolveAck();
+
+	// 定时连接登录visit服务器
+	void TimerSolveLoginToVisitorServer();
+
+	// 定时处理请求的超时情况
+	void TimerSolveRequestTimerOut();
 
 	int SendPing();
 
@@ -270,6 +286,12 @@ public:
 	// 获取微信公众号token
 	int SendGetWxToken(unsigned long webuserid, const char *chatid);
 
+	int SendCloseChat(CWebUserObject *pWebUser, int ntype);
+
+	int SendMsgToWebUser(CWebUserObject *pWebUser, const char *msg, int type = MSG_NORMAL, int bak = 0, char *sfont = "HTML");
+
+	int SendGetChatHisMsg(unsigned long webuserid, const char *chatid);//获取非等待应答会话的会话历史消息
+
 	// 文字消息中的表情字符转换
 	void TransforFaceMsg(string& str);
 
@@ -284,19 +306,23 @@ public:
 
 	CWebUserObject *ChangeWebUserSid(CWebUserObject *pWebUser, char *sid, char *thirdid);
 
-	void GetChatSysMsg(char* msg, CUserObject *pInviteUser, CWebUserObject *pWebUser, int type, CUserObject *pAcceptUser = NULL);
+	void GetInviteChatSysMsg(char* msg, CUserObject *pInviteUser, CWebUserObject *pWebUser, int type, CUserObject *pAcceptUser = NULL);
+
+	void GetStopChatSysMsg(char* msg, CWebUserObject *pWebUser, int type = 0, CUserObject *pSendUser = NULL);
 
 	// 定时器事件处理函数
-	static void CALLBACK TimerProc(string timeName, LPVOID pThis); 
+	static void CALLBACK TimerProc(int timeId, LPVOID pThis); 
 
 	void LoginSuccess();
 
 	CWebUserObject *GetWebUserObjectByScriptFlag(char *scriptflag);
 
+	void StopVisitorTalk(CWebUserObject *pWebUser, int type);
+
 public:
-	int						m_nOnLineStatus;		// 用户是否在线
-	int						m_nOnLineStatusEx;
-	bool					m_bExit;				// 
+	int						m_nOnLineStatus;		// 是否在线,对于im服务器而言
+	int						m_nOnLineStatusEx;		// 是否在线,对于visit服务器而言
+	bool					m_bExit;				// 程序是否退出
 	CUserObject				m_userInfo;				// 登录用户的信息
 	CSysConfigFile*			m_sysConfig;			// 用户设置文件类
 	INIT_CONF				m_initConfig;			// 软件配置文件类
@@ -325,7 +351,7 @@ public:
 	int						m_nMyInfoIsGet;			// 是否我的信息已经获取到了
 	int						m_nSendPing;			// 心跳包发送的次数
 	int						m_nSendPingFail;		// 心跳包发送失败次数 
-	int						m_nLoginToVisitor;		// 
+	int						m_nLoginToVisitor;		// 尝试登录visit服务器的次数
 	 
 	unsigned long			m_nNextInviteWebuserUid;// 邀请的访客信息
 	unsigned long			m_nNextInviteUid;		// 主动邀请的用户

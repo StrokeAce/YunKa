@@ -24,7 +24,9 @@ public:
 
 	int SendStartRecvMsgToVisitorServer();
 
-	int ConnectToVisitorServer();
+	bool ConnectAndLoginToVisitorServer();
+
+	bool ConnectToVisitorServer();
 
 	int LoginToVisitorServer();
 
@@ -81,7 +83,6 @@ public:
 	CChatManager*	m_manager;
 	CMySocket		m_socketEx;				// 访客接待连接
 	time_t			m_tResentVisitPackTime;	//
-	int				m_nOnLineStatusEx;
 private:
 	friend class CMySocket;
 

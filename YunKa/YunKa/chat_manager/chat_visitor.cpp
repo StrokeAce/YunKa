@@ -8,7 +8,6 @@ CChatVisitor::CChatVisitor()
 {
 	m_tResentVisitPackTime = 0;
 	m_socketEx.SetReceiveObject(this);
-	m_nOnLineStatusEx = STATUS_OFFLINE;
 }
 
 CChatVisitor::~CChatVisitor()
@@ -104,7 +103,7 @@ int CChatVisitor::SendWebuserTalkEnd(CWebUserObject *pWebUser)
 	return nError;
 }
 
-int CChatVisitor::ConnectToVisitorServer()
+bool CChatVisitor::ConnectToVisitorServer()
 {
 	m_socketEx.m_MsgRecvSuccID = WM_SOCKETEX_RECVSUCC;
 	m_socketEx.m_MsgRecvFailID = WM_SOCKETEX_RECVFAIL;
@@ -368,14 +367,11 @@ void CChatVisitor::SolveVisitorSystemAdmin(char *pInitBuff)
 		GetXMLCommandString(pInitBuff, cmdvalue, "PORT");
 		m_manager->m_sysConfig->m_nVisitorServerPort = atol(cmdvalue);
 
-		if (ConnectToVisitorServer())
-		{
-			LoginToVisitorServer();
-		}
+		ConnectAndLoginToVisitorServer();
 	}
 	else
 	{
-		m_nOnLineStatusEx = STATUS_ONLINE;
+		m_manager->m_nOnLineStatusEx = STATUS_ONLINE;
 
 		SendStartRecvMsgToVisitorServer();
 	}
@@ -557,9 +553,9 @@ RETURN:
 
 void CChatVisitor::SolveVisitorSystemStopRecvMsg(char *pInitBuff)
 {
-	if (m_nOnLineStatusEx != STATUS_OFFLINE)
+	if (m_manager->m_nOnLineStatusEx != STATUS_OFFLINE)
 	{
-		m_nOnLineStatusEx = STATUS_OFFLINE;
+		m_manager->m_nOnLineStatusEx = STATUS_OFFLINE;
 		m_manager->m_nLoginToVisitor = 0;
 	}
 }
@@ -613,7 +609,7 @@ void CChatVisitor::SolveVisitorSystemAlreadyApply(char *pInitBuff)
 		}
 	
 		//这里必须先在htmleditor中显示，然后再移动位置，因为移动位置可能会导致区域的切换，其他地方同样考虑
-		m_manager->GetChatSysMsg(msg, pInviteUser, pWebUser, APPLY_ASK);
+		m_manager->GetInviteChatSysMsg(msg, pInviteUser, pWebUser, APPLY_ASK);
 		break;
 	case APPLY_OPEN:
 		break;
@@ -916,6 +912,16 @@ void CChatVisitor::SolveWebUserOnlineTipsTail(CWebUserObject *pWebUser, WEBUSER_
 	if (pWebUser->m_strTail != "")
 		pWebUser->m_strTail += "\r\n";
 	pWebUser->m_strTail += strTail;
+}
+
+bool CChatVisitor::ConnectAndLoginToVisitorServer()
+{
+	if (ConnectToVisitorServer())
+	{
+		return LoginToVisitorServer();
+	}
+	else
+		return false;
 }
 
 

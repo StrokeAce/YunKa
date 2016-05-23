@@ -285,3 +285,26 @@ FAIL:
 
 	return nError;
 }
+
+void CLogin::TimerSolveAuthToken()
+{
+	if (m_nSendAuthToken < 0)
+		return;
+	m_nSendAuthToken++;
+
+	if (m_nSendAuthToken > 600)	//1800 大约30分钟 -> 改为600秒10分钟
+	{
+		if (m_pTqAuthClient != NULL && strlen(m_szAuthtoken) > 0)
+		{
+
+			int nlen = 4096;
+			char recvbuf[4096];
+			bool butf8(true);
+
+			m_pTqAuthClient->Hearbeat(m_szAuthtoken, recvbuf, nlen, butf8);
+			printf("%d,%s\n", butf8, recvbuf);
+		}
+
+		m_nSendAuthToken = 0;
+	}
+}

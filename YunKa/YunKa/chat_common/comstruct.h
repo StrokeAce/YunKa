@@ -115,104 +115,6 @@ struct ALERT_INFO
 	char soundfilename[MAX_FILENAME_LEN];
 };
 
-//对话接待信息
-struct TALKTOTAL_INFO
-{
-	int m_nOnlineTimeTotal;	//总在线时间
-	int m_ntalknum;			//对话次数
-	int m_ntalktimetotal;	//总对话时间
-	int m_ntalktimenum;		//有有效对话时间的对话数
-	int m_nInviteNum;		//邀请次数
-	int m_nacceptinvitenum;	//接受次数
-	int m_nrefuseinvitenum;	//拒绝次数
-	int m_nrequestnum;			//请求次数
-	int m_nacceprequestnum;		//接待请求次数
-	int m_nnotacceptrequestnum;	//没有接待请求次数
-	int m_nnovisitormsgnum;		//访客没有发送消息
-	int m_nnousermsgnum;		//客服没有发送消息
-	int m_ngoodtalknum;		//一般对话
-	int m_nbettertalknum;	//较好对话
-	int m_nbesttalknum;		//极佳对话
-};
-
-//统计分析信息
-typedef struct TOTAL_INFO{
-	unsigned short	visittotalnum;
-	unsigned short	fromsearchnum;	//从搜索引擎
-	unsigned short	fromfriendnum;	//从友好连接
-	unsigned short	frominputnum;	//直接输入
-	unsigned short	searchurlnum;	//如大于MAX_LIST_TOTALURL， 则只保存MAX_LIST_TOTALURL个
-	unsigned int	searchurltime[VISITORTALK_MAXLIST_TOTALURL];
-	char			searchurl[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
-	char			searchurlhost[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
-	char			searchurlvar[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
-	unsigned short	friendurlnum;
-	unsigned int	friendurltime[VISITORTALK_MAXLIST_TOTALURL];
-	char			friendurl[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
-	char			friendurlhost[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
-	char			friendurlvar[VISITORTALK_MAXLIST_TOTALURL][MAX_128_LEN];
-
-	//对话效果统计
-	unsigned short	notalknum; //没有进行对话的访问次数
-	unsigned short  invalidtalknum; //无效对话的次数 
-
-	unsigned short  talknum0;	//一般对话次数 2  
-	unsigned short  talknum1;	//较好对话的次数 0  
-	unsigned short  talknum2;	//极佳对话的次数 0 
-
-	//对话统计
-	unsigned short	requesttalknum;	//累计主动请求对话的次数 1 包含接受自动邀请 
-	unsigned short	sendmsgnum;		//客人累计发送讯息条数 3  
-	unsigned short	persendmsgnum;	//平均每次对话发送讯息条数 1  
-	unsigned short	sendmsgmaxnum;	//最大单次对话发送讯息条数 2  
-	unsigned short  sendmsgminnum;	//客人最小单次对话发送讯息 0  
-	unsigned short  sendmsgtalknum;		//累计有发送过讯息的对话次数 2 
-
-	//邀请统计
-	unsigned short	invitetalknum;	//累计接受客服手动邀请次数 1 不包含接受自动邀请 
-	unsigned short	refusetalk;		//拒绝客服手动邀请的次数 0 不包含拒绝自动邀请 
-
-	//访问统计
-	unsigned short	visitnum;		//累计访问次数 2  
-	unsigned short	visitpagenum;	//累计访问页数 6  
-	unsigned short	pervisitpagenum;	//平均每次访问页数 3  
-	unsigned short	visitpagemaxnum;	//最大单次访问页数 3  
-	unsigned short	visitpageminnum;	//最小单次访问页数 3 
-
-}TOTAL_INFO_T, *TOTAL_INFO_PT;
-
-struct COMBOX_ITEMINFO { 
-	string strText;
-	DWORD dwData; 
-};
-
-//用户权限角色字段的结构
-typedef struct ROLEAUTH_INFO{
-	unsigned int id;
-	unsigned int sort;
-	
-	char name[MAX_USERNAME_LEN];
-	
-	unsigned int comauth;
-	unsigned int extauth;
-	
-	unsigned char invalid;
-	unsigned char cbak;
-	unsigned short usbak;
-	
-}ROLEAUTH_INFO_T, *ROLEAUTH_INFO_PT;
-
-//分类结构
-typedef struct CATEGORIES_INFO{
-	unsigned int id;
-	
-	char name[MAX_USERNAME_LEN+1];
-	char	invalid;
-	
-	//以下信息不打包，程序用来处理
-	char	solve;	//程序用来处理
-}CATEGORIES_INFO_T, *CATEGORIES_INFO_PT;
-
 //用户字典组的结构
 typedef struct KEYWORDGROUP_INFO{
 	unsigned int id;
@@ -260,13 +162,9 @@ typedef struct KEYWORD_INFO{
 //size : 42
 struct PROXY_INFO
 {
-	//dest ip and port
 	unsigned int ip;						//4
 	unsigned short port;					//2
-	
 	unsigned short proxyport;				//2
-	
-	//auth for proxy server
 	char strUser[MAX_USERNAME_LEN];			//20
 	char strPass[MAX_PASSWORD_LEN];			//20
 };
@@ -304,91 +202,39 @@ struct TRADE_INFO
 	unsigned short	duty;									//职务名称   2
 	unsigned short	size;									//公司规模   2
 	unsigned short	trade;									//所处行业   2
-	
 	char 			bankcode[MAX_BANK_LEN];					//开户银行	40		   
 	char 			bank_num[MAX_BANKNO_LEN];				//银行账号	30
 	char 		    tax_num[MAX_TAXNO_LEN];					//税务代号	30
-	
 	char 			mobile[MAX_PHONE_LEN];					//电话		未用
 	char 			phone[MAX_PHONE_LEN];					//电话		20
 	char 			fax[MAX_PHONE_LEN];						//传真		20
 	char 			homepage[MAX_URL_LEN];					//主页名称  60
 	char 			mailbox[MAX_EMAIL_LEN];					//			60
-	
 	char 			bak1[MAX_VERIFYMSG_LEN];				//			40
 	unsigned short	langtype;								//个人信息的语言版本
 	unsigned short 	companylangtype;						//			4
 	char 			memo[MAX_TRADEMEMO_LEN];				//公司简介  500
 };
 
-//访客轨迹信息
-struct WEBUSERTAIL_INFO
-{
-	unsigned int intime;					//4
-	unsigned int outtime;					//4
-	char url[MAX_URL_LEN];					//页面
-	char title[MAX_URL_LEN];				//页面
-
-	char prevurl[MAX_URL_LEN];
-	char prevurlhost[MAX_URL_LEN];
-	char prevurlvar[MAX_URL_LEN];
-};
-
-//浏览器的信息
-struct WEBBROWSER_INFO
-{
-	char					useragent[MAX_URL_LEN];	//用户标头
-	unsigned short			vcolor;					//客户端颜色
-	unsigned short          vnum;					//访问次数
-	unsigned short          vpagenum;				//访问页面数
-	unsigned int			visittime;				//访问时间
-	WEBUSERTAIL_INFO		tailinfo;				//浏览轨迹信息
-	char					language[MAX_LANGUAGE_LEN];//访问的语言
-	unsigned short			vzone;
-	char					browsertype[MAX_BROWSER_LEN];	//浏览器类型
-	char					ostype[MAX_BROWSER_LEN];		//操作系统
-	char					vsize[MAX_VSIZE_LEN];			//屏幕浏览器大小
-
-	//以下用来统计历史记录用
-	char					sid[MAX_VISITORID_LEN];
-	unsigned int			id;
-	unsigned int			ip;
-	char					ipfrom[MAX_USERNAME_LEN]; //到省一级的名字
-
-	unsigned short			requestnum;	//请求数
-	unsigned short			invitenum;	//邀请数
-	unsigned short			userend;	//客服结束数
-	unsigned short			clientend;	//客人结束数
-	unsigned short			talknum;	//对话数
-	char					solve;
-};
-
-//同一台电脑，访客可能会登陆多个同一个编号的用户
 struct WEBONLINE_INFO
 {
-	WEBONLINE_INFO(){bInvited=false;}
-	int				fd;		//tcp连接
+	WEBONLINE_INFO(){ bInvited = false; }
+	int				fd;						// tcp连接
 	int				talkstatus;
-	bool		    bInvited; //被邀请进来的
-
-	unsigned int	timevisit;		//用户访问时间
-	unsigned int	timerequest;	//用户请求对话时间
-	unsigned int	timetalkstart;	//用户对话开始时间
-	unsigned int	timetalkend;	//用户对话结束时间
-	unsigned int	timeleave;		//用户离开页面时间，为0一般表示处于连接状态，>0表示socket已断开，正处于新的连接阶段
-	int				evalation;		//本次对话评价
-
-	unsigned int	random;			//本次上线后的随机数
-	
-	unsigned int	trafficid;		//保存在数据库中的最新的id
-
-	unsigned char	hasmsg;			//有消息保存在缓冲中。
-	unsigned char	isonline;		//是否在线
-
-	unsigned int	visitortalkid;	//保存在请求信息的表中的编号
-
-	unsigned char	searchkeywordsnum[4];	//识别的热门关键词的数目
-	unsigned char	alertit;				//该用户需要报警提示， 在多长分钟之内，连续访问了多次
+	bool		    bInvited;				// 被邀请进来的
+	unsigned int	timevisit;				// 用户访问时间
+	unsigned int	timerequest;			// 用户请求对话时间
+	unsigned int	timetalkstart;			// 用户对话开始时间
+	unsigned int	timetalkend;			// 用户对话结束时间
+	unsigned int	timeleave;				// 用户离开页面时间，为0一般表示处于连接状态，>0表示socket已断开，正处于新的连接阶段
+	int				evalation;				// 本次对话评价
+	unsigned int	random;					// 本次上线后的随机数	
+	unsigned int	trafficid;				// 保存在数据库中的最新的id
+	unsigned char	hasmsg;					// 有消息保存在缓冲中。
+	unsigned char	isonline;				// 是否在线
+	unsigned int	visitortalkid;			// 保存在请求信息的表中的编号
+	unsigned char	searchkeywordsnum[4];	// 识别的热门关键词的数目
+	unsigned char	alertit;				// 该用户需要报警提示， 在多长分钟之内，连续访问了多次
 };
 
 //访客的基本信息， 这个是唯一的
@@ -433,7 +279,6 @@ struct WEBUSER_UPINFO
 	int ctimes, ttimes;
 	char lastvtime[MAX_URL_LEN];
 	char lastttime[MAX_URL_LEN];
-
 	unsigned int lastuin;
 	int isautoinvit;
 };
@@ -441,114 +286,27 @@ struct WEBUSER_UPINFO
 //访客的用户输入信息
 struct WEBUSEREX_INFO
 {
-	char	sid[MAX_SID_LEN+1];	//这个为访客唯一标示
-	char	name[MAX_USERNAME_LEN+1];		//和webuser_info一样，
-
+	char		  sid[MAX_SID_LEN + 1];	//这个为访客唯一标示
+	char	name[MAX_USERNAME_LEN + 1];		//和webuser_info一样，
 	unsigned char	age;	//0 unknow
 	unsigned char	sex;	//0 unknow
-	
 	char	area[MAX_AREA_LEN];
-
 	char	phone[MAX_PHONE_LEN];
-
 	char	email[MAX_EMAIL_LEN];	//email
 	char	im[MAX_128_LEN];	//msn/qq
-
 	char	address[MAX_128_LEN];
 	char	zipcode[MAX_ZIPCODE_LEN];
 	char	companyname[MAX_128_LEN];
 	char	companyurl[MAX_128_LEN];
-
 	char	keywords[MAX_128_LEN];
-
 	unsigned char	iconindex1;
 	unsigned char	iconindex2;
 	unsigned char	iconindex3;
 	unsigned char	iconindex4;
-
 	unsigned int comauth;
 	unsigned int extauth;
-
 	unsigned int createtime;
 };
-
-//上传的文件信息
-struct UPFILE_INFO
-{
-	char	filename[MAX_FILENAME_LEN];
-	char	memo[MAX_256_LEN];
-	char	downurl[MAX_FILENAME_LEN];
-
-	unsigned int uptime;
-	unsigned int senduid;
-	char	sendname[MAX_USERNAME_LEN];
-};
-
-//消息的列表结构
-//950
-typedef  struct MSG_LISTINFO{
-	unsigned char	msgtype;					//1 消息类别
-	unsigned char	msgformat;					//1 消息格式
-	unsigned short	usbak1;						//2
-	
-	unsigned int	senduid;					//4 接收者的uid号码
-	char			sendname[MAX_USERNAME_LEN+2];
-	
-	unsigned int	trafficid;
-	unsigned int	talkid;
-	
-	//如果recvuid=9999, visitorid表示为访客的唯一表示
-	//不允许访客对访客发送消息,recvuid senduid不能同时为9999
-	char			visitorid[MAX_VISITORID_LEN+2];	//26	
-	
-	unsigned int	sendtime;					//4 发送时间
-	
-	char			msg[MAX_MSG_LEN+2];			//910 消息内容
-	
-	unsigned short	langtype;					//2
-	unsigned short	usbak2;						//2
-	
-}MSG_LISTINFO_T, *MSG_LISTINFO_PT;
-
-//一次对话的汇总信息
-typedef struct VISITORTALK_INFO{
-	unsigned int 	id;
-	unsigned int trafficid;
-	
-	//客人的编号和名称
-	char sid[MAX_SID_LEN];
-	char visitorname[MAX_USERNAME_LEN];
-	
-	//开始对话，结束对话的类型
-	unsigned char	starttype;  //1 客人主动邀请，客服主动邀请 
-	unsigned char	endtype; //1 客人主动关闭，客服主动关闭
-	
-	//接待的客服编号和名称
-	unsigned int	talkuserid;
-	char	talkusername[MAX_USERNAME_LEN];
-	
-	//评价
-	unsigned char	evalulation;
-	unsigned char	ucbak;
-	
-	unsigned int	visittime;
-	unsigned int	requesttime;
-	unsigned int	starttime;
-	unsigned int	endtime;
-	
-	unsigned short	visitormsgnum;
-	unsigned short	usermsgnum;
-	
-	//来源ip
-	unsigned int	ip;
-	char			ipfromname[MAX_USERNAME_LEN];			//ip来源
-	char prevurlhost[MAX_URL_LEN];	//来源主机
-	char prevurlvar[MAX_URL_LEN]; //搜索引擎的参数
-	
-	
-	char			solve;
-	
-}VISITORTALK_INFO_T, *VISITORTALK_INFO_PT;
 
 typedef struct TCP_PACK_HEADER
 {
@@ -568,256 +326,11 @@ typedef struct PACK_HEADER
 	unsigned short		terminal;		//MULTI_TERMINAL_ONLINE = 4221之后表示终端类型1 
 }PACK_HEADER_T,*PACK_HEADER_PT;
 
-//文件共享使用
-//20 + 24 + 130 = 174
-typedef struct FileAttr {
-	
-	char			szFileTitle[MAX_FILENAME_LEN];		//12	8 文件的标题名
-	unsigned int	dwFileAttributes;                   //4	文件的属性
-	FILETIME		ftCreationTime;                     //8 文件的创建时间
-	FILETIME		ftLastAccessTime;                   //8 文件的最后访问时间
-	FILETIME		ftLastWriteTime;                    //8 文件的最后修改时间
-	
-    unsigned int	nFileSizeHigh;                      //4 文件大小的高位双字
-	unsigned int	nFileSizeLow;                       //4 文件大小的低位双字
-	unsigned int	dwReserved0;                        //4 保留，为0
-	unsigned int	dwReserved1;                        //4 保留，为0
-} FILEATTR, *PFILEATTR;
-
-//共享文件的信息
-//125
-struct FILE_INFO
-{
-	char			strFile[MAX_FILENAME_LEN];	//256
-	unsigned int	dwSize;						//4
-	
-	unsigned char	IsDirectory;				//1 是否为一个目录
-};
-
-//自动邀请设置
-typedef struct AutoInviteAttr {
-	unsigned int	siteid;
-	
-	unsigned char	autoinvite;
-	unsigned short	invitenum;
-	
-	unsigned short	deltime[10];
-}AUTOINVITE_INFO, *AUTOINVITE_INFO_PT;
-
-//搜索关键词信息
-typedef struct SEARCHKEYWORDS_INFO{
-	unsigned int siteid;
-	
-	unsigned char keywordnum[4];
-	char keywords[4][MAX_SEARCHKEYWORDS_NUM][MAX_SEARCHKEYWORDS_LEN];
-	
-	//报警条件
-	unsigned char  alertopen;
-	unsigned short alertsearchkeywordsnum;		//有这么多次的进入
-	unsigned short alertsearchkeywordstimes;	//在该时间段内
-	
-	unsigned short usbak;
-	
-}SEARCHKEYWORDS_INFO_T, *SEARCHKEYWORDS_INFO_PT;
-
-//float msg info
-struct FLOAT_MSG_INFO
-{
-	//基本信息
-	unsigned int	id;						//网页的编号
-	unsigned int	compid;					//公司的编号
-	unsigned int	uid;					//备用用户编号
-	
-	//连通前的提示语
-	char			wellcome[MAX_MSG_LEN+2];	//连通前欢迎语
-	char			connectedwellcome[MAX_MSG_LEN+2];	//联线自动回复
-	
-	//客人请求超时
-	unsigned char	reqtimeout;			//超时时间，0为不启用		
-	char			reqtimeoutmsg[MAX_MSG_LEN+2];
-	
-	//客人等待答复超时
-	unsigned char	waitresptimeout;
-	char			waitresptimeoutmsg[MAX_MSG_LEN+2];
-	
-	//客人答复超时
-	unsigned char	resptimeout;
-	char			resptimeoutmsg[MAX_MSG_LEN+2];
-	
-	//客人答复时关闭对话
-	unsigned char	resptimeoutclose;
-	char			resptimeoutclosemsg[MAX_MSG_LEN+2];
-};
-
-//float info
-//size 300
-struct FLOAT_BASIC_INFO
-{
-	//基本信息
-	unsigned int	id;						//网页的编号
-	unsigned int	compid;					//公司的编号
-	
-	char			url[MAX_URL_LEN];		//网站名称
-	
-	//0 漂浮框类型			0 对话框漂浮框 1 图片漂浮框
-	//1 对话框打开位置		0 当前页面打开，1 新开对话窗口
-	//2 是否有主动邀请		0 没有，1 有
-	//3 是否可以关闭		0 不可以，1 可以
-	//4 是否可以拖动		0 不可以，1 可以
-	//5 - 6 邀请框类型      0 在中间显示询问框 1 在当前位置显示对话框
-	unsigned int	comauth;
-	
-	unsigned int	extauth;
-	
-	//漂浮框位置类型为0, left top取值0 1 表示左/上 右/下对齐
-	//漂浮框位置类型为1, left top分别为离边框距离，负值为右/底部的距离
-	int				left;	
-	int				top;
-	
-	//颜色，有默认16种颜色可以选择
-	int				colorindex;
-	
-	//对话式漂浮框的logo文件, 标题
-	char			logofile[MAX_FILENAME_LEN];
-	char			title[MAX_TITLE_LEN];
-	char			tail[MAX_TAIL_LEN];
-	
-	//工具条是否显示的表示，用字符串0111表示，顺序表示图标的位置，0表示显示，1表示不显示
-	char			showtoolicon[20];
-	
-	//主动邀请的语言
-	unsigned char	invitetype;	//类型
-	char			invitetitle[MAX_URL_LEN];
-	char			inviteword[MAX_MSG_LEN];
-	char			invitebgfile[MAX_FILENAME_LEN];
-	char			inviteacceptfile[MAX_FILENAME_LEN];
-	char			inviterefusefile[MAX_FILENAME_LEN];
-	unsigned int	inviteposx;	//高位字表示类型， 低位字表示距离
-	unsigned int	inviteposy;
-	
-	//图片式漂浮框的图片文件
-	char			icononlinefile[MAX_128_LEN];
-	char			iconofflinefile[MAX_128_LEN];
-	
-	char			icononlinealt[MAX_128_LEN];
-	char			iconofflinealt[MAX_128_LEN];
-	
-	char			iconurl[MAX_128_LEN];
-	
-	//页面语言编码
-	char			language[50];
-	
-	unsigned char	initshow;			//初始显示格式
-	
-	//广告连接
-	char			adicon[MAX_FILENAME_LEN+2];
-	char			adurl[MAX_URL_LEN+2];
-	
-	AUTOINVITE_INFO autoinviteinfo;
-	
-	SEARCHKEYWORDS_INFO searchkeywordsinfo;
-	
-	FLOAT_MSG_INFO msginfo;	//开场白的设置信息
-};
-
 struct LISTCHATINFO
 {
-	
 	char			chatid[MAX_CHATID_LEN+1];
-	unsigned int uKefuUin;	  //客服的号码,0:等待应答状态，>0:正在和客服通信
-	
+	unsigned int	uKefuUin;	  //客服的号码,0:等待应答状态，>0:正在和客服通信
 };
-
-//历史记录过滤条件
-typedef struct VISITORTALK_FILTER
-{
-	//2个时间作为查询条件时不使用
-	unsigned int starttime;
-	unsigned int endtime;
-
-	char talktype;
-	char talkstarttype;
-	char talkendtype;
-	
-	unsigned int firstuin;
-	unsigned int transferuin;
-	
-	char iptype[256];
-	char searchurl[256];
-	
-	char searchkeywords[256];
-	char keywords;
-	
-	char friendurl[256];
-	char talkurl[256];
-	char language[256];
-	
-	char clientsort;	//客人类别
-	char evaluation;	//客人评价
-	
-	char frominfo[256];
-	char fromtail[256];
-	char fromnameandip[256];
-	char fromtalkmsg[256];
-	char frommemo[256];
-	
-	DWORD dwData[10];
-	char sbak[10][256];
-}VISITORTALKFILTER;
-
-typedef struct WORKBILLTB_ITEM
-{
-	char  chatid[30];			//--工单编号(对应tqdb03,WORKBILL中的id)
-
-	int billtype;			//--工单类型（在线1~20，留言类用20~30，在线咨询:1,在线投诉:2,产品维护故障咨询3,员工咨询 4,客户表扬 5,留言投诉:21,留言建议:22,留言咨询:23）
-	int billsubtype;
-
-	unsigned int adminuin;	// --管理员号码
-	unsigned int kefuuin;	// --提供服务的客服UIN
-	unsigned int deptid;	// --部门id
-
-	unsigned int clientuin;	// --访客会话uin
-	char clientname[100];		// --客户姓名
-	char clienttype[50];		// --客户品牌
-	int  clientlevel;			// --客户级别
-	char clientproduct[30];		// --客户产品
-	char clientmobile[15];		// --客户手机
-	char clientphone[20];		// --客户固定电话
-	char clientemail[50];		// --客户邮箱
-	int clientemailaccpet;		//  --用户email是否接收业务推荐信息，1接收，0 不接收
-	char clientotherinfo[100];	// --其他联系，方式 可用作回拨申请的电话
-	char clientid[40];			// --第三方id
-		
-	unsigned int talkstarttime;	// --开会会话时间
-	unsigned int talkendtime;		// --结束会话时间
-	unsigned int talktime;			// --工单时长
-	int usermsgnum;			// --本次会话,客服的回复数(TALK_CONTENT中客服说话的次数)
-	int visitorcluesnum;	// --本次会话线索数
-	int billresult;			// --处理结果（未处理：0，已处理：1，转交他人：3）
-	int evalution;			// --评分(对应ABCD四级别)
-	int transferok;			// --转移是否成功(0.没有转移，1.不成功 2.成功)
-	char transferpath[200];	// --转移路径(如80008115->8362009)
-	char memo[1024];
-		
-	int validtalk;			// --会话无效,无效：1，有效：0
-	int losttalk;			// --会话流失,流失：1，未流失：0
-		
-	unsigned int clientrand;	// --访客唯一标示
-	unsigned int visitorip;	// --访客来源ip
-	char visitorregion[100];	// --ip所属地域
-
-	char visitorentry[50];		//--访客初始化来源(目前只有搜索引擎)
-	char visitorkeywords[50];	// --搜索引擎中的查找关键字
-
-	char visitorprevurl[200];	// --访客上个页面
-	char visitorurl[200];		// --当前页面(产生工单的页面)
-		
-	char outworkbillid[50];		//50  --外部工单号
-		
-	unsigned int billadminuin;	// --工单负责人，默认为kefu_uin,会话转移时修改此字段
-	int talkfrom;				// --会话来源(0 其它 1 服务端自动请求 2客户端自动请求 3客户端手动请求)
-	int worktype; 
-}WORKBILLTBITEM;
 
 // 发送媒体文件时，接收对象的信息传参
 struct SEND_FILE_PARAMS
@@ -840,7 +353,7 @@ struct RESEND_FILE_PARAMS
 struct RERECV_FILE_PARAMS
 {
 	string filaPath;			// 文件的存储路径
-	string url;				// 接收文件的url
+	string url;					// 接收文件的url
 	int userType;				// 发送消息的用户类型
 	string msgId;				// 该消息的序列号
 	int msgDataType;			// 消息的数据类型

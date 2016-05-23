@@ -19,6 +19,8 @@ public:
 
 	bool CheckLoginFlag(unsigned long uin, const string& strID, bool bCreate = false, bool bFree = false);
 
+	void TimerSolveAuthToken();
+
 private:
 
 	bool CheckLoginInfo(string loginName, string password,bool isAutoLogin, bool isKeepPwd);
@@ -32,9 +34,10 @@ private:
 	int SendLoginInfo(unsigned int uin);
 	
 public:
-	CChatManager* m_manager;
-	CTqAuthClient *m_pTqAuthClient;
-	char m_szAuthtoken[MAX_256_LEN + 1];//改成公共的
-	unsigned long m_authAdminid;
-	int m_nLoginBy;					//当前的登陆类型
+	CChatManager*		m_manager;
+	CTqAuthClient*		m_pTqAuthClient;
+	char				m_szAuthtoken[MAX_256_LEN + 1];	// 改成公共的
+	unsigned long		m_authAdminid;
+	int					m_nLoginBy;						// 当前的登陆类型
+	int					m_nSendAuthToken;				// 尝试连接认证服务器的次数
 };

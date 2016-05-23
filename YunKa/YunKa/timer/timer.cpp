@@ -21,7 +21,7 @@ void CTimer::Run()
 		{
 			if (m_handler)
 			{
-				(*m_handler)(m_parameter, m_this);
+				(*m_handler)(m_id, m_this);
 			}
 			tickLastTime = ::GetTickCount();
 		}
@@ -43,11 +43,11 @@ DWORD WINAPI CTimer::ThreadProc(LPVOID p)
 	return 0;
 }
 
-void CTimer::Start(int time, TimerHandler func, string lparam, LPVOID pThis)
+void CTimer::Start(int time, TimerHandler func, int id, LPVOID pThis)
 {
 	m_interval = time;
 	m_handler = func;
-	m_parameter = lparam;
+	m_id = id;
 	m_this = pThis;
 	m_hThread = ::CreateThread(NULL, 0, ThreadProc, this, 0, NULL);
 }
@@ -60,7 +60,7 @@ CTimerManager::CTimerManager(TimerHandler func, LPVOID pThis)
 
 CTimerManager::~CTimerManager()
 {
-	map<string, CTimer*>::iterator iter = m_mapTimers.begin();
+	map<int, CTimer*>::iterator iter = m_mapTimers.begin();
 	for (iter; iter != m_mapTimers.end();iter++)
 	{
 		iter->second->Stop();
@@ -69,20 +69,20 @@ CTimerManager::~CTimerManager()
 	m_mapTimers.clear();
 }
 
-void CTimerManager::SetTimer(int time, string timerName)
+void CTimerManager::SetTimer(int time, int timerId)
 {
-	map<string, CTimer*>::iterator iter = m_mapTimers.find(timerName);
+	map<int, CTimer*>::iterator iter = m_mapTimers.find(timerId);
 	if (iter == m_mapTimers.end())
 	{
 		CTimer* timer = new CTimer();
-		timer->Start(time, m_handler, timerName, m_this);
-		m_mapTimers.insert(map<string, CTimer*>::value_type(timerName, timer));		
+		timer->Start(time, m_handler, timerId, m_this);
+		m_mapTimers.insert(map<int, CTimer*>::value_type(timerId, timer));
 	}
 }
 
-void CTimerManager::KillTimer(string timerName)
+void CTimerManager::KillTimer(int timerId)
 {
-	map<string, CTimer*>::iterator iter = m_mapTimers.find(timerName);
+	map<int, CTimer*>::iterator iter = m_mapTimers.find(timerId);
 	if (iter != m_mapTimers.end())
 	{
 		iter->second->Stop();

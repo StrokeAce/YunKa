@@ -901,7 +901,83 @@ int CWebUserObject::IsForbid()
 
 bool CWebUserObject::IsDisplay(CSysConfigFile *pConfig, unsigned long uid)
 {
-	return false;
+	if (pConfig == NULL)
+		return true;
+
+	bool bDisplay = false;
+	int i;
+	unsigned long curtime = ::GetCurrentLongTime();
+
+	switch (pConfig->m_nFilterType)
+	{
+	case VISITORFILTER_ALL:
+		bDisplay = true;
+		break;
+	case VISITORFILTER_MYVISITOR:
+		if (this->talkuid == uid)
+		{
+			bDisplay = true;
+		}
+		else
+		{
+			if (IsIDIsMutiUser(uid))
+				bDisplay = true;
+		}
+		break;
+	case VISITORFILTER_ALLVISITOR:
+		bDisplay = true;
+		break;
+
+	case VISITORFILTER_1MINUTES:
+		if (curtime - this->m_onlinetime > 60)
+			bDisplay = true;
+		break;
+	case VISITORFILTER_3MINUTES:
+		if (curtime - this->m_onlinetime > 180)
+			bDisplay = true;
+		break;
+	case VISITORFILTER_5MINUTES:
+		if (curtime - this->m_onlinetime > 300)
+			bDisplay = true;
+		break;
+	case VISITORFILTER_10MINUTES:
+		if (curtime - this->m_onlinetime > 600)
+			bDisplay = true;
+		break;
+	case VISITORFILTER_USERDEFINE:
+		bDisplay = true;
+		if (pConfig->m_cWebUserfilter.include == 0)
+		{
+			for (i = 0; i < MAX_STRINGFILTER_NUM; i++)
+			{
+				if (strlen(pConfig->m_cWebUserfilter.text[i]) <= 0)
+					break;
+
+				if (strstr(this->info.ipfromname, pConfig->m_cWebUserfilter.text[i]) == NULL)
+				{
+					bDisplay = false;
+					break;
+				}
+			}
+		}
+		else
+		{
+			for (i = 0; i < MAX_STRINGFILTER_NUM; i++)
+			{
+				if (strlen(pConfig->m_cWebUserfilter.text[i]) <= 0)
+					break;
+
+				if (strstr(this->info.ipfromname, pConfig->m_cWebUserfilter.text[i]) != NULL)
+				{
+					bDisplay = false;
+					break;
+				}
+			}
+		}
+		break;
+	}
+
+	return bDisplay;
 }
 
 void CWebUserObject::SetForbid(bool bForbid)

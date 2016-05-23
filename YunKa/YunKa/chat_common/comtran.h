@@ -78,7 +78,7 @@
 #define CMD_FLOAT_GETCHATMSG				0x0239	// 569 获取会话消息   C->GP
 #define CMD_FLOAT_INVITE_REQUEST			0x023A	// 570 邀请某些人进入会话，只能邀请同一管理员下面的客服
 #define CMD_FLOAT_INVITE_RESULT				0x023B	// 571 被邀请方返回邀请结果
-#define CMD_FLOAT_KEFU_RELEASE				0x023C	// 572 客服应答消息超时        GP->C
+#define CMD_FLOAT_RELEASE				0x023C	// 572 客服应答消息超时        GP->C
 #define CMD_FLOAT_CMDERROR					0x023F	// 575 获取会话中的消息      GP->C
 #define CMD_FLOAT_CHATINFO					0x023D	// 573 会话组详细信息
 #define CMD_FLOAT_SHARELIST					0x0250	// 592 获取可分享消息对象列表（友好对象列表）

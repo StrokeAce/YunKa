@@ -192,7 +192,6 @@ public:
 	unsigned short  type; 
 };
 
-
 //#define CMD_CLT_UPDATE_STATUS				0x04D8  // 1240 更新状态
 //更新在线状态
 class CLT_UPDATE_STATUS:public CPackInfo
@@ -281,81 +280,6 @@ public:
 public:
 	unsigned short seq;
 	char	strid[MAX_SID_LEN];
-};
-
-
-
-//#define CMD_COM_FILE_SEND					0x0F8C  // 3980 客户端请求发送某一个文件
-class COM_FILE_SEND:public CPackInfo
-{
-public:
-	COM_FILE_SEND(unsigned short version);
-	~COM_FILE_SEND();
-
-	bool unpack();  //read
-	bool pack();  //write
-
-	
-public:
-	unsigned short	seq;						//2 序列号
-
-	unsigned int	recvuin;					//4 他的UIN号码
-	unsigned int	senduin;					//4 发送者的UIN号码
-	char			sendname[MAX_USERNAME_LEN];	//20 发送者的名称
-
-	unsigned short	sendtoserver;				//2
-	unsigned int	random;						//4 区分唯一性
-
-	char			strip[MAX_IPNUM_LEN];		//20 发送者的地址
-	unsigned short	port;						//2
-
-	unsigned int	localip;					//2
-	unsigned short	localport;					//2 发送者的端口
-
-	unsigned short	filetotal;					//2 文件的数目,目录为一个文件
-	unsigned int	filesize;					//4
-
-	unsigned short	filenum;					//2
-	FILE_INFO		m_ListFile[MAX_LIST_FILE];	//5 * 125
-
-	unsigned int	startpos;					//4 开始的位置, 0表示为第一次发送, 对个文件只对第一个有效
-	unsigned short	isauth;						//2 是否加了验证  0  没有增加；1 增加
-	char			strauth[MAX_RESPONSE_LEN];	//255 验证信息 
-
-private:
-	unsigned short	maxfilenum;
-
-};
-
-class COM_VIDEOAUDIOTEXT_FORM:public CPackInfo
-{
-public :
-	COM_VIDEOAUDIOTEXT_FORM(unsigned short version);
-	~COM_VIDEOAUDIOTEXT_FORM();
-
-	bool unpack();  //read
-	bool pack();  //write
-
-	
-	void SetBuff(int len, char *pBuff);
-public :
-	unsigned int recvip[4];	//	recvip[0]   recvip[1] 服务器ip recvip[2] 对外ip recvip [3] 本地ip
-	unsigned short recvport[4];	//
-
-	unsigned short seq; //序号
-	unsigned short num;	//该包的分包总数
-	unsigned short index;		//该包的分包序号
-
-	char sBuff[BUFFMAXLEN];		//数据
-
-public:
-	bool sendtoserver;
-	int len;
-
-	unsigned int uin;
-	unsigned short port;
-
-	char	strip[MAX_IPNUM_LEN];
 };
 
 #endif

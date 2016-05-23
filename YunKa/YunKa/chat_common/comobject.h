@@ -162,8 +162,6 @@ public:
 	unsigned long talkuid;
 	unsigned long fd;	//他的socket连接，用来消息转发
 
-	string m_strMsgHtml;
-	string m_strMsgHtmlEx;	//这一部分内容，保存如果当前不是该用户的显示区，等待切换到该用户时，添加到m_strMsgHtml中
 	list<ONE_MSG_INFO> m_strMsgs;// 个人聊天记录
 	string m_strPreSendMsg;
 	bool m_bConnected;

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-typedef void(CALLBACK *Timerfunc)(string lparam, LPVOID pThis);
+typedef void(CALLBACK *Timerfunc)(int timeId, LPVOID pThis);
 typedef Timerfunc TimerHandler;
 
 class CTimer
@@ -17,7 +17,7 @@ public:
 
 	~CTimer();
 
-	void Start(int time, TimerHandler func, string lparam, LPVOID pThis);
+	void Start(int time, TimerHandler func, int id, LPVOID pThis);
 
 	void Stop();
 
@@ -29,7 +29,7 @@ private:
 private:
 	TimerHandler	m_handler;
 	int             m_interval;
-	string			m_parameter;	
+	int				m_id;	
 	bool			m_stopFlag;
 	HANDLE			m_hThread;
 	LPVOID			m_this;
@@ -41,12 +41,12 @@ public:
 	CTimerManager(TimerHandler func, LPVOID pThis);
 	~CTimerManager();
 
-	void SetTimer(int time, string timerName);
+	void SetTimer(int time, int timerId);
 
-	void KillTimer(string timerName);
+	void KillTimer(int timerId);
 
 private:
-	map<string, CTimer*>	m_mapTimers;
+	map<int, CTimer*>		m_mapTimers;
 	TimerHandler			m_handler;
 	LPVOID					m_this;
 };

@@ -471,43 +471,6 @@ int CPack::Decode()
 	return m_nPackLen;
 }
 
-bool CPack::PackFileInfo(FILE_INFO	fileinfo, unsigned short ver)
-{
-	bool bRtn = false;
-
-	if(!(packString(fileinfo.strFile,MAX_FILENAME_LEN)))
-		goto RETURN;
-
-	if(!((*this) << fileinfo.dwSize))
-		goto RETURN;
-
-	if(!((*this) << fileinfo.IsDirectory))
-		goto RETURN;
-
-	bRtn = true;
-RETURN:
-	return bRtn;
-}
-
-bool CPack::UnpackFileInfo(FILE_INFO	&fileinfo, unsigned short ver)
-{
-	bool bRtn = false;
-	unsigned short len = 0;
-
-	if(!(unpackString(fileinfo.strFile,len,MAX_FILENAME_LEN)))
-		goto RETURN;
-
-	if(!((*this) >> fileinfo.dwSize))
-		goto RETURN;
-
-	if(!((*this) >> fileinfo.IsDirectory))
-		goto RETURN;
-
-	bRtn = true;
-RETURN:
-	return bRtn;
-}
-
 void CPack::Clear()
 {
 	this->m_nTotalLen = 0;

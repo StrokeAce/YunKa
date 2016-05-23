@@ -1,11 +1,8 @@
-// commit pack commcom.h: 数据传输中包的头文件
-//
-//////////////////////////////////////////////////////////////////////
 #if !defined _COMMSRV_EM
 #define _COMMSRV_EM
+
 #include "comcom.h"
 #include "comdef.h"
-
 
 class SRV_ERROR_CLTSEND:public CPackInfo
 {
@@ -322,7 +319,6 @@ private:
 	//size : 18+912 = 930
 };
 
-
 //更新用户信息, 更新密码, 更新状态的服务器结果：成功，失败
 //更新成功
 //#define CMD_SRV_UPDATE_SUCC					0x00C8	// 200 更新成功
@@ -365,7 +361,6 @@ public:
 	MSG_INFO MsgList[MAX_OFFLINE_MSG];         //消息列表
 
 };
-
 
 //服务器返回的用户资料
 //max size : 974
@@ -478,7 +473,6 @@ public:
 	char   szThirdid[MAX_THIRDID_LEN+1];//第三方id
 	
 };
-
 
 struct  GROUP_LIST
 {
