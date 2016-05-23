@@ -843,6 +843,8 @@ int CChatManager::RecvSrvStatusUserForm(PACK_HEADER packhead, char *pRecvBuff, i
 
 int CChatManager::RecvFloatShareList(PACK_HEADER packhead, char *pRecvBuff, int len)
 {
+	SendTo_GetListChatInfo();
+
 	COM_FLOAT_SHARELIST RecvInfo(packhead.ver);
 	int nError = 0;
 	CUserObject *pUser = NULL;
