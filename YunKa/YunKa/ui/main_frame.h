@@ -114,8 +114,6 @@ public:    //主界面消息回调
 	// 收到一个坐席用户的信息,用来初始化坐席列表
 	virtual void RecvOneUserInfo(CUserObject* pWebUser);
 
-	// 收到一个新建的会话消息
-	virtual void RecvCreateChat(CWebUserObject* pWebUser) {}
 
 	// 收到一个会话消息
 	virtual void RecvChatInfo(CWebUserObject* pWebUser) {}
@@ -132,6 +130,8 @@ public:    //主界面消息回调
 	virtual void RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser) {}
 
 	virtual void RecvCloseChat(CWebUserObject* pWebUser) {}
+
+	virtual void RecvReleaseChat(CWebUserObject* pWebUser) {}
 
 	// 获取上一次错误信息
 	virtual string GetLastError() { return ""; }

@@ -24,7 +24,6 @@ CMainFrame::CMainFrame(CChatManager* manager) :m_manager(manager)
 
 	pOnlineNode = pWaitForStart = pMySelfeNode = NULL;
 
-	m_currentNumber = 0;
 
 
 }
@@ -293,21 +292,22 @@ void CMainFrame::OnTimer(TNotifyUI& msg)
 
 	if (msg.pSender == pUserList)
 	{
-		//m_upUser.push_back(pWebUser);
+		AddOnlineVisitor(pUserList, NULL, -1);
+		m_PaintManager.KillTimer(pUserList);
+		list<CUserObject* >::iterator  iter = m_upUser.begin();
+		for (; iter != m_upUser.end(); iter++)
+		{
 
-		//list<CUserObject* >::iterator  iter = m_upUser.begin();
-		//for (; iter != m_upUser.end();iter++)
-		//{
-			
 			//AddUserList(pUserList,*iter);
 
-		//}
+			RecvOnline(*iter);
+
+		}
 		//UserListUI::Node* tempNode = iter->second;
 
 
+		m_upUser.clear();
 
-		AddOnlineVisitor(pUserList,NULL,-1);
-	    m_PaintManager.KillTimer(pUserList);
 	}
 
 }
@@ -747,7 +747,7 @@ void CMainFrame::SendMsgToGetList()
 	AddMyselfToList(pUserList, m_mySelfInfo);
 
 
-
+	//AddOnlineVisitor(pUserList,NULL,-1);
 	//获取坐席列表
 	m_manager->SendTo_GetShareList();
 
@@ -777,7 +777,8 @@ void CMainFrame::AddOnlineVisitor(UserListUI * ptr, CUserObject *user,int index)
 	//第一个主节点 显示 名称 在线访客
 	if (index == -1)
 	{
-		//pOnlineNode = ptr->AddNode(nameString, m_currentNumber);
+		//number = ptr->GetNodeListNumber(NULL);
+		//pOnlineNode = ptr->AddNode(nameString, 39);
 		pOnlineNode = ptr->AddNode(nameString);
 	}
 
@@ -840,15 +841,15 @@ void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user, int pos)
 	{
 		m_offlineNodeMap.insert(pair<unsigned int, UserListUI::Node*>(user->UserInfo.uid, pUserNameNode));
 
-		//m_currentNumber = pUserList->GetNodeIndex(pUserNameNode);
+		pUserList->ExpandNode(pUserNameNode, false);
 	}
 	else  if (user->status == STATUS_ONLINE)     //在线
 	{
 		m_onlineNodeMap.insert(pair<unsigned int, UserListUI::Node*>(user->UserInfo.uid, pUserNameNode));
-
+		pUserList->ExpandNode(pUserNameNode, true);
 	}
 
-	pUserList->ExpandNode(pUserNameNode, false);
+
 	
 		
 
@@ -899,7 +900,7 @@ void CMainFrame::AddMyselfToList(UserListUI * ptr, CUserObject *user)
 
 
 	pMySelfeNode = pUserNameNode;
-	pUserList->ExpandNode(pMySelfeNode, false);
+	pUserList->ExpandNode(pMySelfeNode, true);
 
 }
 
@@ -930,11 +931,15 @@ void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
 	}
 	else  if (user->status == STATUS_ONLINE)                   //在线
 	{
-		onlineString = _T("(在线)");
+		//onlineString = _T("(在线)");
+		onlineString = _T("(离线)");
 
 		strTemp = AnsiToUnicode(user->UserInfo.nickname);
 		nameString.Format(_T("{x 4}{i gameicons.png 18 0}{x 4} %s %s"), strTemp.GetData(), onlineString);
 
+		pUserNameNode = ptr->AddNode(nameString);
+		
+		m_upUser.push_back(user);
 
 		/*
 		if (m_onlineNodeMap.size() > 0)
@@ -949,9 +954,11 @@ void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
 		}
 		pUserNameNode = ptr->AddNode(nameString,index);
 		*/
-		pUserNameNode = ptr->AddNode(nameString);
+	
 
 	}
+
+
 	taklString.Format(_T("{x 4}{i gameicons.png 18 10}{x 4}对话中"));
 	pUserTalkNode = pUserList->AddNode(taklString, pUserNameNode);
 
@@ -963,11 +970,10 @@ void CMainFrame::AddUserList(UserListUI * ptr, CUserObject *user)
 	pUserAcceptNode = pUserList->AddNode(acceptString, pUserNameNode);
 
 
-	if (user->status == STATUS_OFFLINE)    //离线
+	if ( 1 /* user->status == STATUS_OFFLINE */)    //离线
 	{
 		m_offlineNodeMap.insert(pair<unsigned int, UserListUI::Node*>(user->UserInfo.uid, pUserNameNode));
 
-		m_currentNumber = pUserList->GetNodeIndex(pUserNameNode);
 	}
 	else  if (user->status == STATUS_ONLINE) //在线
 	{
@@ -988,7 +994,7 @@ void CMainFrame::RecvOneUserInfo(CUserObject* pWebUser)
 	AddUserList(pUserList,pWebUser);
 	//m_PaintManager.SetTimer(pUserList, WM_ADD_ONLINE_DATA_TIMER_ID, DELAY_ADD_ONLINE_DATA_TIME);
 
-	//m_upUser.push_back(pWebUser);
+
 
 }
 
@@ -996,7 +1002,7 @@ void CMainFrame::RecvOneUserInfo(CUserObject* pWebUser)
 // 收到更新用户的在线状态
 void CMainFrame::RecvUserStatus(CUserObject* pUser)
 {
-
+	
 }
 
 // 坐席上线消息

@@ -352,6 +352,31 @@ public:
 	}
 
 
+	int GetNodeListNumber(Node* node)
+	{
+	
+		int index = 0;
+
+		if (!node)
+		{
+			node = _root;
+		}
+			//Node* prev = node->get_last_child();
+			//index = prev->data()._pListElement->GetIndex() + 1;
+
+
+		for (int i = 0; i < node->num_children(); i++)
+		{
+			Node *ptr = node->child(i);
+			
+			index += ptr->num_children();
+			GetNodeListNumber(ptr);
+		}
+
+		return index;	
+	
+	}
+
 	bool RemoveNode(Node* node)
 	{
 		vector<Node*> childVertor;
