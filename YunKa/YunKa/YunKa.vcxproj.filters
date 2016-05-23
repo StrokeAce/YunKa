@@ -144,9 +144,6 @@
     <ClInclude Include="chat_manager\socket.h">
       <Filter>chat_manager</Filter>
     </ClInclude>
-    <ClInclude Include="chat_manager\sys_config.h">
-      <Filter>chat_manager</Filter>
-    </ClInclude>
     <ClInclude Include="utils\convert.h">
       <Filter>utils</Filter>
     </ClInclude>
@@ -456,9 +453,6 @@
       <Filter>chat_manager</Filter>
     </ClCompile>
     <ClCompile Include="chat_manager\socket.cpp">
-      <Filter>chat_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="chat_manager\sys_config.cpp">
       <Filter>chat_manager</Filter>
     </ClCompile>
     <ClCompile Include="json\cJSON.c">

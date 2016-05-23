@@ -133,7 +133,6 @@
     <ClInclude Include="chat_manager\chat_visitor.h" />
     <ClInclude Include="chat_manager\login.h" />
     <ClInclude Include="chat_manager\socket.h" />
-    <ClInclude Include="chat_manager\sys_config.h" />
     <ClInclude Include="http_load\http_unit.h" />
     <ClInclude Include="http_load\sock.h" />
     <ClInclude Include="http_load\switch_sock.h" />
@@ -226,7 +225,6 @@
     <ClCompile Include="chat_manager\chat_visitor.cpp" />
     <ClCompile Include="chat_manager\login.cpp" />
     <ClCompile Include="chat_manager\socket.cpp" />
-    <ClCompile Include="chat_manager\sys_config.cpp" />
     <ClCompile Include="http_load\http_unit.cpp" />
     <ClCompile Include="http_load\sock.cpp" />
     <ClCompile Include="http_load\switch_sock.cpp" />

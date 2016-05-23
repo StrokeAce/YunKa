@@ -149,27 +149,27 @@ void CChatVisitor::SolveVisitorSystem(char *pInitBuff)
 
 	strTemp = GetXMLCommandString(pInitBuff, cmd, "COMMAND");
 
-	if (strTemp.find("MYADMIN") == 0)
+	if ((int)strTemp.find("MYADMIN") == 0)
 	{
 		SolveVisitorSystemAdmin(pInitBuff);
 	}
-	else if (strTemp.find("UP") == 0)
+	else if ((int)strTemp.find("UP") == 0)
 	{
 		SolveVisitorSystemUp(pInitBuff);
 	}
-	else if (strTemp.find("DOWN") == 0)
+	else if ((int)strTemp.find("DOWN") == 0)
 	{
 		SolveVisitorSystemDown(pInitBuff);
 	}
-	else if (strTemp.find("SYSTEMSET") == 0)
+	else if ((int)strTemp.find("SYSTEMSET") == 0)
 	{
 		
 	}
-	else if (strTemp.find("STOPRECVMSG") == 0)
+	else if ((int)strTemp.find("STOPRECVMSG") == 0)
 	{
 		SolveVisitorSystemStopRecvMsg(pInitBuff);
 	}
-	else if (strTemp.find("ALREADYAPPLY") == 0)
+	else if ((int)strTemp.find("ALREADYAPPLY") == 0)
 	{
 		SolveVisitorSystemAlreadyApply(pInitBuff);
 	}
@@ -182,21 +182,21 @@ void CChatVisitor::SolveVisitorSCRIPTMSG(char *pInitBuff)
 
 	strTemp = GetXMLCommandString(pInitBuff, cmd, "COMMAND", 100);
 
-	if (strTemp.find("APPLYFAIL_DISAGREE") == 0)
+	if ((int)strTemp.find("APPLYFAIL_DISAGREE") == 0)
 	{
 		SolveVisitorSCRIPTMSGApplyFail(pInitBuff);
 	}
-	else if (strTemp.find("MODINAME") == 0)
+	else if ((int)strTemp.find("MODINAME") == 0)
 	{
 		//更改访客名称
 		SolveVisitorSCRIPTMSGModiName(pInitBuff);
 	}
-	else if (strTemp.find("TALKBEG") == 0)
+	else if ((int)strTemp.find("TALKBEG") == 0)
 	{
 		//开始会话
 		SolveVisitorSCRIPTMSGTalkBegin(pInitBuff);
 	}
-	else if (strTemp.find("TALKEND") == 0)
+	else if ((int)strTemp.find("TALKEND") == 0)
 	{
 		//结束会话
 		SolveVisitorSCRIPTMSGTalkEnd(pInitBuff);

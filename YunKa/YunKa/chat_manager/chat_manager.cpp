@@ -1580,10 +1580,11 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 		{
 			string strMsg = RecvInfo.strmsg;
 			transform(strMsg.begin(), strMsg.end(), strMsg.begin(), ::toupper);
-			if (strMsg.find("userfile") > -1 && strMsg.find("收到文件") > -1)
+			if ((int)strMsg.find("userfile") > -1 && (int)strMsg.find("收到文件") > -1)
 			{
 				// 接待的坐席给微信对象发的					
-				if (strMsg.find(".jpg") > -1 || strMsg.find(".jpeg") > -1 || strMsg.find(".bmp") > -1 || strMsg.find(".png") > -1)
+				if ((int)strMsg.find(".jpg") > -1 || (int)strMsg.find(".jpeg") > -1 ||
+					(int)strMsg.find(".bmp") > -1 || (int)strMsg.find(".png") > -1)
 				{
 					RecvInfo.nMsgDataType = MSG_DATA_TYPE_IMAGE;
 				}
@@ -1592,12 +1593,12 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 					RecvInfo.nMsgDataType = MSG_DATA_TYPE_FILE;
 				}
 			}
-			else if (strMsg.find("http:") > -1 && (strMsg.find(".jpg") > -1 || strMsg.find(".jpeg") > -1 ||
-				strMsg.find(".bmp") > -1 || strMsg.find(".png") > -1) || strMsg.find("收到一个图片") > -1)
+			else if ((int)strMsg.find("http:") > -1 && ((int)strMsg.find(".jpg") > -1 || (int)strMsg.find(".jpeg") > -1 ||
+				(int)strMsg.find(".bmp") > -1 || (int)strMsg.find(".png") > -1) || (int)strMsg.find("收到一个图片") > -1)
 			{
 				RecvInfo.nMsgDataType = MSG_DATA_TYPE_IMAGE;
 			}
-			else if (strMsg.find("userfile") > -1)
+			else if ((int)strMsg.find("userfile") > -1)
 			{
 				// 接待的坐席给web用户发的
 				RecvInfo.nMsgDataType = MSG_DATA_TYPE_FILE;
@@ -3035,7 +3036,7 @@ void CChatManager::RecvComSendWorkBillMsg(unsigned long senduid, unsigned long r
 	string strMsg = "", strReturnParameters = "";
 	strMsg = msg;
 	int nPos = strMsg.find("ReturnParameters:");
-	strReturnParameters = strMsg.substr(0, strMsg.size() - nPos - 17);
+	strReturnParameters = strMsg.substr(nPos + 17, strMsg.size() - nPos - 17);
 	if (!GetContentBetweenString(msg, "WorkBillID:", "\n", billid))
 	{
 		billid[0] = 0;
@@ -3106,7 +3107,8 @@ void CChatManager::RecvComSendWorkBillMsg(unsigned long senduid, unsigned long r
 			}
 		}
 
-		if (strReturnParameters.find("transfer") >= 0)//转接中
+		nPos = strReturnParameters.find("transfer");
+		if (nPos >= 0)//转接中
 		{
 			//正在转移
 			//strReturnParameters.Remove('\\');
@@ -3131,8 +3133,6 @@ void CChatManager::RecvComSendWorkBillMsg(unsigned long senduid, unsigned long r
 				//KillTimer(TIMER_TRANS_TIMEOUT);
 				//SetTimer(TIMER_TRANS_TIMEOUT, 1000, NULL);
 			}
-		}
-		else if (strReturnParameters.find("waiter") >= 0) {
 		}
 		else if ((pWebUser->cTalkedSatus != INTALKING || !pWebUser->m_bConnected)
 			&& m_userInfo.UserInfo.uid == recvuid && !pWebUser->m_bNewComm)//非等待应答的会话
@@ -3303,19 +3303,19 @@ int CChatManager::RecvComTransAnswer(unsigned long senduid, COM_SEND_MSG& RecvIn
 	}
 
 	strMsg = RecvInfo.msg.strmsg;
-	if (strMsg.find("OK") >= 0)//同意转接
+	if ((int)strMsg.find("OK") >= 0)//同意转接
 	{
 		//坐席同意后发送CLT_TRANSFERCLIENT包
 		strMsg = pWebUser->info.name;
 		strMsg = "对方同意您对访客[%s]的转接" + strMsg;
 		//SendTransferClinet(pAcceptUser, pWebUser, senduid);
 	}
-	else if (strMsg.find("NO") >= 0)//拒绝转接
+	else if ((int)strMsg.find("NO") >= 0)//拒绝转接
 	{
 		strMsg = pWebUser->info.name;
 		strMsg = "对方拒绝您对访客[%s]的转接" + strMsg;
 	}
-	else if (strMsg.find("TIMEOUT") >= 0)//超时
+	else if ((int)strMsg.find("TIMEOUT") >= 0)//超时
 	{
 		strMsg = pWebUser->info.name;
 		strMsg = "您对访客[%s]的转接超时" + strMsg;
@@ -3881,7 +3881,7 @@ int CChatManager::SendMsg(IBaseObject* pUser, const char *msg, int bak, char *sf
 	return nError;
 }
 
-int CChatManager::SendTo_Msg(IBaseObject* pUser, string msgId, int msgDataType, string msg)
+int CChatManager::SendTo_Msg(IBaseObject* pUser, string msgId, int msgDataType, char* msg)
 {
 	return 0;
 }

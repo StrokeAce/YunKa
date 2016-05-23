@@ -145,10 +145,12 @@ public:
 	//************************************
 	// Method:    SendTo_Msg
 	// Qualifier: 发送一条消息
-	// Parameter: IBaseObject * pUser
-	// Parameter: string msgId
+	// Parameter: pUser 接收消息的对象
+	// Parameter: string msgId	消息id
+	// Parameter: string msgDataType 数据类型
+	// Parameter: string msg 数据内容
 	//************************************
-	int SendTo_Msg(IBaseObject* pUser, string msgId, int msgDataType, string msg);
+	int SendTo_Msg(IBaseObject* pUser, string msgId, int msgDataType, char * msg);
 
 	// 重新发送一条消息
 	int ReSendTo_Msg(string msgId);
