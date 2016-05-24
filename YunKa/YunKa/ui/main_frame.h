@@ -135,9 +135,6 @@ public:    //主界面消息回调
 
 	virtual void RecvReleaseChat(CWebUserObject* pWebUser) {}
 
-	// 获取上一次错误信息
-	virtual string GetLastError() { return ""; }
-
 	virtual void RecvMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType, string msgContent,
 		string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "") {}
 

@@ -1106,3 +1106,19 @@ WEBUSER_URL_INFO* CWebUserObject::GetScriptFlagOb(char *scriptflag)
 	}
 	return NULL;
 }
+
+WEBUSER_URL_INFO* CWebUserObject::GetLastScriptFlagOb()
+{
+	unsigned long dwtime = 0;
+	WEBUSER_URL_INFO* pUrl = NULL;
+	MapWebUserFLag::iterator iter = m_mapUrlAndScriptFlagOb.begin();
+	for (iter; iter != m_mapUrlAndScriptFlagOb.end(); iter++)
+	{
+		if (iter->second->dwtime > dwtime)
+		{
+			pUrl = iter->second;
+			dwtime = iter->second->dwtime;
+		}
+	}
+	return pUrl;
+}

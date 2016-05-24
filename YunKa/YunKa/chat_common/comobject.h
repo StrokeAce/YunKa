@@ -226,6 +226,7 @@ public:
 	void DeleteScriptFlag(char *scriptflag);
 	void DeleteAllScriptFlag();
 	WEBUSER_URL_INFO* GetScriptFlagOb(char *scriptflag);
+	WEBUSER_URL_INFO* GetLastScriptFlagOb();
 
 public:
 	unsigned char			m_bNewComm;					//ÐÂÐ­Òé

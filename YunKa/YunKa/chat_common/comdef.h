@@ -1056,13 +1056,13 @@ static const char *ICONINDEX1_STRING[] = {"意向", "需跟进", "已成交", "回访","随
 #define WEBUSER_UIN     2200000000U
 #define CLIENT_UIN      1000000000U
 
-#define CHATCLOSE_OFFLINE	0
-#define CHATCLOSE_TIMEOUT	1
-#define CHATCLOSE_USER		2
-#define CHATCLOSE_GP		3
-#define CHATCLOSE_WEBUI		4
-#define CHATCLOSE_UNSUBSCRIBE 6	//微信用户取消关注关闭会话
-#define CHATCLOSE_INVISTEXIT 10
+#define CHATCLOSE_OFFLINE	0		// 下线导致
+#define CHATCLOSE_TIMEOUT	1		// 超时导致
+#define CHATCLOSE_USER		2		// 坐席主动关闭
+#define CHATCLOSE_GP		3		// GP服务器关闭
+#define CHATCLOSE_WEBUI		4		// WEBUI服务器关闭
+#define CHATCLOSE_UNSUBSCRIBE 6		// 微信用户取消关注关闭会话
+#define CHATCLOSE_INVISTEXIT 10		// 会话来自其他坐席邀请，该坐席主动关闭
 
 #define INVITE_NORMAL		0
 #define INVITE_USERDEFINE	1

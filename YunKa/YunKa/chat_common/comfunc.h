@@ -73,4 +73,6 @@ bool ParseSearchURLHostAndVar(string strurl, string &strHost, string &strVar);
 
 int GetApplyTypeID(string stype);
 
+string GetApplyTypeString(int type);
+
 #endif

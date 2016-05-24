@@ -61,9 +61,6 @@ public:
 	//************************************
 	virtual void RecvReleaseChat(CWebUserObject* pWebUser) = 0;
 
-	// 获取上一次错误信息
-	virtual string GetLastError() = 0;
-
 	//************************************
 	// Method:    RecvMsg
 	// Qualifier: 收到一条消息
@@ -96,6 +93,8 @@ public:
 	// Parameter: bSuccess 是否发送成功
 	//************************************
 	virtual void ResultSendMsg(string msgId, bool bSuccess) = 0;
+
+	//virtual void Recv
 };
 
 class CChatManager : public IBaseReceive
@@ -157,6 +156,52 @@ public:
 
 	// 重新接收一条消息
 	int ReRecv_Msg(string msgId);
+
+	// 发起接受访客会话
+	int SendTo_AcceptChat(CWebUserObject* pWebUser);
+
+	// 发起释放访客会话
+	int SendTo_ReleaseChat(CWebUserObject* pWebUser);
+
+	//************************************
+	// Method:    SendTo_CloseChat
+	// Qualifier: 发起关闭会话
+	// Parameter: pWebUser 会话中的访客
+	// Parameter: ntype 会话关闭的原因，例如：CHATCLOSE_USER
+	//************************************
+	int SendTo_CloseChat(CWebUserObject *pWebUser, int ntype);
+
+	//************************************
+	// Method:    SendTo_InviteWebUser
+	// Qualifier: 发起邀请访客参与会话
+	// Parameter: pWebUser 会话中的访客
+	// Parameter: type 会话中的访客
+	// Parameter: strText 会话中的访客
+	//************************************
+	int SendTo_InviteWebUser(CWebUserObject *pWebUser, int type, string strText);
+
+	//************************************
+	// Method:    SendTo_InviteUser
+	// Qualifier: 发起邀请其他坐席会话协助
+	// Parameter: pWebUser 会话中的访客
+	// Parameter: pUser 邀请的坐席
+	//************************************
+	int SendTo_InviteUser(CWebUserObject* pWebUser, CUserObject* pUser);
+
+	//************************************
+	// Method:    SendTo_InviteUserResult
+	// Qualifier: 发送是否接受该坐席的邀请协助
+	// Parameter: pWebUser 会话中访客
+	// Parameter: pUser 邀请的坐席
+	// Parameter: bAccept 是否同意
+	//************************************
+	int SendTo_InviteUserResult(CWebUserObject* pWebUser, CUserObject* pUser, int result);
+
+	// 发起会话转接到其他坐席的请求
+	int SendTo_TransferUser(CWebUserObject* pWebUser, CUserObject* pUser);
+
+	// 获取上一次错误信息
+	string GetLastError();
 
 	// 截图
 	void ScreenCapture();
@@ -312,8 +357,6 @@ public:
 
 	// 获取微信公众号token
 	int SendGetWxToken(unsigned long webuserid, const char *chatid);
-
-	int SendCloseChat(CWebUserObject *pWebUser, int ntype);
 
 	int SendMsg(IBaseObject* pUser, const char *msg, int bak = 0, char *sfont = "HTML");
 

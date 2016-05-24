@@ -60,12 +60,10 @@ public:
 	unsigned short usort;	//漂浮框id
 	unsigned int uWebuin;	//访客号码
 	char chatid[MAX_CHATID_LEN+1];     //工单id，唯一区别一次会话
-	char clienttid[MAX_WEBCLIENID_LEN+1];//
+	char clienttid[MAX_WEBCLIENID_LEN+1];
 	char webname[MAX_USERNAME_LEN+1];
 	char thirdid[MAX_THIRDID_LEN+1]; //第三方id
-
 	unsigned int uKefu;			//当前客服号码
-
 	unsigned int uFromAdmin; //会话来源网站管理员
 	unsigned short uFromSort;//会话来信漂浮框id
 

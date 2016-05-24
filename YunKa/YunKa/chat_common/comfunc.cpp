@@ -641,3 +641,18 @@ int GetApplyTypeID(string stype)
 	else
 		return APPLY_UNKNOWN;
 }
+
+string GetApplyTypeString(int type)
+{
+	switch (type)
+	{
+	case APPLY_ASK:
+		return "APPLY_ASK";
+	case APPLY_OPEN:
+		return "APPLY_OPEN";
+	case MYGETNOTE:
+		return "GETNOTE";
+	default:
+		return "";
+	}
+}
