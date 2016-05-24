@@ -9,7 +9,7 @@
 
 typedef map<string/*thirdId*/, string/*公众号token*/> WxTokens; // 公众号的thirdid和token一一对应
 typedef map<unsigned long, CUserObject*> MapUsers; // 保存坐席用户
-typedef map<char*, CWebUserObject*> MapWebUsers; // 保存访客
+typedef map<string, CWebUserObject*> MapWebUsers; // 保存访客
 
 // 登录消息的回调接口
 class IHandlerLgoin

@@ -514,7 +514,16 @@ string FullPath(string extPath)
 
 unsigned long GetCurrentLongTime()
 {
-	return 0;
+	unsigned long ntime = 0;
+	time_t tt = time(NULL);
+	struct tm * ttm = localtime(&tt);
+	if (ttm != NULL)
+	{
+		char stime[MAX_256_LEN];
+		sprintf(stime, "%d%d%d%d%d%d", ttm->tm_year + 1900, ttm->tm_mon + 1, ttm->tm_mday, ttm->tm_hour, ttm->tm_min, ttm->tm_sec);
+		ntime = atol(stime);
+	}
+	return ntime;
 }
 
 string GetMd5Str(const string str)
