@@ -110,13 +110,15 @@ public:
 	virtual void OnMouseEnter(TNotifyUI& msg);
 	virtual void OnItemSelect(TNotifyUI &msg);
 
+	void OnItemActive(TNotifyUI &msg);
+
 public:    //主界面消息回调
 	// 收到一个坐席用户的信息,用来初始化坐席列表
 	virtual void RecvUserInfo(CUserObject* pWebUser);
 
 
 	// 收到一个会话消息
-	virtual void RecvChatInfo(CWebUserObject* pWebUser) {}
+	virtual void RecvChatInfo(CWebUserObject* pWebUser);
 
 	// 收到更新用户的在线状态
 	virtual void RecvUserStatus(CUserObject* pUser);
@@ -155,10 +157,12 @@ public:
 	BOOL _RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex);
 
 	void SendMsgToGetList();
-	void AddUserList(UserListUI * ptr, CUserObject *user);
-	void AddUserList(UserListUI * ptr, CUserObject *user, int pos);
+	void AddHostUserList(UserListUI * ptr, CUserObject *user);
+	void AddHostUserList(UserListUI * ptr, CUserObject *user, int pos);
 	void AddOnlineVisitor(UserListUI * ptr, CUserObject *user, int index);
 	void AddMyselfToList(UserListUI * ptr, CUserObject *user);
+	void CMainFrame::AddOneVisitor(CWebUserObject* pWebUser);
+
 
 protected:
 
@@ -178,9 +182,11 @@ public:
 	map<unsigned int, UserListUI::Node*> m_offlineNodeMap;
 	UserListUI::Node* pOnlineNode ;
 	UserListUI::Node* pWaitForStart;
+	UserListUI::Node* pWaitForAccept;
 	UserListUI::Node* pMySelfeNode;
-
+	list<CDuiString > m_waitVizitorList;
 	list<CUserObject* > m_upUser;
+	unsigned int m_recordWaitNumber;
 
 
 private:
