@@ -15,6 +15,10 @@
 #include "user_list.h"
 
 
+#define MID_MANAGER_BUTTON_NUM    15
+#define MAX_PATH_LENGTH           1024
+
+
 // 将HWND显示到CControlUI上面
 class CWndUI : public CControlUI
 {
@@ -68,7 +72,14 @@ public:
 };
 
 
+typedef struct ManagerButtonStruct
+{
+	CButtonUI *m_pManagerBtn;
 
+	WCHAR hotImage[MAX_PATH_LENGTH];
+	WCHAR pushedImage[MAX_PATH_LENGTH];
+
+}ManagerButtonStruct;
 
 
 class CMainFrame : public WindowImplBase, public IHandlerMsgs
@@ -129,36 +140,44 @@ public:    //主界面消息回调
 	// 坐席下线消息
 	virtual void RecvOffline(CUserObject* pUser);
 
-	virtual void RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser) {}
+	virtual void RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser);
 
-	virtual void RecvCloseChat(CWebUserObject* pWebUser) {}
+		virtual void RecvCloseChat(CWebUserObject* pWebUser);
 
-	virtual void RecvReleaseChat(CWebUserObject* pWebUser) {}
+		virtual void RecvReleaseChat(CWebUserObject* pWebUser);
 
-	virtual void RecvMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType, string msgContent,
-		string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "") {}
+		virtual void RecvMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType, string msgContent,
+			string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "");
 
-	virtual void ResultRecvMsg(string msgId, bool bSuccess){};
+		virtual void ResultRecvMsg(string msgId, bool bSuccess);
 
-	virtual void ResultSendMsg(string msgId, bool bSuccess){};
+		virtual void ResultSendMsg(string msgId, bool bSuccess);
 
 public:
 	//自己定义的操作函数
 	void OnBtnFont(TNotifyUI& msg);
 	void OnBtnFace(TNotifyUI& msg);
 	void OnBtnScreen(TNotifyUI& msg);
-
+	void OnManagerButtonEvent(TNotifyUI& msg);
 	void OnFaceCtrlSel(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	void OnBtnSendMessage(TNotifyUI& msg);
 
 	BOOL _RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileName, int nFaceId, int nFaceIndex);
 
+//操作树列表的操作
 	void SendMsgToGetList();
 	void AddHostUserList(UserListUI * ptr, CUserObject *user);
 	void AddHostUserList(UserListUI * ptr, CUserObject *user, int pos);
 	void AddOnlineVisitor(UserListUI * ptr, CUserObject *user, int index);
 	void AddMyselfToList(UserListUI * ptr, CUserObject *user);
-	void CMainFrame::AddOneVisitor(CWebUserObject* pWebUser);
+
+
+
+//接入聊天 相关处理
+	void OnSendToAcceptChat(unsigned long webUserid);
+	void OnSendToReleaseChat(unsigned long webUserid);
+	void OnSendToCloseChat(unsigned long webUserid);
+
 
 
 protected:
@@ -181,7 +200,9 @@ public:
 	UserListUI::Node* pWaitForStart;
 	UserListUI::Node* pWaitForAccept;
 	UserListUI::Node* pMySelfeNode;
-	list<CDuiString > m_waitVizitorList;
+	map<unsigned long, UserListUI::Node*> m_waitVizitorMap;
+	map<unsigned long, UserListUI::Node*> m_allVisitorNodeMap;
+
 	list<CUserObject* > m_upUser;
 	unsigned int m_recordWaitNumber;
 
@@ -194,6 +215,9 @@ private:
 	CButtonUI * m_pFontBtn, *m_pFaceBtn, *m_pScreenBtn, *pSendMsgBtn;
 	CFaceSelDlg m_faceSelDlg;
 	CFaceList  m_faceList;
+
+
+	ManagerButtonStruct m_pManagerBtn[MID_MANAGER_BUTTON_NUM];
 
 	//CRichEditUI2    *m_pSendEdit;
 
@@ -208,6 +232,8 @@ private:
 
 	UserListUI* pUserList;
 	CUserObject* m_mySelfInfo;
+
+	unsigned long m_checkId;
 
 
 };

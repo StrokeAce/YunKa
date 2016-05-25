@@ -16,9 +16,8 @@ public:
 	struct NodeData
 	{
 		int _level;
-		unsigned int _uid;
+		unsigned long  _uid;
 		bool _expand;
-		CDuiString key_text;
 		CDuiString _text;
 		CListLabelElementUI* _pListElement;
 	};
@@ -79,6 +78,7 @@ public:
 		SetItemShowHtml(true);
 
 		_root = new Node;
+		_root->data()._uid = 0;
 		_root->data()._level = -1;
 		_root->data()._expand = true;
 		_root->data()._pListElement = NULL;
@@ -133,6 +133,8 @@ public:
 		}
 		delete _root;
 		_root = new Node;
+
+		_root->data()._uid = -1;
 		_root->data()._level = -1;
 		_root->data()._expand = true;
 		_root->data()._pListElement = NULL;
@@ -199,7 +201,7 @@ public:
 
 	Node* GetRoot() { return _root; }
 
-	Node* AddNode(LPCTSTR text, Node* parent = NULL)
+	Node* AddNode(LPCTSTR text,int uid, Node* parent = NULL)
 	{
 		if (!parent) parent = _root;
 
@@ -209,7 +211,9 @@ public:
 		if (node->data()._level == 0) node->data()._expand = true;
 		else node->data()._expand = false;
 		node->data()._text = text;
+		node->data()._uid = uid;
 		node->data()._pListElement = pListElement;
+		
 		//设置空间高度
 		//pListElement->SetAttribute(L"height", L"30");
 		if (parent != _root) {
@@ -255,7 +259,7 @@ public:
 	}
 
 
-	Node* AddNode(LPCTSTR text, int dex ,Node* parent = NULL )
+	Node* AddNode(LPCTSTR text,int uid, int dex ,Node* parent = NULL )
 	{
 		if (!parent) parent = _root;
 
@@ -265,6 +269,7 @@ public:
 		if (node->data()._level == 0) node->data()._expand = true;
 		else node->data()._expand = false;
 		node->data()._text = text;
+		node->data()._uid = uid;
 		node->data()._pListElement = pListElement;
 		//设置空间高度
 		//pListElement->SetAttribute(L"height", L"30");
@@ -411,6 +416,8 @@ public:
 		delete node;
 		return true;
 	}
+
+
 
 	void ExpandNode(Node* node, bool expand)
 	{
