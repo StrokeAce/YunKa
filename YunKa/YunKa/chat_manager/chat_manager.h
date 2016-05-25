@@ -149,19 +149,27 @@ public:
 	// Parameter: string msgDataType 数据类型
 	// Parameter: string msg 数据内容
 	//************************************
-	int SendTo_Msg(IBaseObject* pUser, string msgId, int msgDataType, char * msg);
+	int SendTo_Msg(unsigned long userId, int userType, string msgId, int msgDataType, char * msg);
 
 	// 重新发送一条消息
-	int ReSendTo_Msg(string msgId);
+	int ReSendTo_Msg(unsigned long webuserid, int userType, string msgId, int msgDataType, char * msg);
 
 	// 重新接收一条消息
 	int ReRecv_Msg(string msgId);
 
 	// 发起接受访客会话
-	int SendTo_AcceptChat(CWebUserObject* pWebUser);
+	int SendTo_AcceptChat(unsigned long webuserid);
 
 	// 发起释放访客会话
-	int SendTo_ReleaseChat(CWebUserObject* pWebUser);
+	int SendTo_ReleaseChat(unsigned long webuserid);
+
+	//************************************
+	// Method:    StopVisitorTalk
+	// Qualifier: 发起关闭会话
+	// Parameter: webuserid 会话中的访客的id
+	// Parameter: ntype 会话关闭的原因，例如：CHATCLOSE_USER
+	//************************************
+	void SendTo_StopTalk(unsigned long webuserid, int ntype);
 
 	//************************************
 	// Method:    SendTo_CloseChat
@@ -169,7 +177,7 @@ public:
 	// Parameter: pWebUser 会话中的访客
 	// Parameter: ntype 会话关闭的原因，例如：CHATCLOSE_USER
 	//************************************
-	int SendTo_CloseChat(CWebUserObject *pWebUser, int ntype);
+	int SendCloseChat(CWebUserObject *pWebUser, int ntype);
 
 	//************************************
 	// Method:    SendTo_InviteWebUser
@@ -360,6 +368,10 @@ public:
 
 	int SendMsg(IBaseObject* pUser, const char *msg, int bak = 0, char *sfont = "HTML");
 
+	int SendComMsg(unsigned long recvuid, char *visitorid, const char *msg, char * chatid, char* thirdid, int bak = 0, char *sfontinfo = "");
+
+	int SendFloatMsg(CWebUserObject *pWebUser, const char *msg, char *sfont);
+
 	int SendGetChatHisMsg(unsigned long webuserid, const char *chatid);//获取非等待应答会话的会话历史消息
 
 	// 文字消息中的表情字符转换
@@ -385,9 +397,7 @@ public:
 
 	void LoginSuccess();
 
-	CWebUserObject *GetWebUserObjectByScriptFlag(char *scriptflag);
-
-	void StopVisitorTalk(CWebUserObject *pWebUser, int type);
+	CWebUserObject *GetWebUserObjectByScriptFlag(char *scriptflag);	
 
 public:
 	int						m_nOnLineStatus;		// 是否在线,对于im服务器而言

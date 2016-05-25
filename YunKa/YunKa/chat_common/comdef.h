@@ -678,10 +678,10 @@
 //定义默认的字符串的大小
 #define BUFFMAXLEN					1024   //1.k
 
-
+#define SYS_FAIL					0		// 失败
 #define SYS_ERROR_MEMORY			100000
-#define SYS_ERROR_BEFORE_LOGIN		100001 // 发送了登录后才能发送的消息类型
-#define SYS_ERROR_PARAMETER			100002 // 参数错误
+#define SYS_ERROR_BEFORE_LOGIN		100001	// 发送了登录后才能发送的消息类型
+#define SYS_ERROR_PARAMETER			100002	// 参数错误
 
 #define COMM_ERROR_SEG				400000
 #define COMM_DENYLOGIN_SEG			410000
