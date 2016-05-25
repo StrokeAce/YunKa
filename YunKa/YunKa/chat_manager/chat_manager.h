@@ -169,7 +169,7 @@ public:
 	// Parameter: webuserid 会话中的访客的id
 	// Parameter: ntype 会话关闭的原因，例如：CHATCLOSE_USER
 	//************************************
-	void SendTo_StopTalk(unsigned long webuserid, int ntype);
+	void SendTo_CloseChat(unsigned long webuserid, int ntype);
 
 	//************************************
 	// Method:    SendTo_CloseChat

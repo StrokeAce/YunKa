@@ -3671,7 +3671,7 @@ void CChatManager::TimerSolveRequestTimerOut()
 						SendAutoRespMsg(iter->second, m_sysConfig->m_sVisitorTimeoutCloseMsg.c_str(), false);
 						iter->second->m_resptimeoutclosetimer = -20;
 
-						SendTo_StopTalk(iter->second->webuserid, CHATCLOSE_TIMEOUT);
+						SendTo_CloseChat(iter->second->webuserid, CHATCLOSE_TIMEOUT);
 					}
 				}
 			}
@@ -3679,7 +3679,7 @@ void CChatManager::TimerSolveRequestTimerOut()
 	}
 }
 
-void CChatManager::SendTo_StopTalk(unsigned long webuserid, int ntype)
+void CChatManager::SendTo_CloseChat(unsigned long webuserid, int ntype)
 {
 	CWebUserObject* pWebUser = GetWebUserObjectByUid(webuserid);
 	if (pWebUser == NULL || pWebUser->onlineinfo.talkstatus == TALKSTATUS_NO)
