@@ -9,8 +9,11 @@
 #include "../chat_common/comstruct.h"
 #include "../chat_common/commsg.h"
 #include "chat_history_msg.h"
+#include "http_unit.h"
+#include "code_convert.h"
 #include <cctype>
 #include <algorithm>
+#include <process.h>
 using namespace std;
 
 #define CLIENTVERSION	20000
@@ -887,8 +890,8 @@ int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
 {
 	COM_SEND_MSG RecvInfo(packhead.ver);
 	int nError = 0;
-	int msgType = MSG_TYPE_NORMAL;
-	int msgFrom = MSG_FROM_USER;
+	MSG_TYPE msgType = MSG_TYPE_NORMAL;
+	MSG_FROM_TYPE msgFrom = MSG_FROM_USER;
 	char msgTime[MAX_256_LEN];
 	CWebUserObject *pWebUser = NULL;
 	CUserObject *pUser = NULL;
@@ -984,7 +987,7 @@ int CChatManager::RecvComSendMsg(PACK_HEADER packhead, char *pRecvBuff, int len)
 						else if ("wxactoken" == pwxobj->MsgType)
 						{
 							//todo:收到服务器发过来的微信的access_token消息
-							WxTokens::iterator iter = m_mapTokens.find(RecvInfo.strThirdid);
+							MapWxTokens::iterator iter = m_mapTokens.find(RecvInfo.strThirdid);
 							if (iter == m_mapTokens.end())
 							{
 								m_mapTokens.insert(map<string, string>::value_type(RecvInfo.strThirdid, ((WxAccessTokenInfo*)pwxobj)->szAcToken));
@@ -1477,8 +1480,8 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 
 	COM_FLOAT_CHATMSG RecvInfo(packhead.ver, packhead.random);
 	int nError = 0;
-	int msgType = MSG_TYPE_NORMAL;
-	int msgFrom = MSG_FROM_USER;
+	MSG_TYPE msgType = MSG_TYPE_NORMAL;
+	MSG_FROM_TYPE msgFrom = MSG_FROM_USER;
 	WxMsgBase* msgContentWx = NULL;
 	CUserObject *pAssistUser = NULL;
 	CWebUserObject *pWebUser = NULL;
@@ -1632,7 +1635,7 @@ int CChatManager::RecvFloatChatMsg(PACK_HEADER packhead, char *pRecvBuff, int le
 			// 获取系统当前时间
 		}
 
-		m_handlerMsgs->RecvMsg((IBaseObject*)pWebUser, msgFrom, GetMsgId(),	msgType, RecvInfo.nMsgDataType, 
+		m_handlerMsgs->RecvMsg((IBaseObject*)pWebUser, msgFrom, GetMsgId(),	msgType, (MSG_DATA_TYPE)RecvInfo.nMsgDataType, 
 			RecvInfo.strmsg, GetTimeStringMDAndHMS(RecvInfo.tMsgTime), pAssistUser, msgContentWx, "");
 
 
@@ -2094,7 +2097,7 @@ int CChatManager::RecvFloatRelease(PACK_HEADER packhead, char *pRecvBuff, int le
 
 	switch (RecvInfo.usReason)
 	{
-	case kefuRealse:    //客服主动释放了客户
+	case REASON_CLIENT_RELEASE:    //客服主动释放了客户
 		sprintf(msg, "客服 %s(%u) 主动释放了会话", RecvInfo.szKefuName, RecvInfo.uKefu);
 		break;
 	default:
@@ -2562,7 +2565,7 @@ void CChatManager::TimerProc(int timeId, LPVOID pThis)
 			{
 				//如果自己的信息没有获取到，那么需要重复的去获取
 				chat_manager->m_nMyInfoIsGet = 0;
-				chat_manager->Send_GetInfo(chat_manager->m_userInfo.UserInfo.uid, chat_manager->m_userInfo.UserInfo.sid, CMD_SRV_REP_USERINFO);
+				chat_manager->SendGetSelfInfo(chat_manager->m_userInfo.UserInfo.uid, chat_manager->m_userInfo.UserInfo.sid, CMD_SRV_REP_USERINFO);
 			}
 		}
 
@@ -2626,7 +2629,7 @@ unsigned short CChatManager::GetPackSeq()
 	return g_packSeq;
 }
 
-int CChatManager::Send_GetInfo(unsigned long id, char *strid, unsigned short cmd, unsigned short cmdtype, unsigned short type)
+int CChatManager::SendGetSelfInfo(unsigned long id, char *strid, unsigned short cmd, unsigned short cmdtype, unsigned short type)
 {
 	int nError = 0;
 	CLT_GET_INFO SendInfo(VERSION, cmd);
@@ -2901,7 +2904,7 @@ WxMsgBase* CChatManager::ParseWxMsg(CWebUserObject* pWebUser, COM_FLOAT_CHATMSG&
 		else if ("wxactoken" == pwxobj->MsgType)
 		{
 			//todo:收到服务器发过来的微信的access_token消息
-			WxTokens::iterator iter = m_mapTokens.find(recvInfo.strThirdid);
+			MapWxTokens::iterator iter = m_mapTokens.find(recvInfo.strThirdid);
 			if (iter == m_mapTokens.end())
 			{
 				m_mapTokens.insert(map<string, string>::value_type(recvInfo.strThirdid, ((WxAccessTokenInfo*)pwxobj)->szAcToken));
@@ -3379,7 +3382,7 @@ void CChatManager::SendGetWxUserInfoAndToken(CWebUserObject* pWebUser)
 		SendGetWxUserInfo(pWebUser->webuserid, pWebUser->chatid);
 	}
 
-	WxTokens::iterator iter = m_mapTokens.find(pWebUser->info.thirdid);
+	MapWxTokens::iterator iter = m_mapTokens.find(pWebUser->info.thirdid);
 	if (iter == m_mapTokens.end())
 	{
 		SendGetWxToken(pWebUser->webuserid, pWebUser->chatid);
@@ -3705,7 +3708,7 @@ void CChatManager::SendTo_CloseChat(unsigned long webuserid, int ntype)
 		if (pWebUser->m_bNewComm)
 		{
 			int res = SendCloseChat(pWebUser, ntype);
-			g_WriteLog.WriteLog(C_LOG_TRACE, "SendCloseChat %d", res);
+			g_WriteLog.WriteLog(C_LOG_TRACE, "SendTo_CloseChat %d", res);
 		}
 		else
 		{
@@ -3719,16 +3722,6 @@ void CChatManager::SendTo_CloseChat(unsigned long webuserid, int ntype)
 		if (pWebUser->m_bNewComm)
 		{
 			SendCloseChat(pWebUser, ntype);
-		}
-
-		CUserObject * pTalkUser = GetUserObjectByUid(pWebUser->talkuid);
-		if (pTalkUser != NULL)
-		{
-			
-		}
-		else
-		{
-			
 		}
 	}
 }
@@ -3787,10 +3780,10 @@ int CChatManager::SendMsg(IBaseObject* pUser, const char *msg, int bak, char *sf
 	}
 }
 
-int CChatManager::SendTo_Msg(unsigned long userId, int userType, string msgId, int msgDataType, char * msg)
+int CChatManager::SendTo_Msg(unsigned long userId, USER_TYPE userType, string msgId, MSG_DATA_TYPE msgDataType, char * msg)
 {
 	int nError = SYS_FAIL;
-	if (userId <= 0 || userType > 2 || userType < 0 || msgId.empty() || msgDataType <= 0 || msg == NULL)
+	if (userId <= 0 || msgId.empty() || msg == NULL)
 	{
 		g_WriteLog.WriteLog(C_LOG_ERROR, "SendTo_Msg params error");
 		return nError;
@@ -3798,10 +3791,48 @@ int CChatManager::SendTo_Msg(unsigned long userId, int userType, string msgId, i
 	if (userType == OBJECT_USER)
 	{
 		CUserObject* pUser = GetUserObjectByUid(userId);
+		if (pUser == NULL) return nError;
+		switch (msgDataType)
+		{
+		case MSG_DATA_TYPE_TEXT:
+			SendMsg(pUser, msg);
+			break;
+		case MSG_DATA_TYPE_IMAGE:
+			break;
+		case MSG_DATA_TYPE_VOICE:
+			break;
+		case MSG_DATA_TYPE_VIDEO:
+			break;
+		case MSG_DATA_TYPE_LOCATION:
+			break;
+		case MSG_DATA_TYPE_FILE:
+			break;
+		default:
+			break;
+		}
 	}
 	else if (userType == OBJECT_WEBUSER)
 	{
 		CWebUserObject* pWebUser = GetWebUserObjectByUid(userId);
+		if (pWebUser == NULL) return nError;
+		switch (msgDataType)
+		{
+		case MSG_DATA_TYPE_TEXT:
+			SendMsg(pWebUser, msg);
+			break;
+		case MSG_DATA_TYPE_IMAGE:
+			break;
+		case MSG_DATA_TYPE_VOICE:
+			break;
+		case MSG_DATA_TYPE_VIDEO:
+			break;
+		case MSG_DATA_TYPE_LOCATION:
+			break;
+		case MSG_DATA_TYPE_FILE:
+			break;
+		default:
+			break;
+		}
 	}
 	else
 	{
@@ -3892,7 +3923,7 @@ int CChatManager::SendTo_ReleaseChat(unsigned long webuserid)
 		RelInfo.uAdminId = m_login->m_authAdminid;
 		strcpy(RelInfo.szKefuName, m_userInfo.UserInfo.nickname);
 		RelInfo.webuin = pWebUser->webuserid;
-		RelInfo.usReason = kefuRealse;
+		RelInfo.usReason = REASON_CLIENT_RELEASE;
 
 		nError = SendPackTo(&RelInfo);
 	}
@@ -4065,6 +4096,176 @@ int CChatManager::SendFloatMsg(CWebUserObject *pWebUser, const char *msg, char *
 	nError = SendPackTo(&SendInfo);
 
 	return nError;
+}
+
+// 上传文件到微信服务器
+static UINT WINAPI UpLoadFileToWxServerThread(void * pUpLoadInfo)
+{
+	UPLOAD_INFO* upLoadInfo = (UPLOAD_INFO*)pUpLoadInfo;
+	string filePath = upLoadInfo->filePath;
+	CChatManager* pThis = (CChatManager*)upLoadInfo->pThis;
+	unsigned long userId = upLoadInfo->userId;
+	MSG_DATA_TYPE msgDataType = upLoadInfo->msgDataType;
+	USER_TYPE userType = upLoadInfo->userType;
+	delete upLoadInfo;
+
+	string wxToken;
+	CHttpLoad load;
+	CCodeConvert convert;
+	CWebUserObject* pWebUser = pThis->GetWebUserObjectByUid(userId);
+	if (pWebUser == NULL)
+		return false;
+
+	MapWxTokens::iterator iter = pThis->m_mapTokens.find(pWebUser->info.thirdid);
+	if (iter != pThis->m_mapTokens.end())
+	{
+		string weChatMediaUploadFormat = pThis->m_initConfig.wechat_media_upload;
+		char weChatMediaUpload[MAX_256_LEN];
+		wxToken = iter->second;
+		string t_filePath = filePath;
+		if (msgDataType == MSG_DATA_TYPE_IMAGE)
+		{
+			sprintf(weChatMediaUpload,weChatMediaUploadFormat.c_str(), wxToken.c_str(), "image");
+		}
+		else if (msgDataType == MSG_DATA_TYPE_VOICE)
+		{
+			sprintf(weChatMediaUpload, weChatMediaUploadFormat.c_str(), wxToken.c_str(), "voice");
+			t_filePath += ".amr";
+		}
+		// 上传到文件到微信服务器，微信服务器会返回一个json串，包含一个media_id值
+		string returnCode;
+		string decodeFilePath = convert.URLDecodeALL(t_filePath);
+		if (load.HttpLoad(string(weChatMediaUpload), "", REQUEST_TYPE_POST, decodeFilePath, returnCode))
+		{
+			Json::Value json;
+			if (ParseJson(returnCode, json))
+			{
+				// 获取该media_id值
+				string mediaID = GetStrFromJson(json, "media_id");
+				if (!mediaID.empty())
+				{
+					string fileServerMediaTaskFormat = pThis->m_initConfig.fileserver_media_task;
+					char fileServerMediaTask[MAX_256_LEN];
+					returnCode = "";
+					CHttpLoad loadTask;
+					sprintf(fileServerMediaTask, fileServerMediaTaskFormat.c_str(), wxToken.c_str(), mediaID.c_str());
+					// 根据该media_id值和token值，去自己的文件服务器做一个task访问，也返回一个media值					
+					if (loadTask.HttpLoad(string(fileServerMediaTask), "", REQUEST_TYPE_GET, "", returnCode))
+					{
+						if (msgDataType == MSG_DATA_TYPE_IMAGE || msgDataType == MSG_DATA_TYPE_VOICE)
+						{
+							pThis->AfterUpload(userId, userType, mediaID, msgDataType, returnCode, filePath);
+						}
+						else
+						{
+							g_WriteLog.WriteLog(C_LOG_ERROR, "未知格式的文件上传：%s", returnCode);
+						}
+						return true;
+					}
+					else
+					{
+						g_WriteLog.WriteLog(C_LOG_ERROR, "没有获取上传文件到微信服务器的task：%s", returnCode.c_str());
+					}
+				}
+				else
+				{
+					g_WriteLog.WriteLog(C_LOG_ERROR, "没有获取上传文件到微信服务器的media_id：%s", returnCode.c_str());
+				}
+			}
+			else
+			{
+				g_WriteLog.WriteLog(C_LOG_ERROR, "解析上传文件到微信服务器返回码失败：%s", returnCode.c_str());
+			}
+		}
+		else
+		{
+			g_WriteLog.WriteLog(C_LOG_ERROR, "上传文件到微信服务器失败：%s,当前token值是: %s", returnCode.c_str(), wxToken.c_str());
+		}
+	}
+	else
+	{
+		g_WriteLog.WriteLog(C_LOG_ERROR, "上传文件到微信服务器失败，因为没有token值");
+	}
+
+	// 只要失败，一律获取token值
+	pThis->SendGetWxToken(userId, pWebUser->chatid);
+
+	// 如果发送失败，将文件路径传入，用作重新发送用的
+	pThis->AfterUpload(userId, userType, "", msgDataType, "", filePath);
+	return false;
+}
+
+// 上传文件到服务器
+static UINT WINAPI UpLoadFileToServerThread(void * para)
+{
+	//UploadFileParam* param = (UploadFileParam*)para;
+	//CString filePath = param->filePath;
+	//CFormMain* pForm = param->pForm;
+	//int msgDataType = param->msgDataType;
+	//int userType = param->userType;
+	//unsigned long userId = param->userId;
+	//void* pUser = ((CEmocssApp *)AfxGetApp())->GetUserObject(param->userId);
+	//delete param;
+
+	//GetPageByURL gpurl;
+	//CCodeConvert convert;
+
+	//CString fileServerMediaUploadFormat = ((CEmocssApp *)AfxGetApp())->m_InitConfig.fileserver_media_upload;
+	//string resultCode;
+	//string decodeFilePath = convert.URLDecodeALL((string)filePath);
+	//if (gpurl.HttpLoad(string(fileServerMediaUploadFormat), "", REQUEST_TYPE_POST, decodeFilePath, resultCode))
+	//{
+	//	Json::Value json;
+	//	resultCode = resultCode.substr(1, resultCode.length() - 1);
+	//	resultCode = resultCode.substr(0, resultCode.length() - 1);
+	//	if (ParseJson(resultCode, json))
+	//	{
+	//		string mediaID = GetStrFromJson(json, "media_id");
+	//		if (!mediaID.empty())
+	//		{
+	//			// 目前只有对另一个坐席发图片是走这个逻辑
+	//			pForm->AfterUpload(userId, userType, mediaID, msgDataType, resultCode, filePath);
+	//			return true;
+	//		}
+	//		else
+	//		{
+	//			g_WriteLog.WriteLog(C_LOG_ERROR, "获取上传文件到文件服务器media_id失败：%s", resultCode.c_str());
+	//		}
+	//	}
+	//	else
+	//	{
+	//		g_WriteLog.WriteLog(C_LOG_ERROR, "解析上传文件到文件服务器返回码失败：%s", resultCode.c_str());
+	//	}
+	//}
+	//else
+	//{
+	//	g_WriteLog.WriteLog(C_LOG_ERROR, "上传文件到文件服务器失败：%s", resultCode.c_str());
+	//}
+	//pForm->AfterUpload(userId, userType, "", msgDataType, "", filePath.GetBuffer(0));
+	return false;
+}
+
+void CChatManager::UpLoadFile(unsigned long userId, USER_TYPE userType, string filePath, MSG_DATA_TYPE msgDataType)
+{
+	UPLOAD_INFO* upLoadInfo = new UPLOAD_INFO();
+	upLoadInfo->filePath = filePath;
+	upLoadInfo->pThis = this;
+	upLoadInfo->msgDataType = msgDataType;
+	upLoadInfo->userType = userType;
+	upLoadInfo->userId = userId;
+	if (userType == USER_TYPE_WX)
+	{
+		_beginthreadex(NULL, 0, UpLoadFileToWxServerThread, (void*)upLoadInfo, 0, NULL);
+	}
+	else if (userType == USER_TYPE_WEB || userType == USER_TYPE_CLIENT)
+	{
+		_beginthreadex(NULL, 0, UpLoadFileToServerThread, (void*)upLoadInfo, 0, NULL);
+	}
+}
+
+bool CChatManager::AfterUpload(unsigned long userId, USER_TYPE userType, string mediaID, MSG_DATA_TYPE msgDataType, string fileId, string filePath, string msgId)
+{
+	return false;
 }
 
 

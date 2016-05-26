@@ -1,15 +1,23 @@
 #include "../stdafx.h"
 #include "http_unit.h"
 #include "convert.h"
+#include "winlog.h"
 #include "../chat_common/comfunc.h"
 #include <WinInet.h>
 
 #pragma comment(lib, "wininet.lib")
 
-void UseSwitchInHttpDownload(bool bUse)
-{
-	http_useswitch(bUse);
-}
+#ifdef _WIN32
+#ifdef _DEBUG
+#pragma comment(lib,"libcurl_imp")
+#else
+#pragma comment(lib,"libcurl_imp")
+#endif
+#endif
+
+#ifndef CURLOPT_ACCEPT_ENCODING
+#define CURLOPT_ACCEPT_ENCODING CURLOPT_ENCODING
+#endif
 
 //带超时的连接
 int Connect_t(SOCKET& sockfd, const struct sockaddr  * pserv_addr,const unsigned int& namelen,int nsecond)
@@ -424,4 +432,151 @@ CleanUp:
 	}
 
 	return dwRet;
+}
+
+CHttpLoad::CHttpLoad()
+{
+	m_curl = NULL;
+	Init();
+}
+
+CHttpLoad::~CHttpLoad()
+{
+	Cleanup();
+}
+
+bool CHttpLoad::HttpLoad(const string& szUrl, const string& szReffer, int requestType, string szFilePath, string& resultCode)
+{
+	if (szUrl.empty()){ return false; }
+
+	if (!m_curl){ Init(); }
+
+	CURLcode cret;
+	if (requestType == REQUEST_TYPE_POST)
+	{
+		// 上传时，传入文件路径
+		SetHeadOptLoad(szUrl, szReffer, requestType, (void*)szFilePath.c_str(), resultCode);
+		cret = curl_easy_perform(m_curl);
+	}
+	else
+	{
+		// 下载时，传入文件指针
+		if (szFilePath.empty())
+		{
+			SetHeadOptLoad(szUrl, szReffer, requestType, NULL, resultCode);
+			cret = curl_easy_perform(m_curl);
+		}
+		else
+		{
+			FILE* pFile;
+			fopen_s(&pFile, szFilePath.c_str(), "wb");
+			SetHeadOptLoad(szUrl, szReffer, requestType, (void*)pFile, resultCode);
+			cret = curl_easy_perform(m_curl);
+			fclose(pFile);
+		}
+		
+	}
+
+	if (cret == CURLE_OK)
+	{
+		g_WriteLog.WriteLog(C_LOG_TRACE, "httpupload [success]:%s", szUrl.c_str());
+		return true;
+	}
+	else
+	{
+		g_WriteLog.WriteLog(C_LOG_ERROR, "httpupload [failed]:%s", curl_easy_strerror(cret));
+		return false;
+	}
+}
+
+bool CHttpLoad::Init()
+{
+	Cleanup();
+	m_curl = curl_easy_init();
+	if (!m_curl)
+	{
+		return false;
+	}
+	//自动重定向到新的地址
+	curl_easy_setopt(m_curl, CURLOPT_USERAGENT,
+		"User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322)");
+
+	curl_easy_setopt(m_curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(m_curl, CURLOPT_MAXREDIRS, 10L);
+	curl_easy_setopt(m_curl, CURLOPT_AUTOREFERER, 10L);
+	curl_easy_setopt(m_curl, CURLOPT_TIMEOUT, 6);
+	curl_easy_setopt(m_curl, CURLOPT_COOKIEFILE, ""); /* just to start the cookie engine */
+
+	//If a zero-length string is set, then an Accept-Encoding: header containing all supported encodings is sent. 
+	curl_easy_setopt(m_curl, CURLOPT_ACCEPT_ENCODING, ""); //下载支持的所有压缩 gzip,deflate
+	return true;
+}
+
+void CHttpLoad::Cleanup()
+{
+	if (m_curl)
+	{
+		curl_easy_cleanup(m_curl);
+		m_curl = NULL;
+	}
+}
+
+bool CHttpLoad::SetHeadOptLoad(const string szUrl, const string szReffer, int requestType, void* szFilePath, string& szContent)
+{
+	curl_easy_setopt(m_curl, CURLOPT_URL, szUrl.c_str());
+
+	if (!szReffer.empty())
+	{
+		curl_easy_setopt(m_curl, CURLOPT_REFERER, szReffer.c_str());
+	}
+
+	if (requestType == REQUEST_TYPE_POST)
+	{
+		// 上传方式
+		curl_easy_setopt(m_curl, CURLOPT_POST, 1L);
+		struct curl_httppost *formpost = 0;
+		struct curl_httppost *lastptr = 0;
+		curl_formadd(&formpost, &lastptr, CURLFORM_COPYNAME, "file", CURLFORM_FILE, szFilePath, CURLFORM_CONTENTTYPE, "image/jpeg", CURLFORM_END);
+		curl_easy_setopt(m_curl, CURLOPT_HTTPPOST, formpost);
+		curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, &szContent);
+		curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, WriteFunc);
+
+	}
+	else
+	{
+		// 下载方式	
+		if (szFilePath)
+		{
+			curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, szFilePath);
+			curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, DownLoadFunc);
+		}
+		else
+		{
+			curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, &szContent);
+			curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, WriteFunc);
+		}
+	}
+	return true;
+}
+
+size_t CHttpLoad::WriteFunc(char *data, size_t size, size_t nmemb, void* writerData)
+{
+	if (writerData == NULL)
+		return 0;
+	size_t len = size*nmemb;
+	string* sContent = (string*)writerData;
+	sContent->append(data, len);
+
+	return len;
+}
+
+size_t CHttpLoad::DownLoadFunc(char *data, size_t size, size_t nmemb, void* writerData)
+{
+	if (writerData == NULL)
+		return 0;
+	size_t len = size*nmemb;
+	FILE* pFile = (FILE*)writerData;
+	fwrite(data, size, nmemb, pFile);
+
+	return len;
 }

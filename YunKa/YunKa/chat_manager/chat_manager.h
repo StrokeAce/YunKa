@@ -6,8 +6,9 @@
 #include "../chat_common/comobject.h"
 #include "../chat_common/comstruct.h"
 #include "../chat_common/comfloat.h"
+#include "../chat_common/comenum.h"
 
-typedef map<string/*thirdId*/, string/*公众号token*/> WxTokens; // 公众号的thirdid和token一一对应
+typedef map<string/*thirdId*/, string/*公众号token*/> MapWxTokens; // 公众号的thirdid和token一一对应
 typedef map<unsigned long, CUserObject*> MapUsers; // 保存坐席用户
 typedef map<string, CWebUserObject*> MapWebUsers; // 保存访客
 
@@ -75,7 +76,7 @@ public:
 	// Parameter: msgContentWx 微信消息，当非文字的微信消息时，需要该参数
 	// Parameter: msgExt 预留的参数
 	//************************************
-	virtual void RecvMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType,	string msgContent, 
+	virtual void RecvMsg(IBaseObject* pObj, MSG_FROM_TYPE msgFrom, string msgId, MSG_TYPE msgType, MSG_DATA_TYPE msgDataType, string msgContent,
 		string msgTime = "", CUserObject* pAssistUser = NULL, WxMsgBase* msgContentWx = NULL, string msgExt = "") = 0;
 
 	//************************************
@@ -149,7 +150,7 @@ public:
 	// Parameter: string msgDataType 数据类型
 	// Parameter: string msg 数据内容
 	//************************************
-	int SendTo_Msg(unsigned long userId, int userType, string msgId, int msgDataType, char * msg);
+	int SendTo_Msg(unsigned long userId, USER_TYPE userType, string msgId, MSG_DATA_TYPE msgDataType, char * msg);
 
 	// 重新发送一条消息
 	int ReSendTo_Msg(unsigned long webuserid, int userType, string msgId, int msgDataType, char * msg);
@@ -164,20 +165,12 @@ public:
 	int SendTo_ReleaseChat(unsigned long webuserid);
 
 	//************************************
-	// Method:    StopVisitorTalk
+	// Method:    SendTo_CloseChat
 	// Qualifier: 发起关闭会话
 	// Parameter: webuserid 会话中的访客的id
 	// Parameter: ntype 会话关闭的原因，例如：CHATCLOSE_USER
 	//************************************
 	void SendTo_CloseChat(unsigned long webuserid, int ntype);
-
-	//************************************
-	// Method:    SendTo_CloseChat
-	// Qualifier: 发起关闭会话
-	// Parameter: pWebUser 会话中的访客
-	// Parameter: ntype 会话关闭的原因，例如：CHATCLOSE_USER
-	//************************************
-	int SendCloseChat(CWebUserObject *pWebUser, int ntype);
 
 	//************************************
 	// Method:    SendTo_InviteWebUser
@@ -348,7 +341,7 @@ public:
 
 	/***************     类内使用的发送到服务端的消息      *****************/
 
-	int Send_GetInfo(unsigned long id, char *strid, unsigned short cmd, unsigned short cmdtype = 0, unsigned short type = 0);
+	int SendGetSelfInfo(unsigned long id, char *strid, unsigned short cmd, unsigned short cmdtype = 0, unsigned short type = 0);
 
 	int SendAckEx(unsigned short seq, unsigned long uid = 0, unsigned long ip = 0, unsigned short port = 0);
 
@@ -366,13 +359,31 @@ public:
 	// 获取微信公众号token
 	int SendGetWxToken(unsigned long webuserid, const char *chatid);
 
+	//************************************
+	// Method:    SendMsg
+	// Qualifier: 发送消息包
+	// Parameter: pUser 接收消息的对象
+	// Parameter: msg 消息具体内容
+	// Parameter: bak 备份内容
+	// Parameter: sfont 对微信用户的媒体消息用"JSON=WX"，其他的都用"HTML"
+	//************************************
 	int SendMsg(IBaseObject* pUser, const char *msg, int bak = 0, char *sfont = "HTML");
 
+	// 发送老规则的消息
 	int SendComMsg(unsigned long recvuid, char *visitorid, const char *msg, char * chatid, char* thirdid, int bak = 0, char *sfontinfo = "");
 
+	// 发送新规则的消息，主要针对微信用户
 	int SendFloatMsg(CWebUserObject *pWebUser, const char *msg, char *sfont);
 
 	int SendGetChatHisMsg(unsigned long webuserid, const char *chatid);//获取非等待应答会话的会话历史消息
+
+	//************************************
+	// Method:    SendTo_CloseChat
+	// Qualifier: 发起关闭会话
+	// Parameter: pWebUser 会话中的访客
+	// Parameter: ntype 会话关闭的原因，例如：CHATCLOSE_USER
+	//************************************
+	int SendCloseChat(CWebUserObject *pWebUser, int ntype);
 
 	// 文字消息中的表情字符转换
 	void TransforFaceMsg(string& str);
@@ -398,6 +409,10 @@ public:
 	void LoginSuccess();
 
 	CWebUserObject *GetWebUserObjectByScriptFlag(char *scriptflag);	
+
+	void UpLoadFile(unsigned long userId, USER_TYPE userType, string filePath, MSG_DATA_TYPE = MSG_DATA_TYPE_IMAGE);
+
+	bool AfterUpload(unsigned long userId, USER_TYPE userType, string mediaID = "", MSG_DATA_TYPE = MSG_DATA_TYPE_IMAGE, string fileId = "", string filePath = "", string msgId = "");
 
 public:
 	int						m_nOnLineStatus;		// 是否在线,对于im服务器而言
@@ -435,7 +450,7 @@ public:
 	 
 	unsigned long			m_nNextInviteWebuserUid;// 邀请的访客信息
 	unsigned long			m_nNextInviteUid;		// 主动邀请的用户
-	WxTokens				m_mapTokens;			// 公众号token存储集合
+	MapWxTokens				m_mapTokens;			// 公众号token存储集合
 	MMutex					m_idLock;				// 生成消息id的锁
 	int						m_msgId;				// 消息id，自增
 	list<MSG_INFO*>			m_listEarlyMsg;			// 保存还未初始化访客对象之前收到的消息

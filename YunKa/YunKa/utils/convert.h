@@ -9,9 +9,9 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+
 #define REGBASE  "Software\\X-Maze\0"
-//#define REGROOT  HKEY_CURRENT_USER
+
 
 #ifdef _UNICODE	
 #define tstring wstring	

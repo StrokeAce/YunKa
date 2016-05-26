@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../thirdlib/duilib;../thirdlib/zlib/include;../thirdlib/libcef;.\;$(IncludePath)</IncludePath>
-    <LibraryPath>../lib;../thirdlib/zlib/lib;../thirdlib/libcef/debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>../thirdlib/duilib;../thirdlib/zlib/include;../thirdlib/libcef;../thirdlib/libcurl/include;.\;$(IncludePath)</IncludePath>
+    <LibraryPath>../lib;../thirdlib/zlib/lib;../thirdlib/libcef/debug;../thirdlib/libcurl;$(LibraryPath)</LibraryPath>
     <OutDir>../bin</OutDir>
     <IntDir>../Build/Debug/</IntDir>
   </PropertyGroup>
@@ -117,6 +117,7 @@
     <ClInclude Include="cef_browser\string_util.h" />
     <ClInclude Include="cef_browser\window_test.h" />
     <ClInclude Include="chat_common\comdef.h" />
+    <ClInclude Include="chat_common\comenum.h" />
     <ClInclude Include="chat_common\comfunc.h" />
     <ClInclude Include="chat_common\comclt.h" />
     <ClInclude Include="chat_common\comcom.h" />
@@ -134,8 +135,6 @@
     <ClInclude Include="chat_manager\login.h" />
     <ClInclude Include="chat_manager\socket.h" />
     <ClInclude Include="http_load\http_unit.h" />
-    <ClInclude Include="http_load\sock.h" />
-    <ClInclude Include="http_load\switch_sock.h" />
     <ClInclude Include="json\autolink.h" />
     <ClInclude Include="json\cJSON.h" />
     <ClInclude Include="json\config.h" />
@@ -226,8 +225,6 @@
     <ClCompile Include="chat_manager\login.cpp" />
     <ClCompile Include="chat_manager\socket.cpp" />
     <ClCompile Include="http_load\http_unit.cpp" />
-    <ClCompile Include="http_load\sock.cpp" />
-    <ClCompile Include="http_load\switch_sock.cpp" />
     <ClCompile Include="json\cJSON.c" />
     <ClCompile Include="json\jsonext.cpp" />
     <ClCompile Include="json\json_reader.cpp" />

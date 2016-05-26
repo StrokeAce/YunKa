@@ -124,21 +124,18 @@ bool CChatVisitor::ConnectToVisitorServer()
 
 int CChatVisitor::LoginToVisitorServer()
 {
+	int nError = SYS_FAIL;
 	if (m_manager->m_userInfo.UserInfo.uid == 0)
 	{
-		return 0;
+		return nError;
 	}
 
 	char sbuff[512];
-	int nError;
-
 	string pass = GetMd5Str(m_manager->m_userInfo.UserInfo.pass);
-
 	sprintf(sbuff, "<SYSTEM><COMMAND>UP</COMMAND><USERUIN>%d</USERUIN><POSW>%s</POSW><VERSION>%d</VERSION><AUTOUP>YES</AUTOUP><UTF8>1</UTF8><ZLIB>%d</ZLIB></SYSTEM>\r\n",
 		m_manager->m_userInfo.UserInfo.uid, pass.c_str(), VISITOR_VERSION, (m_manager->m_initConfig.bZlibEnabled ? 1 : 0));
 
 	nError = SendBuffToVisitorServer(sbuff, strlen(sbuff));
-
 	return nError;
 }
 

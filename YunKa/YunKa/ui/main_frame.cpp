@@ -877,7 +877,7 @@ void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
 	UnicodeToANSI(strText.c_str(),sendMsgData);
 
 	//消息测试 暂时先只发给用户  坐席后续加上
-	m_manager->SendTo_Msg(m_checkId, 2, m_manager->GetMsgId(), MSG_DATA_TYPE_TEXT, sendMsgData);
+	m_manager->SendTo_Msg(m_checkId, USER_TYPE_WEB, m_manager->GetMsgId(), MSG_DATA_TYPE_TEXT, sendMsgData);
 
 }
 
@@ -1489,7 +1489,7 @@ void CMainFrame::RecvReleaseChat(CWebUserObject* pWebUser)
 }
 
 
-void CMainFrame::RecvMsg(IBaseObject* pObj, int msgFrom, string msgId, int msgType, int msgDataType, string msgContent,
+void CMainFrame::RecvMsg(IBaseObject* pObj, MSG_FROM_TYPE msgFrom, string msgId, MSG_TYPE msgType, MSG_DATA_TYPE msgDataType, string msgContent,
 	string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt)
 {
 

@@ -777,6 +777,8 @@ static UINT WINAPI DownLoadFaceThread(void * para)
 	{
 		sprintf(strFaceLink, "%slogo_%lu.%s", strFaceLinkPath.c_str(), ((CUserObject*)para)->UserInfo.uid, szExt[i]);
 		sprintf(strStorePath, "%s\\%lu.%s", strPath.c_str(), ((CUserObject*)para)->UserInfo.uid, szExt[i]);
+		
+		CHttpLoad downLoad;
 		dwRetVal = HttpDownloadFile(((CUserObject*)para)->UserInfo.uid, strFaceLink, strStorePath);
 		if (dwRetVal == 0)
 		{

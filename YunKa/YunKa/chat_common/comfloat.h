@@ -409,14 +409,6 @@ public:
 
 };
 
-enum FloatChatTimeOutReason
-{
-	ansTimeOut,   //客服长时间没有应答超时了
-	kefuOffline,  //客服下线了
-	kefuRealse    //客服主动释放了客户
-
-};
-
 ///////////////////////////客服应答超时///////////////////////////////////////////////
 class CFloatChatRelease:public COM_FLOAT_CHATPACK
 {

@@ -282,17 +282,6 @@
 #define P2PCONNECTNAT_AUDIO			2	//audio
 #define P2PCONNECTNAT_FILE			3	//file
 
-//对话状态
-#define TALKSTATUS_NO			0	//没有对话
-#define TALKSTATUS_AUTOINVITE	1	//自动邀请中
-#define TALKSTATUS_REQUEST		2	//请求中
-#define TALKSTATUS_REQUESTRESP	3	//请求回复中，表示主动
-#define TALKSTATUS_INVITE		4	//邀请中
-#define TALKSTATUS_INVITERESP	5	//回复中，表示被动
-#define TALKSTATUS_TRANSFER		6	//转接中
-#define TALKSTATUS_TRANSFERRESP	7	//转接中, 表示被动
-#define TALKSTATUS_WELLCOME		8	//当代发送wellcome对话消息
-#define TALKSTATUS_TALK			9	//对话中
 
 #define HASTALKED		1	//通过话
 #define INTALKING		2	//正在通话中
@@ -316,22 +305,6 @@
 #define ONLINE_INFO_STATUS_LEN		4
 #define ONLINE_INFO_VIDEO			16
 #define ONLINE_INFO_VIDEO_LEN		1
-
-#define STATUS_UNDEFINE			-1
-#define STATUS_USERDEFINE		0
-#define STATUS_OFFLINE		    1
-#define STATUS_ONLINE			2
-#define STATUS_HIDE				3
-#define STATUS_WORK				4
-#define STATUS_EATING           5
-#define STATUS_LEAVE			6
-#define STATUS_ROBOT            7
-#define STATUS_SEND_SMS         8
-#define STATUS_SEND_MAIL        9
-#define STATUS_BUSY				10
-#define STATUS_SEND_MSG         12
-#define STATUS_REFUSE_NEWWEBMSG	13
-#define STATUS_UNKNOWN	14   //用户状态未知
 
 
 //访客过滤标示
@@ -1088,19 +1061,6 @@ typedef std::list<void *>	PtrList;
 #define REQUEST_TYPE_GET 1	/**< get方式 */ 
 #define REQUEST_TYPE_POST 2	/**< post方式 */ 
 
-/** 消息发送类型 */
-#define MSG_TYPE_NORMAL		1		/**< 普通消息 */ 
-#define MSG_TYPE_PREV		2		/**< 预知消息 */
-
-/** 消息数据类型 */
-#define MSG_DATA_TYPE_TEXT 1		/**< 文字 */ 
-#define MSG_DATA_TYPE_IMAGE 2		/**< 图片 */ 
-#define MSG_DATA_TYPE_VOICE 3		/**< 语音 */ 
-#define MSG_DATA_TYPE_VIDEO 4		/**< 视频 */ 
-#define MSG_DATA_TYPE_LOCATION 5	/**< 位置 */ 
-#define MSG_DATA_TYPE_LINK 6		/**< 链接 */ 
-#define MSG_DATA_TYPE_EVENT 7		/**< 事件 */
-#define MSG_DATA_TYPE_FILE 8		/**< 文件 */
 
 /** web页面标示符 */
 #define Handler_WebUrl "WebUrl"	// 历史记录等页面
@@ -1124,11 +1084,6 @@ typedef std::list<void *>	PtrList;
 #define Request_Url_RestartSession "RestartSession"	// 重启二次会话
 #define Request_Url_AccessToken "AccessToken" // 获取微信公众号token
 
-/** 聊天用户的类型区分 */
-#define  MSG_FROM_CLIENT	1		// 坐席用户
-#define  MSG_FROM_USER		2		// 微信或web用户
-#define  MSG_FROM_ASSIST	3		// 协助对象
-#define  MSG_FROM_SYS		4		// 系统提示消息
 
 // 录音操作的返回码
 #define CODE_AUDIO_SUCCESS 0 // 成功

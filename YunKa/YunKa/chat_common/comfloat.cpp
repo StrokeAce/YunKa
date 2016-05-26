@@ -715,7 +715,7 @@ CFloatChatRelease::CFloatChatRelease(unsigned short ver, unsigned short sGpid)
 	uKefu=0;
 	szKefuName[0]=0;
 
-	usReason=0;           //原因
+	usReason = REASON_TIME_OUT;           //原因
 // 	nNewKefu=0;           //如果会话已邀请协助，一般为最后一位协助对象
 }
 bool CFloatChatRelease::pack()
@@ -760,6 +760,7 @@ bool CFloatChatRelease::unpack()
 
 	if (version>=3075) //服务器版本
 	{
+		unsigned short nReason;
 		m_Pack>>usReason;
 	}
 

@@ -7,8 +7,12 @@
 #include "sockbase.h"
 #include "../stdafx.h"
 #include "comdef.h"
+#include "comenum.h"
 #include <map>
 using namespace std ;
+
+class CWebUserObject;
+class CUserObject;
 
 typedef struct IDBUFF_INFO{
 	unsigned int id;
@@ -220,7 +224,7 @@ struct WEBONLINE_INFO
 {
 	WEBONLINE_INFO(){ bInvited = false; }
 	int				fd;						// tcp连接
-	int				talkstatus;
+	TALKSTATUS		talkstatus;
 	bool		    bInvited;				// 被邀请进来的
 	unsigned int	timevisit;				// 用户访问时间
 	unsigned int	timerequest;			// 用户请求对话时间
@@ -392,6 +396,26 @@ struct WEBUSER_URL_INFO
 {
 	string url;				// 访问地址
 	unsigned long dwtime;	// 访问时间
+};
+
+struct UPLOAD_INFO
+{
+	void* pThis;
+	string filePath;
+	unsigned long userId;
+	MSG_DATA_TYPE msgDataType;
+	USER_TYPE userType;
+};
+
+struct DOWNLOAD_INFO
+{
+	void* pThis;
+	string filePath;			// 语音文件路径
+	string downLoadUrl;			// 文件下载的url
+	CWebUserObject *pWebUser;	// 发消息的web用户
+	string time;
+	CUserObject* pUser;			// 协助对象 可为空
+	int msgDataType;
 };
 
 typedef struct {
