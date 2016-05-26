@@ -98,6 +98,7 @@ void CLoginWnd::Notify(TNotifyUI& msg)
 		}
 		else if (msg.pSender == m_pCancelBtn || msg.pSender == m_pCloseBtn)
 		{
+			m_manager->Exit();
 			m_hLoginMenu.DeleteSmallIcon();
 			PostQuitMessage(0);
 		}

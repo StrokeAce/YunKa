@@ -474,6 +474,9 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 
 		m_pListMsgHandler.handler->CreateBrowser(this->m_hWnd, rect, utfUrl, Handler_ListMsg);
 		//m_pListMsgHandler.handler->CreateBrowser(this->m_hWnd, rect, "www.baidu.com", Handler_ListMsg);
+
+		m_pListMsgHandler.isLoaded = true;
+		m_pListMsgHandler.isCreated = true;
 	}
 
 	m_pSendEdit = static_cast<CRichEditUI*>(m_PaintManager.FindControl(_T("richSend")));
@@ -1086,8 +1089,6 @@ void CMainFrame::AddHostUserList(UserListUI * ptr, CUserObject *user)
 		//nameString.Format(_T("{x 4}{i gameicons.png 18 0}{x 4} %s %s"), strTemp.GetData(), onlineString);
 		nameString.Format(_T("{x 4}{i user_client.png 1 0} %s %s"), strTemp.GetData(), onlineString);
 
-
-
 		//第一个主节点 显示 名称 在线状态
 		pUserNameNode = ptr->AddNode(nameString, user->UserInfo.uid);
 	}
@@ -1204,10 +1205,7 @@ void CMainFrame::RecvOnline(CUserObject* pUser)
 		pUserList->RemoveNode(tempNode);
 		m_offlineNodeMap.erase(iter);
 
-
-
 		//index += pUserList->GetNodeIndex(pWaitForStart);
-
 		if (m_onlineNodeMap.size() > 0)
 		{
 			iter = m_onlineNodeMap.end();
@@ -1493,6 +1491,31 @@ void CMainFrame::RecvMsg(IBaseObject* pObj, MSG_FROM_TYPE msgFrom, string msgId,
 	string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt)
 {
 
+#if 0
+	if (pObj == NULL)
+		return;
+	if (msgContent.length() == 0)
+	{
+		g_WriteLog.WriteLog(C_LOG_ERROR, "插入空的聊天记录");
+		return;
+	}
+
+	if (msgFrom == MSG_FROM_USER)
+	{
+	}
+	else if (msgFrom == MSG_FROM_USER)
+	{
+
+	}
+
+
+	if (m_pListMsgHandler.isLoaded)
+	{
+		CefString strCode("123456"), strUrl("");
+		m_pListMsgHandler.handler->GetBrowser()->GetMainFrame()->ExecuteJavaScript(strCode, strUrl, 0);
+	}
+
+#endif
 
 
 
@@ -1529,6 +1552,119 @@ void CMainFrame::OnManagerButtonEvent(TNotifyUI& msg)
 
 	}
 
+}
+
+
+void AddToMsgList(CUserObject *pUser, string strName, string strTime, string strMsg, int userType,
+	int msgType, int msgDataType = MSG_DATA_TYPE_TEXT, string msgId = "")
+{
+
 
 
 }
+
+void AddToMsgList(CWebUserObject *pWebUser, string strName, string strTime, string strMsg, int userType,
+	int msgType, int msgDataType = MSG_DATA_TYPE_TEXT, CUserObject* pUser = NULL, string msgId = "")
+{
+
+#if 0
+	if (pWebUser == NULL)
+		return;
+	if (strMsg.length() == 0)
+	{
+		g_WriteLog.WriteLog(C_LOG_ERROR, "插入空的聊天记录");
+		return;
+	}
+
+	CCodeConvert f_covet;
+	CString strJsCode;
+	string name, msg;
+	unsigned long userId = -1;
+
+	int urlPos = strMsg.find("用户头像地址:");
+	int urlPos1 = strMsg.find("user_headimgurl:");
+	int urlPos2 = strMsg.find(">立即评价</a>");
+
+	if (urlPos > -1 || urlPos1 > -1 || urlPos2 > -1)
+	{
+		// 过滤这条无用的用户信息消息
+	}
+	else
+	{
+		  
+		/*
+		strName.replace()
+		strName.replace("\\", "\\\\");
+		strName.replace("'", "&#039;");
+		strName.Replace("\r\n", "<br>");
+		f_covet.Gb2312ToUTF_8(name, strName, strName.GetLength());
+		strMsg.Replace("\\", "\\\\");
+		strMsg.Replace("'", "&#039;");
+		strMsg.Replace("\r\n", "<br>");
+		f_covet.Gb2312ToUTF_8(msg, strMsg, strMsg.GetLength());
+		string headPath;
+
+		*/
+
+	}
+
+	/*
+	if (msgType == MSG_TYPE_SEND)
+	{
+		// 自己发送的
+		CString headUrl;
+		userId = m_pFrame->m_pUserInfo->UserInfo.uid;
+		headUrl.Format("%s\\%lu.png", FullPath("images\\headimages"), userId);
+		headUrl.Replace("\\", "/");
+		f_covet.Gb2312ToUTF_8(headPath, headUrl, headUrl.GetLength());
+		// 头像存在否
+		if (_access(headUrl, 0) != 0)
+		{
+			headPath.clear();
+		}
+	}
+	else if (msgType == MSG_TYPE_RECV)
+	{
+		// 微信用户发来的
+		if (pWebUser->m_bIsFrWX)
+		{
+			if (pWebUser->m_pWxUserInfo != NULL && !pWebUser->m_pWxUserInfo->headimgurl.empty())
+			{
+				headPath = pWebUser->m_pWxUserInfo->headimgurl;
+			}
+			else
+			{
+				// 当没有头像时，说明没有收到userinfo，主动去获取，包括token也去获取一次
+				m_pFrame->GetWxUserInfoAndToken(pWebUser);
+			}
+		}
+
+		userId = pWebUser->webuserid;
+	}
+	else if (msgType == MSG_TYPE_RECV_OTHER)
+	{
+		// 协助对象发来的
+		if (pUser != NULL)
+		{
+			CString headUrl;
+			headUrl.Format("%s\\%lu.png", FullPath("images\\headimages"), pUser->UserInfo.uid);
+			headUrl.Replace("\\", "/");
+			f_covet.Gb2312ToUTF_8(headPath, headUrl, headUrl.GetLength());
+			// 头像存在否
+			if (_access(headUrl, 0) != 0)
+			{
+				headPath.clear();
+			}
+
+			userId = pUser->UserInfo.uid;
+		}
+		else
+		{
+			g_WriteLog.WriteLog(C_LOG_ERROR, "AddToMsgList.协助对象发来消息，但协助对象却为空\n");
+		}
+	}
+	*/
+#endif
+}
+
+

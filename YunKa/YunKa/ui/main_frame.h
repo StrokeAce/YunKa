@@ -180,6 +180,12 @@ public:
 
 
 
+	void AddToMsgList(CUserObject *pUser, string strName, string strTime, string strMsg, int userType,
+		int msgType, int msgDataType = MSG_DATA_TYPE_TEXT, string msgId = "");
+	void AddToMsgList(CWebUserObject *pWebUser, string strName, string strTime, string strMsg, int userType,
+		int msgType, int msgDataType = MSG_DATA_TYPE_TEXT, CUserObject* pUser = NULL, string msgId = "");
+
+
 protected:
 
 	void Notify(TNotifyUI& msg);
