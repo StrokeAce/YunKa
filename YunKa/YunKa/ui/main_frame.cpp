@@ -292,7 +292,7 @@ void CMainFrame::OnTimer(TNotifyUI& msg)
 
 void CMainFrame::OnCloseBtn(TNotifyUI& msg)
 {
-
+	m_manager->Exit();
 	m_frameSmallMenu.DeleteSmallIcon();
 	Close();
 	PostQuitMessage(0);
