@@ -860,7 +860,7 @@ BOOL CMainFrame::_RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileN
 
 void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
 {
-
+	char sendMsgData[MAX_1024_LEN] = {0};
 	ITextServices * pTextServices = m_pSendEdit->GetTextServices();
 
 	tstring strText;
@@ -874,8 +874,10 @@ void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
 	m_pSendEdit->SetText(_T(""));
 	m_pSendEdit->SetFocus();
 
+	UnicodeToANSI(strText.c_str(),sendMsgData);
 
-	//m_manager->SendTo_Msg();
+	//消息测试 暂时先只发给用户  坐席后续加上
+	m_manager->SendTo_Msg(m_checkId, 2, m_manager->GetMsgId(), MSG_DATA_TYPE_TEXT, sendMsgData);
 
 }
 
