@@ -3,17 +3,18 @@
 <!-- 管理按钮 -->
 
 <!-- 管理按钮   显示   按钮1-->
- <Button name="acceptbutton" maxwidth="60" maxheight="50" normalimage="file='mainframe\\manager_1.bmp' source='0,0,60,50' mask='#FFFF00FF'" hotimage="file='mainframe\\manager_2.bmp' source='0,0,60,50' mask='#FFFF00FF'" pushedimage="file='mainframe\\manager_3.bmp' source='0,0,60,50' mask='#FFFF00FF'"/>
+
+ <Button name="managerbutton_1" maxwidth="60" maxheight="50" normalimage="file='mainframe\\manager_1.bmp' source='0,0,60,50' mask='#FFFF00FF'" hotimage="file='mainframe\\manager_2.bmp' source='0,0,60,50' mask='#FFFF00FF'" pushedimage="file='mainframe\\manager_3.bmp' source='0,0,60,50' mask='#FFFF00FF'"/>
 
 <!-- 管理按钮   显示   按钮2-->
-<Button name="changebutton" maxwidth="60" maxheight="50" normalimage="file='mainframe\\manager_1.bmp' source='60,0,120,50' mask='#FFFF00FF'" hotimage="file='mainframe\\manager_2.bmp' source='0,0,60,50' mask='#FFFF00FF'" pushedimage="file='mainframe\\manager_3.bmp' source='0,0,60,50' mask='#FFFF00FF'"/>
+<Button name="managerbutton_2" maxwidth="60" maxheight="50" normalimage="file='mainframe\\manager_1.bmp' source='60,0,120,50' mask='#FFFF00FF'" hotimage="file='mainframe\\manager_2.bmp' source='0,0,60,50' mask='#FFFF00FF'" pushedimage="file='mainframe\\manager_3.bmp' source='0,0,60,50' mask='#FFFF00FF'"/>
 
 
 <!--按钮3-->
-<Button name="finishbutton" maxwidth="60" maxheight="50" normalimage="file='mainframe\\manager_1.bmp' source='120,0,180,50' mask='#FFFF00FF'" hotimage="file='mainframe\\manager_2.bmp' source='120,0,180,50' mask='#FFFF00FF'" pushedimage="file='mainframe\\manager_3.bmp' source='120,0,180,50' mask='#FFFF00FF'"/>
+<Button name="managerbutton_3" maxwidth="60" maxheight="50" normalimage="file='mainframe\\manager_1.bmp' source='120,0,180,50' mask='#FFFF00FF'" hotimage="file='mainframe\\manager_2.bmp' source='120,0,180,50' mask='#FFFF00FF'" pushedimage="file='mainframe\\manager_3.bmp' source='120,0,180,50' mask='#FFFF00FF'"/>
 
 <!--按钮4-->
-<Button name="shieldbutton" maxwidth="60" maxheight="50" normalimage="file='mainframe\\manager_1.bmp' source='180,0,240,50' mask='#FFFF00FF'" hotimage="file='mainframe\\manager_2.bmp' source='180,0,240,50' mask='#FFFF00FF'" pushedimage="file='mainframe\\manager_3.bmp' source='180,0,240,50' mask='#FFFF00FF'"/>
+<Button name="managerbutton_4" maxwidth="60" maxheight="50" normalimage="file='mainframe\\manager_1.bmp' source='180,0,240,50' mask='#FFFF00FF'" hotimage="file='mainframe\\manager_2.bmp' source='180,0,240,50' mask='#FFFF00FF'" pushedimage="file='mainframe\\manager_3.bmp' source='180,0,240,50' mask='#FFFF00FF'"/>
 
 
 
