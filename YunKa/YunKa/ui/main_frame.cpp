@@ -1195,6 +1195,9 @@ void CMainFrame::RecvOnline(CUserObject* pUser)
 		//先删除当前的离线坐席 list 再添加上线的坐席状态
 
 		map<unsigned int, UserListUI::Node*>::iterator  iter = m_offlineNodeMap.find(pUser->UserInfo.uid);
+		if (iter == m_offlineNodeMap.end())
+			return;
+
 		UserListUI::Node* tempNode = iter->second;
 
 		//先删除
@@ -1232,6 +1235,9 @@ void CMainFrame::RecvOffline(CUserObject* pUser)
 		//先删除当前的在线 坐席 list   再添加离线的坐席状态
 
 		map<unsigned int, UserListUI::Node*>::iterator  iter = m_onlineNodeMap.find(pUser->UserInfo.uid);
+		if (iter == m_onlineNodeMap.end())
+			return;
+
 		UserListUI::Node* tempNode = iter->second;
 
 		//先删除
