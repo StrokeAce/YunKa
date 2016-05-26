@@ -385,6 +385,8 @@ public:
 	//************************************
 	int SendCloseChat(CWebUserObject *pWebUser, int ntype);
 
+	int SendLoginOff();
+
 	// 文字消息中的表情字符转换
 	void TransforFaceMsg(string& str);
 

@@ -400,22 +400,22 @@ struct WEBUSER_URL_INFO
 
 struct UPLOAD_INFO
 {
-	void* pThis;
-	string filePath;
-	unsigned long userId;
-	MSG_DATA_TYPE msgDataType;
-	USER_TYPE userType;
+	void* pThis;				// 传该结构体参数的类对象指针
+	string filePath;			// 上传文件路径
+	unsigned long userId;		// 消息id
+	MSG_DATA_TYPE msgDataType;	// 消息的数据类型
+	USER_TYPE userType;			// 消息接收用户类型
 };
 
 struct DOWNLOAD_INFO
 {
-	void* pThis;
-	string filePath;			// 语音文件路径
-	string downLoadUrl;			// 文件下载的url
-	CWebUserObject *pWebUser;	// 发消息的web用户
-	string time;
-	CUserObject* pUser;			// 协助对象 可为空
-	int msgDataType;
+	void* pThis;				// 传该结构体参数的类对象指针
+	string filePath;			// 下载文件的路径
+	string downLoadUrl;			// 下载文件的url
+	CWebUserObject *pWebUser;	// 消息的来源用户
+	string time;				// 发送时间
+	CUserObject* pUser;			// 协助对象,可为空
+	MSG_DATA_TYPE msgDataType;  // 消息的数据类型
 };
 
 typedef struct {

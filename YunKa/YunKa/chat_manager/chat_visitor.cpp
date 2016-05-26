@@ -878,7 +878,7 @@ void CChatVisitor::SolveWebUserOnlineTipsTail(CWebUserObject *pWebUser, WEBUSER_
 	if (pWebUser == NULL || pInfo == NULL)
 		return;
 
-	char strTail[MAX_256_LEN];
+	char strTail[MAX_1024_LEN] = {0};
 
 	string stime = GetExtDateTimeFormatTime(0);
 
@@ -906,7 +906,7 @@ void CChatVisitor::SolveWebUserOnlineTipsTail(CWebUserObject *pWebUser, WEBUSER_
 		break;
 	}
 
-	if (pWebUser->m_strTail != "")
+	if (!pWebUser->m_strTail.empty())
 		pWebUser->m_strTail += "\r\n";
 	pWebUser->m_strTail += strTail;
 }

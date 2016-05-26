@@ -49,7 +49,6 @@ CChatManager::CChatManager()
 
 CChatManager::~CChatManager()
 {
-	Exit();
 }
 
 void CChatManager::ScreenCapture()
@@ -3503,6 +3502,8 @@ void CChatManager::SetHandlerMsgs(IHandlerMsgs* handlerMsgs)
 
 void CChatManager::Exit()
 {
+	SendLoginOff();
+
 	m_bExit = true;
 	m_socket.m_bRecvThread = false;
 	m_sysConfig->SaveData();
@@ -4196,21 +4197,20 @@ static UINT WINAPI UpLoadFileToWxServerThread(void * pUpLoadInfo)
 }
 
 // 上传文件到服务器
-static UINT WINAPI UpLoadFileToServerThread(void * para)
+static UINT WINAPI UpLoadFileToServerThread(void * pUpLoadInfo)
 {
-	//UploadFileParam* param = (UploadFileParam*)para;
-	//CString filePath = param->filePath;
-	//CFormMain* pForm = param->pForm;
-	//int msgDataType = param->msgDataType;
-	//int userType = param->userType;
-	//unsigned long userId = param->userId;
-	//void* pUser = ((CEmocssApp *)AfxGetApp())->GetUserObject(param->userId);
-	//delete param;
+	UPLOAD_INFO* upLoadInfo = (UPLOAD_INFO*)pUpLoadInfo;
+	string filePath = upLoadInfo->filePath;
+	CChatManager* pThis = (CChatManager*)upLoadInfo->pThis;
+	unsigned long userId = upLoadInfo->userId;
+	MSG_DATA_TYPE msgDataType = upLoadInfo->msgDataType;
+	USER_TYPE userType = upLoadInfo->userType;
+	delete upLoadInfo;
 
-	//GetPageByURL gpurl;
-	//CCodeConvert convert;
+	CHttpLoad load;
+	CCodeConvert convert;
 
-	//CString fileServerMediaUploadFormat = ((CEmocssApp *)AfxGetApp())->m_InitConfig.fileserver_media_upload;
+	//string fileServerMediaUploadFormat = pThis->m_initConfig.fileserver_media_upload;
 	//string resultCode;
 	//string decodeFilePath = convert.URLDecodeALL((string)filePath);
 	//if (gpurl.HttpLoad(string(fileServerMediaUploadFormat), "", REQUEST_TYPE_POST, decodeFilePath, resultCode))
@@ -4266,6 +4266,19 @@ void CChatManager::UpLoadFile(unsigned long userId, USER_TYPE userType, string f
 bool CChatManager::AfterUpload(unsigned long userId, USER_TYPE userType, string mediaID, MSG_DATA_TYPE msgDataType, string fileId, string filePath, string msgId)
 {
 	return false;
+}
+
+int CChatManager::SendLoginOff()
+{
+	int nError = 0;
+
+	CLT_LOGOFF SendInfo(VERSION);
+
+	SendInfo.seq = 0;
+	SendInfo.uin = m_userInfo.UserInfo.uid;
+	SendInfo.online_flag = OFFLINE_STATUS_MSG;
+
+	return SendPackTo(&SendInfo);
 }
 
 
