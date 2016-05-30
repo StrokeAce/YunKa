@@ -11,6 +11,10 @@
 #include <locale.h> 
 #include <vector>
 
+
+
+//×Ö·û´®Ìæ»» µ±Ç°×Ö·û  ½«srcStr Ìæ »»Îª destStr
+extern void StringReplace(string &curStr, string srcStr, string destStr);
 extern char *CU2A(const wchar_t* str, char *dest);
 extern wchar_t *CA2U(const char* str, WCHAR *dest);
 extern wchar_t *ANSIToUnicode(const char* str, wchar_t *dest);

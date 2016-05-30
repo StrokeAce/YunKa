@@ -291,3 +291,16 @@ void ConvertGBKToUtf8String(std::string& strGBK) {
 }
 
 
+//×Ö·û´®Ìæ»» µ±Ç°×Ö·û  ½«srcStr Ìæ »»Îª destStr
+void StringReplace(string &curStr,string srcStr,string destStr)
+{
+	string::size_type pos = 0;
+	string::size_type src = srcStr.size();
+	string::size_type dest = destStr.size();
+	while ((pos = curStr.find(srcStr, pos)) != string::npos)
+	{
+		curStr.replace(pos, src, destStr);
+		pos += dest;
+	}
+}
+

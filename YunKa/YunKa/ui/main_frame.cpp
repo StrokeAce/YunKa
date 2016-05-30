@@ -27,6 +27,8 @@ CMainFrame::CMainFrame(CChatManager* manager) :m_manager(manager)
 
 
 	m_recordWaitNumber = 0;
+
+	m_facePathUrl = "<IMG alt=\"\" src=\"http://sysimages.tq.cn/clientimages/face_v1.0/images/3.gif\">";
 }
 
 
@@ -189,6 +191,17 @@ LRESULT CMainFrame::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 LRESULT CMainFrame::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	//bHandled = FALSE;
+	if (uMsg == ON_AFTER_CREATED)
+	{
+		m_pListMsgHandler.isCreated = true;
+	}
+	else if (uMsg == ON_AFTER_LOAD)
+	{
+
+
+		m_pListMsgHandler.isLoaded = true;
+
+	}
 
 
 	m_frameSmallMenu.HandleCustomMessage(uMsg, wParam, lParam);
@@ -475,8 +488,6 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 		m_pListMsgHandler.handler->CreateBrowser(this->m_hWnd, rect, utfUrl, Handler_ListMsg);
 		//m_pListMsgHandler.handler->CreateBrowser(this->m_hWnd, rect, "www.baidu.com", Handler_ListMsg);
 
-		m_pListMsgHandler.isLoaded = true;
-		m_pListMsgHandler.isCreated = true;
 	}
 
 	m_pSendEdit = static_cast<CRichEditUI*>(m_PaintManager.FindControl(_T("richSend")));
@@ -860,28 +871,65 @@ BOOL CMainFrame::_RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileN
 	return bRet;
 }
 
+void CMainFrame::ReplaceFaceId(string &msg)
+{
+	string str = msg;
+	string url = m_facePathUrl;
+	char getStr[32] = { 0 };
+
+	while (1)
+	{
+
+		int pos = str.find("/f[\"");
+
+
+		if (pos == -1)//没有找到 插入的图片 
+			return;
+
+
+		int end = str.find("\"]", pos);
+		if (end == -1)
+			return;
+		string idStr = str.substr(pos + 4, end - pos - 4);
+		string reStr = str.substr(pos, end + 2 - pos);
+
+		StringReplace(url, "face.gif", idStr);
+		StringReplace(str, reStr, url);
+
+		msg = str;
+	} 
+
+}
 
 void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
 {
-	char sendMsgData[MAX_1024_LEN] = {0};
-	ITextServices * pTextServices = m_pSendEdit->GetTextServices();
+	char getInput[MAX_1024_LEN] = {0};
+	string msgId = m_manager->GetMsgId();
+	string sendMsgData;
+	int sendMsgType = 0;
 
+	ITextServices * pTextServices = m_pSendEdit->GetTextServices();
 	tstring strText;
 	RichEdit_GetText(pTextServices, strText);
-
 	pTextServices->Release();
-
 	if (strText.size() <= 0)
 		return;
-
 	m_pSendEdit->SetText(_T(""));
 	m_pSendEdit->SetFocus();
 
-	UnicodeToANSI(strText.c_str(),sendMsgData);
+
+	UnicodeToANSI(strText.c_str(), getInput);
+	sendMsgData = getInput;
+	ReplaceFaceId(sendMsgData);
 
 	//消息测试 暂时先只发给用户  坐席后续加上
-	m_manager->SendTo_Msg(m_checkId, USER_TYPE_WEB, m_manager->GetMsgId(), MSG_DATA_TYPE_TEXT, sendMsgData);
+	m_manager->SendTo_Msg(m_checkId, USER_TYPE_WX, msgId, MSG_DATA_TYPE_TEXT, (char*)sendMsgData.c_str());
 
+	//理论上只有发送消息成功 才在聊天界面显示  
+	//暂时先添加在这里  后面再移到收到消息成功 的回调哪里
+	//显示 发送的消息
+
+	ShowMySelfSendMsg(sendMsgData);
 }
 
 
@@ -1490,8 +1538,16 @@ void CMainFrame::RecvReleaseChat(CWebUserObject* pWebUser)
 void CMainFrame::RecvMsg(IBaseObject* pObj, MSG_FROM_TYPE msgFrom, string msgId, MSG_TYPE msgType, MSG_DATA_TYPE msgDataType, string msgContent,
 	string msgTime, CUserObject* pAssistUser, WxMsgBase* msgContentWx, string msgExt)
 {
+	CWebUserObject    *pWebUserObj = NULL;
+	CUserObject       *pUserObj = NULL;
+	string            headPath = "";
+	unsigned long     userId = 0;
+	CCodeConvert      f_covet;
 
-#if 0
+	char strJsCode[MAX_1024_LEN] = {0};
+	string  name,msg;
+
+
 	if (pObj == NULL)
 		return;
 	if (msgContent.length() == 0)
@@ -1500,22 +1556,68 @@ void CMainFrame::RecvMsg(IBaseObject* pObj, MSG_FROM_TYPE msgFrom, string msgId,
 		return;
 	}
 
-	if (msgFrom == MSG_FROM_USER)
+	int urlPos = msgContent.find("用户头像地址:");
+	int urlPos1 = msgContent.find("user_headimgurl:");
+	int urlPos2 = msgContent.find(">立即评价</a>");
+	if (urlPos > -1 || urlPos1 > -1 || urlPos2 > -1)
+	{
+		return;
+	}
+	
+	if (msgFrom == MSG_FROM_CLIENT)
 	{
 	}
-	else if (msgFrom == MSG_FROM_USER)
+	else if (msgFrom == MSG_FROM_USER)   //微信或者web用户
 	{
 
+		pWebUserObj = (CWebUserObject *)pObj;
+
+		userId = pWebUserObj->webuserid;
+		string strName = pWebUserObj->info.name;
+		StringReplace(strName, "\\", "\\\\");
+		StringReplace(strName,  "'", "&#039;");
+		StringReplace(strName, "\r\n", "<br>");
+		f_covet.Gb2312ToUTF_8(name, strName.c_str(), strName.length());
+
+		StringReplace(msgContent, "\\", "\\\\");
+		StringReplace(msgContent, "'", "&#039;");
+		StringReplace(msgContent, "\r\n", "<br>");
+		f_covet.Gb2312ToUTF_8(msg, msgContent.c_str(), msgContent.length());
+
+		// 微信用户发来的
+		if (pWebUserObj->m_bIsFrWX)
+		{
+			if (pWebUserObj->m_pWxUserInfo != NULL && !pWebUserObj->m_pWxUserInfo->headimgurl.empty())
+			{
+				headPath = pWebUserObj->m_pWxUserInfo->headimgurl;
+			}
+			else
+			{
+				// 当没有头像时，说明没有收到userinfo，主动去获取，包括token也去获取一次
+				//m_pFrame->GetWxUserInfoAndToken(pWebUser);
+			}
+		}
 	}
 
+	if (headPath.empty())
+	{
+		// 没有取到头像时，显示默认头像
+		string defaultHead = FullPath("res\\headimages\\default.png");
+
+		StringReplace(defaultHead, "\\", "/");
+		f_covet.Gb2312ToUTF_8(headPath, defaultHead.c_str(), defaultHead.length());
+	}
+	//组合消息
+	sprintf(strJsCode, "AppendMsgToHistory('%d', '%d', '%s', '%s', '%s', '%lu', '%s', '%s', '%d'); ",
+		msgType,
+		msgDataType, name.c_str(), msgTime.c_str(), msg.c_str(), userId, headPath.c_str(), msgId, msgFrom);
 
 	if (m_pListMsgHandler.isLoaded)
 	{
-		CefString strCode("123456"), strUrl("");
+		CefString strCode(strJsCode), strUrl("");
 		m_pListMsgHandler.handler->GetBrowser()->GetMainFrame()->ExecuteJavaScript(strCode, strUrl, 0);
 	}
 
-#endif
 
 
 
@@ -1554,117 +1656,69 @@ void CMainFrame::OnManagerButtonEvent(TNotifyUI& msg)
 
 }
 
-
-void AddToMsgList(CUserObject *pUser, string strName, string strTime, string strMsg, int userType,
-	int msgType, int msgDataType = MSG_DATA_TYPE_TEXT, string msgId = "")
+void CMainFrame::ShowMySelfSendMsg(string strMsg)
 {
+	string            headPath = "";
+	unsigned long     userId = 0;
+	CCodeConvert      f_covet;
+	char tempStr[256] = {0};
+	char strJsCode[MAX_1024_LEN] = { 0 };
+	string  name, msg ;
+	string defaultHead;
 
-
-
-}
-
-void AddToMsgList(CWebUserObject *pWebUser, string strName, string strTime, string strMsg, int userType,
-	int msgType, int msgDataType = MSG_DATA_TYPE_TEXT, CUserObject* pUser = NULL, string msgId = "")
-{
-
-#if 0
-	if (pWebUser == NULL)
-		return;
-	if (strMsg.length() == 0)
+	if (strMsg.empty())
 	{
 		g_WriteLog.WriteLog(C_LOG_ERROR, "插入空的聊天记录");
 		return;
 	}
 
-	CCodeConvert f_covet;
-	CString strJsCode;
-	string name, msg;
-	unsigned long userId = -1;
-
 	int urlPos = strMsg.find("用户头像地址:");
 	int urlPos1 = strMsg.find("user_headimgurl:");
 	int urlPos2 = strMsg.find(">立即评价</a>");
-
 	if (urlPos > -1 || urlPos1 > -1 || urlPos2 > -1)
 	{
-		// 过滤这条无用的用户信息消息
+		return;
 	}
-	else
+	string strName = m_mySelfInfo->UserInfo.nickname;	
+	StringReplace(strName, "\\", "\\\\");
+	StringReplace(strName, "'", "&#039;");
+	StringReplace(strName, "\r\n", "<br>");
+	f_covet.Gb2312ToUTF_8(name, strName.c_str(), strName.length());
+
+	StringReplace(strMsg, "\\", "\\\\");
+	StringReplace(strMsg, "'", "&#039;");
+	StringReplace(strMsg, "\r\n", "<br>");
+	f_covet.Gb2312ToUTF_8(msg, strMsg.c_str(), strMsg.length());
+
+	userId = m_mySelfInfo->UserInfo.uid;
+	defaultHead = FullPath("res\\headimage\\");
+	sprintf(tempStr,"%d.png",userId);
+	defaultHead += tempStr;
+
+	if (!_globalSetting.FindFileExist((char*)defaultHead.c_str()))
 	{
-		  
-		/*
-		strName.replace()
-		strName.replace("\\", "\\\\");
-		strName.replace("'", "&#039;");
-		strName.Replace("\r\n", "<br>");
-		f_covet.Gb2312ToUTF_8(name, strName, strName.GetLength());
-		strMsg.Replace("\\", "\\\\");
-		strMsg.Replace("'", "&#039;");
-		strMsg.Replace("\r\n", "<br>");
-		f_covet.Gb2312ToUTF_8(msg, strMsg, strMsg.GetLength());
-		string headPath;
-
-		*/
-
+		defaultHead = FullPath("res\\headimages\\default.png");
 	}
 
-	/*
-	if (msgType == MSG_TYPE_SEND)
+	StringReplace(defaultHead, "\\", "/");
+	f_covet.Gb2312ToUTF_8(headPath, defaultHead.c_str(), defaultHead.length());
+
+
+	
+
+	//组合消息
+	string msgTime = GetTimeStringMDAndHMS(0);
+	string msgId = m_manager->GetMsgId();
+	sprintf(strJsCode, "AppendMsgToHistory('%d', '%d', '%s', '%s', '%s', '%lu', '%s', '%s', '%d'); ",
+		1,
+		1, name.c_str(), msgTime.c_str(), msg.c_str(), userId, headPath.c_str(), msgId, MSG_FROM_CLIENT);
+
+
+	if (m_pListMsgHandler.isLoaded)
 	{
-		// 自己发送的
-		CString headUrl;
-		userId = m_pFrame->m_pUserInfo->UserInfo.uid;
-		headUrl.Format("%s\\%lu.png", FullPath("images\\headimages"), userId);
-		headUrl.Replace("\\", "/");
-		f_covet.Gb2312ToUTF_8(headPath, headUrl, headUrl.GetLength());
-		// 头像存在否
-		if (_access(headUrl, 0) != 0)
-		{
-			headPath.clear();
-		}
+		CefString strCode(strJsCode), strUrl("");
+		m_pListMsgHandler.handler->GetBrowser()->GetMainFrame()->ExecuteJavaScript(strCode, strUrl, 0);
 	}
-	else if (msgType == MSG_TYPE_RECV)
-	{
-		// 微信用户发来的
-		if (pWebUser->m_bIsFrWX)
-		{
-			if (pWebUser->m_pWxUserInfo != NULL && !pWebUser->m_pWxUserInfo->headimgurl.empty())
-			{
-				headPath = pWebUser->m_pWxUserInfo->headimgurl;
-			}
-			else
-			{
-				// 当没有头像时，说明没有收到userinfo，主动去获取，包括token也去获取一次
-				m_pFrame->GetWxUserInfoAndToken(pWebUser);
-			}
-		}
 
-		userId = pWebUser->webuserid;
-	}
-	else if (msgType == MSG_TYPE_RECV_OTHER)
-	{
-		// 协助对象发来的
-		if (pUser != NULL)
-		{
-			CString headUrl;
-			headUrl.Format("%s\\%lu.png", FullPath("images\\headimages"), pUser->UserInfo.uid);
-			headUrl.Replace("\\", "/");
-			f_covet.Gb2312ToUTF_8(headPath, headUrl, headUrl.GetLength());
-			// 头像存在否
-			if (_access(headUrl, 0) != 0)
-			{
-				headPath.clear();
-			}
-
-			userId = pUser->UserInfo.uid;
-		}
-		else
-		{
-			g_WriteLog.WriteLog(C_LOG_ERROR, "AddToMsgList.协助对象发来消息，但协助对象却为空\n");
-		}
-	}
-	*/
-#endif
 }
-
 

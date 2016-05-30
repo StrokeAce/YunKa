@@ -15,7 +15,8 @@ public:
 	~CGlobalSetting();
 
 public:
-
+	int CGlobalSetting::FindFileExist(char *str);
+	int CGlobalSetting::FindFileExist(WCHAR *str);
 
 
 

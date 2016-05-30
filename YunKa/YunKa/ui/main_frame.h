@@ -179,12 +179,8 @@ public:
 	void OnSendToCloseChat(unsigned long webUserid);
 
 
-
-	void AddToMsgList(CUserObject *pUser, string strName, string strTime, string strMsg, int userType,
-		int msgType, int msgDataType = MSG_DATA_TYPE_TEXT, string msgId = "");
-	void AddToMsgList(CWebUserObject *pWebUser, string strName, string strTime, string strMsg, int userType,
-		int msgType, int msgDataType = MSG_DATA_TYPE_TEXT, CUserObject* pUser = NULL, string msgId = "");
-
+	void CMainFrame::ReplaceFaceId(string &msg);
+	void CMainFrame::ShowMySelfSendMsg(string strMsg);
 
 protected:
 
@@ -240,6 +236,8 @@ private:
 	CUserObject* m_mySelfInfo;
 
 	unsigned long m_checkId;
+
+	string m_facePathUrl;
 
 
 };

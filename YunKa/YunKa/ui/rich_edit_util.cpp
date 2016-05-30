@@ -950,7 +950,9 @@ void RichEdit_GetText(ITextServices * pTextServices, tstring& strText)
 					if (nFaceId != -1)
 					{
 						TCHAR cBuf[32] = {0};
-						wsprintf(cBuf, _T("/f[\"%03d\"]"), nFaceId);
+						wsprintf(cBuf, _T("/f[\"%d\"]"), nFaceId);
+
+						//wsprintf(cBuf, _T("[*<.,m098]%d.gif"), nFaceId);
 						strText += cBuf;
 					}
 					else
