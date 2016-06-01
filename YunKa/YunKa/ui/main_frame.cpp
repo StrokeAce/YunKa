@@ -24,11 +24,11 @@ CMainFrame::CMainFrame(CChatManager* manager) :m_manager(manager)
 	m_pSendEdit = NULL;
 
 	pOnlineNode = pWaitForStart = pMySelfeNode = NULL;
-
+	m_initType = -1;
 
 	m_recordWaitNumber = 0;
 
-	m_facePathUrl = "<IMG alt=\"\" src=\"http://sysimages.tq.cn/clientimages/face_v1.0/images/3.gif\">";
+	m_facePathUrl = "<IMG alt=\"\" src=\"http://sysimages.tq.cn/clientimages/face_v1.0/images/face.gif\">";
 }
 
 
@@ -108,12 +108,16 @@ LRESULT CMainFrame::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 			if (pControl) pControl->SetVisible(false);
 			pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restoreBtn")));
 			if (pControl) pControl->SetVisible(true);
+			
+			MoveAndRestoreMsgWnd(0);
 		}
 		else {
 			CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("maxBtn")));
 			if (pControl) pControl->SetVisible(true);
 			pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("restoreBtn")));
 			if (pControl) pControl->SetVisible(false);
+
+			MoveAndRestoreMsgWnd(1);
 		}
 	}
 
@@ -313,48 +317,89 @@ void CMainFrame::OnCloseBtn(TNotifyUI& msg)
 
 }
 
-void CMainFrame::OnMaxBtn(TNotifyUI& msg)
+#if 0
+
+LRESULT CMainFrame::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	TNotifyUI msg;
+#if 0
+	if (m_initType == 0)
+	{
+		if (wParam == 2) //最大化
+		{
+			OnMaxBtn(msg);
+		}
+
+		else if (wParam == 0) //还原
+		{
+			OnRestoreBtn(msg);
+		}
+	}
+#endif
+
+
+	return 0;
+}
+
+#endif
+
+
+
+void CMainFrame::MoveAndRestoreMsgWnd(int type)
 {
 	int leftWidth = 0;
 	RECT rc;
 	RECT sysRect;
 	CDuiString formatString;
 
-	SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 	CControlUI *leftLayout = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("VerticalLayoutUI_LeftFrame")));
 	CControlUI *lineLayout = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("VerticalLayoutUI_LeftLine1")));
-
-	leftWidth = leftLayout->GetWidth();
-	leftWidth += lineLayout->GetWidth();
-
-	GetWindowRect(this->m_hWnd,&sysRect);
-	//SystemParametersInfo(SPI_GETWORKAREA, 0, (PVOID)&rc, 0);
-	int centerWidth = (sysRect.right - leftWidth) /2;
-
 	CControlUI *centerLayout = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("VerticalLayoutUI_CenterFrame")));
 	CControlUI *rightLayout = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("VerticalLayoutUI_RightFrame")));
-
-	formatString.Format(_T("%d"), centerWidth);
-	centerLayout->SetAttribute(_T("width"), formatString);
-	formatString.Format(_T("%d"), sysRect.right - leftWidth - centerWidth);
-	rightLayout->SetAttribute(_T("width"), formatString);
-
-
-
 	CControlUI *ShowMsgWnd = static_cast<CHorizontalLayoutUI*>(m_PaintManager.FindControl(_T("HorizontalLayoutUI_ShowMsg")));
 
 
-	rc = ShowMsgWnd->GetPos();
+	if (type == 0) //max
+	{
+		leftWidth = leftLayout->GetWidth();
+		leftWidth += lineLayout->GetWidth();
+		GetWindowRect(this->m_hWnd, &sysRect);
+		int centerWidth = (sysRect.right - leftWidth) / 2;
+		int rightWidth = sysRect.right - leftWidth - centerWidth;
+
+		m_centerChatInfo.centerFrameWitdh = centerLayout->GetWidth();
+		m_centerChatInfo.showMsgWidth = ShowMsgWnd->GetWidth();
+
+		formatString.Format(_T("%d"), centerWidth);
+		centerLayout->SetAttribute(_T("width"), formatString);
+		formatString.Format(_T("%d"), rightWidth);
+		rightLayout->SetAttribute(_T("width"), formatString);
+
+		rc = ShowMsgWnd->GetPos();
+		rc.right = rc.left + centerWidth - 2;
+		m_pListMsgHandler.handler->MoveBrowser(rc);
+	}
+	else
+	{
+		formatString.Format(_T("%d"), m_centerChatInfo.centerFrameWitdh);
+		centerLayout->SetAttribute(_T("width"), formatString);
+
+		rc = ShowMsgWnd->GetPos();
+		rc.right = rc.left + m_centerChatInfo.showMsgWidth;
+		m_pListMsgHandler.handler->MoveBrowser(rc);
+	}
+}
 
 
 
+void CMainFrame::OnMaxBtn(TNotifyUI& msg)
+{
 
-	m_pListMsgHandler.handler->MoveBrowser( rc);
-
-
-
+	SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 
 }
+
+
 
 void CMainFrame::OnRestoreBtn(TNotifyUI& msg)
 {
@@ -362,6 +407,7 @@ void CMainFrame::OnRestoreBtn(TNotifyUI& msg)
 	SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0);
 
 }
+
 
 void CMainFrame::OnMinBtn(TNotifyUI& msg)
 {
@@ -389,15 +435,14 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 	m_pListMsgHandler.isLoaded = false;
 	m_pListMsgHandler.isCreated = false;
 
-
-
-
-	//中间栏按钮
+	//聊天框中间栏按钮
 	m_pFontBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("btnFont")));
 	m_pFaceBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("btnFace")));
 	m_pScreenBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("screenshotsbtn")));
 	pSendMsgBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("sendMsgBtn")));
 
+
+	//上层管理按钮 设置初始状态
 	for (int i = 0; i < MID_MANAGER_BUTTON_NUM; i++)
 	{
 		nameString.Format(_T("managerbutton_%d"),i+1);
@@ -412,20 +457,27 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 		StrCpyW(m_pManagerBtn[i].hotImage, m_pManagerBtn[i].m_pManagerBtn->GetHotImage());
 		StrCpyW(m_pManagerBtn[i].pushedImage, m_pManagerBtn[i].m_pManagerBtn->GetPushedImage());
 
-		m_pManagerBtn[i].m_pManagerBtn->SetHotImage(str);
-		m_pManagerBtn[i].m_pManagerBtn->SetPushedImage(str);
+		//筛选访客按钮
+		if (i == 5  || i >= 8 )
+		{
+			m_pManagerBtn[i].m_pManagerBtn->SetNormalImage(m_pManagerBtn[i].pushedImage);
+		}
+		else
+		{
+			m_pManagerBtn[i].m_pManagerBtn->SetHotImage(str);
+			m_pManagerBtn[i].m_pManagerBtn->SetPushedImage(str);
+		}
+
+
 	}
 
 	//右下角小图标
 	m_frameSmallMenu.Init();
 	m_frameSmallMenu.CreateSmallIcon(this->m_hWnd, DEFINE_SMALL_ICON_PATH);
 
-
-	//表情包显示
+	//表情包初始化
 	wstring strPath = ZYM::CPath::GetCurDir() + _T("../bin/") _T("SkinRes\\Face\\FaceConfig.xml");
 	m_faceList.LoadConfigFile(strPath.c_str());
-
-
 
 	//左侧用户列表显示
     pUserList = static_cast<UserListUI*>(m_PaintManager.FindControl(_T("userlist")));
@@ -510,6 +562,7 @@ void CMainFrame::OnPrepare(TNotifyUI& msg)
 	hr = ::RegisterDragDrop(m_hWnd, pdt);
 	pdt->Release();
 
+	m_initType = 0;
 
 	//请求坐席列表
 	SendMsgToGetList();
@@ -612,10 +665,9 @@ void CMainFrame::OnItemClick(TNotifyUI &msg)
 			CDuiString str = node->data()._text;
 			unsigned long id = node->data()._uid;
 
-			m_checkId = id;
-
 			if (id > 0)
 			{
+				m_checkId = id;
 				map<unsigned long, UserListUI::Node*>::iterator iter = m_waitVizitorMap.find(id);
 				if (iter != m_waitVizitorMap.end())
 				{
@@ -633,62 +685,10 @@ void CMainFrame::OnItemClick(TNotifyUI &msg)
 				}
 		
 			}
-#if 0
-			map<unsigned long, UserListUI::Node*>::iterator iter;
-			for (iter = m_waitVizitorList.begin(); iter != m_waitVizitorList.end(); iter++)
-			{
-				//如果在等待列表 则显示接受 屏蔽 邀请评价 等按钮的状态为可用
-				if (*iter == str)
-				{
-
-					m_pManagerBtn[0].m_pManagerBtn->SetNormalImage(m_pManagerBtn[0].pushedImage);
-					m_pManagerBtn[0].m_pManagerBtn->SetHotImage(m_pManagerBtn[0].hotImage);
-					m_pManagerBtn[0].m_pManagerBtn->SetPushedImage(m_pManagerBtn[0].pushedImage);
-
-
-					m_pManagerBtn[3].m_pManagerBtn->SetNormalImage(m_pManagerBtn[3].pushedImage);
-					m_pManagerBtn[3].m_pManagerBtn->SetHotImage(m_pManagerBtn[3].hotImage);
-					m_pManagerBtn[3].m_pManagerBtn->SetPushedImage(m_pManagerBtn[3].pushedImage);
-
-					m_pManagerBtn[4].m_pManagerBtn->SetNormalImage(m_pManagerBtn[4].pushedImage);
-					m_pManagerBtn[4].m_pManagerBtn->SetHotImage(m_pManagerBtn[4].hotImage);
-					m_pManagerBtn[4].m_pManagerBtn->SetPushedImage(m_pManagerBtn[4].pushedImage);
-
-		
-					//CDuiString name = m_pManagerBtn[0]->GetNormalImage();
-					//m_pManagerBtn[0]->SetAttribute(L"normalimage", L"file=\'mainframe\\manager_3.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-					//m_pManagerBtn[0]->SetAttribute(L"hotimage", L"file=\'mainframe\\manager_2.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-					//m_pManagerBtn[0]->SetAttribute(L"pushedimage", L"file=\'mainframe\\manager_3.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-
-
-					//m_pManagerBtn[3]->SetAttribute(L"normalimage", L"file=\'mainframe\\manager_3.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-					//m_pManagerBtn[3]->SetAttribute(L"hotimage", L"file=\'mainframe\\manager_2.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-					//m_pManagerBtn[3]->SetAttribute(L"pushedimage", L"file=\'mainframe\\manager_3.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-
-					//m_pManagerBtn[4]->SetAttribute(L"normalimage", L"file=\'mainframe\\manager_3.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-					//m_pManagerBtn[4]->SetAttribute(L"hotimage", L"file=\'mainframe\\manager_2.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-					//m_pManagerBtn[4]->SetAttribute(L"pushedimage", L"file=\'mainframe\\manager_3.bmp\' source=\'0,0,60,50\' mask=\'#FFFF00FF\'");
-
-
-
-					break;
-				}
-			}
-#endif
 
 		}
 
 
-#if 0
-			POINT pt = { 0 };
-			::GetCursorPos(&pt);
-			::ScreenToClient(m_PaintManager.GetPaintWindow(), &pt);
-			pt.x -= msg.pSender->GetX();
-			SIZE sz = pUserList->GetExpanderSizeX(node);
-			if (pt.x >= sz.cx && pt.x < sz.cy)
-				pUserList->ExpandNode(node, !node->data()._expand);
-
-#endif
 
 	}
 }
@@ -892,6 +892,8 @@ void CMainFrame::ReplaceFaceId(string &msg)
 			return;
 		string idStr = str.substr(pos + 4, end - pos - 4);
 		string reStr = str.substr(pos, end + 2 - pos);
+
+		idStr += ".gif";
 
 		StringReplace(url, "face.gif", idStr);
 		StringReplace(str, reStr, url);
@@ -1362,7 +1364,6 @@ void CMainFrame::RecvChatInfo(CWebUserObject* pWebUser)
 		}
 
 		pUserList->AddNode(text, pWebUser->webuserid, child);
-
 		pUserList->ExpandNode(tempNode, true);
 	}
 
@@ -1383,6 +1384,8 @@ void CMainFrame::RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser)
 		tempNode = iter->second;
 		text = tempNode->data()._text;
 		uid = tempNode->data()._uid;
+		//当前选择 的用户就是 激活的用户
+		m_checkId = uid;
 	}
 	else
 		return;
@@ -1599,6 +1602,13 @@ void CMainFrame::RecvMsg(IBaseObject* pObj, MSG_FROM_TYPE msgFrom, string msgId,
 		}
 	}
 
+	//如果收到的消息不是 当前所选用户的id的，暂时屏蔽，后面需要记录起来，等到选择到后显示出来
+	if (userId != m_checkId)
+	{
+		return;
+	}
+
+
 	if (headPath.empty())
 	{
 		// 没有取到头像时，显示默认头像
@@ -1702,9 +1712,6 @@ void CMainFrame::ShowMySelfSendMsg(string strMsg)
 
 	StringReplace(defaultHead, "\\", "/");
 	f_covet.Gb2312ToUTF_8(headPath, defaultHead.c_str(), defaultHead.length());
-
-
-	
 
 	//组合消息
 	string msgTime = GetTimeStringMDAndHMS(0);

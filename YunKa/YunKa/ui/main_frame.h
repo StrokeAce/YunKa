@@ -19,6 +19,14 @@
 #define MAX_PATH_LENGTH           1024
 
 
+typedef struct CONTROL_ATTR
+{
+	int centerFrameWitdh;
+	int showMsgWidth;
+
+}CONTROL_ATTR;
+
+
 // 将HWND显示到CControlUI上面
 class CWndUI : public CControlUI
 {
@@ -111,7 +119,7 @@ public:
 	DWORD GetBkColor();
 	void SetBkColor(DWORD dwBackColor);
 
-
+	//virtual LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	virtual void OnClick(TNotifyUI& msg);
 	virtual void OnSelectChanged(TNotifyUI &msg);
 	virtual void OnItemClick(TNotifyUI &msg);
@@ -181,6 +189,7 @@ public:
 
 	void CMainFrame::ReplaceFaceId(string &msg);
 	void CMainFrame::ShowMySelfSendMsg(string strMsg);
+	void CMainFrame::MoveAndRestoreMsgWnd(int type);
 
 protected:
 
@@ -208,6 +217,9 @@ public:
 	list<CUserObject* > m_upUser;
 	unsigned int m_recordWaitNumber;
 
+	CONTROL_ATTR m_centerChatInfo;
+
+	int m_initType;
 
 private:
 
