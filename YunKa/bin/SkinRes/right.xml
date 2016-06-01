@@ -1,4 +1,22 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <right>
 
+<VerticalLayout >
+
+<HorizontalLayout height="26" padding="0, 0, 0, 0" bkimage="file='mainframe\\MidToolBarBg.png'" inset="1,0,2,0">
+          <Option name="friendbtn" font="1" selected="true" align="left"   text="辅助应答" selectedimage="file='mainframe\\tab_btn.png'" width="75" height="26" />
+          <Option name="groupbtn" font="1" align="left"       text="访客信息" selectedimage="file='mainframe\\tab_btn.pngtab_btn.png'" width="75" height="26" />
+          <Option name="microblogbtn" font="1" align="left"        text="聊天信息" selectedimage="file='mainframe\\tab_btn.pngtab_btn.png'" width="75" height="26" />
+          <Option name="microblogbtn" font="1" align="left"       text="会话登单" selectedimage="file='mainframe\\tab_btn.pngtab_btn.png'" width="75" height="26" />
+          <Option name="microblogbtn" font="1" align="left"       text="客户信息" selectedimage="file='mainframe\\tab_btn.pngtab_btn.png'" width="75" height="26" />
+          <Option name="microblogbtn" font="1" align="left"       text="新建订单" selectedimage="file='mainframe\\tab_btn.pngtab_btn.png'" width="75" height="26" />
+          <Option name="microblogbtn" font="1"  align="left"        text="查询订单" selectedimage="file='mainframe\\tab_btn.pngtab_btn.png'" width="75" height="26" />
+
+
+</HorizontalLayout>
+
+
+
+</VerticalLayout>
+
 </right>

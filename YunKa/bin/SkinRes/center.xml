@@ -35,7 +35,11 @@
 <!-- HorizontalLayout height="20"  bkcolor="#FFDEEEF6" /-->
 <HorizontalLayout height="36"  name="HorizontalLayoutUI_SendMsgButton"   bkcolor="#FFFEFDFC">
 
-<Button name="sendMsgBtn" text="发送" float="true" font="3" pos="280, 2,360, 34" tooltip="" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
+<VerticalLayout />
+
+<VerticalLayout width="100">
+<Button name="sendMsgBtn" text="发送" float="true" font="3" pos="0, 2,80, 34" tooltip="" normalimage="login\\button_nor.bmp" hotimage="login\\button_over.bmp" pushedimage="login\\button_down.bmp" />
+</VerticalLayout>
 
 </HorizontalLayout>
 

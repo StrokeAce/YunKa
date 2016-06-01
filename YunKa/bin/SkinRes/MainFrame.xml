@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window size="1024,700" caption="0,0,0,36" roundcorner="4,4"  mininfo="1024,700" roundcorner="6,6">
+<Window size="1220,700" caption="0,0,0,36" roundcorner="4,4"  mininfo="1024,700" roundcorner="6,6">
 
 <!-- 字体定义 -->
     <Font name="微软雅黑" size="13" bold="true" italic="false" />
