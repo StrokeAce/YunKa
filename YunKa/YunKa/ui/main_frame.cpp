@@ -659,6 +659,7 @@ void CMainFrame::OnSelectedChanged(TNotifyUI &msg)
 {
 	WCHAR OptionBtnName[32] = { 0 };
 
+#if 0
 	CTabLayoutUI* pTabControl = static_cast<CTabLayoutUI*>(m_PaintManager.FindControl(_T("right_tab")));
 	int index = pTabControl->GetCurSel() + 1;
 
@@ -680,7 +681,7 @@ void CMainFrame::OnSelectedChanged(TNotifyUI &msg)
 	}
 
 
-
+#endif
 
 }
 
