@@ -131,6 +131,13 @@ tstring CFaceSelDlg::GetSelFaceFileName()
 	return m_strSelFaceFileName;
 }
 
+void CFaceSelDlg::GetFileNameById(int id, tstring &name)
+{
+	CFaceInfo *info = m_lpFaceList->GetFaceInfoById(id);
+	name = info->m_strFileName;
+
+}
+
 void CFaceSelDlg::Notify(TNotifyUI& msg)
 {
 	if (msg.sType == _T("click"))

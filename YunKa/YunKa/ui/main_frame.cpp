@@ -28,7 +28,7 @@ CMainFrame::CMainFrame(CChatManager* manager) :m_manager(manager)
 
 	m_recordWaitNumber = 0;
 
-	m_facePathUrl = "<IMG alt=\"\" src=\"http://sysimages.tq.cn/clientimages/face_v1.0/images/face.gif\">";
+	m_facePathUrl = "<IMG alt=\"\" src=\"face.gif\">";
 }
 
 
@@ -254,7 +254,7 @@ void CMainFrame::Notify(TNotifyUI& msg)
 	}
 	else if (_tcsicmp(msg.sType, _T("selectchanged")) == 0)
 	{
-
+		OnSelectedChanged(msg);
 	}
 
 
@@ -654,6 +654,14 @@ void CMainFrame::OnSelectChanged(TNotifyUI &msg)
 
 }
 
+
+void CMainFrame::OnSelectedChanged(TNotifyUI &msg)
+{
+
+
+}
+
+
 void CMainFrame::OnItemClick(TNotifyUI &msg)
 {
 	UserListUI* pUserList = static_cast<UserListUI*>(m_PaintManager.FindControl(_T("userlist")));
@@ -874,32 +882,36 @@ BOOL CMainFrame::_RichEdit_InsertFace(CRichEditUI * pRichEdit, LPCTSTR lpszFileN
 void CMainFrame::ReplaceFaceId(string &msg)
 {
 	string str = msg;
-	string url = m_facePathUrl;
+	string url;
 	char getStr[32] = { 0 };
-
+	
 	while (1)
 	{
-
-		int pos = str.find("/f[\"");
+		url = m_facePathUrl;
+		int pos = str.find("[");
 
 
 		if (pos == -1)//没有找到 插入的图片 
-			return;
+			break;
 
 
-		int end = str.find("\"]", pos);
+		int end = str.find("]", pos);
 		if (end == -1)
-			return;
-		string idStr = str.substr(pos + 4, end - pos - 4);
-		string reStr = str.substr(pos, end + 2 - pos);
+			break;
+		string idStr = str.substr(pos + 1, end - pos - 1);
+		string reStr = str.substr(pos, end - pos + 1);
 
-		idStr += ".gif";
+		string facePath = GetCurrentPath();
+		facePath += ("\\SkinRes\\Face\\");
+		facePath += idStr;
 
-		StringReplace(url, "face.gif", idStr);
+		StringReplace(url, "face.gif", facePath);
 		StringReplace(str, reStr, url);
 
-		msg = str;
+
 	} 
+
+	msg = str;
 
 }
 
@@ -910,10 +922,15 @@ void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
 	string sendMsgData;
 	int sendMsgType = 0;
 
+	//如果当前选择的用户为 空 则不需要发送
+	//if (m_checkId <= 0)
+		//return;
+
 	ITextServices * pTextServices = m_pSendEdit->GetTextServices();
 	tstring strText;
 	RichEdit_GetText(pTextServices, strText);
 	pTextServices->Release();
+
 	if (strText.size() <= 0)
 		return;
 	m_pSendEdit->SetText(_T(""));
@@ -922,7 +939,9 @@ void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
 
 	UnicodeToANSI(strText.c_str(), getInput);
 	sendMsgData = getInput;
-	ReplaceFaceId(sendMsgData);
+
+
+	//sendMsgData = "<IMG alt=\"\" src=\"http://sysimages.tq.cn/clientimages/face_v1.0/images/0.gif\">";
 
 	//消息测试 暂时先只发给用户  坐席后续加上
 	m_manager->SendTo_Msg(m_checkId, USER_TYPE_WX, msgId, MSG_DATA_TYPE_TEXT, (char*)sendMsgData.c_str());
@@ -930,7 +949,14 @@ void CMainFrame::OnBtnSendMessage(TNotifyUI& msg)
 	//理论上只有发送消息成功 才在聊天界面显示  
 	//暂时先添加在这里  后面再移到收到消息成功 的回调哪里
 	//显示 发送的消息
+	
+	//sendMsgData
 
+	//int faceId = atoi(getInput);
+	//m_faceSelDlg.GetFileNameById(faceId, strText);
+
+
+	ReplaceFaceId(sendMsgData);
 	ShowMySelfSendMsg(sendMsgData);
 }
 
@@ -1390,11 +1416,11 @@ void CMainFrame::RecvAcceptChat(CUserObject* pUser, CWebUserObject* pWebUser)
 	else
 		return;
 
+	//需要从等待列表删除 这个用户
+	pUserList->RemoveNode(tempNode);
 	//如果回调返回的user uid和自己的相同 则加到自己回话底下
  	if (pUser->UserInfo.uid == m_mySelfInfo->UserInfo.uid)
 	{
-		pUserList->RemoveNode(tempNode);
-
 		//需要 加到那个底下  还得判断状态 暂时先加第一个
 		addNode = pMySelfeNode->child(0);	
 	}

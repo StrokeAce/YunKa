@@ -33,6 +33,8 @@ public:
 	int GetSelFaceIndex();
 	tstring GetSelFaceFileName();
 
+	void GetFileNameById(int id, tstring &name);
+
 	BOOL m_firstCreate;
 	int m_nSelFaceId;
 	int m_nSelFaceIndex;

@@ -73,7 +73,7 @@ BOOL CFaceList::LoadConfigFile(LPCTSTR lpszFileName)
 			{
 				lpFaceInfo->m_nId = xmlSubNode.GetAttributeInt(_T("id"));
 				lpFaceInfo->m_strTip = xmlSubNode.GetAttribute(_T("tip"));
-				lpFaceInfo->m_strFileName = ZYM::CPath::GetCurDir() + _T("../bin/SkinRes/")+ xmlSubNode.GetAttribute(_T("file"));
+				lpFaceInfo->m_strFileName = ZYM::CPath::GetCurDir() + _T("../bin/SkinRes/") + xmlSubNode.GetAttribute(_T("file"));
 				tstring strIndex = ZYM::CPath::GetFileNameWithoutExtension(lpFaceInfo->m_strFileName.c_str());
 				if (IsDigit(strIndex.c_str()))
 					lpFaceInfo->m_nIndex = _tcstol(strIndex.c_str(), NULL, 10);

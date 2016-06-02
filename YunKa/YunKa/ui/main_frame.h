@@ -129,6 +129,8 @@ public:
 	virtual void OnMouseEnter(TNotifyUI& msg);
 	virtual void OnItemSelect(TNotifyUI &msg);
 
+	void OnSelectedChanged(TNotifyUI &msg);
+
 	void OnItemActive(TNotifyUI &msg);
 
 public:    //主界面消息回调

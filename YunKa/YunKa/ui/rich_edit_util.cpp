@@ -946,13 +946,15 @@ void RichEdit_GetText(ITextServices * pTextServices, tstring& strText)
 				hr = reobject.poleobj->QueryInterface(__uuidof(IImageOle), (void**)&pImageOle);
 				if (SUCCEEDED(hr))
 				{
-					pImageOle->GetFaceId(&nFaceId);
+					//pImageOle->GetFaceId(&nFaceId);
+					pImageOle->GetFaceIndex(&nFaceId);
+
 					if (nFaceId != -1)
 					{
 						TCHAR cBuf[32] = {0};
-						wsprintf(cBuf, _T("/f[\"%d\"]"), nFaceId);
+						//wsprintf(cBuf, _T("/f[\"%d\"]"), nFaceId);
 
-						//wsprintf(cBuf, _T("[*<.,m098]%d.gif"), nFaceId);
+						wsprintf(cBuf, _T("[%d.gif]"), nFaceId);
 						strText += cBuf;
 					}
 					else
