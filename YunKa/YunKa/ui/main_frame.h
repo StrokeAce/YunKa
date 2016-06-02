@@ -243,6 +243,8 @@ private:
 
 	HandlerInfo m_pListMsgHandler; // 消息列表
 
+	HandlerInfo m_pVisitorRelatedHandler;;
+
 	CDuiString m_sendMsgString;
 	HWND m_hMainWnd;
 

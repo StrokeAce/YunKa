@@ -657,6 +657,29 @@ void CMainFrame::OnSelectChanged(TNotifyUI &msg)
 
 void CMainFrame::OnSelectedChanged(TNotifyUI &msg)
 {
+	WCHAR OptionBtnName[32] = { 0 };
+
+	CTabLayoutUI* pTabControl = static_cast<CTabLayoutUI*>(m_PaintManager.FindControl(_T("right_tab")));
+	int index = pTabControl->GetCurSel() + 1;
+
+	//这里因为右边屏幕 有7个option选项 
+	for (int i = 0; i < 7; i++)
+	{
+		swprintf_s(OptionBtnName,_T("option_button_%d"),i+1);
+
+		if (_tcsicmp(msg.pSender->GetName(), OptionBtnName) == 0)
+		{
+			if (pTabControl && pTabControl->GetCurSel() != i )
+			{
+				pTabControl->SelectItem(i);
+				break;
+
+			}
+		}
+
+	}
+
+
 
 
 }
@@ -690,14 +713,9 @@ void CMainFrame::OnItemClick(TNotifyUI &msg)
 					m_pManagerBtn[4].m_pManagerBtn->SetNormalImage(m_pManagerBtn[4].pushedImage);
 					m_pManagerBtn[4].m_pManagerBtn->SetHotImage(m_pManagerBtn[4].hotImage);
 					m_pManagerBtn[4].m_pManagerBtn->SetPushedImage(m_pManagerBtn[4].pushedImage);
-				}
-		
+				}		
 			}
-
 		}
-
-
-
 	}
 }
 
@@ -907,7 +925,6 @@ void CMainFrame::ReplaceFaceId(string &msg)
 
 		StringReplace(url, "face.gif", facePath);
 		StringReplace(str, reStr, url);
-
 
 	} 
 
@@ -1611,6 +1628,9 @@ void CMainFrame::RecvMsg(IBaseObject* pObj, MSG_FROM_TYPE msgFrom, string msgId,
 		StringReplace(msgContent, "\\", "\\\\");
 		StringReplace(msgContent, "'", "&#039;");
 		StringReplace(msgContent, "\r\n", "<br>");
+
+		//这里需要把收到的内容做一下 还原
+		ReplaceFaceId(msgContent);
 		f_covet.Gb2312ToUTF_8(msg, msgContent.c_str(), msgContent.length());
 
 		// 微信用户发来的
