@@ -61,12 +61,8 @@
 <!--VerticalLayout width="2" bkcolor="#FF45FE22" /-->
 <VerticalLayout width="4" name="VerticalLayoutUI_LeftLine1"  bkcolor="#FFD3E5F6" />
 
-
-
-<!--将中间的聊天区域和右边的 tab显示区域合并成一个 区域  -->
-<VerticalLayout name="VerticalLayoutUI_MID_RIGHT_FRAME">
-<HorizontalLayout name="HorizontalUI_MID_RIGHT_FRAME">
-
+<VerticalLayout>
+<HorizontalLayout>
 <!-- 中间显示 聊天内容 -->
 <VerticalLayout name="VerticalLayoutUI_CenterFrame"    width="380"   bkcolor="#FFF8F8F8"  >
 	<Include source="center.xml" />
@@ -81,7 +77,6 @@
 <VerticalLayout    name="VerticalLayoutUI_RightFrame"   bkcolor="#FFF8F8F8"    >
 	<Include source="right.xml" />
 </VerticalLayout>
-
 
 </HorizontalLayout>
 </VerticalLayout>
