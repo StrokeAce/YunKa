@@ -3,19 +3,45 @@
 
 <VerticalLayout >
 
-<HorizontalLayout height="26" padding="0, 0, 0, 0" bkimage="file='mainframe\\MidToolBarBg.png'" inset="1,0,2,0">
-          <Option name="option_button_1" font="1" selected="true" align="left"   text="辅助应答" selectedimage="file='mainframe\\tab_btn.png'"   normalimage="file='mainframe\\tab_normal.png" width="70" height="26" />
-          <Option name="option_button_2" font="1" align="left"  text="访客信息" selectedimage="file='mainframe\\tab_btn.png'"    width="70" height="26" />
-          <Option name="option_button_3" font="1" align="left"   text="聊天信息" selectedimage="file='mainframe\\tab_btn.png'" width="70" height="26" />
-          <Option name="option_button_4" font="1" align="left"   text="会话登单" selectedimage="file='mainframe\\tab_btn.png'" width="70" height="26" />
-          <Option name="option_button_5" font="1" align="left"   text="客户信息" selectedimage="file='mainframe\\tab_btn.png'" width="70" height="26" />
-          <Option name="option_button_6" font="1" align="left"   text="新建订单" selectedimage="file='mainframe\\tab_btn.png'" width="70" height="26" />
-          <Option name="option_button_7" font="1" align="left"   text="查询订单" selectedimage="file='mainframe\\tab_btn.png'"  width="70" height="26" />
+<HorizontalLayout height="26" padding="0, 0, 0, 0"  inset="1,0,2,0"   bkimage="file='mainframe\\MidToolBarBg.png'">
+
+          <Option name="option_button_1" font="1" selected="true" align="left"   text="辅助应答" selectedimage="file='mainframe\\tab_btn.png'"   width="70" height="26" group="true" />
+          <Option name="option_button_2" font="1" align="left"  text="访客信息" selectedimage="file='mainframe\\tab_btn.png'"    width="70" height="26"  group="true" />
+          <Option name="option_button_3" font="1" align="left"   text="聊天信息" selectedimage="file='mainframe\\tab_btn.png'" width="70" height="26"  group="true" />
+          <Option name="option_button_4" font="1" align="left"   text="会话登单" selectedimage="file='mainframe\\tab_btn.png'" width="70" height="26" group="true" />
+          <Option name="option_button_5" font="1" align="left"   text="客户信息" selectedimage="file='mainframe\\tab_btn.png'" width="70" height="26" group="true" />
+          <Option name="option_button_6" font="1" align="left"   text="新建订单" selectedimage="file='mainframe\\tab_btn.png'" width="70" height="26" group="true" />
+          <Option name="option_button_7" font="1" align="left"   text="查询订单" selectedimage="file='mainframe\\tab_btn.png'"  width="70" height="26" group="true" />
 
 
 </HorizontalLayout>
 
+<TabLayout name="right_tab">
+<HorizontalLayout name="tab_1">
 
+</HorizontalLayout>
+<HorizontalLayout name="tab_2">
+
+</HorizontalLayout>
+<HorizontalLayout name="tab_3">
+
+</HorizontalLayout>
+<HorizontalLayout name="tab_4">
+
+</HorizontalLayout>
+<HorizontalLayout name="tab_5">
+
+</HorizontalLayout>
+<HorizontalLayout name="tab_6">
+
+</HorizontalLayout>
+<HorizontalLayout name="tab_7">
+
+</HorizontalLayout>
+
+
+
+</TabLayout>
 
 </VerticalLayout>
 
